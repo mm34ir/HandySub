@@ -1,18 +1,7 @@
 ﻿using HandyControl.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SubtitleDownloader
 {
@@ -32,7 +21,7 @@ namespace SubtitleDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
@@ -44,7 +33,7 @@ namespace SubtitleDownloader
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var cmb = sender as HandyControl.Controls.ComboBox;
+            HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
             ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
             InIHelper.AddValue(SettingsKey.SubtitleLanguage, typeItem.Content.ToString());
         }
@@ -75,21 +64,21 @@ namespace SubtitleDownloader
 
         private void loadSettings()
         {
-            var getLocation = InIHelper.ReadValue(SettingsKey.Location);
+            string getLocation = InIHelper.ReadValue(SettingsKey.Location);
             if (string.IsNullOrEmpty(getLocation))
             {
                 getLocation = string.Empty;
             }
             txtBrowse.Text = getLocation;
 
-            var getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
+            string getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
             if (string.IsNullOrEmpty(getSelectTab))
             {
                 getSelectTab = "false";
             }
             selectTab.IsChecked = Convert.ToBoolean(getSelectTab);
 
-            var getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
+            string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
             if (string.IsNullOrEmpty(getAutoDownload))
             {
                 getAutoDownload = "false";
@@ -98,7 +87,7 @@ namespace SubtitleDownloader
         }
         private void setAlignment()
         {
-            var getLanguage = InIHelper.ReadValue(SettingsKey.Language);
+            string getLanguage = InIHelper.ReadValue(SettingsKey.Language);
             if (!string.IsNullOrEmpty(getLanguage) || getLanguage.Equals("fa"))
             {
                 ToggleAlignment = HorizontalAlignment.Left;

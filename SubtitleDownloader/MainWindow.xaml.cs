@@ -1,23 +1,15 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
-using HandyControl.Properties.Langs;
-using HandyControl.Tools;
-using HandyControl.Tools.Extension;
 using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media.Imaging;
-using MessageBox = HandyControl.Controls.MessageBox;
 using TabItem = HandyControl.Controls.TabItem;
 
 namespace SubtitleDownloader
@@ -25,27 +17,29 @@ namespace SubtitleDownloader
     public partial class MainWindow : INotifyPropertyChanged
     {
         #region Property
-        const string SearchAPI = "https://subf2m.co/subtitles/searchbytitle?query={0}&l=";
-        const string ItemResultAPI = "https://subf2m.co";
-        string SubName = string.Empty;
+        private const string SearchAPI = "https://subf2m.co/subtitles/searchbytitle?query={0}&l=";
+        private const string ItemResultAPI = "https://subf2m.co";
+        private readonly string SubName = string.Empty;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
         {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
 
         private ObservableCollection<SearchModel> _SearchResult;
         public ObservableCollection<SearchModel> SearchResult
         {
-            get { return this._SearchResult; }
+            get => _SearchResult;
             set
             {
-                if (this._SearchResult != value)
+                if (_SearchResult != value)
                 {
-                    this._SearchResult = value;
-                    this.NotifyPropertyChanged("SearchResult");
+                    _SearchResult = value;
+                    NotifyPropertyChanged("SearchResult");
                 }
             }
         }
@@ -53,13 +47,13 @@ namespace SubtitleDownloader
         private ObservableCollection<ItemResultModel> _ItemResult;
         public ObservableCollection<ItemResultModel> ItemResult
         {
-            get { return this._ItemResult; }
+            get => _ItemResult;
             set
             {
-                if (this._ItemResult != value)
+                if (_ItemResult != value)
                 {
-                    this._ItemResult = value;
-                    this.NotifyPropertyChanged("ItemResult");
+                    _ItemResult = value;
+                    NotifyPropertyChanged("ItemResult");
                 }
             }
         }
@@ -67,13 +61,13 @@ namespace SubtitleDownloader
         private FlowDirection _FlowDirection;
         public FlowDirection LayoutFlowDirection
         {
-            get { return this._FlowDirection; }
+            get => _FlowDirection;
             set
             {
-                if (this._FlowDirection != value)
+                if (_FlowDirection != value)
                 {
-                    this._FlowDirection = value;
-                    this.NotifyPropertyChanged("LayoutFlowDirection");
+                    _FlowDirection = value;
+                    NotifyPropertyChanged("LayoutFlowDirection");
                 }
             }
         }
@@ -94,8 +88,8 @@ namespace SubtitleDownloader
         }
         #endregion
 
-        CollectionView view2;
-        CollectionView view;
+        private CollectionView view2;
+        private CollectionView view;
 
         public MainWindow()
         {
@@ -130,20 +124,27 @@ namespace SubtitleDownloader
         private void SearchListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
             if (view == null)
+            {
                 return;
+            }
 
             CollectionViewSource.GetDefaultView(SearchResult).Refresh();
         }
         private void ResultListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
             if (view2 == null)
+            {
                 return;
+            }
 
             CollectionViewSource.GetDefaultView(ItemResult).Refresh();
         }
         #endregion
         #region Change Skin and Language
-        private void ButtonConfig_OnClick(object sender, RoutedEventArgs e) => PopupConfig.IsOpen = true;
+        private void ButtonConfig_OnClick(object sender, RoutedEventArgs e)
+        {
+            PopupConfig.IsOpen = true;
+        }
 
         private void ButtonSkins_OnClick(object sender, RoutedEventArgs e)
         {
@@ -160,14 +161,25 @@ namespace SubtitleDownloader
             if (e.OriginalSource is Button button && button.Tag is string tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(InIHelper.ReadValue(SettingsKey.Language))) return;
+                if (tag.Equals(InIHelper.ReadValue(SettingsKey.Language)))
+                {
+                    return;
+                }
+
                 Growl.AskGlobal(Properties.Langs.Lang.ChangeLangAsk, b =>
                 {
-                    if (!b) return true;
+                    if (!b)
+                    {
+                        return true;
+                    }
+
                     InIHelper.AddValue(SettingsKey.Language, tag);
-                    var processModule = Process.GetCurrentProcess().MainModule;
+                    ProcessModule processModule = Process.GetCurrentProcess().MainModule;
                     if (processModule != null)
+                    {
                         Process.Start(processModule.FileName);
+                    }
+
                     Application.Current.Shutdown();
                     return true;
                 });
@@ -179,34 +191,37 @@ namespace SubtitleDownloader
         {
             if (System.IO.File.Exists("config.ini"))
             {
-                var lang = InIHelper.ReadValue(SettingsKey.Language);
+                string lang = InIHelper.ReadValue(SettingsKey.Language);
                 if (lang != null && lang.Equals("fa"))
                 {
-                    
+
                     LayoutFlowDirection = FlowDirection.RightToLeft;
                 }
             }
         }
-       
+
         private void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
         {
             SearchResult = new ObservableCollection<SearchModel>();
-            var search= sender as SearchBar;
+            SearchBar search = sender as SearchBar;
             if (string.IsNullOrEmpty(search.Text))
+            {
                 return;
+            }
+
             try
             {
-                var url = string.Format(SearchAPI, search.Text);
-                var web = new HtmlWeb();
-                var doc = web.Load(url);
-                var getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
+                string url = string.Format(SearchAPI, search.Text);
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+                string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
                 if (string.IsNullOrEmpty(getLanguage))
                 {
                     getLanguage = "farsi_persian";
                 }
                 foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='" + "title" + "']"))
                 {
-                    var item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{getLanguage}/", Name = node.InnerText };
+                    SearchModel item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{getLanguage}/", Name = node.InnerText };
                     SearchResult.Add(item);
                 }
                 if (SearchResult != null)
@@ -226,24 +241,26 @@ namespace SubtitleDownloader
         private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ItemResult = new ObservableCollection<ItemResultModel>();
-            var list = sender as ListBox;
+            ListBox list = sender as ListBox;
             try
             {
                 dynamic selectedItem = list.SelectedItems[0];
                 string link = selectedItem.Link;
 
-                var url = ItemResultAPI + link;
-                var web = new HtmlWeb();
-                var doc = web.Load(url);
-                foreach (var (node, index) in doc.DocumentNode.SelectNodes("//ul[@class='" + "scrolllist" + "']").WithIndex())
+                string url = ItemResultAPI + link;
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+                foreach ((HtmlNode node, int index) in doc.DocumentNode.SelectNodes("//ul[@class='" + "scrolllist" + "']").WithIndex())
                 {
-                    var translator = doc.DocumentNode.SelectNodes("//div[@class='" + "comment-col" + "']")[index].InnerText;
-                    var download_Link = doc.DocumentNode.SelectNodes("//a[@class='" + "download icon-download" + "']")[index].GetAttributeValue("href", "");
-                    var singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
+                    string translator = doc.DocumentNode.SelectNodes("//div[@class='" + "comment-col" + "']")[index].InnerText;
+                    string download_Link = doc.DocumentNode.SelectNodes("//a[@class='" + "download icon-download" + "']")[index].GetAttributeValue("href", "");
+                    string singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
                     if (singleLineTranslator.Contains("&nbsp;"))
+                    {
                         singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
+                    }
 
-                    var img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+                    HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
 
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
@@ -259,16 +276,16 @@ namespace SubtitleDownloader
 
                     poster.Source = bitmap;
 
-                    var getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
+                    string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
                     if (string.IsNullOrEmpty(getLanguage))
                     {
                         getLanguage = "farsi_persian";
                     }
 
-                    var input = download_Link;
+                    string input = download_Link;
 
-                    var output = Regex.Replace(input, $@"/subtitlesw*", string.Empty);
-                    var output2 = Regex.Match(output, @"/\w*/");
+                    string output = Regex.Replace(input, $@"/subtitlesw*", string.Empty);
+                    Match output2 = Regex.Match(output, @"/\w*/");
                     //string key = output2.Value.Replace("/", "");
 
                     //var output3 = Regex.Replace(output, $@"/{key}w*", string.Empty);
@@ -277,7 +294,7 @@ namespace SubtitleDownloader
 
                     //var output5 = @"/subtitles/" + key + output4;
 
-                    var item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = input, Language = getLanguage };
+                    ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = input, Language = getLanguage };
                     ItemResult.Add(item);
                 }
                 if (ItemResult != null)
@@ -295,7 +312,7 @@ namespace SubtitleDownloader
 
         private void ResultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var list = sender as ListBox;
+            ListBox list = sender as ListBox;
             try
             {
                 dynamic selectedItem = list.SelectedItems[0];
@@ -310,7 +327,10 @@ namespace SubtitleDownloader
                 {
                     int index = input.IndexOf("By");
                     if (index > 0)
+                    {
                         input = input.Substring(0, index);
+                    }
+
                     input = Regex.Replace(input, @"\s+", " ");
                 }
 
@@ -322,7 +342,7 @@ namespace SubtitleDownloader
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var menu = sender as MenuItem;
+            MenuItem menu = sender as MenuItem;
             switch (menu.Tag)
             {
                 case "setting":
@@ -339,21 +359,25 @@ namespace SubtitleDownloader
 
         private void CreateTabItem(UserControl control, string Header)
         {
-            TabItem tabItem = new HandyControl.Controls.TabItem();
-            tabItem.Content = control;
-            tabItem.ShowCloseButton = true;
+            TabItem tabItem = new HandyControl.Controls.TabItem
+            {
+                Content = control,
+                ShowCloseButton = true
+            };
             tab.Items.Insert(tab.Items.Count, tabItem);
             tabItem.Header = Header;
 
-            var getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
+            string getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
             if (string.IsNullOrEmpty(getSelectTab))
             {
                 getSelectTab = "true";
             }
-            if(Convert.ToBoolean(getSelectTab))
+            if (Convert.ToBoolean(getSelectTab))
+            {
                 tab.SelectedIndex = tab.Items.Count - 1;
+            }
         }
 
-        
+
     }
 }
