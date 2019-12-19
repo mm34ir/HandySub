@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SubtitleDownloader.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SubtitleDownloader"
+             mc:Ignorable="d" 
+             xmlns:lang="clr-namespace:SubtitleDownloader.Properties.Langs"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <hc:TransitioningContentControl>
+        <StackPanel>
+            <GroupBox Margin="10" Header="{x:Static lang:Lang.Download}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{x:Static lang:Lang.DownloadPath}"/>
+                        <Button Click="Button_Click" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                        <hc:TextBox FlowDirection="LeftToRight" Name="txtBrowse" Grid.Column="2" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectFolder}" IsReadOnly="True" />
+                    </Grid>
+                    <hc:ComboBox SelectionChanged="ComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectLanguage}" hc:TitleElement.Title="{x:Static lang:Lang.SubtitleLanguage}">
+                        <ComboBoxItem Content="farsi_persian"/>
+                        <ComboBoxItem Content="english"/>
+                    </hc:ComboBox>
+                    <ToggleButton HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
+                    <ToggleButton Margin="0,10" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </hc:TransitioningContentControl>
+</UserControl>
