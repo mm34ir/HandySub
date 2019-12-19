@@ -156,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HandyControls">
-      <Version>2.4.5-beta</Version>
+      <Version>2.4.5-beta.2</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.17</Version>

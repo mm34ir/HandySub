@@ -116,9 +116,9 @@
                                             <StackPanel>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Margin="0,5" Style="{StaticResource LabelSuccess}" Content="{Binding Language}"/>
-                                                    <TextBlock TextWrapping="WrapWithOverflow" Margin="5,10,0,0" Tag="{Binding Link}" Text="{Binding Translator}"/>
+                                                    <TextBlock TextWrapping="Wrap" Margin="5,10,0,0" Tag="{Binding Link}" Text="{Binding Translator}"/>
                                                 </StackPanel>
-                                                <TextBlock TextWrapping="WrapWithOverflow" Margin="0,0,0,5" Text="{Binding Name}"/>
+                                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,5" Text="{Binding Name}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>

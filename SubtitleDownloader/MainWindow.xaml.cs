@@ -368,8 +368,9 @@ namespace SubtitleDownloader
                 ShowCloseButton = true
             };
             tab.Items.Insert(tab.Items.Count, tabItem);
-            tabItem.Header = Header;
 
+            string input = Regex.Replace(Header, @"\s+", " ");
+            tabItem.Header = input;
             string getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
             if (string.IsNullOrEmpty(getSelectTab))
             {

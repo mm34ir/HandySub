@@ -27,8 +27,8 @@
                             <Label VerticalAlignment="Top" Margin="10,0" Style="{StaticResource LabelInfo}" Content="{x:Static lang:Lang.Language}"/>
                             <Label VerticalAlignment="Top" Style="{StaticResource LabelSuccess}" Content="{Binding LanguageTag}"/>
                         </StackPanel>
-                        <TextBlock TextAlignment="Justify" Grid.Row="1" TextWrapping="WrapWithOverflow" Margin="10" Text="{Binding Translator}"/>
-                        <TextBlock Grid.Row="2" TextAlignment="Justify" TextWrapping="WrapWithOverflow" Margin="10" Text="{Binding Info}"/>
+                        <TextBlock TextAlignment="Justify" Grid.Row="1" TextWrapping="Wrap" Margin="10" Text="{Binding Translator}"/>
+                        <TextBlock Grid.Row="2" TextAlignment="Justify" TextWrapping="Wrap" Margin="10" Text="{Binding Info}"/>
                     </Grid>
                 </hc:ScrollViewer>
             </GroupBox>
