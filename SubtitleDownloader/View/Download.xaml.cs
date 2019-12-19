@@ -28,6 +28,25 @@ namespace SubtitleDownloader
         {
             InitializeComponent();
             DataContext = this;
+
+            string url = Link;
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = web.Load(url);
+
+            string downloadLink = doc.DocumentNode.SelectSingleNode(
+                        "//div[@class='download']//a").GetAttributeValue("href", "nothing");
+            generatedLinks = BaseUrl + downloadLink;
+
+            string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
+            if (string.IsNullOrEmpty(getAutoDownload))
+            {
+                getAutoDownload = "false";
+            }
+            if (Convert.ToBoolean(getAutoDownload))
+            {
+                btnDownload_Click(null, null);
+            }
+            HandyControl.Controls.MessageBox.Show("jkh");
         }
 
         #region Downloader
@@ -77,27 +96,6 @@ namespace SubtitleDownloader
         private void openFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            string url = Link;
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(url);
-
-            string downloadLink = doc.DocumentNode.SelectSingleNode(
-                        "//div[@class='download']//a").GetAttributeValue("href", "nothing");
-            generatedLinks = BaseUrl + downloadLink;
-
-            string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
-            if (string.IsNullOrEmpty(getAutoDownload))
-            {
-                getAutoDownload = "false";
-            }
-            if (Convert.ToBoolean(getAutoDownload))
-            {
-                btnDownload_Click(null, null);
-            }
         }
     }
 }

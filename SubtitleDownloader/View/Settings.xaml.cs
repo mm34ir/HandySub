@@ -27,6 +27,7 @@ namespace SubtitleDownloader
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     txtBrowse.Text = dialog.SelectedPath + @"\";
+                    InIHelper.AddValue(SettingsKey.Location, txtBrowse.Text);
                 }
             }
         }
