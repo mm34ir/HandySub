@@ -17,7 +17,7 @@ namespace SubtitleDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("ghost1372", "MoalemYar");
+            UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("ghost1372", "SubtitleDownloader");
             lblCreatedAt.Text = ver.CreatedAt.ToString();
             lblPublishedAt.Text = ver.PublishedAt.ToString();
             lblDownloadUrl.Content = $"https://github.com/ghost1372/MoalemYar/releases/tag/{ver.Version}";

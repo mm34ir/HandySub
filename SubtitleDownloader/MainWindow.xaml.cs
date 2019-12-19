@@ -354,6 +354,9 @@ namespace SubtitleDownloader
                 case "update":
                     CreateTabItem(new Update(), Properties.Langs.Lang.Update);
                     break;
+                case "popular":
+                    CreateTabItem(new PopularSeries(), Properties.Langs.Lang.PopularSeries);
+                    break;
             }
         }
 

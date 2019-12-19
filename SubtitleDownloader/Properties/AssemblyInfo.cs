@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 
 [assembly: AssemblyTitle("SubtitleDownloader")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Coded by Mahdi Hosseini")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SubtitleDownloader")]

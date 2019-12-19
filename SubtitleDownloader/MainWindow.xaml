@@ -7,12 +7,13 @@
         xmlns:local="clr-namespace:SubtitleDownloader"
         xmlns:lang="clr-namespace:SubtitleDownloader.Properties.Langs"
         mc:Ignorable="d"
-        Title="MainWindow" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowWin10}"
         FontFamily="Resources/Font/#IRANSans"
         ShowTitle="True"
-        Height="450" 
+        Height="450"
+        Title="Subtitle Downloader"
+        Icon="Resources\Img\subtitle.ico"
         Width="800">
     <hc:Window.NonClientAreaContent>
         <Grid>
@@ -36,11 +37,12 @@
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
-                </Menu>
+                        <MenuItem Click="MenuItem_Click" Tag="popular" Header="{x:Static lang:Lang.PopularSeries}"/>
+                    </Menu>
             </StackPanel>
-                <Label Margin="20,5" Content="BETA" Style="{StaticResource LabelInfo}"/>
             </StackPanel>
-            
+            <Label Margin="10,5" Grid.Column="1" Content="BETA" Style="{StaticResource LabelInfo}"/>
+
             <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
             <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-25" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">
                 <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="4" Margin="16" Effect="{StaticResource EffectShadow2}">

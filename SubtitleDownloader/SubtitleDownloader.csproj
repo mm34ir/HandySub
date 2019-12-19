@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -51,6 +54,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools\AvatarModel.cs" />
+    <Compile Include="View\Avatar.xaml.cs">
+      <DependentUpon>Avatar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopularSeries.xaml.cs">
+      <DependentUpon>PopularSeries.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -74,6 +84,14 @@
     <Compile Include="View\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\Avatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PopularSeries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,7 +150,6 @@
   <ItemGroup>
     <Resource Include="Resources\Img\Flag\en.png" />
     <Resource Include="Resources\Img\Flag\fa.png" />
-    <Resource Include="Resources\Img\under_construction.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Img\notfound.png" />
@@ -144,6 +161,23 @@
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.17</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Img\Cover\Arrow.jpg" />
+    <Resource Include="Resources\Img\Cover\Better Call Saul.jpg" />
+    <Resource Include="Resources\Img\Cover\Flash.jpg" />
+    <Resource Include="Resources\Img\Cover\His Dark Materials.jpg" />
+    <Resource Include="Resources\Img\Cover\Power.jpg" />
+    <Resource Include="Resources\Img\Cover\Rick and Morty.jpg" />
+    <Resource Include="Resources\Img\Cover\See.jpg" />
+    <Resource Include="Resources\Img\Cover\Sex Education.jpg" />
+    <Resource Include="Resources\Img\Cover\The Blacklist.jpg" />
+    <Resource Include="Resources\Img\Cover\The Walking Dead.jpg" />
+    <Resource Include="Resources\Img\Cover\The Witcher.jpg" />
+    <Resource Include="Resources\Img\Cover\Vikings.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Img\subtitle.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -223,6 +223,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to سریال های محبوب.
+        /// </summary>
+        public static string PopularSeries {
+            get {
+                return ResourceManager.GetString("PopularSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to برنامه نویسی توسط مهدی حسینی.
         /// </summary>
         public static string Programmer {
