@@ -8,7 +8,7 @@
              Effect="{StaticResource EffectShadow5}" 
              Cursor="Hand"
              mc:Ignorable="d">
-    <Button Style="{StaticResource ButtonCustom}" Command="hc:ControlCommands.OpenLink" CommandParameter="{Binding Link,RelativeSource={RelativeSource AncestorType=UserControl}}" >
+    <Button Style="{StaticResource ButtonCustom}" Click="Button_Click">
         <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="10">
             <Grid>
                 <Grid.RowDefinitions>
@@ -16,7 +16,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Image Source="{Binding Source,RelativeSource={RelativeSource AncestorType=UserControl}}" Height="160" Width="160" Stretch="Uniform" Margin="10"/>
-                <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="0,0,0,10" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Text="{Binding DisplayName,RelativeSource={RelativeSource AncestorType=UserControl}}"></TextBlock>
+                <TextBlock x:Name="txtDisplay" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="0,0,0,10" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Text="{Binding DisplayName,RelativeSource={RelativeSource AncestorType=UserControl}}"></TextBlock>
             </Grid>
         </Border>
     </Button>

@@ -29,74 +29,62 @@ namespace SubtitleDownloader
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Arrow",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Arrow.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=arrow&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Arrow.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Better Call Saul",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Better Call Saul.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Better+Call+Saul&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Better-Call-Saul.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Flash",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Flash.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Flash&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Flash.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "His Dark Materials",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/His Dark Materials.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=His+Dark+Materials&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-His-Dark-Materials.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Power",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Power.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Power&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Power.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Rick and Morty",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Rick and Morty.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Rick+and+Morty&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Rick-and-Morty.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "See",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/See.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=See&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-See.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Sex Education",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Sex Education.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Education&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Sex-Education.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "The Blacklist",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/The Blacklist.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=The+Blacklist&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-The-Blacklist.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "The Walking Dead",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/The Walking Dead.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=The+Walking+Dead&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-The-Walking-Dead.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "The Witcher",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/The Witcher.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=The+Witcher&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-The-Witcher.jpg"
                 });
                 list.Add(new AvatarModel
                 {
                     DisplayName = "Vikings",
-                    AvatarUri = "pack://application:,,,/SubtitleDownloader;component/Resources/Img/Cover/Vikings.jpg",
-                    Link = "https://subf2m.co/subtitles/searchbytitle?query=Vikings&l="
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/20_12-Vikings.jpg"
                 });
             }
             catch

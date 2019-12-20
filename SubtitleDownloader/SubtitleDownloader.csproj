@@ -163,20 +163,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Img\Cover\Arrow.jpg" />
-    <Resource Include="Resources\Img\Cover\Better Call Saul.jpg" />
-    <Resource Include="Resources\Img\Cover\Flash.jpg" />
-    <Resource Include="Resources\Img\Cover\His Dark Materials.jpg" />
-    <Resource Include="Resources\Img\Cover\Power.jpg" />
-    <Resource Include="Resources\Img\Cover\Rick and Morty.jpg" />
-    <Resource Include="Resources\Img\Cover\See.jpg" />
-    <Resource Include="Resources\Img\Cover\Sex Education.jpg" />
-    <Resource Include="Resources\Img\Cover\The Blacklist.jpg" />
-    <Resource Include="Resources\Img\Cover\The Walking Dead.jpg" />
-    <Resource Include="Resources\Img\Cover\The Witcher.jpg" />
-    <Resource Include="Resources\Img\Cover\Vikings.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Img\subtitle.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

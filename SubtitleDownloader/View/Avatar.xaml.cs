@@ -39,5 +39,13 @@ namespace SubtitleDownloader
             get => (string)GetValue(LinkProperty);
             set => SetValue(LinkProperty, value);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string display = txtDisplay.Text;
+            if (txtDisplay.Text.Contains("Sex "))
+                display = display.Replace("Sex ", "");
+            MainWindow.mainWindow.getTabHome(display);
+        }
     }
 }

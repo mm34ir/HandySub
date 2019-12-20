@@ -17,6 +17,7 @@ namespace SubtitleDownloader
     public partial class MainWindow : INotifyPropertyChanged
     {
         #region Property
+        internal static MainWindow mainWindow;
         private const string SearchAPI = "https://subf2m.co/subtitles/searchbytitle?query={0}&l=";
         private const string ItemResultAPI = "https://subf2m.co";
         private readonly string SubName = string.Empty;
@@ -95,6 +96,7 @@ namespace SubtitleDownloader
         {
             InitializeComponent();
             DataContext = this;
+            mainWindow = this;
             setLayoutDirection();
         }
         #region Search in Listbox
@@ -203,15 +205,14 @@ namespace SubtitleDownloader
         private void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
         {
             SearchResult = new ObservableCollection<SearchModel>();
-            SearchBar search = sender as SearchBar;
-            if (string.IsNullOrEmpty(search.Text))
+            if (string.IsNullOrEmpty(txtSearch.Text))
             {
                 return;
             }
 
             try
             {
-                string url = string.Format(SearchAPI, search.Text);
+                string url = string.Format(SearchAPI, txtSearch.Text);
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
                 string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
@@ -230,11 +231,9 @@ namespace SubtitleDownloader
                     view.Filter = UserFilter;
                 }
             }
-            catch (ArgumentOutOfRangeException)
-            {
-
-            }
+            catch (ArgumentOutOfRangeException) { }
             catch (ArgumentNullException) { }
+            catch (System.NullReferenceException) { }
 
         }
 
@@ -382,6 +381,11 @@ namespace SubtitleDownloader
             }
         }
 
-
+        public void getTabHome(string txtDisplay)
+        {
+            tab.SelectedIndex = 0;
+            txtSearch.Text = txtDisplay;
+            SearchBar_SearchStarted(null, null);
+        }
     }
 }
