@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\AppConfig.cs" />
+    <Compile Include="Data\GlobalData.cs" />
     <Compile Include="Tools\AvatarModel.cs" />
     <Compile Include="View\Avatar.xaml.cs">
       <DependentUpon>Avatar.xaml</DependentUpon>
@@ -81,7 +83,6 @@
     <Compile Include="View\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tools\SettingsKey.cs" />
     <Compile Include="View\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>
@@ -161,6 +162,9 @@
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.17</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>

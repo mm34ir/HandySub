@@ -1,6 +1,4 @@
-﻿using HandyControl.Controls;
-using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace SubtitleDownloader
@@ -10,7 +8,6 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class Settings : UserControl
     {
-        public HorizontalAlignment ToggleAlignment { get; set; }
         public Settings()
         {
             InitializeComponent();
@@ -27,7 +24,8 @@ namespace SubtitleDownloader
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     txtBrowse.Text = dialog.SelectedPath + @"\";
-                    InIHelper.AddValue(SettingsKey.Location, txtBrowse.Text);
+                    GlobalData.Config.StoreLocation = txtBrowse.Text;
+                    GlobalData.Save();
                 }
             }
         }
@@ -36,74 +34,49 @@ namespace SubtitleDownloader
         {
             HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
             ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
-            InIHelper.AddValue(SettingsKey.SubtitleLanguage, typeItem.Content.ToString());
+            GlobalData.Config.SubtitleLang = typeItem.Content.ToString();
+            GlobalData.Save();
         }
 
         private void ServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
             ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
-            InIHelper.AddValue(SettingsKey.Server, typeItem.Content.ToString());
+            GlobalData.Config.ServerUrl = typeItem.Content.ToString();
+            GlobalData.Save();
         }
 
         private void autoDownload_Checked(object sender, RoutedEventArgs e)
         {
-            if (autoDownload.IsChecked.Value)
-            {
-                InIHelper.AddValue(SettingsKey.AutoDownload, "true");
-            }
-            else
-            {
-                InIHelper.AddValue(SettingsKey.AutoDownload, "false");
-            }
+            GlobalData.Config.IsAutoDownloadSubtitle = autoDownload.IsChecked.Value;
+            GlobalData.Save();
         }
 
         private void selectTab_Checked(object sender, RoutedEventArgs e)
         {
-            if (selectTab.IsChecked.Value)
-            {
-                InIHelper.AddValue(SettingsKey.SelectTab, "true");
-            }
-            else
-            {
-                InIHelper.AddValue(SettingsKey.SelectTab, "false");
-            }
+            GlobalData.Config.IsAutoSelectOpenedTab = selectTab.IsChecked.Value;
+            GlobalData.Save();
         }
 
         private void loadSettings()
         {
-            string getLocation = InIHelper.ReadValue(SettingsKey.Location);
-            if (string.IsNullOrEmpty(getLocation))
-            {
-                getLocation = string.Empty;
-            }
-            txtBrowse.Text = getLocation;
+            txtBrowse.Text = GlobalData.Config.StoreLocation;
 
-            string getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
-            if (string.IsNullOrEmpty(getSelectTab))
-            {
-                getSelectTab = "false";
-            }
-            selectTab.IsChecked = Convert.ToBoolean(getSelectTab);
+            selectTab.IsChecked = GlobalData.Config.IsAutoSelectOpenedTab;
 
-            string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
-            if (string.IsNullOrEmpty(getAutoDownload))
-            {
-                getAutoDownload = "false";
-            }
-            autoDownload.IsChecked = Convert.ToBoolean(getAutoDownload);
+            autoDownload.IsChecked = GlobalData.Config.IsAutoDownloadSubtitle;
         }
         private void setAlignment()
         {
-            string getLanguage = InIHelper.ReadValue(SettingsKey.Language);
-            if (!string.IsNullOrEmpty(getLanguage) || getLanguage.Equals("fa"))
+            if (GlobalData.Config.UILang.Equals("en"))
             {
-                ToggleAlignment = HorizontalAlignment.Left;
+                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
+                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
             }
             else
             {
-                ToggleAlignment = HorizontalAlignment.Right;
-
+                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
+                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
             }
 
         }

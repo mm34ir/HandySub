@@ -19,7 +19,6 @@ namespace SubtitleDownloader
         #region Property
         internal static MainWindow mainWindow;
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
-        private string ItemResultAPI = string.Empty;
         private readonly string SubName = string.Empty;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -98,12 +97,6 @@ namespace SubtitleDownloader
             DataContext = this;
             mainWindow = this;
             setLayoutDirection();
-
-            ItemResultAPI = InIHelper.ReadValue(SettingsKey.Server);
-            if (string.IsNullOrEmpty(ItemResultAPI))
-            {
-                ItemResultAPI = SettingsKey.BaseUrl;
-            }
         }
         #region Search in Listbox
         private bool UserFilter(object item)
@@ -159,7 +152,9 @@ namespace SubtitleDownloader
             if (e.OriginalSource is Button button && button.Tag is SkinType tag)
             {
                 PopupConfig.IsOpen = false;
-                InIHelper.AddValue(SettingsKey.Skin, tag.ToString());
+                if (tag.Equals(GlobalData.Config.Skin)) return;
+                GlobalData.Config.Skin = tag;
+                GlobalData.Save();
                 ((App)Application.Current).UpdateSkin(tag);
             }
         }
@@ -169,27 +164,29 @@ namespace SubtitleDownloader
             if (e.OriginalSource is Button button && button.Tag is string tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(InIHelper.ReadValue(SettingsKey.Language)))
-                {
-                    return;
-                }
+                if (tag.Equals(GlobalData.Config.UILang)) return;
 
-                Growl.AskGlobal(Properties.Langs.Lang.ChangeLangAsk, b =>
+                Growl.AskGlobal(new GrowlInfo
                 {
-                    if (!b)
+                    Message = Properties.Langs.Lang.ChangeLangAsk,
+                    CancelStr = Properties.Langs.Lang.Cancel,
+                    ConfirmStr = Properties.Langs.Lang.Confirm,
+                    ActionBeforeClose = isConfirmed =>
                     {
+
+                        if (!isConfirmed)
+                            return true;
+                        GlobalData.Config.UILang = tag;
+                        GlobalData.Save();
+                        ProcessModule processModule = Process.GetCurrentProcess().MainModule;
+                        if (processModule != null)
+                        {
+                            Process.Start(processModule.FileName);
+                        }
+                        Application.Current.Shutdown();
                         return true;
-                    }
 
-                    InIHelper.AddValue(SettingsKey.Language, tag);
-                    ProcessModule processModule = Process.GetCurrentProcess().MainModule;
-                    if (processModule != null)
-                    {
-                        Process.Start(processModule.FileName);
                     }
-
-                    Application.Current.Shutdown();
-                    return true;
                 });
             }
         }
@@ -197,14 +194,13 @@ namespace SubtitleDownloader
 
         private void setLayoutDirection()
         {
-            if (System.IO.File.Exists("config.ini"))
+            if (GlobalData.Config.UILang.Equals("fa"))
             {
-                string lang = InIHelper.ReadValue(SettingsKey.Language);
-                if (lang != null && lang.Equals("fa"))
-                {
-
-                    LayoutFlowDirection = FlowDirection.RightToLeft;
-                }
+                LayoutFlowDirection = FlowDirection.RightToLeft;
+            }
+            else
+            {
+                LayoutFlowDirection = FlowDirection.LeftToRight;
             }
         }
 
@@ -218,17 +214,13 @@ namespace SubtitleDownloader
 
             try
             {
-                string url = string.Format(SearchAPI, ItemResultAPI, txtSearch.Text);
+                string url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, txtSearch.Text);
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
-                string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
-                if (string.IsNullOrEmpty(getLanguage))
-                {
-                    getLanguage = "farsi_persian";
-                }
+
                 foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='" + "title" + "']"))
                 {
-                    SearchModel item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{getLanguage}/", Name = node.InnerText };
+                    SearchModel item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{GlobalData.Config.SubtitleLang}/", Name = node.InnerText };
                     SearchResult.Add(item);
                 }
                 if (SearchResult != null)
@@ -240,7 +232,8 @@ namespace SubtitleDownloader
             catch (ArgumentOutOfRangeException) { }
             catch (ArgumentNullException) { }
             catch (System.NullReferenceException) { }
-            catch (System.Net.WebException) {
+            catch (System.Net.WebException)
+            {
                 Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut);
             }
 
@@ -255,7 +248,7 @@ namespace SubtitleDownloader
                 dynamic selectedItem = list.SelectedItems[0];
                 string link = selectedItem.Link;
 
-                string url = ItemResultAPI + link;
+                string url = GlobalData.Config.ServerUrl + link;
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
                 foreach ((HtmlNode node, int index) in doc.DocumentNode.SelectNodes("//ul[@class='" + "scrolllist" + "']").WithIndex())
@@ -284,17 +277,11 @@ namespace SubtitleDownloader
 
                     poster.Source = bitmap;
 
-                    string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
-                    if (string.IsNullOrEmpty(getLanguage))
-                    {
-                        getLanguage = "farsi_persian";
-                    }
-
                     string input = download_Link;
 
                     string output = Regex.Replace(input, $@"/subtitlesw*", string.Empty);
                     Match output2 = Regex.Match(output, @"/\w*/");
-                    ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = input, Language = getLanguage };
+                    ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = input, Language = GlobalData.Config.SubtitleLang };
                     ItemResult.Add(item);
                 }
                 if (ItemResult != null)
@@ -318,7 +305,7 @@ namespace SubtitleDownloader
                 dynamic selectedItem = list.SelectedItems[0];
                 string link = selectedItem.Link;
 
-                Download.Link = ItemResultAPI + link;
+                Download.Link = GlobalData.Config.ServerUrl + link;
                 Download.Info = selectedItem.Name;
                 Download.Translator = selectedItem.Translator;
                 Download.LanguageTag = selectedItem.Language;
@@ -371,12 +358,8 @@ namespace SubtitleDownloader
 
             string input = Regex.Replace(Header, @"\s+", " ");
             tabItem.Header = input;
-            string getSelectTab = InIHelper.ReadValue(SettingsKey.SelectTab);
-            if (string.IsNullOrEmpty(getSelectTab))
-            {
-                getSelectTab = "true";
-            }
-            if (Convert.ToBoolean(getSelectTab))
+
+            if (GlobalData.Config.IsAutoSelectOpenedTab)
             {
                 tab.SelectedIndex = tab.Items.Count - 1;
             }

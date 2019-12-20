@@ -17,20 +17,28 @@ namespace SubtitleDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("ghost1372", "SubtitleDownloader");
-            lblCreatedAt.Text = ver.CreatedAt.ToString();
-            lblPublishedAt.Text = ver.PublishedAt.ToString();
-            lblDownloadUrl.CommandParameter = lblDownloadUrl.Content = ver.ReleaseUrl;
-            lblCurrentVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            lblVersion.Text = ver.TagName.Replace("v", "");
-            txtChangelog.Text = ver.Changelog;
-            if (ver.IsExistNewVersion)
+            try
             {
-                Growl.InfoGlobal(Properties.Langs.Lang.NewVersion);
+                UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("ghost1372", "SubtitleDownloader");
+                lblCreatedAt.Text = ver.CreatedAt.ToString();
+                lblPublishedAt.Text = ver.PublishedAt.ToString();
+                lblDownloadUrl.CommandParameter = lblDownloadUrl.Content = ver.ReleaseUrl;
+                lblCurrentVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                lblVersion.Text = ver.TagName.Replace("v", "");
+                txtChangelog.Text = ver.Changelog;
+                if (ver.IsExistNewVersion)
+                {
+                    Growl.InfoGlobal(Properties.Langs.Lang.NewVersion);
+                }
+                else
+                {
+                    Growl.ErrorGlobal(Properties.Langs.Lang.LatestVersion);
+                }
             }
-            else
+            catch (System.Exception)
             {
-                Growl.ErrorGlobal(Properties.Langs.Lang.LatestVersion);
+
+                Growl.ErrorGlobal(Properties.Langs.Lang.ReleaseNotFound);
             }
         }
     }

@@ -28,26 +28,15 @@ namespace SubtitleDownloader
             InitializeComponent();
             DataContext = this;
 
-            string getServer = InIHelper.ReadValue(SettingsKey.Server);
-            if (string.IsNullOrEmpty(getServer))
-            {
-                getServer = SettingsKey.BaseUrl;
-            }
-
             string url = Link;
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
 
             string downloadLink = doc.DocumentNode.SelectSingleNode(
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
-            generatedLinks = getServer + downloadLink;
+            generatedLinks = GlobalData.Config.ServerUrl + downloadLink;
 
-            string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
-            if (string.IsNullOrEmpty(getAutoDownload))
-            {
-                getAutoDownload = "false";
-            }
-            if (Convert.ToBoolean(getAutoDownload))
+            if (GlobalData.Config.IsAutoDownloadSubtitle)
             {
                 btnDownload_Click(null, null);
             }
@@ -77,11 +66,7 @@ namespace SubtitleDownloader
             btnDownload.Content = Properties.Langs.Lang.Downloading;
             prgStatus.Value = 0;
 
-            string getLocation = InIHelper.ReadValue(SettingsKey.Location);
-            if (string.IsNullOrEmpty(getLocation))
-            {
-                getLocation = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
-            }
+
             byte[] data = client.DownloadData(generatedLinks);
             string fileName = "";
 
@@ -90,7 +75,7 @@ namespace SubtitleDownloader
                 fileName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
             }
             SubName = fileName;
-            location = getLocation + fileName;
+            location = GlobalData.Config.StoreLocation + fileName;
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
             client.DownloadFileAsync(new Uri(generatedLinks), location);

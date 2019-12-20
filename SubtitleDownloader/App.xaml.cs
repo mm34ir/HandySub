@@ -1,5 +1,4 @@
-﻿using HandyControl.Controls;
-using HandyControl.Data;
+﻿using HandyControl.Data;
 using HandyControl.Tools;
 using System;
 using System.Windows;
@@ -11,29 +10,18 @@ namespace SubtitleDownloader
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            string skin = InIHelper.ReadValue(SettingsKey.Skin);
-            string lang = InIHelper.ReadValue(SettingsKey.Language);
-            if (skin.Contains("Dark"))
-            {
-                UpdateSkin(SkinType.Dark);
-            }
-            else if (skin.Contains("Violet"))
-            {
-                UpdateSkin(SkinType.Violet);
-            }
-            else
-            {
-                UpdateSkin(SkinType.Default);
-            }
+            GlobalData.Init();
+            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
 
-            if (System.IO.File.Exists("config.ini"))
+            if (GlobalData.Config.Skin != SkinType.Default)
             {
-                ConfigHelper.Instance.SetLang(lang);
+                UpdateSkin(GlobalData.Config.Skin);
             }
-            else
-            {
-                ConfigHelper.Instance.SetLang("en");
-            }
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            GlobalData.Save();
         }
         internal void UpdateSkin(SkinType skin)
         {

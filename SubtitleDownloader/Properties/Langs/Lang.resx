@@ -237,4 +237,7 @@
   <data name="SubtitleServer" xml:space="preserve">
     <value>انتخاب سرور زیرنویس...</value>
   </data>
+  <data name="ReleaseNotFound" xml:space="preserve">
+    <value>هیچ نسخه ای پیدا نشد</value>
+  </data>
 </root>

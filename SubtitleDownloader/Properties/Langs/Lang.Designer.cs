@@ -250,6 +250,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to هیچ نسخه ای پیدا نشد.
+        /// </summary>
+        public static string ReleaseNotFound {
+            get {
+                return ResourceManager.GetString("ReleaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to جستجو....
         /// </summary>
         public static string Search {

@@ -237,4 +237,7 @@
   <data name="SubtitleServer" xml:space="preserve">
     <value>Select Subtitle Server...</value>
   </data>
+  <data name="ReleaseNotFound" xml:space="preserve">
+    <value>There are no releases</value>
+  </data>
 </root>
