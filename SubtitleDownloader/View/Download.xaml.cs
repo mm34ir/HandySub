@@ -21,7 +21,6 @@ namespace SubtitleDownloader
 
         private string location = string.Empty;
         private string generatedLinks = string.Empty;
-        private readonly string BaseUrl = "https://subf2m.co";
         private string SubName = string.Empty;
 
         public Download()
@@ -29,13 +28,19 @@ namespace SubtitleDownloader
             InitializeComponent();
             DataContext = this;
 
+            string getServer = InIHelper.ReadValue(SettingsKey.Server);
+            if (string.IsNullOrEmpty(getServer))
+            {
+                getServer = SettingsKey.BaseUrl;
+            }
+
             string url = Link;
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
 
             string downloadLink = doc.DocumentNode.SelectSingleNode(
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
-            generatedLinks = BaseUrl + downloadLink;
+            generatedLinks = getServer + downloadLink;
 
             string getAutoDownload = InIHelper.ReadValue(SettingsKey.AutoDownload);
             if (string.IsNullOrEmpty(getAutoDownload))
@@ -46,7 +51,6 @@ namespace SubtitleDownloader
             {
                 btnDownload_Click(null, null);
             }
-            HandyControl.Controls.MessageBox.Show("jkh");
         }
 
         #region Downloader

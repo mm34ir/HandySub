@@ -304,6 +304,24 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to سرور زیرنویس.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سرور در دسترس نیست.
+        /// </summary>
+        public static string ServerOut {
+            get {
+                return ResourceManager.GetString("ServerOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تنظیمات.
         /// </summary>
         public static string Settings {
@@ -354,6 +372,15 @@ namespace SubtitleDownloader.Properties.Langs {
         public static string Subtitles {
             get {
                 return ResourceManager.GetString("Subtitles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to انتخاب سرور زیرنویس....
+        /// </summary>
+        public static string SubtitleServer {
+            get {
+                return ResourceManager.GetString("SubtitleServer", resourceCulture);
             }
         }
         

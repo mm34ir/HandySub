@@ -26,6 +26,11 @@
                         <ComboBoxItem Content="farsi_persian"/>
                         <ComboBoxItem Content="english"/>
                     </hc:ComboBox>
+                    <hc:ComboBox SelectionChanged="ServerComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SubtitleServer}" hc:TitleElement.Title="{x:Static lang:Lang.Server}">
+                        <ComboBoxItem Content="https://subf2m.co"/>
+                        <ComboBoxItem Content="https://subcenter.xyz"/>
+                        <ComboBoxItem IsEnabled="False" Content="https://subscene.com"/>
+                    </hc:ComboBox>
                     <ToggleButton HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
                     <ToggleButton Margin="0,10" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
                 </StackPanel>

@@ -39,6 +39,13 @@ namespace SubtitleDownloader
             InIHelper.AddValue(SettingsKey.SubtitleLanguage, typeItem.Content.ToString());
         }
 
+        private void ServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
+            ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
+            InIHelper.AddValue(SettingsKey.Server, typeItem.Content.ToString());
+        }
+
         private void autoDownload_Checked(object sender, RoutedEventArgs e)
         {
             if (autoDownload.IsChecked.Value)

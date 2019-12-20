@@ -18,8 +18,8 @@ namespace SubtitleDownloader
     {
         #region Property
         internal static MainWindow mainWindow;
-        private const string SearchAPI = "https://subf2m.co/subtitles/searchbytitle?query={0}&l=";
-        private const string ItemResultAPI = "https://subf2m.co";
+        private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
+        private string ItemResultAPI = string.Empty;
         private readonly string SubName = string.Empty;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -98,6 +98,12 @@ namespace SubtitleDownloader
             DataContext = this;
             mainWindow = this;
             setLayoutDirection();
+
+            ItemResultAPI = InIHelper.ReadValue(SettingsKey.Server);
+            if (string.IsNullOrEmpty(ItemResultAPI))
+            {
+                ItemResultAPI = SettingsKey.BaseUrl;
+            }
         }
         #region Search in Listbox
         private bool UserFilter(object item)
@@ -212,7 +218,7 @@ namespace SubtitleDownloader
 
             try
             {
-                string url = string.Format(SearchAPI, txtSearch.Text);
+                string url = string.Format(SearchAPI, ItemResultAPI, txtSearch.Text);
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
                 string getLanguage = InIHelper.ReadValue(SettingsKey.SubtitleLanguage);
@@ -234,6 +240,9 @@ namespace SubtitleDownloader
             catch (ArgumentOutOfRangeException) { }
             catch (ArgumentNullException) { }
             catch (System.NullReferenceException) { }
+            catch (System.Net.WebException) {
+                Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut);
+            }
 
         }
 
@@ -285,14 +294,6 @@ namespace SubtitleDownloader
 
                     string output = Regex.Replace(input, $@"/subtitlesw*", string.Empty);
                     Match output2 = Regex.Match(output, @"/\w*/");
-                    //string key = output2.Value.Replace("/", "");
-
-                    //var output3 = Regex.Replace(output, $@"/{key}w*", string.Empty);
-
-                    //var output4 = Regex.Replace(output3, @"/\w*/", string.Empty);
-
-                    //var output5 = @"/subtitles/" + key + output4;
-
                     ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = input, Language = getLanguage };
                     ItemResult.Add(item);
                 }
