@@ -219,7 +219,6 @@ namespace SubtitleDownloader
             {
                 return;
             }
-
             try
             {
                 string url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, txtSearch.Text);
@@ -240,14 +239,13 @@ namespace SubtitleDownloader
             catch (ArgumentOutOfRangeException) { }
             catch (ArgumentNullException) { }
             catch (System.NullReferenceException) { }
-            catch (System.Net.WebException)
+            catch (System.Net.WebException ex)
             {
-                Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut);
+                Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut + "\n" + ex.Message);
             }
-
         }
 
-        private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Subf2mSearchListSelectionChanged(object sender)
         {
             ItemResult = new ObservableCollection<ItemResultModel>();
             ListBox list = sender as ListBox;
@@ -259,6 +257,7 @@ namespace SubtitleDownloader
                 string url = GlobalData.Config.ServerUrl + link;
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
+
                 foreach ((HtmlNode node, int index) in doc.DocumentNode.SelectNodes("//ul[@class='" + "scrolllist" + "']").WithIndex())
                 {
                     string translator = doc.DocumentNode.SelectNodes("//div[@class='" + "comment-col" + "']")[index].InnerText;
@@ -303,6 +302,82 @@ namespace SubtitleDownloader
 
             }
             catch (ArgumentNullException) { }
+        }
+
+        private void SubsceneSearchListSelectionChanged(object sender)
+        {
+            ItemResult = new ObservableCollection<ItemResultModel>();
+            ListBox list = sender as ListBox;
+            try
+            {
+                dynamic selectedItem = list.SelectedItems[0];
+                string link = selectedItem.Link;
+
+                string url = GlobalData.Config.ServerUrl + link;
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+
+                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
+                if (table == null)
+                {
+                    Growl.ErrorGlobal(Properties.Langs.Lang.Retry);
+                    return;
+                }
+                foreach ((var cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
+                {
+                    var Name = doc.DocumentNode.SelectNodes(".//tr/td//span[2]")[index].InnerText;
+                    var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
+                    if (Comment.Contains("&nbsp;"))
+                    {
+                        Comment = Comment.Replace("&nbsp;", "");
+                    }
+
+                    var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+                    if (Link.Contains("/u/"))
+                        continue;
+
+                    HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    if (img != null)
+                    {
+                        bitmap.UriSource = new Uri(img.GetAttributeValue("src", "pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png"), UriKind.Absolute);
+                    }
+                    else
+                    {
+                        bitmap.UriSource = new Uri("pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png", UriKind.Absolute);
+                    }
+                    bitmap.EndInit();
+
+                    poster.Source = bitmap;
+
+                    ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
+                    ItemResult.Add(item);
+
+                }
+                if (ItemResult != null)
+                {
+                    view2 = (CollectionView)CollectionViewSource.GetDefaultView(ItemResult);
+                    view2.Filter = UserFilter2;
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
+            catch (ArgumentNullException) { }
+        }
+        private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GlobalData.Config.ServerUrl.Contains("subf2m.co"))
+            {
+                Subf2mSearchListSelectionChanged(sender);
+            }
+            else
+            {
+                SubsceneSearchListSelectionChanged(sender);
+            }
         }
 
         private void ResultList_SelectionChanged(object sender, SelectionChangedEventArgs e)

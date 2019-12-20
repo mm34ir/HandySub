@@ -246,4 +246,7 @@
   <data name="ContextMenuFolder" xml:space="preserve">
     <value>Add Application To Directoriy ContextMenu</value>
   </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Please try again</value>
+  </data>
 </root>

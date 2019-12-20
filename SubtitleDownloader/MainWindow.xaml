@@ -41,7 +41,7 @@
                     </Menu>
             </StackPanel>
             </StackPanel>
-            <Label Margin="10,5" Grid.Column="1" Content="1.0.0 BETA 4" Style="{StaticResource LabelInfo}"/>
+            <Label Margin="10,5" Grid.Column="1" Content="1.0.0 BETA 5" Style="{StaticResource LabelInfo}"/>
 
             <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
             <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-25" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">

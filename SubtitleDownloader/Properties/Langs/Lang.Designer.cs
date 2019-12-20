@@ -277,6 +277,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to پاسخی از سرور دریافت نشد لطفا دوباره تکرار کنید.
+        /// </summary>
+        public static string Retry {
+            get {
+                return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to جستجو....
         /// </summary>
         public static string Search {

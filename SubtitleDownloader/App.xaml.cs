@@ -2,6 +2,7 @@
 using HandyControl.Tools;
 using System;
 using System.IO;
+using System.Net;
 using System.Windows;
 
 namespace SubtitleDownloader
@@ -24,6 +25,7 @@ namespace SubtitleDownloader
                 GlobalData.Config.ContextMenuTemp = Path.GetFileNameWithoutExtension(e.Args[0]);
                 GlobalData.Save();
             }
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
         protected override void OnExit(ExitEventArgs e)
         {
