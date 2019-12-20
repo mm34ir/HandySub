@@ -20,10 +20,9 @@ namespace SubtitleDownloader
             UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("ghost1372", "SubtitleDownloader");
             lblCreatedAt.Text = ver.CreatedAt.ToString();
             lblPublishedAt.Text = ver.PublishedAt.ToString();
-            lblDownloadUrl.Content = $"https://github.com/ghost1372/MoalemYar/releases/tag/{ver.Version}";
-            lblDownloadUrl.CommandParameter = $"https://github.com/ghost1372/MoalemYar/releases/tag/{ver.Version}";
+            lblDownloadUrl.CommandParameter = lblDownloadUrl.Content = ver.ReleaseUrl;
             lblCurrentVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            lblVersion.Text = ver.Version.Replace("v", "");
+            lblVersion.Text = ver.TagName.Replace("v", "");
             txtChangelog.Text = ver.Changelog;
             if (ver.IsExistNewVersion)
             {

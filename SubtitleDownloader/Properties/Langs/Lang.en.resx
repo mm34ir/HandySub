@@ -220,10 +220,10 @@
     <value>Subtitle Language</value>
   </data>
   <data name="AutoDownload" xml:space="preserve">
-    <value>Download Subtitle After Opened Tab</value>
+    <value>Download Subtitle After Opened Tab  </value>
   </data>
   <data name="SelectTab" xml:space="preserve">
-    <value>Select Opened Tab</value>
+    <value>Select Opened Tab  </value>
   </data>
   <data name="PopularSeries" xml:space="preserve">
     <value>Popular Series</value>

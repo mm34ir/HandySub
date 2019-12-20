@@ -70,7 +70,7 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to دانلود خودکار زیرنویس بعد از باز شدن تب مربوطه.
+        ///   Looks up a localized string similar to دانلود خودکار زیرنویس بعد از باز شدن تب مربوطه  .
         /// </summary>
         public static string AutoDownload {
             get {
@@ -295,7 +295,7 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to انتخاب تب باز شده.
+        ///   Looks up a localized string similar to انتخاب تب باز شده  .
         /// </summary>
         public static string SelectTab {
             get {
