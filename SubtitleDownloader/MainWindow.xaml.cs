@@ -97,6 +97,14 @@ namespace SubtitleDownloader
             DataContext = this;
             mainWindow = this;
             setLayoutDirection();
+            if (!string.IsNullOrEmpty(GlobalData.Config.ContextMenuTemp))
+            {
+                txtSearch.Text = GlobalData.Config.ContextMenuTemp;
+                GlobalData.Config.ContextMenuTemp = string.Empty;
+                GlobalData.Save();
+                SearchBar_SearchStarted(null, null);
+            }
+
         }
         #region Search in Listbox
         private bool UserFilter(object item)

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Microsoft.Win32;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SubtitleDownloader
@@ -65,6 +66,11 @@ namespace SubtitleDownloader
             selectTab.IsChecked = GlobalData.Config.IsAutoSelectOpenedTab;
 
             autoDownload.IsChecked = GlobalData.Config.IsAutoDownloadSubtitle;
+
+            contextMenuFile.IsChecked = GlobalData.Config.IsContextMenuFile;
+
+            contextMenuFolder.IsChecked = GlobalData.Config.IsContextMenuFolder;
+
         }
         private void setAlignment()
         {
@@ -72,13 +78,68 @@ namespace SubtitleDownloader
             {
                 autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
                 selectTab.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
             }
             else
             {
                 autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
                 selectTab.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
             }
+        }
 
+        private void contextMenuFile_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalData.Config.IsContextMenuFile = contextMenuFile.IsChecked.Value;
+            GlobalData.Save();
+            RegisterContextMenu(false, !contextMenuFile.IsChecked.Value);
+        }
+
+        private void contextMenuFolder_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalData.Config.IsContextMenuFolder = contextMenuFolder.IsChecked.Value;
+            GlobalData.Save();
+            RegisterContextMenu(true, !contextMenuFolder.IsChecked.Value);
+        }
+
+        private void RegisterContextMenu(bool IsFolder, bool IsDelete = false)
+        {
+            if (IsDelete)
+            {
+                if (IsFolder)
+                {
+                    RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
+                    regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle");
+                }
+                else
+                {
+                    RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
+                    regFileKeyOpen.DeleteSubKeyTree("Get Subtitle");
+                }
+            }
+            else
+            {
+                if (IsFolder)
+                {
+                    RegistryKey regFileOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\", true);
+                    if (regFileOpen == null)
+                    {
+                        RegistryKey regFolderKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\");
+                        regFolderKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+                    }
+                }
+                else
+                {
+                    RegistryKey regFolderOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\", true);
+                    if (regFolderOpen == null)
+                    {
+                        RegistryKey regFileKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\");
+                        regFileKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+                    }
+                }
+            }
         }
     }
 }

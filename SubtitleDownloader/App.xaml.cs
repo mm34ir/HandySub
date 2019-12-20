@@ -1,6 +1,7 @@
 ﻿using HandyControl.Data;
 using HandyControl.Tools;
 using System;
+using System.IO;
 using System.Windows;
 
 namespace SubtitleDownloader
@@ -17,10 +18,17 @@ namespace SubtitleDownloader
             {
                 UpdateSkin(GlobalData.Config.Skin);
             }
+
+            if (e.Args.Length > 0)
+            {
+                GlobalData.Config.ContextMenuTemp = Path.GetFileNameWithoutExtension(e.Args[0]);
+                GlobalData.Save();
+            }
         }
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
+            GlobalData.Config.ContextMenuTemp = string.Empty;
             GlobalData.Save();
         }
         internal void UpdateSkin(SkinType skin)

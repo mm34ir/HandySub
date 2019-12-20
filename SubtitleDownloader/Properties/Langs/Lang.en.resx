@@ -240,4 +240,10 @@
   <data name="ReleaseNotFound" xml:space="preserve">
     <value>There are no releases</value>
   </data>
+  <data name="ContextMenuFile" xml:space="preserve">
+    <value>Add Application To Files ContextMenu</value>
+  </data>
+  <data name="ContextMenuFolder" xml:space="preserve">
+    <value>Add Application To Directoriy ContextMenu</value>
+  </data>
 </root>

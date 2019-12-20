@@ -124,6 +124,24 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست فایل ها.
+        /// </summary>
+        public static string ContextMenuFile {
+            get {
+                return ResourceManager.GetString("ContextMenuFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست پوشه ها.
+        /// </summary>
+        public static string ContextMenuFolder {
+            get {
+                return ResourceManager.GetString("ContextMenuFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ایجاد در .
         /// </summary>
         public static string CreatedAt {

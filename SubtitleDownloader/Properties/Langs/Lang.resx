@@ -240,4 +240,10 @@
   <data name="ReleaseNotFound" xml:space="preserve">
     <value>هیچ نسخه ای پیدا نشد</value>
   </data>
+  <data name="ContextMenuFile" xml:space="preserve">
+    <value>افزودن برنامه به منوی کلیک راست فایل ها</value>
+  </data>
+  <data name="ContextMenuFolder" xml:space="preserve">
+    <value>افزودن برنامه به منوی کلیک راست پوشه ها</value>
+  </data>
 </root>

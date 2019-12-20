@@ -10,32 +10,30 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <hc:TransitioningContentControl>
         <hc:ScrollViewer>
-            <StackPanel>
-                <GroupBox Margin="10" Header="{x:Static lang:Lang.Download}">
-                    <StackPanel Margin="0,0,0,10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{x:Static lang:Lang.DownloadPath}"/>
-                            <Button Click="Button_Click" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
-                            <hc:TextBox FlowDirection="LeftToRight" Name="txtBrowse" Grid.Column="2" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectFolder}" IsReadOnly="True" />
-                        </Grid>
-                        <hc:ComboBox SelectionChanged="ComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectLanguage}" hc:TitleElement.Title="{x:Static lang:Lang.SubtitleLanguage}">
-                            <ComboBoxItem Content="farsi_persian"/>
-                            <ComboBoxItem Content="english"/>
-                        </hc:ComboBox>
-                        <hc:ComboBox SelectionChanged="ServerComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SubtitleServer}" hc:TitleElement.Title="{x:Static lang:Lang.Server}">
-                            <ComboBoxItem Content="https://subf2m.co"/>
-                            <ComboBoxItem Content="https://subcenter.xyz" IsEnabled="False"/>
-                            <ComboBoxItem IsEnabled="False" Content="https://subscene.com"/>
-                        </hc:ComboBox>
-                        <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
-                        <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
-                    </StackPanel>
-                </GroupBox>
+            <StackPanel Margin="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{x:Static lang:Lang.DownloadPath}"/>
+                    <Button Click="Button_Click" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                    <hc:TextBox FlowDirection="LeftToRight" Name="txtBrowse" Grid.Column="2" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectFolder}" IsReadOnly="True" />
+                </Grid>
+                <hc:ComboBox SelectionChanged="ComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectLanguage}" hc:TitleElement.Title="{x:Static lang:Lang.SubtitleLanguage}">
+                    <ComboBoxItem Content="farsi_persian"/>
+                    <ComboBoxItem Content="english"/>
+                </hc:ComboBox>
+                <hc:ComboBox SelectionChanged="ServerComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SubtitleServer}" hc:TitleElement.Title="{x:Static lang:Lang.Server}">
+                    <ComboBoxItem Content="https://subf2m.co"/>
+                    <ComboBoxItem Content="https://subcenter.xyz" IsEnabled="False"/>
+                    <ComboBoxItem IsEnabled="False" Content="https://subscene.com"/>
+                </hc:ComboBox>
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="contextMenuFile" Checked="contextMenuFile_Checked" Unchecked="contextMenuFile_Checked" Content="{x:Static lang:Lang.ContextMenuFile}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="contextMenuFolder" Checked="contextMenuFolder_Checked" Unchecked="contextMenuFolder_Checked" Content="{x:Static lang:Lang.ContextMenuFolder}" Style="{StaticResource ToggleButtonSwitch}"/>
             </StackPanel>
         </hc:ScrollViewer>
     </hc:TransitioningContentControl>
