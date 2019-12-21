@@ -217,7 +217,7 @@
     <value>انتخاب زبان زیرنویس...</value>
   </data>
   <data name="SubtitleLanguage" xml:space="preserve">
-    <value>زبان زیرنویس</value>
+    <value>زبان زیرنویس ({0})</value>
   </data>
   <data name="AutoDownload" xml:space="preserve">
     <value>دانلود خودکار زیرنویس بعد از باز شدن تب مربوطه  </value>
@@ -229,7 +229,7 @@
     <value>سریال های محبوب</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>سرور زیرنویس</value>
+    <value>سرور زیرنویس ({0})</value>
   </data>
   <data name="ServerOut" xml:space="preserve">
     <value>سرور در دسترس نیست</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="Retry" xml:space="preserve">
     <value>پاسخی از سرور دریافت نشد لطفا دوباره تکرار کنید</value>
+  </data>
+  <data name="IsDraggable" xml:space="preserve">
+    <value>کشیدن و جابجا کردن تب ها</value>
   </data>
 </root>

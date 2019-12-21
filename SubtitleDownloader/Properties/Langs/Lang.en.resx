@@ -217,7 +217,7 @@
     <value>Select Subtitle Language...</value>
   </data>
   <data name="SubtitleLanguage" xml:space="preserve">
-    <value>Subtitle Language</value>
+    <value>Subtitle Language ({0})</value>
   </data>
   <data name="AutoDownload" xml:space="preserve">
     <value>Download Subtitle After Opened Tab  </value>
@@ -229,7 +229,7 @@
     <value>Popular Series</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>Subtitler Server</value>
+    <value>Subtitler Server ({0})</value>
   </data>
   <data name="ServerOut" xml:space="preserve">
     <value>The server is not available</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Please try again</value>
+  </data>
+  <data name="IsDraggable" xml:space="preserve">
+    <value>Drag and drop tabs</value>
   </data>
 </root>

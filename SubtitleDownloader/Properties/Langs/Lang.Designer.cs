@@ -205,6 +205,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کشیدن و جابجا کردن تب ها.
+        /// </summary>
+        public static string IsDraggable {
+            get {
+                return ResourceManager.GetString("IsDraggable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to زبان.
         /// </summary>
         public static string Language {
@@ -340,7 +349,7 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to سرور زیرنویس.
+        ///   Looks up a localized string similar to سرور زیرنویس ({0}).
         /// </summary>
         public static string Server {
             get {
@@ -394,7 +403,7 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to زبان زیرنویس.
+        ///   Looks up a localized string similar to زبان زیرنویس ({0}).
         /// </summary>
         public static string SubtitleLanguage {
             get {

@@ -71,6 +71,20 @@ namespace SubtitleDownloader
                 }
             }
         }
+
+        private bool _IsDraggableTab;
+        public bool IsDraggableTab
+        {
+            get => _IsDraggableTab;
+            set
+            {
+                if (_IsDraggableTab != value)
+                {
+                    _IsDraggableTab = value;
+                    NotifyPropertyChanged("IsDraggableTab");
+                }
+            }
+        }
         #endregion
         #region Model
         public class SearchModel
@@ -96,15 +110,12 @@ namespace SubtitleDownloader
             InitializeComponent();
             DataContext = this;
             mainWindow = this;
-            setLayoutDirection();
-            if (!string.IsNullOrEmpty(GlobalData.Config.ContextMenuTemp))
+            setFlowDirectionAndConfig();
+            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument))
             {
-                txtSearch.Text = GlobalData.Config.ContextMenuTemp;
-                GlobalData.Config.ContextMenuTemp = string.Empty;
-                GlobalData.Save();
+                txtSearch.Text = App.WindowsContextMenuArgument;
                 SearchBar_SearchStarted(null, null);
             }
-
         }
         #region Search in Listbox
         private bool UserFilter(object item)
@@ -200,8 +211,9 @@ namespace SubtitleDownloader
         }
         #endregion
 
-        private void setLayoutDirection()
+        private void setFlowDirectionAndConfig()
         {
+            //Set FlowDirection
             if (GlobalData.Config.UILang.Equals("fa"))
             {
                 LayoutFlowDirection = FlowDirection.RightToLeft;
@@ -210,6 +222,9 @@ namespace SubtitleDownloader
             {
                 LayoutFlowDirection = FlowDirection.LeftToRight;
             }
+
+            //Set Tab IsDraggable
+            IsDraggableTab = GlobalData.Config.IsDraggableTab;
         }
 
         private void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)

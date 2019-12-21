@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using HandyControl.Controls;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,7 +17,39 @@ namespace SubtitleDownloader
             loadSettings();
             setAlignment();
         }
+        private void loadSettings()
+        {
+            txtBrowse.Text = GlobalData.Config.StoreLocation;
 
+            autoDownload.IsChecked = GlobalData.Config.IsAutoDownloadSubtitle;
+            selectTab.IsChecked = GlobalData.Config.IsAutoSelectOpenedTab;
+            tabIsDraggable.IsChecked = GlobalData.Config.IsDraggableTab;
+            contextMenuFile.IsChecked = GlobalData.Config.IsContextMenuFile;
+            contextMenuFolder.IsChecked = GlobalData.Config.IsContextMenuFolder;
+
+            TitleElement.SetTitle(cmbSubLang, string.Format(Properties.Langs.Lang.SubtitleLanguage, GlobalData.Config.SubtitleLang));
+            TitleElement.SetTitle(cmbSubServer, string.Format(Properties.Langs.Lang.Server, GlobalData.Config.ServerUrl));
+
+        }
+        private void setAlignment()
+        {
+            if (GlobalData.Config.UILang.Equals("en"))
+            {
+                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
+                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
+                tabIsDraggable.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else
+            {
+                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
+                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
+                tabIsDraggable.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
+                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -33,75 +66,71 @@ namespace SubtitleDownloader
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
-            ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
-            GlobalData.Config.SubtitleLang = typeItem.Content.ToString();
-            GlobalData.Save();
+            ComboBoxItem typeItem = (ComboBoxItem)cmbSubLang.SelectedItem;
+            if (!typeItem.Content.ToString().Equals(GlobalData.Config.SubtitleLang))
+            {
+                GlobalData.Config.SubtitleLang = typeItem.Content.ToString();
+                GlobalData.Save();
+                TitleElement.SetTitle(cmbSubLang, string.Format(Properties.Langs.Lang.SubtitleLanguage, GlobalData.Config.SubtitleLang));
+            }
         }
 
         private void ServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            HandyControl.Controls.ComboBox cmb = sender as HandyControl.Controls.ComboBox;
-            ComboBoxItem typeItem = (ComboBoxItem)cmb.SelectedItem;
-            GlobalData.Config.ServerUrl = typeItem.Content.ToString();
-            GlobalData.Save();
+            ComboBoxItem typeItem = (ComboBoxItem)cmbSubServer.SelectedItem;
+            if (!typeItem.Content.ToString().Equals(GlobalData.Config.ServerUrl))
+            {
+                GlobalData.Config.ServerUrl = typeItem.Content.ToString();
+                GlobalData.Save();
+                TitleElement.SetTitle(cmbSubServer, string.Format(Properties.Langs.Lang.SubtitleLanguage, GlobalData.Config.ServerUrl));
+            }
         }
 
         private void autoDownload_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalData.Config.IsAutoDownloadSubtitle = autoDownload.IsChecked.Value;
-            GlobalData.Save();
+            if (autoDownload.IsChecked.Value != GlobalData.Config.IsAutoDownloadSubtitle)
+            {
+                GlobalData.Config.IsAutoDownloadSubtitle = autoDownload.IsChecked.Value;
+                GlobalData.Save();
+            }
         }
 
         private void selectTab_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalData.Config.IsAutoSelectOpenedTab = selectTab.IsChecked.Value;
-            GlobalData.Save();
-        }
-
-        private void loadSettings()
-        {
-            txtBrowse.Text = GlobalData.Config.StoreLocation;
-
-            selectTab.IsChecked = GlobalData.Config.IsAutoSelectOpenedTab;
-
-            autoDownload.IsChecked = GlobalData.Config.IsAutoDownloadSubtitle;
-
-            contextMenuFile.IsChecked = GlobalData.Config.IsContextMenuFile;
-
-            contextMenuFolder.IsChecked = GlobalData.Config.IsContextMenuFolder;
-
-        }
-        private void setAlignment()
-        {
-            if (GlobalData.Config.UILang.Equals("en"))
+            if (selectTab.IsChecked.Value != GlobalData.Config.IsAutoSelectOpenedTab)
             {
-                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
-                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
-                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
-                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
-            }
-            else
-            {
-                autoDownload.HorizontalAlignment = HorizontalAlignment.Left;
-                selectTab.HorizontalAlignment = HorizontalAlignment.Left;
-                contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
-                contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
+                GlobalData.Config.IsAutoSelectOpenedTab = selectTab.IsChecked.Value;
+                GlobalData.Save();
             }
         }
 
         private void contextMenuFile_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalData.Config.IsContextMenuFile = contextMenuFile.IsChecked.Value;
-            GlobalData.Save();
-            RegisterContextMenu(false, !contextMenuFile.IsChecked.Value);
+            if(contextMenuFile.IsChecked.Value != GlobalData.Config.IsContextMenuFile)
+            {
+                GlobalData.Config.IsContextMenuFile = contextMenuFile.IsChecked.Value;
+                GlobalData.Save();
+                RegisterContextMenu(false, !contextMenuFile.IsChecked.Value);
+            }
         }
 
         private void contextMenuFolder_Checked(object sender, RoutedEventArgs e)
         {
-            GlobalData.Config.IsContextMenuFolder = contextMenuFolder.IsChecked.Value;
-            GlobalData.Save();
-            RegisterContextMenu(true, !contextMenuFolder.IsChecked.Value);
+            if (contextMenuFolder.IsChecked.Value != GlobalData.Config.IsContextMenuFolder)
+            {
+                GlobalData.Config.IsContextMenuFolder = contextMenuFolder.IsChecked.Value;
+                GlobalData.Save();
+                RegisterContextMenu(true, !contextMenuFolder.IsChecked.Value);
+            }
+        }
+
+        private void IsDraggable_Checked(object sender, RoutedEventArgs e)
+        {
+            if (tabIsDraggable.IsChecked.Value != GlobalData.Config.IsDraggableTab)
+            {
+                GlobalData.Config.IsDraggableTab = MainWindow.mainWindow.IsDraggableTab = tabIsDraggable.IsChecked.Value;
+                GlobalData.Save();
+            }
         }
 
         private void RegisterContextMenu(bool IsFolder, bool IsDelete = false)

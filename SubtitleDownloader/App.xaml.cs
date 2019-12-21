@@ -12,6 +12,8 @@ namespace SubtitleDownloader
 {
     public partial class App
     {
+        public static string WindowsContextMenuArgument = string.Empty;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -31,16 +33,9 @@ namespace SubtitleDownloader
 
             if (e.Args.Length > 0)
             {
-                GlobalData.Config.ContextMenuTemp = Path.GetFileNameWithoutExtension(e.Args[0]);
-                GlobalData.Save();
+                WindowsContextMenuArgument = Path.GetFileNameWithoutExtension(e.Args[0]);
             }
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        }
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-            GlobalData.Config.ContextMenuTemp = string.Empty;
-            GlobalData.Save();
         }
         internal void UpdateSkin(SkinType skin)
         {
