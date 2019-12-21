@@ -42,6 +42,7 @@ namespace SubtitleDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //Because the word "sex" is blocked in Iran We need to remove it to prevent error
             string display = txtDisplay.Text;
             if (txtDisplay.Text.Contains("Sex "))
                 display = display.Replace("Sex ", "");

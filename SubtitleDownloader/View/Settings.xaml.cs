@@ -14,10 +14,14 @@ namespace SubtitleDownloader
         {
             InitializeComponent();
             DataContext = this;
-            loadSettings();
+            InitSettings();
             setAlignment();
         }
-        private void loadSettings()
+
+        /// <summary>
+        /// Get settings value from config file
+        /// </summary>
+        private void InitSettings()
         {
             txtBrowse.Text = GlobalData.Config.StoreLocation;
 
@@ -31,6 +35,10 @@ namespace SubtitleDownloader
             TitleElement.SetTitle(cmbSubServer, string.Format(Properties.Langs.Lang.Server, GlobalData.Config.ServerUrl));
 
         }
+
+        /// <summary>
+        /// Set Alignment for ToggleButton Base on Language
+        /// </summary>
         private void setAlignment()
         {
             if (GlobalData.Config.UILang.Equals("en"))
@@ -50,6 +58,12 @@ namespace SubtitleDownloader
                 contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
             }
         }
+
+        /// <summary>
+        /// Save Download Path to Config File
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -64,6 +78,11 @@ namespace SubtitleDownloader
             }
         }
 
+        /// <summary>
+        /// Save Subtitle Language to Config File
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)cmbSubLang.SelectedItem;
@@ -75,6 +94,11 @@ namespace SubtitleDownloader
             }
         }
 
+        /// <summary>
+        /// Save Subtitle Server to Config File
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)cmbSubServer.SelectedItem;
@@ -133,6 +157,11 @@ namespace SubtitleDownloader
             }
         }
 
+        /// <summary>
+        /// Register Application to Windows ContextMenu
+        /// </summary>
+        /// <param name="IsFolder">Register to Folder ContextMenu or Files ContextMenu</param>
+        /// <param name="IsDelete">UnRegister from ContextMenu</param>
         private void RegisterContextMenu(bool IsFolder, bool IsDelete = false)
         {
             if (IsDelete)

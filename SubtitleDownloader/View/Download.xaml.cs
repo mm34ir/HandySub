@@ -14,6 +14,8 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class Download : UserControl
     {
+        private readonly WebClient client = new WebClient();
+
         public static string Link = string.Empty;
         public static string Translator { get; set; } = string.Empty;
         public static string Info { get; set; } = string.Empty;
@@ -21,16 +23,15 @@ namespace SubtitleDownloader
 
         private string location = string.Empty;
         private string generatedLinks = string.Empty;
-        private string SubName = string.Empty;
+        private string subName = string.Empty;
 
         public Download()
         {
             InitializeComponent();
             DataContext = this;
 
-            string url = Link;
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(url);
+            HtmlDocument doc = web.Load(Link);
 
             string downloadLink = doc.DocumentNode.SelectSingleNode(
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
@@ -44,9 +45,6 @@ namespace SubtitleDownloader
 
         #region Downloader
 
-        private readonly WebClient client = new WebClient();
-
-
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             double bytesIn = double.Parse(e.BytesReceived.ToString());
@@ -59,23 +57,23 @@ namespace SubtitleDownloader
         {
             openFolder.IsEnabled = true;
             btnDownload.Content = Properties.Langs.Lang.Download;
-            Growl.InfoGlobal(new GrowlInfo { Message = string.Format(Properties.Langs.Lang.DownloadCompleted, SubName), ShowDateTime = true });
+            Growl.InfoGlobal(string.Format(Properties.Langs.Lang.DownloadCompleted, subName));
         }
+
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             btnDownload.Content = Properties.Langs.Lang.Downloading;
             prgStatus.Value = 0;
 
-
+            // we need to get file name
             byte[] data = client.DownloadData(generatedLinks);
-            string fileName = "";
 
             if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
             {
-                fileName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+                subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
             }
-            SubName = fileName;
-            location = GlobalData.Config.StoreLocation + fileName;
+
+            location = GlobalData.Config.StoreLocation + subName;
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
             client.DownloadFileAsync(new Uri(generatedLinks), location);
