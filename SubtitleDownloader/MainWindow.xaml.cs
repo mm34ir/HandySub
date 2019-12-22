@@ -308,14 +308,21 @@ namespace SubtitleDownloader
                     ViewResult.Filter = UserFilterResult;
                 }
             }
-            catch (ArgumentNullException) { }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return;
+            }
         }
 
         private async void SubsceneCore()
         {
-            ItemResult = new ObservableCollection<ItemResultModel>();
             try
             {
+                ItemResult = new ObservableCollection<ItemResultModel>();
                 dynamic selectedItem = lstSearch.SelectedItems[0];
                 string url = GlobalData.Config.ServerUrl + selectedItem.Link;
 
@@ -369,7 +376,14 @@ namespace SubtitleDownloader
                     ViewResult.Filter = UserFilterResult;
                 }
             }
-            catch (ArgumentNullException) { }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return;
+            }
         }
 
         private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)

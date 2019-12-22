@@ -130,7 +130,7 @@ namespace SubtitleDownloader
 
         private void contextMenuFile_Checked(object sender, RoutedEventArgs e)
         {
-            if(contextMenuFile.IsChecked.Value != GlobalData.Config.IsContextMenuFile)
+            if (contextMenuFile.IsChecked.Value != GlobalData.Config.IsContextMenuFile)
             {
                 GlobalData.Config.IsContextMenuFile = contextMenuFile.IsChecked.Value;
                 GlobalData.Save();
