@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using TabItem = HandyControl.Controls.TabItem;
-
 namespace SubtitleDownloader
 {
     public partial class MainWindow : INotifyPropertyChanged
@@ -229,7 +228,7 @@ namespace SubtitleDownloader
             IsDraggableTab = GlobalData.Config.IsDraggableTab;
         }
 
-        private void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
+        private async void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
         {
             SearchResult = new ObservableCollection<SearchModel>();
             if (string.IsNullOrEmpty(txtSearch.Text))
@@ -240,7 +239,7 @@ namespace SubtitleDownloader
             {
                 string url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, txtSearch.Text);
                 HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = web.Load(url);
+                HtmlDocument doc = await web.LoadFromWebAsync(url);
 
                 foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='title']"))
                 {
@@ -262,7 +261,7 @@ namespace SubtitleDownloader
             }
         }
 
-        private void Subf2mCore()
+        private async void Subf2mCore()
         {
             ItemResult = new ObservableCollection<ItemResultModel>();
             try
@@ -271,36 +270,32 @@ namespace SubtitleDownloader
                 string url = GlobalData.Config.ServerUrl + selectedItem.Link;
 
                 HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = web.Load(url);
+                HtmlDocument doc = await web.LoadFromWebAsync(url);
+
+                //get poster img
+                HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+
+                if (img != null)
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(img.GetAttributeValue("src", ""), UriKind.Absolute);
+                    bitmap.EndInit();
+                    poster.Source = bitmap;
+                }
 
                 foreach ((HtmlNode node, int index) in doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']").WithIndex())
                 {
-                    string translator = doc.DocumentNode.SelectNodes("//div[@class='comment-col']")[index].InnerText;
-                    string download_Link = doc.DocumentNode.SelectNodes("//a[@class='download icon-download']")[index].GetAttributeValue("href", "");
-                    
+
+                    string translator = node.SelectNodes("//div[@class='comment-col']")[index].InnerText;
+                    string download_Link = node.SelectNodes("//a[@class='download icon-download']")[index].GetAttributeValue("href", "");
+
                     //remove empty lines
                     string singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
                     if (singleLineTranslator.Contains("&nbsp;"))
                     {
                         singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
                     }
-
-                    //get poster img
-                    HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
-
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    if (img != null)
-                    {
-                        bitmap.UriSource = new Uri(img.GetAttributeValue("src", "pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png"), UriKind.Absolute);
-                    }
-                    else
-                    {
-                        bitmap.UriSource = new Uri("pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png", UriKind.Absolute);
-                    }
-                    bitmap.EndInit();
-
-                    poster.Source = bitmap;
 
                     ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = download_Link, Language = GlobalData.Config.SubtitleLang };
                     ItemResult.Add(item);
@@ -313,14 +308,10 @@ namespace SubtitleDownloader
                     ViewResult.Filter = UserFilterResult;
                 }
             }
-            catch (ArgumentOutOfRangeException)
-            {
-
-            }
             catch (ArgumentNullException) { }
         }
 
-        private void SubsceneCore()
+        private async void SubsceneCore()
         {
             ItemResult = new ObservableCollection<ItemResultModel>();
             try
@@ -329,51 +320,46 @@ namespace SubtitleDownloader
                 string url = GlobalData.Config.ServerUrl + selectedItem.Link;
 
                 HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = web.Load(url);
+                HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
-                if (table == null)
+                //get poster img
+                HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+
+                if (img != null)
                 {
-                    Growl.ErrorGlobal(Properties.Langs.Lang.Retry);
-                    return;
-                }
-                foreach ((var cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
-                {
-                    var Name = doc.DocumentNode.SelectNodes(".//tr/td//span[2]")[index].InnerText;
-                    var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
-
-                    //remove empty line
-                    if (Comment.Contains("&nbsp;"))
-                    {
-                        Comment = Comment.Replace("&nbsp;", "");
-                    }
-
-                    var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
-
-                    //escape Unnecessary line
-                    if (Link.Contains("/u/"))
-                        continue;
-
-                    //get poster img
-                    HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
-
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    if (img != null)
-                    {
-                        bitmap.UriSource = new Uri(img.GetAttributeValue("src", "pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png"), UriKind.Absolute);
-                    }
-                    else
-                    {
-                        bitmap.UriSource = new Uri("pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png", UriKind.Absolute);
-                    }
+                    bitmap.UriSource = new Uri(img.GetAttributeValue("src", ""), UriKind.Absolute);
                     bitmap.EndInit();
-
                     poster.Source = bitmap;
+                }
 
-                    ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
-                    ItemResult.Add(item);
+                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
+                if (table != null)
+                {
+                    foreach ((var cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
+                    {
+                        if (cell.InnerText.Contains("There are no subtitles"))
+                            break;
 
+                        var Name = cell.SelectNodes("//span[2]")[index].InnerText;
+                        var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
+
+                        //remove empty line
+                        if (Comment.Contains("&nbsp;"))
+                        {
+                            Comment = Comment.Replace("&nbsp;", "");
+                        }
+
+                        var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+
+                        //escape Unnecessary line
+                        if (Link.Contains("/u/"))
+                            continue;
+
+                        ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
+                        ItemResult.Add(item);
+                    }
                 }
 
                 //enable search
@@ -382,10 +368,6 @@ namespace SubtitleDownloader
                     ViewResult = (CollectionView)CollectionViewSource.GetDefaultView(ItemResult);
                     ViewResult.Filter = UserFilterResult;
                 }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-
             }
             catch (ArgumentNullException) { }
         }

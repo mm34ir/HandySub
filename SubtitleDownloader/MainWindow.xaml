@@ -123,30 +123,9 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Visibility="{Binding HasItems, ElementName=lst,
-                                      Converter={StaticResource Boolean2VisibilityReConverter}}"
-                                    Name="txtStatus"
-                                    Foreground="{StaticResource DangerBrush}"
-                                    Style="{StaticResource TextBlockTitle}"
-                                    Text="{x:Static lang:Lang.Status}" />
-
-                                <Rectangle
-                                    Width="200"
-                                    Visibility="{Binding HasItems, ElementName=lst,
-                                      Converter={StaticResource Boolean2VisibilityReConverter}}"
-                                    Name="recStatus"
-                                    Height="40"
-                                    RadiusX="4"
-                                    RadiusY="4"
-                                    Grid.Row="1"
-                                    Stroke="{StaticResource PrimaryTextBrush}"
-                                    StrokeDashArray="2,2" />
-                              
                             </Grid>
                         </GroupBox>
-                        <Image Margin="5,0,5,0" FlowDirection="LeftToRight" Source="pack://application:,,,/SubtitleDownloader;component/Resources/Img/notfound.png" x:Name="poster" Grid.Column="2">
+                        <Image Margin="5,0,5,0" FlowDirection="LeftToRight" x:Name="poster" Grid.Column="2">
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Visibility" Value="Visible"/>

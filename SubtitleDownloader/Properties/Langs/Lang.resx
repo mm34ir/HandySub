@@ -246,9 +246,6 @@
   <data name="ContextMenuFolder" xml:space="preserve">
     <value>افزودن برنامه به منوی کلیک راست پوشه ها</value>
   </data>
-  <data name="Retry" xml:space="preserve">
-    <value>پاسخی از سرور دریافت نشد لطفا دوباره تکرار کنید</value>
-  </data>
   <data name="IsDraggable" xml:space="preserve">
     <value>کشیدن و جابجا کردن تب ها</value>
   </data>
