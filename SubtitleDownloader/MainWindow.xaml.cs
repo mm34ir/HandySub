@@ -446,6 +446,9 @@ namespace SubtitleDownloader
                 case "popular":
                     CreateTabItem(new PopularSeries(), Properties.Langs.Lang.PopularSeries);
                     break;
+                case "worldSubtitle":
+                    CreateTabItem(new WorldSubtitle(), Properties.Langs.Lang.WorldSubtitle);
+                    break;
             }
         }
 
@@ -454,7 +457,7 @@ namespace SubtitleDownloader
         /// </summary>
         /// <param name="control">UserControl, that used as Content</param>
         /// <param name="Header">Header of TabItem</param>
-        private void CreateTabItem(UserControl control, string Header)
+        public void CreateTabItem(UserControl control, string Header)
         {
             TabItem tabItem = new HandyControl.Controls.TabItem
             {

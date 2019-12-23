@@ -55,9 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\WorldSubtitle\AvatarWorld.xaml.cs">
+      <DependentUpon>AvatarWorld.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\AppConfig.cs" />
     <Compile Include="Data\GlobalData.cs" />
     <Compile Include="Tools\AvatarModel.cs" />
+    <Compile Include="Tools\AvatarWorldModel.cs" />
     <Compile Include="View\Avatar.xaml.cs">
       <DependentUpon>Avatar.xaml</DependentUpon>
     </Compile>
@@ -86,6 +90,19 @@
     <Compile Include="View\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WorldSubtitle\ItemWorldDownload.xaml.cs">
+      <DependentUpon>ItemWorldDownload.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorldSubtitle\WorldSubtitle.xaml.cs">
+      <DependentUpon>WorldSubtitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorldSubtitle\WorldSubtitleDownload.xaml.cs">
+      <DependentUpon>WorldSubtitleDownload.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\WorldSubtitle\AvatarWorld.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Avatar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +137,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Update.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorldSubtitle\ItemWorldDownload.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorldSubtitle\WorldSubtitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorldSubtitle\WorldSubtitleDownload.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,5 +208,6 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

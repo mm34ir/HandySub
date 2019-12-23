@@ -249,4 +249,7 @@
   <data name="IsDraggable" xml:space="preserve">
     <value>Drag and drop tabs</value>
   </data>
+  <data name="WorldSubtitle" xml:space="preserve">
+    <value>World Subtitle</value>
+  </data>
 </root>

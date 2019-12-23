@@ -38,6 +38,7 @@
                         </MenuItem>
                     </MenuItem>
                         <MenuItem Click="MenuItem_Click" Tag="popular" Header="{x:Static lang:Lang.PopularSeries}"/>
+                        <MenuItem Click="MenuItem_Click" Tag="worldSubtitle" Header="{x:Static lang:Lang.WorldSubtitle}"/>
                     </Menu>
             </StackPanel>
             </StackPanel>
