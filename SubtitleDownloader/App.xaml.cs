@@ -6,6 +6,7 @@ using Microsoft.AppCenter.Crashes;
 using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Windows;
 
 namespace SubtitleDownloader
@@ -17,6 +18,20 @@ namespace SubtitleDownloader
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (var name in assembly.GetManifestResourceNames())
+            {
+                if (name.ToLower()
+                         .EndsWith(".resources") ||
+                     !name.ToLower()
+                          .EndsWith(".dll"))
+                    continue;
+                EmbeddedAssembly.Load(name,
+                                       name);
+            }
+
             GlobalData.Init();
 
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
@@ -48,6 +63,17 @@ namespace SubtitleDownloader
             {
                 Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
             });
+        }
+        static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            var fields = args.Name.Split(',');
+            var name = fields[0];
+            var culture = fields[2];
+            if (name.EndsWith(".resources") &&
+                 !culture.EndsWith("neutral"))
+                return null;
+
+            return EmbeddedAssembly.Get(args.Name);
         }
     }
 }

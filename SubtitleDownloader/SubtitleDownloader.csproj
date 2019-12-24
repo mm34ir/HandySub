@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools\EmbeddedAssembly.cs" />
     <Compile Include="Tools\WorldModel.cs" />
     <Compile Include="View\WorldSubtitle\AvatarWorld.xaml.cs">
       <DependentUpon>AvatarWorld.xaml</DependentUpon>
@@ -211,4 +212,23 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EmbedReferencedAssemblies" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <AssembliesToEmbed Include="@(ReferenceCopyLocalPaths)" />
+      <EmbeddedResource Include="@(AssembliesToEmbed)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(AssembliesToEmbed.Filename)', '^((?!SubtitleDownloader.resources|Microsoft|HandyControl).)*$')) And '%(AssembliesToEmbed.Extension)' == '.dll'">
+        <LogicalName>%(AssembliesToEmbed.DestinationSubDirectory)%(AssembliesToEmbed.Filename)%(AssembliesToEmbed.Extension)</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+    <Message Importance="high" Text="Embedding: @(AssembliesToEmbed->'%(DestinationSubDirectory)%(Filename)%(Extension)', ', ')" />
+  </Target>
+  <Target Name="DeleteAllReferenceCopyLocalPaths" AfterTargets="Build">
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)', '^((?!SubtitleDownloader.resources|Microsoft|HandyControl).)*$')) Or '%(Extension)' == '.xml'" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>RD /S /Q $(TargetDir)\fr</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>
