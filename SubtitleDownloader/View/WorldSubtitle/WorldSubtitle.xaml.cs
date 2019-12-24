@@ -49,20 +49,33 @@ namespace SubtitleDownloader
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']"))
+
+            var repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
+            if (repeaters != null)
             {
-                // get link
-                var Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
+                foreach (HtmlNode node in repeaters)
+                {
+                    // get link
+                    var Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
 
-                //get title
-                var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
-                var Img = node.SelectSingleNode(".//a/img").Attributes["src"].Value;
+                    //get title
+                    var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
+                    var Img = node.SelectSingleNode(".//a/img").Attributes["src"].Value;
 
+                    DataList.Add(new AvatarWorldModel
+                    {
+                        DisplayName = Title,
+                        AvatarUri = Img,
+                        Link = Link,
+                    });
+                }
+            }
+            else
+            {
                 DataList.Add(new AvatarWorldModel
                 {
-                    DisplayName = Title,
-                    AvatarUri = Img,
-                    Link = Link,
+                    DisplayName = Properties.Langs.Lang.NotFound,
+                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
                 });
             }
         }

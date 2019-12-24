@@ -42,8 +42,11 @@ namespace SubtitleDownloader
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            WorldSubtitleDownload.Link = Link;
-            MainWindow.mainWindow.CreateTabItem(new WorldSubtitleDownload(), DisplayName);
+            if (Link != null)
+            {
+                WorldSubtitleDownload.Link = Link;
+                MainWindow.mainWindow.CreateTabItem(new WorldSubtitleDownload(), DisplayName);
+            }
         }
     }
 }

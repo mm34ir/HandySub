@@ -258,4 +258,7 @@
   <data name="WorldDownloading" xml:space="preserve">
     <value>Downloading</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Subtitle Not Found</value>
+  </data>
 </root>

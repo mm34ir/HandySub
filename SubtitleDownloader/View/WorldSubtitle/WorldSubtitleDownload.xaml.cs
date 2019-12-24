@@ -54,7 +54,8 @@ namespace SubtitleDownloader
                     var displayName = item.SelectSingleNode(".//div[@class='new-link-1']").InnerText;
                     var status = item.SelectSingleNode(".//div[@class='new-link-2']").InnerText;
                     var link = item.SelectSingleNode(".//a").Attributes["href"].Value;
-
+                    if (status.Contains("&nbsp;"))
+                        status = status.Replace("&nbsp;", "");
                     DataList.Add(new WorldModel { DisplayName = displayName, Status = status, Link = link });
                 }
                 catch { }
