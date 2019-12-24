@@ -252,4 +252,10 @@
   <data name="WorldSubtitle" xml:space="preserve">
     <value>جهان زیرنویس</value>
   </data>
+  <data name="WorldDownload" xml:space="preserve">
+    <value>دانلود با لینک مستقیم</value>
+  </data>
+  <data name="WorldDownloading" xml:space="preserve">
+    <value>درحال دانلود</value>
+  </data>
 </root>

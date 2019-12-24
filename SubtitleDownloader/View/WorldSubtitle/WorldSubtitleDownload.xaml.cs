@@ -1,59 +1,64 @@
 ﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SubtitleDownloader
 {
     /// <summary>
     /// Interaction logic for WorldSubtitleDownload.xaml
     /// </summary>
-    public partial class WorldSubtitleDownload
+    public partial class WorldSubtitleDownload : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+        private ObservableCollection<WorldModel> _DataList;
+        public ObservableCollection<WorldModel> DataList
+        {
+            get => _DataList;
+            set
+            {
+                if (_DataList != value)
+                {
+                    _DataList = value;
+                    NotifyPropertyChanged("DataList");
+                }
+            }
+        }
+
         public static string Link = string.Empty;
 
         public WorldSubtitleDownload()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            DataList = new ObservableCollection<WorldModel>();
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = await web.LoadFromWebAsync(Link);
 
-            var xxxx = doc.DocumentNode.SelectSingleNode("//div[@class='single-box single-dl']//div[@class='single-box-body']");
-            foreach ((var item, int index) in xxxx.SelectNodes("//div[@class='new-link-1']").WithIndex())
+            foreach (HtmlNode item in doc.DocumentNode.SelectNodes(".//li"))
             {
-                var x = item.SelectNodes("//div[@class='new-link-2']")[index].InnerText;
-                
-                var xx = item.SelectNodes("//div[@class='new-link-3']//a")[index];
+                try
+                {
+                    var displayName = item.SelectSingleNode(".//div[@class='new-link-1']").InnerText;
+                    var status = item.SelectSingleNode(".//div[@class='new-link-2']").InnerText;
+                    var link = item.SelectSingleNode(".//a").Attributes["href"].Value;
 
-                MessageBox.Show(item.InnerText);
-                MessageBox.Show(x);
-                MessageBox.Show(xx.Attributes["href"].Value);
-
+                    DataList.Add(new WorldModel { DisplayName = displayName, Status = status, Link = link });
+                }
+                catch { }
             }
-            //foreach ((var cell, int index) in doc.DocumentNode.SelectNodes("//div[@class='single-box single-dl']//div[@class='single-box-body']").WithIndex())
-            //{
-            //    var x = cell.SelectSingleNode("//div[@class='new-link-1']").InnerText;
-            //    var xx = cell.SelectNodes("//div[@class='new-link-1']")[index].InnerText;
-            //    //var x = node.SelectSingleNode(".//a").Attributes["href"].Value;
-            //    MessageBox.Show(x);
-            //    MessageBox.Show(xx);
-
-            //}
         }
     }
 }

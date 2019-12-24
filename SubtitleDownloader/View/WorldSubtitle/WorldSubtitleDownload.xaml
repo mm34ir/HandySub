@@ -10,18 +10,12 @@
              Loaded="UserControl_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
     <hc:TransitioningContentControl>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <ListBox Grid.Row="1" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <local:ItemWorldDownload DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+        <ListBox FlowDirection="RightToLeft" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <local:ItemWorldDownload DisplayName="{Binding DisplayName}" Status="{Binding Status}" Link="{Binding Link}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </hc:TransitioningContentControl>
 </UserControl>

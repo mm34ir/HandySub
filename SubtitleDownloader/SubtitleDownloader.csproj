@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools\WorldModel.cs" />
     <Compile Include="View\WorldSubtitle\AvatarWorld.xaml.cs">
       <DependentUpon>AvatarWorld.xaml</DependentUpon>
     </Compile>

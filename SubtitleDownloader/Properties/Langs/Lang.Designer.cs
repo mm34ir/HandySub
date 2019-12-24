@@ -457,6 +457,24 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to دانلود با لینک مستقیم.
+        /// </summary>
+        public static string WorldDownload {
+            get {
+                return ResourceManager.GetString("WorldDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to درحال دانلود.
+        /// </summary>
+        public static string WorldDownloading {
+            get {
+                return ResourceManager.GetString("WorldDownloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to جهان زیرنویس.
         /// </summary>
         public static string WorldSubtitle {

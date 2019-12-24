@@ -252,4 +252,10 @@
   <data name="WorldSubtitle" xml:space="preserve">
     <value>World Subtitle</value>
   </data>
+  <data name="WorldDownload" xml:space="preserve">
+    <value>Download With Direct Link</value>
+  </data>
+  <data name="WorldDownloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
 </root>
