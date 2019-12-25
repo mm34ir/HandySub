@@ -10,6 +10,7 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class WorldSubtitleDownload : INotifyPropertyChanged
     {
+        internal static WorldSubtitleDownload WorldSubtitle;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
@@ -38,10 +39,10 @@ namespace SubtitleDownloader
         public WorldSubtitleDownload()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = WorldSubtitle = this;
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public async void Load()
         {
             DataList = new ObservableCollection<WorldModel>();
             HtmlWeb web = new HtmlWeb();

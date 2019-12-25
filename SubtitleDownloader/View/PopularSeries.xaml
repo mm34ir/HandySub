@@ -23,7 +23,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <hc:SearchBar IsRealTime="True" Name="txtSearch" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" SearchStarted="SearchBar_SearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.SearchSubtitle}"/>
-            <ListBox Grid.Row="1" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding Source={StaticResource ItemViewSource}}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+            <ListBox FlowDirection="LeftToRight" Grid.Row="1" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding Source={StaticResource ItemViewSource}}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <local:Avatar DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>

@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Height="29">
-                <Menu FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" HorizontalAlignment="Left">
+                <Menu FlowDirection="LeftToRight" HorizontalAlignment="Left">
                     <MenuItem Tag="setting" Click="MenuItem_Click" Header="{x:Static lang:Lang.Settings}"/>
                     <MenuItem Header="{x:Static lang:Lang.About}">
                         <MenuItem Click="MenuItem_Click" Tag="update" Header="{x:Static lang:Lang.Update}">

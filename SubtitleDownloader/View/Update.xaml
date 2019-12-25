@@ -11,7 +11,7 @@
     <hc:TransitioningContentControl>
         <hc:ScrollViewer>
             <StackPanel Margin="10">
-                <Button Margin="10" Content="{x:Static lang:Lang.CheckUpdate}" Width="300" Click="Button_Click"/>
+                <Button Margin="10" Height="35" Content="{x:Static lang:Lang.CheckUpdate}" Width="300" Click="Button_Click"/>
                 <StackPanel Orientation="Horizontal">
                     <Label Style="{DynamicResource LabelInfo}" Content="{x:Static lang:Lang.CreatedAt}" Margin="5"/>
                     <hc:TextBox IsReadOnly="True" Margin="5" Name="lblCreatedAt"/>

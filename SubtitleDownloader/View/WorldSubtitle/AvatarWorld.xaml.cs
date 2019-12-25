@@ -46,6 +46,7 @@ namespace SubtitleDownloader
             {
                 WorldSubtitleDownload.Link = Link;
                 MainWindow.mainWindow.CreateTabItem(new WorldSubtitleDownload(), DisplayName);
+                WorldSubtitleDownload.WorldSubtitle.Load();
             }
         }
     }
