@@ -10,13 +10,13 @@
              mc:Ignorable="d">
     <Button Tag="{Binding Link,RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{StaticResource ButtonCustom}" Click="Button_Click">
         <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="10">
-            <Grid>
+            <Grid Height="265" Width="200">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Source="{Binding Source,RelativeSource={RelativeSource AncestorType=UserControl}}" Height="200" Width="200" Stretch="Uniform" Margin="10"/>
-                <TextBlock x:Name="txtDisplay" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="0,0,0,10" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Text="{Binding DisplayName,RelativeSource={RelativeSource AncestorType=UserControl}}"></TextBlock>
+                <Image Source="{Binding Source,RelativeSource={RelativeSource AncestorType=UserControl}}" Stretch="Uniform" Margin="0,10"/>
+                <TextBlock x:Name="txtDisplay" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Margin="5,0,5,10" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Text="{Binding DisplayName,RelativeSource={RelativeSource AncestorType=UserControl}}"></TextBlock>
             </Grid>
         </Border>
     </Button>

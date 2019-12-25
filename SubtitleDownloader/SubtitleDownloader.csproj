@@ -64,10 +64,10 @@
     <Compile Include="Data\GlobalData.cs" />
     <Compile Include="Tools\AvatarModel.cs" />
     <Compile Include="Tools\AvatarWorldModel.cs" />
-    <Compile Include="View\Avatar.xaml.cs">
+    <Compile Include="View\Popular\Avatar.xaml.cs">
       <DependentUpon>Avatar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PopularSeries.xaml.cs">
+    <Compile Include="View\Popular\PopularSeries.xaml.cs">
       <DependentUpon>PopularSeries.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\About.xaml.cs">
@@ -105,11 +105,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Avatar.xaml">
+    <Page Include="View\Popular\Avatar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PopularSeries.xaml">
+    <Page Include="View\Popular\PopularSeries.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

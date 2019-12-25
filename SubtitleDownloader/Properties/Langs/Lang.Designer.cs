@@ -70,6 +70,24 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to شما دسترسی لازم را ندارید لطفا برنامه را بصورت ادمین اجرا کنید یا پوشه برنامه را به محل دیگری (خارج از پوشه های سیستمی) منتقل کنید.
+        /// </summary>
+        public static string AccessError {
+            get {
+                return ResourceManager.GetString("AccessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to خطای دسترسی.
+        /// </summary>
+        public static string AccessErrorTitle {
+            get {
+                return ResourceManager.GetString("AccessErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to دانلود خودکار زیرنویس بعد از باز شدن تب مربوطه  .
         /// </summary>
         public static string AutoDownload {

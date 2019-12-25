@@ -261,4 +261,10 @@
   <data name="NotFound" xml:space="preserve">
     <value>زیرنویس موردنظر پیدا نشد</value>
   </data>
+  <data name="AccessError" xml:space="preserve">
+    <value>شما دسترسی لازم را ندارید لطفا برنامه را بصورت ادمین اجرا کنید یا پوشه برنامه را به محل دیگری (خارج از پوشه های سیستمی) منتقل کنید</value>
+  </data>
+  <data name="AccessErrorTitle" xml:space="preserve">
+    <value>خطای دسترسی</value>
+  </data>
 </root>

@@ -65,22 +65,28 @@ namespace SubtitleDownloader
 
         private void tgDownload_Click(object sender, RoutedEventArgs e)
         {
-            if ((string)tgDownload.Content != Properties.Langs.Lang.OpenFolder)
+            try
             {
-                tgDownload.IsChecked = true;
-                tgDownload.Content = Properties.Langs.Lang.Downloading;
-                tgDownload.Progress = 0;
-                subName = System.IO.Path.GetFileNameWithoutExtension(Link);
-                location = GlobalData.Config.StoreLocation + System.IO.Path.GetFileName(Link);
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                client.DownloadFileAsync(new Uri(Link), location);
+                if ((string)tgDownload.Content != Properties.Langs.Lang.OpenFolder)
+                {
+                    tgDownload.IsChecked = true;
+                    tgDownload.Content = Properties.Langs.Lang.Downloading;
+                    tgDownload.Progress = 0;
+                    subName = System.IO.Path.GetFileNameWithoutExtension(Link);
+                    location = GlobalData.Config.StoreLocation + System.IO.Path.GetFileName(Link);
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                    client.DownloadFileAsync(new Uri(Link), location);
+                }
+                else
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                }
             }
-            else
+            catch (UnauthorizedAccessException)
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.AccessError, Properties.Langs.Lang.AccessErrorTitle);
             }
-
         }
     }
 }

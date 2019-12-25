@@ -1,7 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 
 namespace SubtitleDownloader
 {

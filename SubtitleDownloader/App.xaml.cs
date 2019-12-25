@@ -19,6 +19,7 @@ namespace SubtitleDownloader
         {
             base.OnStartup(e);
 
+            //Unpack *.dll
             AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             var assembly = Assembly.GetExecutingAssembly();
             foreach (var name in assembly.GetManifestResourceNames())
@@ -34,18 +35,22 @@ namespace SubtitleDownloader
 
             GlobalData.Init();
 
+            //init Appcenter Crash Reporter
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
                    typeof(Analytics), typeof(Crashes));
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
                                typeof(Analytics), typeof(Crashes));
 
+            //set Lang
             ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
 
+            //set Skin
             if (GlobalData.Config.Skin != SkinType.Default)
             {
                 UpdateSkin(GlobalData.Config.Skin);
             }
 
+            //get ContextMenu Argument
             if (e.Args.Length > 0)
             {
                 WindowsContextMenuArgument = Path.GetFileNameWithoutExtension(e.Args[0]);

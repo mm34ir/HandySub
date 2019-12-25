@@ -13,6 +13,7 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class Download : UserControl
     {
+        internal static Download download;
         private readonly WebClient client = new WebClient();
 
         public static string Link = string.Empty;
@@ -27,10 +28,13 @@ namespace SubtitleDownloader
         public Download()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = download = this;
+        }
 
+        public async void Load()
+        {
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(Link);
+            HtmlDocument doc = await web.LoadFromWebAsync(Link);
 
             string downloadLink = doc.DocumentNode.SelectSingleNode(
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
@@ -38,7 +42,7 @@ namespace SubtitleDownloader
 
             if (GlobalData.Config.IsAutoDownloadSubtitle)
             {
-                btnDownload_Click(null, null);
+                tgDownload_Click(null, null);
             }
         }
 
@@ -49,39 +53,51 @@ namespace SubtitleDownloader
             double bytesIn = double.Parse(e.BytesReceived.ToString());
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
-            prgStatus.Value = int.Parse(Math.Truncate(percentage).ToString());
+            tgDownload.Progress = int.Parse(Math.Truncate(percentage).ToString());
         }
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            openFolder.IsEnabled = true;
-            btnDownload.Content = Properties.Langs.Lang.Download;
+            tgDownload.IsChecked = false;
+            tgDownload.Progress = 0;
+            tgDownload.Content = Properties.Langs.Lang.OpenFolder;
             Growl.InfoGlobal(string.Format(Properties.Langs.Lang.DownloadCompleted, subName));
         }
 
-        private void btnDownload_Click(object sender, RoutedEventArgs e)
+        private void tgDownload_Click(object sender, RoutedEventArgs e)
         {
-            btnDownload.Content = Properties.Langs.Lang.Downloading;
-            prgStatus.Value = 0;
-
-            // we need to get file name
-            byte[] data = client.DownloadData(generatedLinks);
-
-            if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
+            try
             {
-                subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
-            }
+                if ((string)tgDownload.Content != Properties.Langs.Lang.OpenFolder)
+                {
+                    tgDownload.IsChecked = true;
 
-            location = GlobalData.Config.StoreLocation + subName;
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            client.DownloadFileAsync(new Uri(generatedLinks), location);
+                    tgDownload.Content = Properties.Langs.Lang.Downloading;
+                    tgDownload.Progress = 0;
+
+                    // we need to get file name
+                    byte[] data = client.DownloadData(generatedLinks);
+
+                    if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
+                    {
+                        subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+                    }
+
+                    location = GlobalData.Config.StoreLocation + subName;
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                    client.DownloadFileAsync(new Uri(generatedLinks), location);
+                }
+                else
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.AccessError, Properties.Langs.Lang.AccessErrorTitle);
+            }
         }
         #endregion
-
-        private void openFolder_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-        }
     }
 }

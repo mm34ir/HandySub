@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using HandyControl.Controls;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace SubtitleDownloader
@@ -28,8 +30,15 @@ namespace SubtitleDownloader
 
         public static void Save()
         {
-            var json = JsonConvert.SerializeObject(Config);
-            File.WriteAllText(AppConfig.SavePath, json);
+            try
+            {
+                var json = JsonConvert.SerializeObject(Config);
+                File.WriteAllText(AppConfig.SavePath, json);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Error(Properties.Langs.Lang.AccessError, Properties.Langs.Lang.AccessErrorTitle);
+            }
         }
 
         public static AppConfig Config { get; set; }
