@@ -9,12 +9,14 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              d:DesignHeight="450" d:DesignWidth="800">
     <hc:TransitioningContentControl>
-        <ListBox FlowDirection="RightToLeft" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <local:ItemWorldDownload DisplayName="{Binding DisplayName}" Status="{Binding Status}" Link="{Binding Link}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <hc:BusyIndicator Name="busyIndicator" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{x:Static lang:Lang.BusyContent}">
+            <ListBox FlowDirection="RightToLeft" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:ItemWorldDownload DisplayName="{Binding DisplayName}" Status="{Binding Status}" Link="{Binding Link}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </hc:BusyIndicator>
     </hc:TransitioningContentControl>
 </UserControl>

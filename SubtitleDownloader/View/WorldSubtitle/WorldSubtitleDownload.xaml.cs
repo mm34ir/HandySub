@@ -43,6 +43,7 @@ namespace SubtitleDownloader
 
         public async void Load()
         {
+            busyIndicator.IsBusy = true;
             DataList = new ObservableCollection<WorldModel>();
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = await web.LoadFromWebAsync(Link);
@@ -60,6 +61,7 @@ namespace SubtitleDownloader
                 }
                 catch { }
             }
+            busyIndicator.IsBusy = false;
         }
     }
 }

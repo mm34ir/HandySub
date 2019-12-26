@@ -46,40 +46,47 @@ namespace SubtitleDownloader
         {
             DataList = new ObservableCollection<AvatarWorldModel>();
             busyIndicator.IsBusy = true;
-            HtmlWeb web = new HtmlWeb();
-            doc = await web.LoadFromWebAsync(Url + txtSearch.Text);
-            var repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
-            if (repeaters != null)
+            try
             {
-                foreach (HtmlNode node in repeaters)
+                HtmlWeb web = new HtmlWeb();
+                doc = await web.LoadFromWebAsync(Url + txtSearch.Text);
+                var repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
+                if (repeaters != null)
                 {
-                    // get link
-                    var Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
+                    foreach (HtmlNode node in repeaters)
+                    {
+                        // get link
+                        var Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
 
-                    //get title
-                    var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
-                    var Img = node.SelectSingleNode(".//a/img").Attributes["src"].Value;
+                        //get title
+                        var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
+                        var Img = node.SelectSingleNode(".//a/img")?.Attributes["src"].Value;
 
+                        DataList.Add(new AvatarWorldModel
+                        {
+                            DisplayName = Title,
+                            AvatarUri = Img ?? "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
+                            Link = Link,
+                        });
+
+                        if (busyIndicator.IsBusy)
+                            busyIndicator.IsBusy = false;
+                    }
+                    return true;
+                }
+                else
+                {
                     DataList.Add(new AvatarWorldModel
                     {
-                        DisplayName = Title,
-                        AvatarUri = Img,
-                        Link = Link,
+                        DisplayName = Properties.Langs.Lang.NotFound,
+                        AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
                     });
-
-                    if (busyIndicator.IsBusy)
-                        busyIndicator.IsBusy = false;
                 }
-                return true;
             }
-            else
+            catch (NullReferenceException)
             {
-                DataList.Add(new AvatarWorldModel
-                {
-                    DisplayName = Properties.Langs.Lang.NotFound,
-                    AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
-                });
             }
+
             busyIndicator.IsBusy = false;
             return false;
         }
