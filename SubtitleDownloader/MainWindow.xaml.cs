@@ -1,16 +1,14 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using HtmlAgilityPack;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using TabItem = HandyControl.Controls.TabItem;
 namespace SubtitleDownloader
@@ -21,14 +19,8 @@ namespace SubtitleDownloader
         //instance for accessing MainWindow from everywhere
         internal static MainWindow mainWindow;
 
-        // cancel tasks token
-        private CancellationTokenSource ts = null;
-
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
         private readonly string SubName = string.Empty;
-
-        private CollectionView ViewResult;
-        private CollectionView ViewSearch;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -96,6 +88,7 @@ namespace SubtitleDownloader
             }
         }
         #endregion
+
         #region Model
         public class SearchModel
         {
@@ -125,48 +118,26 @@ namespace SubtitleDownloader
             }
         }
         #region Search in Listbox
-        private bool UserFilterSearch(object item)
-        {
-            if (string.IsNullOrEmpty(txtListBoxSearch.Text))
-            {
-                return true;
-            }
-            else
-            {
-                return ((item as SearchModel).Name.IndexOf(txtListBoxSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-        }
-        private bool UserFilterResult(object item)
-        {
-            if (string.IsNullOrEmpty(txtListBoxResult.Text))
-            {
-                return true;
-            }
-            else
-            {
-                return ((item as ItemResultModel).Name.IndexOf(txtListBoxResult.Text, StringComparison.OrdinalIgnoreCase) >= 0) || ((item as ItemResultModel).Translator.IndexOf(txtListBoxResult.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-        }
-
         private void SearchListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
-            if (ViewSearch == null)
+            if (e.Info == null) return;
+            foreach (SearchModel item in lstSearch.Items)
             {
-                return;
+                var listBoxItem = lstSearch.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                listBoxItem?.Show(item.Name.ToLower().Contains(e.Info.ToLower()));
             }
-
-            CollectionViewSource.GetDefaultView(SearchResult).Refresh();
         }
         private void ResultListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
-            if (ViewResult == null)
+            if (e.Info == null) return;
+            foreach (ItemResultModel item in lst.Items)
             {
-                return;
+                var listBoxItem = lst.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                listBoxItem?.Show(item.Name.ToLower().Contains(e.Info.ToLower()));
             }
-
-            CollectionViewSource.GetDefaultView(ItemResult).Refresh();
         }
         #endregion
+
         #region Change Skin and Language
         private void ButtonConfig_OnClick(object sender, RoutedEventArgs e)
         {
@@ -261,11 +232,7 @@ namespace SubtitleDownloader
                         SearchResult.Add(item);
                     }
                 }
-                if (SearchResult != null)
-                {
-                    ViewSearch = (CollectionView)CollectionViewSource.GetDefaultView(SearchResult);
-                    ViewSearch.Filter = UserFilterSearch;
-                }
+
                 busyIndicator.IsBusy = false;
             }
             catch (ArgumentOutOfRangeException) { }
@@ -330,12 +297,7 @@ namespace SubtitleDownloader
                     }
                 }
                 busyIndicator.IsBusy = false;
-                //enable search
-                if (ItemResult != null)
-                {
-                    ViewResult = (CollectionView)CollectionViewSource.GetDefaultView(ItemResult);
-                    ViewResult.Filter = UserFilterResult;
-                }
+
             }
             catch (ArgumentNullException) { }
             catch (ArgumentOutOfRangeException) { }
@@ -398,12 +360,7 @@ namespace SubtitleDownloader
                     HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
                 }
                 busyIndicator.IsBusy = false;
-                //enable search
-                if (ItemResult != null)
-                {
-                    ViewResult = (CollectionView)CollectionViewSource.GetDefaultView(ItemResult);
-                    ViewResult.Filter = UserFilterResult;
-                }
+
             }
             catch (ArgumentNullException) { }
             catch (ArgumentOutOfRangeException) { }
@@ -469,6 +426,7 @@ namespace SubtitleDownloader
                     break;
                 case "popular":
                     CreateTabItem(new PopularSeries(), Properties.Langs.Lang.PopularSeries);
+                    PopularSeries.Popular.Load();
                     break;
                 case "worldSubtitle":
                     CreateTabItem(new WorldSubtitle(), Properties.Langs.Lang.WorldSubtitle);

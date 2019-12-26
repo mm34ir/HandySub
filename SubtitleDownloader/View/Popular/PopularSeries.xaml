@@ -19,17 +19,19 @@
     <hc:TransitioningContentControl>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="55"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <hc:SearchBar IsRealTime="True" Name="txtSearch" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" SearchStarted="SearchBar_SearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.SearchSubtitle}"/>
-            <ListBox FlowDirection="LeftToRight" Grid.Row="1" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding Source={StaticResource ItemViewSource}}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <local:Avatar DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <hc:BusyIndicator Name="busyIndicator" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{x:Static lang:Lang.BusyContent}">
+                <ListBox x:Name="lst" FlowDirection="LeftToRight" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding Source={StaticResource ItemViewSource}}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:Avatar DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </hc:BusyIndicator>
         </Grid>
     </hc:TransitioningContentControl>
 </UserControl>

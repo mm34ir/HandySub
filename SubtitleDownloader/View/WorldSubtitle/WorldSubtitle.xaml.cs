@@ -1,5 +1,4 @@
-﻿using HandyControl.Controls;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -67,8 +66,10 @@ namespace SubtitleDownloader
                         AvatarUri = Img,
                         Link = Link,
                     });
+
+                    if (busyIndicator.IsBusy)
+                        busyIndicator.IsBusy = false;
                 }
-                busyIndicator.IsBusy = false;
                 return true;
             }
             else

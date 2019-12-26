@@ -94,7 +94,7 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <hc:SearchBar Name="txtListBoxSearch" IsRealTime="True" Margin="0,5" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="SearchListBox_OnSearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.Search}"/>
+                                    <hc:SearchBar IsRealTime="True" Margin="0,5" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="SearchListBox_OnSearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.Search}"/>
                                     <ListBox x:Name="lstSearch" Grid.Row="1" FlowDirection="LeftToRight" SelectionChanged="SearchList_SelectionChanged" ItemsSource="{Binding SearchResult}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
@@ -110,7 +110,7 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <hc:SearchBar Name="txtListBoxResult" IsRealTime="True" Margin="0,5" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="ResultListBox_OnSearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.Search}"/>
+                                    <hc:SearchBar IsRealTime="True" Margin="0,5" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="ResultListBox_OnSearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.Search}"/>
                                     <ListBox x:Name="lst" Grid.Row="1" Visibility="{Binding HasItems,RelativeSource={RelativeSource Self},
                                       Converter={StaticResource Boolean2VisibilityConverter}}" FlowDirection="LeftToRight" SelectionChanged="ResultList_SelectionChanged" ItemsSource="{Binding ItemResult}">
                                         <ListBox.ItemTemplate>
