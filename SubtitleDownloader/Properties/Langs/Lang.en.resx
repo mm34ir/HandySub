@@ -265,6 +265,9 @@
     <value>You dont have permission, Please Run App as Administrator or move application directory to another location that isnt system directory</value>
   </data>
   <data name="AccessErrorTitle" xml:space="preserve">
-    <value>Un authorized Access</value>
+    <value>Unauthorized Access</value>
+  </data>
+  <data name="BusyContent" xml:space="preserve">
+    <value>Please wait...</value>
   </data>
 </root>

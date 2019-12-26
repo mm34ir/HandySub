@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,8 +20,15 @@ namespace SubtitleDownloader
         //instance for accessing MainWindow from everywhere
         internal static MainWindow mainWindow;
 
+        // cancel tasks token
+        private CancellationTokenSource ts = new CancellationTokenSource();
+
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
         private readonly string SubName = string.Empty;
+
+        private CollectionView ViewResult;
+        private CollectionView ViewSearch;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
@@ -102,9 +110,6 @@ namespace SubtitleDownloader
             public string Link { get; set; }
         }
         #endregion
-
-        private CollectionView ViewResult;
-        private CollectionView ViewSearch;
 
         public MainWindow()
         {
@@ -241,10 +246,18 @@ namespace SubtitleDownloader
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-                foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='title']"))
+                var repeater = doc.DocumentNode.SelectNodes("//div[@class='title']");
+                if (repeater == null)
                 {
-                    SearchModel item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{GlobalData.Config.SubtitleLang}/", Name = node.InnerText };
-                    SearchResult.Add(item);
+                    HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
+                }
+                else
+                {
+                    foreach (HtmlNode node in repeater)
+                    {
+                        SearchModel item = new SearchModel { Link = node.SelectSingleNode(".//a").Attributes["href"].Value + $"/{GlobalData.Config.SubtitleLang}/", Name = node.InnerText };
+                        SearchResult.Add(item);
+                    }
                 }
                 if (SearchResult != null)
                 {
@@ -259,11 +272,17 @@ namespace SubtitleDownloader
             {
                 Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut + "\n" + ex.Message);
             }
+            catch (System.Net.Http.HttpRequestException hx)
+            {
+                Growl.ErrorGlobal(Properties.Langs.Lang.ServerOut + "\n" + hx.Message);
+            }
         }
 
-        private async void Subf2mCore()
+        private async void Subf2mCore(CancellationToken ct)
         {
             ItemResult = new ObservableCollection<ItemResultModel>();
+            busyIndicator.IsBusy = true;
+            poster.Source = null;
             try
             {
                 dynamic selectedItem = lstSearch.SelectedItems[0];
@@ -284,23 +303,33 @@ namespace SubtitleDownloader
                     poster.Source = bitmap;
                 }
 
-                foreach ((HtmlNode node, int index) in doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']").WithIndex())
+                var repeater = doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']");
+
+                if (repeater == null)
                 {
-
-                    string translator = node.SelectNodes("//div[@class='comment-col']")[index].InnerText;
-                    string download_Link = node.SelectNodes("//a[@class='download icon-download']")[index].GetAttributeValue("href", "");
-
-                    //remove empty lines
-                    string singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
-                    if (singleLineTranslator.Contains("&nbsp;"))
-                    {
-                        singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
-                    }
-
-                    ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = download_Link, Language = GlobalData.Config.SubtitleLang };
-                    ItemResult.Add(item);
+                    HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
                 }
+                else
+                {
+                    foreach ((HtmlNode node, int index) in repeater.WithIndex())
+                    {
+                        if (!ct.IsCancellationRequested)
+                        {
+                            string translator = node.SelectNodes("//div[@class='comment-col']")[index].InnerText;
+                            string download_Link = node.SelectNodes("//a[@class='download icon-download']")[index].GetAttributeValue("href", "");
 
+                            //remove empty lines
+                            string singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
+                            if (singleLineTranslator.Contains("&nbsp;"))
+                            {
+                                singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
+                            }
+                            ItemResultModel item = new ItemResultModel { Name = node.InnerText, Translator = singleLineTranslator, Link = download_Link, Language = GlobalData.Config.SubtitleLang };
+                            ItemResult.Add(item);
+                        }
+                    }
+                }
+                busyIndicator.IsBusy = false;
                 //enable search
                 if (ItemResult != null)
                 {
@@ -308,21 +337,17 @@ namespace SubtitleDownloader
                     ViewResult.Filter = UserFilterResult;
                 }
             }
-            catch (ArgumentNullException)
-            {
-                return;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return;
-            }
+            catch (ArgumentNullException) { }
+            catch (ArgumentOutOfRangeException) { }
         }
 
-        private async void SubsceneCore()
+        private async void SubsceneCore(CancellationToken ct)
         {
+            ItemResult = new ObservableCollection<ItemResultModel>();
+            busyIndicator.IsBusy = true;
+            poster.Source = null;
             try
             {
-                ItemResult = new ObservableCollection<ItemResultModel>();
                 dynamic selectedItem = lstSearch.SelectedItems[0];
                 string url = GlobalData.Config.ServerUrl + selectedItem.Link;
 
@@ -346,29 +371,36 @@ namespace SubtitleDownloader
                 {
                     foreach ((var cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
                     {
-                        if (cell.InnerText.Contains("There are no subtitles"))
-                            break;
-
-                        var Name = cell.SelectNodes("//span[2]")[index].InnerText;
-                        var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
-
-                        //remove empty line
-                        if (Comment.Contains("&nbsp;"))
+                        if (!ct.IsCancellationRequested)
                         {
-                            Comment = Comment.Replace("&nbsp;", "");
+                            if (cell.InnerText.Contains("There are no subtitles"))
+                                break;
+
+                            var Name = cell.SelectNodes("//span[2]")[index].InnerText;
+                            var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
+
+                            //remove empty line
+                            if (Comment.Contains("&nbsp;"))
+                            {
+                                Comment = Comment.Replace("&nbsp;", "");
+                            }
+
+                            var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+
+                            //escape Unnecessary line
+                            if (Link.Contains("/u/"))
+                                continue;
+
+                            ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
+                            ItemResult.Add(item);
                         }
-
-                        var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
-
-                        //escape Unnecessary line
-                        if (Link.Contains("/u/"))
-                            continue;
-
-                        ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
-                        ItemResult.Add(item);
                     }
                 }
-
+                else
+                {
+                    HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
+                }
+                busyIndicator.IsBusy = false;
                 //enable search
                 if (ItemResult != null)
                 {
@@ -376,25 +408,22 @@ namespace SubtitleDownloader
                     ViewResult.Filter = UserFilterResult;
                 }
             }
-            catch (ArgumentNullException)
-            {
-                return;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return;
-            }
+            catch (ArgumentNullException) { }
+            catch (ArgumentOutOfRangeException) { }
         }
+
 
         private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ts?.Cancel();
+            ts = new CancellationTokenSource();
             if (GlobalData.Config.ServerUrl.Contains("subf2m.co"))
             {
-                Subf2mCore();
+                Subf2mCore(ts.Token);
             }
             else
             {
-                SubsceneCore();
+                SubsceneCore(ts.Token);
             }
         }
 
@@ -424,6 +453,7 @@ namespace SubtitleDownloader
                 }
 
                 CreateTabItem(new Download(), input);
+                Download.download.Load();
             }
             catch (NullReferenceException) { }
             catch (ArgumentOutOfRangeException) { }

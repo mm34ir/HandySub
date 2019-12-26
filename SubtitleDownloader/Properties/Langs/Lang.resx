@@ -267,4 +267,7 @@
   <data name="AccessErrorTitle" xml:space="preserve">
     <value>خطای دسترسی</value>
   </data>
+  <data name="BusyContent" xml:space="preserve">
+    <value>...درحال دریافت اطلاعات</value>
+  </data>
 </root>

@@ -97,6 +97,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ...درحال دریافت اطلاعات.
+        /// </summary>
+        public static string BusyContent {
+            get {
+                return ResourceManager.GetString("BusyContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to انصراف.
         /// </summary>
         public static string Cancel {

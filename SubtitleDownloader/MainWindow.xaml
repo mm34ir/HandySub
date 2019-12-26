@@ -110,20 +110,22 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <hc:SearchBar Name="txtListBoxResult" IsRealTime="True" Margin="0,5" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="ResultListBox_OnSearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.Search}"/>
-                                <ListBox x:Name="lst" Visibility="{Binding HasItems,RelativeSource={RelativeSource Self},
-                                      Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Row="1" FlowDirection="LeftToRight" SelectionChanged="ResultList_SelectionChanged" ItemsSource="{Binding ItemResult}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Margin="0,5" Style="{StaticResource LabelSuccess}" Content="{Binding Language}"/>
-                                                    <TextBlock TextWrapping="Wrap" Margin="5,10,0,0" Tag="{Binding Link}" Text="{Binding Translator}"/>
+                                <hc:BusyIndicator Name="busyIndicator" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{x:Static lang:Lang.BusyContent}">
+                                    <ListBox x:Name="lst" Visibility="{Binding HasItems,RelativeSource={RelativeSource Self},
+                                      Converter={StaticResource Boolean2VisibilityConverter}}" FlowDirection="LeftToRight" SelectionChanged="ResultList_SelectionChanged" ItemsSource="{Binding ItemResult}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Margin="0,5" Style="{StaticResource LabelSuccess}" Content="{Binding Language}"/>
+                                                        <TextBlock TextWrapping="Wrap" Margin="5,10,0,0" Tag="{Binding Link}" Text="{Binding Translator}"/>
+                                                    </StackPanel>
+                                                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,5" Text="{Binding Name}"/>
                                                 </StackPanel>
-                                                <TextBlock TextWrapping="Wrap" Margin="0,0,0,5" Text="{Binding Name}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </hc:BusyIndicator>
                             </Grid>
                         </GroupBox>
                         <Image Margin="5,0,5,0" FlowDirection="LeftToRight" x:Name="poster" Grid.Column="2" Stretch="Uniform">
