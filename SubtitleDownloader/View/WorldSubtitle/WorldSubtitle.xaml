@@ -11,17 +11,21 @@
     <hc:TransitioningContentControl>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="55"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <hc:SearchBar Name="txtSearch" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" SearchStarted="txtSearch_SearchStarted" hc:InfoElement.Placeholder="{x:Static lang:Lang.SearchSubtitle}"/>
-            <ListBox FlowDirection="LeftToRight" Grid.Row="1" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <local:AvatarWorld Link="{Binding Link}" DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <hc:BusyIndicator Name="busyIndicator" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{x:Static lang:Lang.BusyContent}">
+                <ListBox FlowDirection="LeftToRight" Background="{DynamicResource GitHubDrawingBrush}" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:AvatarWorld Link="{Binding Link}" DisplayName="{Binding DisplayName}" Source="{Binding AvatarUri}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </hc:BusyIndicator>
+            <hc:Pagination Name="page" PageUpdated="page_PageUpdated" Visibility="Collapsed" FlowDirection="LeftToRight" Margin="10" Grid.Row="2"/>
         </Grid>
     </hc:TransitioningContentControl>
 </UserControl>

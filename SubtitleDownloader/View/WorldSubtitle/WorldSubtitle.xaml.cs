@@ -1,6 +1,9 @@
-﻿using HtmlAgilityPack;
+﻿using HandyControl.Controls;
+using HtmlAgilityPack;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace SubtitleDownloader
 {
@@ -9,6 +12,9 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class WorldSubtitle : INotifyPropertyChanged
     {
+        private string BasePageUrl = "http://worldsubtitle.info/page/{0}?s=";
+        HtmlDocument doc;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
@@ -37,19 +43,12 @@ namespace SubtitleDownloader
             DataContext = this;
         }
 
-        private async void txtSearch_SearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
+        private async Task<bool> LoadData(string Url = "http://worldsubtitle.info/?s=")
         {
             DataList = new ObservableCollection<AvatarWorldModel>();
-            if (string.IsNullOrEmpty(txtSearch.Text))
-            {
-                return;
-            }
-
-            string url = "http://worldsubtitle.info/?s=" + txtSearch.Text;
+            busyIndicator.IsBusy = true;
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = await web.LoadFromWebAsync(url);
-
-
+            doc = await web.LoadFromWebAsync(Url + txtSearch.Text);
             var repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
             if (repeaters != null)
             {
@@ -69,6 +68,8 @@ namespace SubtitleDownloader
                         Link = Link,
                     });
                 }
+                busyIndicator.IsBusy = false;
+                return true;
             }
             else
             {
@@ -78,6 +79,37 @@ namespace SubtitleDownloader
                     AvatarUri = "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
                 });
             }
+            busyIndicator.IsBusy = false;
+            return false;
+        }
+
+        private async void txtSearch_SearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
+        {
+            if (string.IsNullOrEmpty(txtSearch.Text))
+            {
+                return;
+            }
+
+            if (await LoadData())
+            {
+                var pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");
+                if (pagenavi != null)
+                {
+                    var getPageInfo = pagenavi[0].SelectSingleNode(".//span");
+                    int getMaxPage = Convert.ToInt32(getPageInfo.InnerText.Substring(10, getPageInfo.InnerText.Length - 10));
+                    page.Visibility = System.Windows.Visibility.Visible;
+                    page.MaxPageCount = getMaxPage;
+                }
+                else
+                {
+                    page.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+        }
+
+        private async void page_PageUpdated(object sender, HandyControl.Data.FunctionEventArgs<int> e)
+        {
+            await LoadData(string.Format(BasePageUrl, e.Info));
         }
     }
 }
