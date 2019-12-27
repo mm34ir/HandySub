@@ -351,3 +351,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+SubtitleDownloader/costura32/e_sqlite3.dll
+SubtitleDownloader/costura64/e_sqlite3.dll
