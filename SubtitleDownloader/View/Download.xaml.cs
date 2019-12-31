@@ -1,18 +1,41 @@
 ﻿using HandyControl.Controls;
+using HandyControl.Data;
 using HtmlAgilityPack;
 using System;
 using System.ComponentModel;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace SubtitleDownloader
 {
     /// <summary>
     /// Interaction logic for Download.xaml
     /// </summary>
-    public partial class Download : UserControl
+    public partial class Download : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+        private string _Episode;
+        public string Episode
+        {
+            get => _Episode;
+            set
+            {
+                if (_Episode != value)
+                {
+                    _Episode = value;
+                    NotifyPropertyChanged("Episode");
+                }
+            }
+        }
         internal static Download download;
         private readonly WebClient client = new WebClient();
 
@@ -40,6 +63,14 @@ namespace SubtitleDownloader
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
             generatedLinks = GlobalData.Config.ServerUrl + downloadLink;
 
+            //get Episode info
+            Regex regex = new Regex("S[0-9].{1}E[0-9].{1}");
+            Match match = regex.Match(Info);
+            if (match.Success)
+            {
+                Episode = match.Value;
+            }
+
             if (GlobalData.Config.IsAutoDownloadSubtitle)
             {
                 tgDownload_Click(null, null);
@@ -61,7 +92,19 @@ namespace SubtitleDownloader
             tgDownload.IsChecked = false;
             tgDownload.Progress = 0;
             tgDownload.Content = Properties.Langs.Lang.OpenFolder;
-            Growl.InfoGlobal(string.Format(Properties.Langs.Lang.DownloadCompleted, subName));
+            Growl.InfoGlobal(new GrowlInfo
+            {
+                CancelStr = Properties.Langs.Lang.Cancel,
+                ConfirmStr = Properties.Langs.Lang.OpenFolder,
+                Message = string.Format(Properties.Langs.Lang.DownloadCompleted, Episode + subName),
+                ActionBeforeClose = isConfirmed =>
+                {
+                    if (!isConfirmed)
+                        return true;
+                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                    return true;
+                }
+            });
         }
 
         private void tgDownload_Click(object sender, RoutedEventArgs e)
@@ -83,7 +126,7 @@ namespace SubtitleDownloader
                         subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
                     }
 
-                    location = GlobalData.Config.StoreLocation + subName;
+                    location = GlobalData.Config.StoreLocation + Episode + subName;
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                     client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
                     client.DownloadFileAsync(new Uri(generatedLinks), location);

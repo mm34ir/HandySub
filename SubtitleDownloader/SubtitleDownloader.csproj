@@ -216,8 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="costura32\e_sqlite3.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="costura64\e_sqlite3.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
