@@ -14,7 +14,7 @@ namespace SubtitleDownloader
 {
     public partial class App
     {
-        public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
+        public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty, string.Empty };
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -97,6 +97,8 @@ namespace SubtitleDownloader
                 NameFromContextMenu = Regex.Replace(NameFromContextMenu, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
 
                 //get ContextMenu Argument
+                WindowsContextMenuArgument[2] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
+
                 if (e.Args.Length == 1)
                 {
                     WindowsContextMenuArgument[0] = NameFromContextMenu;
@@ -106,7 +108,6 @@ namespace SubtitleDownloader
                     WindowsContextMenuArgument[1] = NameFromContextMenu;
                 }
             }
-
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }

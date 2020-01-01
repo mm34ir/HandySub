@@ -1,4 +1,5 @@
 ﻿using HandyControl.Controls;
+using HandyControl.Data;
 using System;
 using System.ComponentModel;
 using System.Net;
@@ -60,7 +61,23 @@ namespace SubtitleDownloader
             tgDownload.IsChecked = false;
             tgDownload.Progress = 0;
             tgDownload.Content = Properties.Langs.Lang.OpenFolder;
-            Growl.InfoGlobal(string.Format(Properties.Langs.Lang.DownloadCompleted, subName));
+            Growl.InfoGlobal(new GrowlInfo
+            {
+                CancelStr = Properties.Langs.Lang.Cancel,
+                ConfirmStr = Properties.Langs.Lang.OpenFolder,
+                WaitTime = 5000,
+                Message = string.Format(Properties.Langs.Lang.DownloadCompleted, subName),
+                ActionBeforeClose = isConfirmed =>
+                {
+                    if (!isConfirmed)
+                    {
+                        return true;
+                    }
+
+                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                    return true;
+                }
+            });
         }
 
         private void tgDownload_Click(object sender, RoutedEventArgs e)
@@ -73,7 +90,16 @@ namespace SubtitleDownloader
                     tgDownload.Content = Properties.Langs.Lang.Downloading;
                     tgDownload.Progress = 0;
                     subName = System.IO.Path.GetFileNameWithoutExtension(Link);
-                    location = GlobalData.Config.StoreLocation + System.IO.Path.GetFileName(Link);
+
+
+                    if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[1]))
+                    {
+                        location = App.WindowsContextMenuArgument[2] + System.IO.Path.GetFileName(Link);
+                    }
+                    else
+                    {
+                        location = GlobalData.Config.StoreLocation + System.IO.Path.GetFileName(Link);
+                    }
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                     client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
                     client.DownloadFileAsync(new Uri(Link), location);

@@ -75,7 +75,7 @@
     <hc:TransitioningContentControl>
         <hc:TabControl FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" Name="tab" HeaderBrush="{DynamicResource PrimaryBrush}" Margin="0,10,0,0" IsDraggable="{Binding IsDraggableTab}" ShowCloseButton="False" ShowOverflowButton="False" IsScrollable="True" IsEnableAnimation="True" ShowScrollButton="True" IsUWPStyle="True" ShowContextMenu="False">
             <hc:TabItem Header="{x:Static lang:Lang.Subtitle}">
-                <Grid>
+                <Grid FocusManager.FocusedElement="{Binding ElementName=txtSearch}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>

@@ -129,7 +129,15 @@ namespace SubtitleDownloader
                         subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
                     }
 
-                    location = GlobalData.Config.StoreLocation + Episode + subName;
+                    // if luanched from ContextMenu set location next to the movie file
+                    if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
+                    {
+                        location = App.WindowsContextMenuArgument[2] + Episode + subName;
+                    }
+                    else // get location from config
+                    {
+                        location = GlobalData.Config.StoreLocation + Episode + subName;
+                    }
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                     client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
                     client.DownloadFileAsync(new Uri(generatedLinks), location);
