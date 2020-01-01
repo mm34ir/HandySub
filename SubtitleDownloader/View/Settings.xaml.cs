@@ -164,40 +164,56 @@ namespace SubtitleDownloader
         /// <param name="IsDelete">UnRegister from ContextMenu</param>
         private void RegisterContextMenu(bool IsFolder, bool IsDelete = false)
         {
-            if (IsDelete)
+            try
             {
-                if (IsFolder)
+                if (IsDelete)
                 {
-                    RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
-                    regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                }
-                else
-                {
-                    RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
-                    regFileKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                }
-            }
-            else
-            {
-                if (IsFolder)
-                {
-                    RegistryKey regFileOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\", true);
-                    if (regFileOpen == null)
+                    if (IsFolder)
                     {
-                        RegistryKey regFolderKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\");
-                        regFolderKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+                        RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
+                        regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle");
+                        regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle with World Subtitle");
+                    }
+                    else
+                    {
+                        RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
+                        regFileKeyOpen.DeleteSubKeyTree("Get Subtitle");
+                        regFileKeyOpen.DeleteSubKeyTree("Get Subtitle with World Subtitle");
                     }
                 }
                 else
                 {
-                    RegistryKey regFolderOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\", true);
-                    if (regFolderOpen == null)
+                    if (IsFolder)
                     {
-                        RegistryKey regFileKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\");
-                        regFileKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+                        RegistryKey regFolderOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\", true);
+                        if (regFolderOpen == null)
+                        {
+                            //Subscene
+                            RegistryKey regFolderKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\");
+                            regFolderKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+
+                            //World Subtitle
+                            RegistryKey regFolderWKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle with World Subtitle\command\");
+                            regFolderWKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\" \"#world#\"");
+                        }
+                    }
+                    else
+                    {
+                        RegistryKey regFileOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\", true);
+                        if (regFileOpen == null)
+                        {
+                            //Subscene
+                            RegistryKey regFileKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\");
+                            regFileKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"");
+
+                            //World Subtitle
+                            RegistryKey regFileWKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle with World Subtitle\command\");
+                            regFileWKey.SetValue("", $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\" \"#world#\"");
+                        }
                     }
                 }
             }
+            catch (System.ArgumentException) { }
         }
     }
 }

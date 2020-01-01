@@ -111,10 +111,16 @@ namespace SubtitleDownloader
             DataContext = mainWindow = this;
             setFlowDirectionAndConfig();
 
-            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument))
+            //get subtitle if luanch is from ContextMenu
+            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
             {
-                txtSearch.Text = App.WindowsContextMenuArgument;
+                txtSearch.Text = App.WindowsContextMenuArgument[0];
                 SearchBar_SearchStarted(null, null);
+            }
+            else if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[1]))
+            {
+                CreateTabItem(new WorldSubtitle(), Properties.Langs.Lang.WorldSubtitle);
+                tab.SelectedIndex = tab.Items.Count - 1;
             }
         }
         #region Search in Listbox

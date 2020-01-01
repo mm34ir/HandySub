@@ -40,6 +40,13 @@ namespace SubtitleDownloader
         {
             InitializeComponent();
             DataContext = this;
+
+            //get subtitle if luanch is from ContextMenu
+            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[1]))
+            {
+                txtSearch.Text = App.WindowsContextMenuArgument[1];
+                txtSearch_SearchStarted(null, null);
+            }
         }
 
         private async Task<bool> LoadData(string Url = "http://worldsubtitle.info/?s=")
