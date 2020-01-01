@@ -91,7 +91,7 @@ namespace SubtitleDownloader
                    new{Find="MrMovie",Replace=" "}
                             };
 
-                var NameFromContextMenu = replacements.Aggregate(Path.GetFileNameWithoutExtension(e.Args[0]), (current, set) => current.Replace(set.Find, set.Replace));
+                string NameFromContextMenu = replacements.Aggregate(Path.GetFileNameWithoutExtension(e.Args[0]), (current, set) => current.Replace(set.Find, set.Replace));
                 NameFromContextMenu = Regex.Replace(NameFromContextMenu, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
                 NameFromContextMenu = Regex.Replace(NameFromContextMenu, "S[0-9].{1}E[0-9].{1}", ""); // remove SXXEXX ==> X is 0-9
                 NameFromContextMenu = Regex.Replace(NameFromContextMenu, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space

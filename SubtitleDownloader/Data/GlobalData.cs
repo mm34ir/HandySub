@@ -13,7 +13,7 @@ namespace SubtitleDownloader
             {
                 try
                 {
-                    var json = File.ReadAllText(AppConfig.SavePath);
+                    string json = File.ReadAllText(AppConfig.SavePath);
                     Config = (string.IsNullOrEmpty(json) ? new AppConfig() : JsonConvert.DeserializeObject<AppConfig>(json)) ?? new AppConfig();
 
                 }
@@ -32,7 +32,7 @@ namespace SubtitleDownloader
         {
             try
             {
-                var json = JsonConvert.SerializeObject(Config);
+                string json = JsonConvert.SerializeObject(Config);
                 File.WriteAllText(AppConfig.SavePath, json);
             }
             catch (UnauthorizedAccessException)

@@ -11,8 +11,8 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class WorldSubtitle : INotifyPropertyChanged
     {
-        private string BasePageUrl = "http://worldsubtitle.info/page/{0}?s=";
-        HtmlDocument doc;
+        private readonly string BasePageUrl = "http://worldsubtitle.info/page/{0}?s=";
+        private HtmlDocument doc;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,17 +57,17 @@ namespace SubtitleDownloader
             {
                 HtmlWeb web = new HtmlWeb();
                 doc = await web.LoadFromWebAsync(Url + txtSearch.Text);
-                var repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
+                HtmlNodeCollection repeaters = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
                 if (repeaters != null)
                 {
                     foreach (HtmlNode node in repeaters)
                     {
                         // get link
-                        var Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
+                        string Link = node.SelectSingleNode(".//a").Attributes["href"].Value;
 
                         //get title
-                        var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
-                        var Img = node.SelectSingleNode(".//a/img")?.Attributes["src"].Value;
+                        string Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
+                        string Img = node.SelectSingleNode(".//a/img")?.Attributes["src"].Value;
 
                         DataList.Add(new AvatarWorldModel
                         {
@@ -77,7 +77,9 @@ namespace SubtitleDownloader
                         });
 
                         if (busyIndicator.IsBusy)
+                        {
                             busyIndicator.IsBusy = false;
+                        }
                     }
                     return true;
                 }
@@ -107,10 +109,10 @@ namespace SubtitleDownloader
 
             if (await LoadData())
             {
-                var pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");
+                HtmlNodeCollection pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");
                 if (pagenavi != null)
                 {
-                    var getPageInfo = pagenavi[0].SelectSingleNode(".//span");
+                    HtmlNode getPageInfo = pagenavi[0].SelectSingleNode(".//span");
                     int getMaxPage = Convert.ToInt32(getPageInfo.InnerText.Substring(10, getPageInfo.InnerText.Length - 10));
                     page.Visibility = System.Windows.Visibility.Visible;
                     page.MaxPageCount = getMaxPage;

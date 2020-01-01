@@ -126,19 +126,27 @@ namespace SubtitleDownloader
         #region Search in Listbox
         private void SearchListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
-            if (e.Info == null) return;
+            if (e.Info == null)
+            {
+                return;
+            }
+
             foreach (SearchModel item in lstSearch.Items)
             {
-                var listBoxItem = lstSearch.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                ListBoxItem listBoxItem = lstSearch.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
                 listBoxItem?.Show(item.Name.ToLower().Contains(e.Info.ToLower()));
             }
         }
         private void ResultListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)
         {
-            if (e.Info == null) return;
+            if (e.Info == null)
+            {
+                return;
+            }
+
             foreach (ItemResultModel item in lst.Items)
             {
-                var listBoxItem = lst.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                ListBoxItem listBoxItem = lst.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
                 listBoxItem?.Show(item.Name.ToLower().Contains(e.Info.ToLower()));
             }
         }
@@ -155,7 +163,11 @@ namespace SubtitleDownloader
             if (e.OriginalSource is Button button && button.Tag is SkinType tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(GlobalData.Config.Skin)) return;
+                if (tag.Equals(GlobalData.Config.Skin))
+                {
+                    return;
+                }
+
                 GlobalData.Config.Skin = tag;
                 GlobalData.Save();
                 ((App)Application.Current).UpdateSkin(tag);
@@ -167,7 +179,10 @@ namespace SubtitleDownloader
             if (e.OriginalSource is Button button && button.Tag is string tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(GlobalData.Config.UILang)) return;
+                if (tag.Equals(GlobalData.Config.UILang))
+                {
+                    return;
+                }
 
                 Growl.AskGlobal(new GrowlInfo
                 {
@@ -178,7 +193,10 @@ namespace SubtitleDownloader
                     {
 
                         if (!isConfirmed)
+                        {
                             return true;
+                        }
+
                         GlobalData.Config.UILang = tag;
                         GlobalData.Save();
                         ProcessModule processModule = Process.GetCurrentProcess().MainModule;
@@ -225,7 +243,7 @@ namespace SubtitleDownloader
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-                var repeater = doc.DocumentNode.SelectNodes("//div[@class='title']");
+                HtmlNodeCollection repeater = doc.DocumentNode.SelectNodes("//div[@class='title']");
                 if (repeater == null)
                 {
                     HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
@@ -279,7 +297,7 @@ namespace SubtitleDownloader
                     poster.Source = bitmap;
                 }
 
-                var repeater = doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']");
+                HtmlNodeCollection repeater = doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']");
 
                 if (repeater == null)
                 {
@@ -337,13 +355,15 @@ namespace SubtitleDownloader
                 HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
                 if (table != null)
                 {
-                    foreach ((var cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
+                    foreach ((HtmlNode cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
                     {
                         if (cell.InnerText.Contains("There are no subtitles"))
+                        {
                             break;
+                        }
 
-                        var Name = cell.SelectNodes("//span[2]")[index].InnerText;
-                        var Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
+                        string Name = cell.SelectNodes("//span[2]")[index].InnerText;
+                        string Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
 
                         //remove empty line
                         if (Comment.Contains("&nbsp;"))
@@ -351,11 +371,13 @@ namespace SubtitleDownloader
                             Comment = Comment.Replace("&nbsp;", "");
                         }
 
-                        var Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+                        string Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
 
                         //escape Unnecessary line
                         if (Link.Contains("/u/"))
+                        {
                             continue;
+                        }
 
                         ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
                         ItemResult.Add(item);

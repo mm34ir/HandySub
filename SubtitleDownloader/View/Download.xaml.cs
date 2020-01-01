@@ -100,7 +100,10 @@ namespace SubtitleDownloader
                 ActionBeforeClose = isConfirmed =>
                 {
                     if (!isConfirmed)
+                    {
                         return true;
+                    }
+
                     System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
                     return true;
                 }

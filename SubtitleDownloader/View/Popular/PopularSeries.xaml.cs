@@ -46,17 +46,19 @@ namespace SubtitleDownloader
         {
             DataList = new ObservableCollection<AvatarModel>();
             busyIndicator.IsBusy = true;
-            var client = new WebClient();
+            WebClient client = new WebClient();
             try
             {
-                var json = await client.DownloadStringTaskAsync(new Uri("https://raw.githubusercontent.com/ghost1372/SubtitlePopular/master/Popular.json"));
-                var objList = JsonConvert.DeserializeObject<ObservableCollection<dynamic>>(json);
-                foreach (var item in objList)
+                string json = await client.DownloadStringTaskAsync(new Uri("https://raw.githubusercontent.com/ghost1372/SubtitlePopular/master/Popular.json"));
+                ObservableCollection<dynamic> objList = JsonConvert.DeserializeObject<ObservableCollection<dynamic>>(json);
+                foreach (dynamic item in objList)
                 {
                     DataList.Add(new AvatarModel { DisplayName = item.name, AvatarUri = item.poster_url });
 
                     if (busyIndicator.IsBusy)
+                    {
                         busyIndicator.IsBusy = false;
+                    }
                 }
 
             }
@@ -68,10 +70,14 @@ namespace SubtitleDownloader
 
         private void SearchBar_SearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
         {
-            if (e.Info == null) return;
+            if (e.Info == null)
+            {
+                return;
+            }
+
             foreach (AvatarModel item in lst.Items)
             {
-                var listBoxItem = lst.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                ListBoxItem listBoxItem = lst.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
                 listBoxItem?.Show(item.DisplayName.ToLower().Contains(e.Info.ToLower()));
             }
         }
