@@ -42,7 +42,7 @@
                     </Menu>
             </StackPanel>
             </StackPanel>
-            <Label HorizontalAlignment="Left" Margin="10,5" Grid.Column="1" Content="1.3.0" Style="{StaticResource LabelInfo}"/>
+            <Label HorizontalAlignment="Left" Margin="10,5" Grid.Column="1" Content="1.3.1" Style="{StaticResource LabelInfo}"/>
 
             <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
             <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-25" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">
@@ -73,7 +73,7 @@
         </Grid>
     </hc:Window.NonClientAreaContent>
     <hc:TransitioningContentControl>
-        <hc:TabControl FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" Name="tab" HeaderBrush="{DynamicResource PrimaryBrush}" Margin="0,10,0,0" IsDraggable="{Binding IsDraggableTab}" ShowCloseButton="False" ShowOverflowButton="False" IsScrollable="True" IsEnableAnimation="True" ShowScrollButton="True" IsUWPStyle="True" ShowContextMenu="False">
+        <hc:TabControl FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" Name="tab" HeaderBrush="{DynamicResource PrimaryBrush}" Margin="0,10,0,0" IsDraggable="{Binding IsDraggableTab}" ShowCloseButton="False" ShowOverflowButton="True" IsScrollable="True" IsEnableAnimation="True" ShowScrollButton="True" IsUWPStyle="True" ShowContextMenu="False">
             <hc:TabItem Header="{x:Static lang:Lang.Subtitle}">
                 <Grid FocusManager.FocusedElement="{Binding ElementName=txtSearch}">
                     <Grid.RowDefinitions>

@@ -90,6 +90,7 @@ namespace SubtitleDownloader
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
             tgDownload.IsChecked = false;
+            tgDownload.IsEnabled = true;
             tgDownload.Progress = 0;
             tgDownload.Content = Properties.Langs.Lang.OpenFolder;
             Growl.InfoGlobal(new GrowlInfo
@@ -117,7 +118,7 @@ namespace SubtitleDownloader
                 if ((string)tgDownload.Content != Properties.Langs.Lang.OpenFolder)
                 {
                     tgDownload.IsChecked = true;
-
+                    tgDownload.IsEnabled = false;
                     tgDownload.Content = Properties.Langs.Lang.Downloading;
                     tgDownload.Progress = 0;
 
@@ -151,6 +152,8 @@ namespace SubtitleDownloader
             {
                 HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.AccessError, Properties.Langs.Lang.AccessErrorTitle);
             }
+            catch (NotSupportedException) { }
+            catch (ArgumentException) { }
         }
         #endregion
     }

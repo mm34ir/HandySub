@@ -102,26 +102,31 @@ namespace SubtitleDownloader
 
         private async void txtSearch_SearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
         {
-            if (string.IsNullOrEmpty(txtSearch.Text))
+            try
             {
-                return;
-            }
+                if (string.IsNullOrEmpty(txtSearch.Text))
+                {
+                    return;
+                }
 
-            if (await LoadData())
-            {
-                HtmlNodeCollection pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");
-                if (pagenavi != null)
+                if (await LoadData())
                 {
-                    HtmlNode getPageInfo = pagenavi[0].SelectSingleNode(".//span");
-                    int getMaxPage = Convert.ToInt32(getPageInfo.InnerText.Substring(10, getPageInfo.InnerText.Length - 10));
-                    page.Visibility = System.Windows.Visibility.Visible;
-                    page.MaxPageCount = getMaxPage;
-                }
-                else
-                {
-                    page.Visibility = System.Windows.Visibility.Collapsed;
+                    HtmlNodeCollection pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");
+                    if (pagenavi != null)
+                    {
+                        HtmlNode getPageInfo = pagenavi[0].SelectSingleNode(".//span");
+                        int getMaxPage = Convert.ToInt32(getPageInfo.InnerText.Substring(10, getPageInfo.InnerText.Length - 10));
+                        page.Visibility = System.Windows.Visibility.Visible;
+                        page.MaxPageCount = getMaxPage;
+                    }
+                    else
+                    {
+                        page.Visibility = System.Windows.Visibility.Collapsed;
+                    }
                 }
             }
+            catch (NullReferenceException) { }
+            catch (FormatException) { }
         }
 
         private async void page_PageUpdated(object sender, HandyControl.Data.FunctionEventArgs<int> e)
