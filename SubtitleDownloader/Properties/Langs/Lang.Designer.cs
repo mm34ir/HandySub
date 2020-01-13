@@ -232,6 +232,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to بستن.
+        /// </summary>
+        public static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عمومی.
         /// </summary>
         public static string General {
@@ -246,6 +255,15 @@ namespace SubtitleDownloader.Properties.Langs {
         public static string IsDraggable {
             get {
                 return ResourceManager.GetString("IsDraggable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اجرای برنامه در پس زمینه (برنامه به جای بستن مخفی خواهد شد و از سیستم ترای قابل دسترس خواهد بود).
+        /// </summary>
+        public static string IsShowNotifyIcon {
+            get {
+                return ResourceManager.GetString("IsShowNotifyIcon", resourceCulture);
             }
         }
         
@@ -286,11 +304,29 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to برنامه در پس زمینه در حال اجرا خواهد بود و از سیستم ترای قابل دسترس خواهد بود و این پنجره به جای بستن، مخفی خواهد شد. آیا موافقید؟.
+        /// </summary>
+        public static string OnClosingMessage {
+            get {
+                return ResourceManager.GetString("OnClosingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رفتن به پوشه.
         /// </summary>
         public static string OpenFolder {
             get {
                 return ResourceManager.GetString("OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to باز کردن برنامه.
+        /// </summary>
+        public static string OpenPanel {
+            get {
+                return ResourceManager.GetString("OpenPanel", resourceCulture);
             }
         }
         

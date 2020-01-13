@@ -32,7 +32,7 @@
                     <Label Style="{DynamicResource LabelInfo}" Content="{x:Static lang:Lang.Url}" Margin="5"/>
                     <Button Margin="5" Name="lblDownloadUrl" Command="hc:ControlCommands.OpenLink"/>
                 </StackPanel>
-                <TextBox IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" Margin="10" Name="txtChangelog" Width="400" Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                <TextBox IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" TextWrapping="Wrap" Margin="10" Name="txtChangelog" Width="400" Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </StackPanel>
         </hc:ScrollViewer>
     </hc:TransitioningContentControl>

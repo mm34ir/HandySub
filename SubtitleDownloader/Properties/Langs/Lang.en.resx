@@ -279,4 +279,16 @@
   <data name="TabBrush" xml:space="preserve">
     <value>Tab Brush</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="OpenPanel" xml:space="preserve">
+    <value>Open Panel</value>
+  </data>
+  <data name="OnClosingMessage" xml:space="preserve">
+    <value>The application will be running in the background And this window will be hidden instead of closed, do you want?</value>
+  </data>
+  <data name="IsShowNotifyIcon" xml:space="preserve">
+    <value>Run in Background (app will be running in the background and window will be hidden instead of closed)</value>
+  </data>
 </root>

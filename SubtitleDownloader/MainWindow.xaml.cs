@@ -498,5 +498,46 @@ namespace SubtitleDownloader
             txtSearch.Text = txtDisplay;
             SearchBar_SearchStarted(null, null);
         }
+
+        #region NotifyIcon
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (GlobalData.Config.IsShowNotifyIcon)
+            {
+                if (GlobalData.Config.IsFirstRun)
+                {
+                    MessageBoxResult result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                    {
+                        Message = Properties.Langs.Lang.OnClosingMessage,
+                        Caption = "Subtitle Downloder",
+                        Button = MessageBoxButton.YesNo,
+                        IconBrushKey = ResourceToken.AccentBrush,
+                        IconKey = ResourceToken.InfoGeometry
+                    });
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Hide();
+                        e.Cancel = true;
+                        GlobalData.Config.IsFirstRun = false;
+                        GlobalData.Save();
+                    }
+                    else
+                    {
+                        base.OnClosing(e);
+                    }
+                }
+                else
+                {
+                    Hide();
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                base.OnClosing(e);
+            }
+        }
+        #endregion
     }
 }

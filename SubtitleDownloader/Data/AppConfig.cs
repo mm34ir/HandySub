@@ -18,6 +18,8 @@ namespace SubtitleDownloader
         public bool IsContextMenuFolder { get; set; } = true;
         public bool IsDraggableTab { get; set; } = false;
         public bool IsShowNotification { get; set; } = true;
+        public bool IsShowNotifyIcon { get; set; } = false;
+        public bool IsFirstRun { get; set; } = true;
 
         public SolidColorBrush TabBrush { get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#326cf3"));
 

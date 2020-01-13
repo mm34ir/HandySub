@@ -58,6 +58,7 @@ namespace SubtitleDownloader
             contextMenuFile.IsChecked = GlobalData.Config.IsContextMenuFile;
             contextMenuFolder.IsChecked = GlobalData.Config.IsContextMenuFolder;
             showNotification.IsChecked = GlobalData.Config.IsShowNotification;
+            showNotifyIcon.IsChecked = GlobalData.Config.IsShowNotifyIcon;
 
             TitleElement.SetTitle(cmbSubLang, string.Format(Properties.Langs.Lang.SubtitleLanguage, GlobalData.Config.SubtitleLang));
             TitleElement.SetTitle(cmbSubServer, string.Format(Properties.Langs.Lang.Server, GlobalData.Config.ServerUrl));
@@ -109,6 +110,7 @@ namespace SubtitleDownloader
                 contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
                 showNotification.HorizontalAlignment = HorizontalAlignment.Left;
+                showNotifyIcon.HorizontalAlignment = HorizontalAlignment.Left;
                 tabBrush.FlowDirection = FlowDirection.LeftToRight;
             }
             else
@@ -119,6 +121,7 @@ namespace SubtitleDownloader
                 contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
                 showNotification.HorizontalAlignment = HorizontalAlignment.Left;
+                showNotifyIcon.HorizontalAlignment = HorizontalAlignment.Left;
                 tabBrush.FlowDirection = FlowDirection.RightToLeft;
             }
         }
@@ -286,6 +289,15 @@ namespace SubtitleDownloader
             if (showNotification.IsChecked.Value != GlobalData.Config.IsShowNotification)
             {
                 GlobalData.Config.IsShowNotification = showNotification.IsChecked.Value;
+                GlobalData.Save();
+            }
+        }
+
+        private void isShowNotifyIcon_Checked(object sender, RoutedEventArgs e)
+        {
+            if (showNotifyIcon.IsChecked.Value != GlobalData.Config.IsShowNotifyIcon)
+            {
+                GlobalData.Config.IsShowNotifyIcon = showNotifyIcon.IsChecked.Value;
                 GlobalData.Save();
             }
         }
