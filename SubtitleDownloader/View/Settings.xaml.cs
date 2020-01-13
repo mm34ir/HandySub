@@ -1,7 +1,11 @@
 ﻿using HandyControl.Controls;
+using HandyControl.Tools;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SubtitleDownloader
 {
@@ -10,6 +14,29 @@ namespace SubtitleDownloader
     /// </summary>
     public partial class Settings : UserControl
     {
+        private readonly List<string> _colorPresetList = new List<string>
+        {
+            "#f44336",
+            "#e91e63",
+            "#9c27b0",
+            "#673ab7",
+            "#3f51b5",
+            "#2196f3",
+            "#03a9f4",
+            "#00bcd4",
+            "#009688",
+
+            "#4caf50",
+            "#8bc34a",
+            "#cddc39",
+            "#ffeb3b",
+            "#ffc107",
+            "#ff9800",
+            "#ff5722",
+            "#795548",
+            "#9e9e9e"
+        };
+
         public Settings()
         {
             InitializeComponent();
@@ -30,10 +57,43 @@ namespace SubtitleDownloader
             tabIsDraggable.IsChecked = GlobalData.Config.IsDraggableTab;
             contextMenuFile.IsChecked = GlobalData.Config.IsContextMenuFile;
             contextMenuFolder.IsChecked = GlobalData.Config.IsContextMenuFolder;
+            showNotification.IsChecked = GlobalData.Config.IsShowNotification;
 
             TitleElement.SetTitle(cmbSubLang, string.Format(Properties.Langs.Lang.SubtitleLanguage, GlobalData.Config.SubtitleLang));
             TitleElement.SetTitle(cmbSubServer, string.Format(Properties.Langs.Lang.Server, GlobalData.Config.ServerUrl));
 
+            foreach (string item in _colorPresetList)
+            {
+                PART_PanelColor.Children.Add(CreateColorButton(item));
+            }
+        }
+
+        private Button CreateColorButton(string colorStr)
+        {
+            object color = ColorConverter.ConvertFromString(colorStr) ?? default(Color);
+            SolidColorBrush brush = new SolidColorBrush((Color)color);
+
+            Button button = new Button
+            {
+                Margin = new Thickness(6),
+                Style = ResourceHelper.GetResource<Style>("ButtonCustom"),
+                Content = new Border
+                {
+                    Background = brush,
+                    Width = 24,
+                    Height = 24,
+                    CornerRadius = new CornerRadius(2)
+                }
+            };
+
+            button.Click += (s, e) =>
+            {
+                GlobalData.Config.TabBrush = brush;
+                GlobalData.Save();
+                MainWindow.mainWindow.tab.HeaderBrush = brush;
+            };
+
+            return button;
         }
 
         /// <summary>
@@ -48,6 +108,8 @@ namespace SubtitleDownloader
                 tabIsDraggable.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
+                showNotification.HorizontalAlignment = HorizontalAlignment.Left;
+                tabBrush.FlowDirection = FlowDirection.LeftToRight;
             }
             else
             {
@@ -56,6 +118,8 @@ namespace SubtitleDownloader
                 tabIsDraggable.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFile.HorizontalAlignment = HorizontalAlignment.Left;
                 contextMenuFolder.HorizontalAlignment = HorizontalAlignment.Left;
+                showNotification.HorizontalAlignment = HorizontalAlignment.Left;
+                tabBrush.FlowDirection = FlowDirection.RightToLeft;
             }
         }
 
@@ -213,7 +277,17 @@ namespace SubtitleDownloader
                     }
                 }
             }
-            catch (System.ArgumentException) { }
+            catch (ArgumentException) { }
+            catch (NullReferenceException) { }
+        }
+
+        private void showNotification_Checked(object sender, RoutedEventArgs e)
+        {
+            if (showNotification.IsChecked.Value != GlobalData.Config.IsShowNotification)
+            {
+                GlobalData.Config.IsShowNotification = showNotification.IsChecked.Value;
+                GlobalData.Save();
+            }
         }
     }
 }

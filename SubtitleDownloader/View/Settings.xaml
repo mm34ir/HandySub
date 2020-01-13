@@ -10,7 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <hc:TransitioningContentControl>
         <hc:ScrollViewer>
-            <StackPanel Margin="20">
+            <StackPanel Margin="20,10,20,20">
+                <hc:Divider LineStrokeThickness="2" Content="{x:Static lang:Lang.Download}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
@@ -21,7 +22,10 @@
                     <Button Click="Button_Click" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
                     <hc:TextBox FlowDirection="LeftToRight" Name="txtBrowse" Grid.Column="2" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectFolder}" IsReadOnly="True" />
                 </Grid>
-                <hc:ComboBox Name="cmbSubLang" SelectionChanged="ComboBox_SelectionChanged" IsEditable="False" Margin="0,10" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectLanguage}">
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="showNotification" Checked="showNotification_Checked" Unchecked="showNotification_Checked" Content="{x:Static lang:Lang.ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <hc:Divider LineStrokeThickness="2" Content="{x:Static lang:Lang.Subtitle}"/>
+                <hc:ComboBox Name="cmbSubLang" SelectionChanged="ComboBox_SelectionChanged" IsEditable="False" hc:InfoElement.Placeholder="{x:Static lang:Lang.SelectLanguage}">
                     <ComboBoxItem Content="farsi_persian"/>
                     <ComboBoxItem Content="english"/>
                 </hc:ComboBox>
@@ -31,11 +35,15 @@
                     <ComboBoxItem Content="https://subcenter.xyz"/>
                     <ComboBoxItem Content="https://subscene.com"/>
                 </hc:ComboBox>
-                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="autoDownload" Checked="autoDownload_Checked" Unchecked="autoDownload_Checked" Content="{x:Static lang:Lang.AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <hc:Divider LineStrokeThickness="2" Content="{x:Static lang:Lang.General}"/>
+                <ToggleButton HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="selectTab" Checked="selectTab_Checked" Unchecked="selectTab_Checked" Content="{x:Static lang:Lang.SelectTab}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="tabIsDraggable" Checked="IsDraggable_Checked" Unchecked="IsDraggable_Checked" Content="{x:Static lang:Lang.IsDraggable}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="contextMenuFile" Checked="contextMenuFile_Checked" Unchecked="contextMenuFile_Checked" Content="{x:Static lang:Lang.ContextMenuFile}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton Margin="0,10,0,0" HorizontalAlignment="{Binding ToggleAlignment, RelativeSource={RelativeSource AncestorType=local:Settings}}" x:Name="contextMenuFolder" Checked="contextMenuFolder_Checked" Unchecked="contextMenuFolder_Checked" Content="{x:Static lang:Lang.ContextMenuFolder}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <StackPanel x:Name="tabBrush" Orientation="Horizontal" Margin="0,10">
+                    <TextBlock Margin="0,15" Foreground="{DynamicResource PrimaryTextBrush}" Text="{x:Static lang:Lang.TabBrush}"/>
+                    <WrapPanel Name="PART_PanelColor" Margin="6" HorizontalAlignment="Center"/>
+                </StackPanel>
             </StackPanel>
         </hc:ScrollViewer>
     </hc:TransitioningContentControl>

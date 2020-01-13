@@ -62,23 +62,26 @@ namespace SubtitleDownloader
             tgDownload.IsEnabled = true;
             tgDownload.Progress = 0;
             tgDownload.Content = Properties.Langs.Lang.OpenFolder;
-            Growl.InfoGlobal(new GrowlInfo
+            if (GlobalData.Config.IsShowNotification)
             {
-                CancelStr = Properties.Langs.Lang.Cancel,
-                ConfirmStr = Properties.Langs.Lang.OpenFolder,
-                WaitTime = 5000,
-                Message = string.Format(Properties.Langs.Lang.DownloadCompleted, subName),
-                ActionBeforeClose = isConfirmed =>
+                Growl.InfoGlobal(new GrowlInfo
                 {
-                    if (!isConfirmed)
+                    CancelStr = Properties.Langs.Lang.Cancel,
+                    ConfirmStr = Properties.Langs.Lang.OpenFolder,
+                    WaitTime = 5000,
+                    Message = string.Format(Properties.Langs.Lang.DownloadCompleted, subName),
+                    ActionBeforeClose = isConfirmed =>
                     {
+                        if (!isConfirmed)
+                        {
+                            return true;
+                        }
+
+                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
                         return true;
                     }
-
-                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-                    return true;
-                }
-            });
+                });
+            }
         }
 
         private void tgDownload_Click(object sender, RoutedEventArgs e)

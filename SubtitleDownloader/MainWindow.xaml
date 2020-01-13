@@ -73,7 +73,7 @@
         </Grid>
     </hc:Window.NonClientAreaContent>
     <hc:TransitioningContentControl>
-        <hc:TabControl FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" Name="tab" HeaderBrush="{DynamicResource PrimaryBrush}" Margin="0,10,0,0" IsDraggable="{Binding IsDraggableTab}" ShowCloseButton="False" ShowOverflowButton="True" IsScrollable="True" IsEnableAnimation="True" ShowScrollButton="True" IsUWPStyle="True" ShowContextMenu="False">
+        <hc:TabControl FlowDirection="{Binding LayoutFlowDirection, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" Name="tab" HeaderBrush="{DynamicResource PrimaryBrush}" Margin="0,10,0,0" IsDraggable="{Binding IsDraggableTab}" ShowCloseButton="False" ShowOverflowButton="True" IsScrollable="True" IsAnimationEnabled="True" ShowScrollButton="True" IsUWPStyle="True" ShowContextMenu="False">
             <hc:TabItem Header="{x:Static lang:Lang.Subtitle}">
                 <Grid FocusManager.FocusedElement="{Binding ElementName=txtSearch}">
                     <Grid.RowDefinitions>

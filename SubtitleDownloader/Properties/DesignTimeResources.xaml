@@ -57,7 +57,6 @@
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/Magnifier.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/MainContentBackground.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/Menu.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/NeonLabel.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/Notification.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/NumericUpDown.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Styles/Pagination.xaml"/>

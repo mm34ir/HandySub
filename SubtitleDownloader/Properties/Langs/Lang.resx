@@ -270,4 +270,13 @@
   <data name="BusyContent" xml:space="preserve">
     <value>...درحال دریافت اطلاعات</value>
   </data>
+  <data name="ShowNotification" xml:space="preserve">
+    <value>نمایش اطلاعیه هنگام اتمام دانلود</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عمومی</value>
+  </data>
+  <data name="TabBrush" xml:space="preserve">
+    <value>رنگ لبه تب ها</value>
+  </data>
 </root>

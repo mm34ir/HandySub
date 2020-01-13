@@ -122,6 +122,8 @@ namespace SubtitleDownloader
                 CreateTabItem(new WorldSubtitle(), Properties.Langs.Lang.WorldSubtitle);
                 tab.SelectedIndex = tab.Items.Count - 1;
             }
+
+            tab.HeaderBrush = GlobalData.Config.TabBrush;
         }
         #region Search in Listbox
         private void SearchListBox_OnSearchStarted(object sender, FunctionEventArgs<string> e)

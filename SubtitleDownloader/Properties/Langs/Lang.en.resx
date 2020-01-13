@@ -270,4 +270,13 @@
   <data name="BusyContent" xml:space="preserve">
     <value>Please wait...</value>
   </data>
+  <data name="ShowNotification" xml:space="preserve">
+    <value>Show Notification when Download is Completed</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="TabBrush" xml:space="preserve">
+    <value>Tab Brush</value>
+  </data>
 </root>

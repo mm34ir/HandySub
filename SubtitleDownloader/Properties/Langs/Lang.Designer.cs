@@ -232,6 +232,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عمومی.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کشیدن و جابجا کردن تب ها.
         /// </summary>
         public static string IsDraggable {
@@ -403,6 +412,15 @@ namespace SubtitleDownloader.Properties.Langs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نمایش اطلاعیه هنگام اتمام دانلود.
+        /// </summary>
+        public static string ShowNotification {
+            get {
+                return ResourceManager.GetString("ShowNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to زیرنویس یافت نشد.
         /// </summary>
         public static string Status {
@@ -453,6 +471,15 @@ namespace SubtitleDownloader.Properties.Langs {
         public static string SubtitleServer {
             get {
                 return ResourceManager.GetString("SubtitleServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رنگ لبه تب ها.
+        /// </summary>
+        public static string TabBrush {
+            get {
+                return ResourceManager.GetString("TabBrush", resourceCulture);
             }
         }
         
