@@ -100,16 +100,6 @@ namespace SubtitleDownloader
                     CancelStr = Properties.Langs.Lang.Cancel,
                     ConfirmStr = Properties.Langs.Lang.OpenFolder,
                     Message = string.Format(Properties.Langs.Lang.DownloadCompleted, Episode + subName),
-                    ActionBeforeClose = isConfirmed =>
-                    {
-                        if (!isConfirmed)
-                        {
-                            return true;
-                        }
-
-                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-                        return true;
-                    }
                 });
             }
         }

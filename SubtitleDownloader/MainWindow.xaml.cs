@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -337,59 +338,72 @@ namespace SubtitleDownloader
             try
             {
                 dynamic selectedItem = lstSearch.SelectedItems[0];
-                string url = GlobalData.Config.ServerUrl + selectedItem.Link;
+            string url = GlobalData.Config.ServerUrl + selectedItem.Link;
 
-                HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = await web.LoadFromWebAsync(url);
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-                //get poster img
-                HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+            //get poster img
+            HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
 
-                if (img != null)
-                {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(img.GetAttributeValue("src", ""), UriKind.Absolute);
-                    bitmap.EndInit();
-                    poster.Source = bitmap;
-                }
+            if (img != null)
+            {
+                    try
+                    {
+                        BitmapImage bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.UriSource = new Uri(img.GetAttributeValue("src", ""), UriKind.Absolute);
+                        bitmap.EndInit();
+                        poster.Source = bitmap;
+                    }
+                    catch (UriFormatException)
+                    {
+                    }
+            }
 
-                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
+            HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
                 if (table != null)
                 {
                     foreach ((HtmlNode cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
                     {
-                        if (cell.InnerText.Contains("There are no subtitles"))
+                        try
                         {
+                            if (cell.InnerText.Contains("There are no subtitles"))
+                            {
+                                break;
+                            }
+
+                            string Name = cell.SelectNodes("//span[2]")[index].InnerText;
+                            string Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
+                            //remove empty line
+                            if (Comment.Contains("&nbsp;"))
+                            {
+                                Comment = Comment.Replace("&nbsp;", "");
+                            }
+
+                            string Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+
+                            //escape Unnecessary line
+                            if (Link.Contains("/u/"))
+                            {
+                                continue;
+                            }
+
+                            ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
+                            ItemResult.Add(item);
+                        }
+                        catch (ArgumentOutOfRangeException)
+                        {
+                            // هنگام دریافت نام فیلم با این خطا مواجه میشویم که با این کد از حلقه خارج می شویم
                             break;
                         }
-
-                        string Name = cell.SelectNodes("//span[2]")[index].InnerText;
-                        string Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
-
-                        //remove empty line
-                        if (Comment.Contains("&nbsp;"))
-                        {
-                            Comment = Comment.Replace("&nbsp;", "");
-                        }
-
-                        string Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
-
-                        //escape Unnecessary line
-                        if (Link.Contains("/u/"))
-                        {
-                            continue;
-                        }
-
-                        ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
-                        ItemResult.Add(item);
                     }
                 }
                 else
                 {
                     HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
                 }
-                busyIndicator.IsBusy = false;
+            busyIndicator.IsBusy = false;
 
             }
             catch (ArgumentNullException) { }

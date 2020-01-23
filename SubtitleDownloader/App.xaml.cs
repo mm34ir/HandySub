@@ -82,13 +82,16 @@ namespace SubtitleDownloader
                    new{Find="TBS",Replace=" "},
                    new{Find="AMZN",Replace=" "},
                    new{Find="DDP5.1",Replace=" "},
+                   new{Find="DDP5",Replace=" "},
                    new{Find="SHITBOX",Replace=" "},
                    new{Find="NITRO",Replace=" "},
                    new{Find="WEB DL",Replace=" "},
                    new{Find="1080",Replace=" "},
                    new{Find="720",Replace=" "},
                    new{Find="480",Replace=" "},
-                   new{Find="MrMovie",Replace=" "}
+                   new{Find="MrMovie",Replace=" "},
+                   new{Find="BWBP",Replace=" "},
+                   new{Find="NTG",Replace=" "}
                             };
 
                 string NameFromContextMenu = replacements.Aggregate(Path.GetFileNameWithoutExtension(e.Args[0]), (current, set) => current.Replace(set.Find, set.Replace));
