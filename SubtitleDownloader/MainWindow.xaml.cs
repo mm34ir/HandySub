@@ -6,7 +6,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +18,8 @@ namespace SubtitleDownloader
         #region Property
         //instance for accessing MainWindow from everywhere
         internal static MainWindow mainWindow;
-
+        private bool IsListReady = false;
+        private readonly string ConditionPoster = "https://subcenter.xyz";
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
         private readonly string SubName = string.Empty;
 
@@ -235,6 +235,8 @@ namespace SubtitleDownloader
         private async void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
         {
             SearchResult = new ObservableCollection<SearchModel>();
+            ItemResult?.Clear();
+            poster.Source = null;
             busyIndicator.IsBusy = true;
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
@@ -259,7 +261,7 @@ namespace SubtitleDownloader
                         SearchResult.Add(item);
                     }
                 }
-
+                IsListReady = true;
                 busyIndicator.IsBusy = false;
             }
             catch (ArgumentOutOfRangeException) { }
@@ -282,8 +284,7 @@ namespace SubtitleDownloader
             poster.Source = null;
             try
             {
-                dynamic selectedItem = lstSearch.SelectedItems[0];
-                string url = GlobalData.Config.ServerUrl + selectedItem.Link;
+                string url = GlobalData.Config.ServerUrl + ((SearchModel)lstSearch.SelectedItem)?.Link;
 
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(url);
@@ -337,65 +338,62 @@ namespace SubtitleDownloader
             poster.Source = null;
             try
             {
-                dynamic selectedItem = lstSearch.SelectedItems[0];
-            string url = GlobalData.Config.ServerUrl + selectedItem.Link;
+                string url = GlobalData.Config.ServerUrl + ((SearchModel)lstSearch.SelectedItem)?.Link;
 
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = await web.LoadFromWebAsync(url);
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = await web.LoadFromWebAsync(url);
 
-            //get poster img
-            HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
-
-            if (img != null)
-            {
-                    try
+                //get poster img
+                HtmlNode img = doc.DocumentNode.SelectSingleNode("//div[@class='poster']//img");
+                if (img != null)
+                {
+                    string imgUrl = img.GetAttributeValue("src", "").Trim();
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    if (!string.IsNullOrEmpty(imgUrl))
                     {
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
+
                         bitmap.UriSource = new Uri(img.GetAttributeValue("src", ""), UriKind.Absolute);
-                        bitmap.EndInit();
-                        poster.Source = bitmap;
-                    }
-                    catch (UriFormatException)
-                    {
-                    }
-            }
 
-            HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
+                    }
+                    else
+                    {
+                        if (GlobalData.Config.ServerUrl == ConditionPoster)
+                        {
+                            bitmap.UriSource = new Uri(img.GetAttributeValue("data-src", ""), UriKind.Absolute);
+                        }
+                    }
+
+                    bitmap.EndInit();
+                    poster.Source = bitmap;
+
+                }
+
+                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
                 if (table != null)
                 {
-                    foreach ((HtmlNode cell, int index) in table.SelectNodes(".//tr/td").WithIndex())
+                    foreach (HtmlNode cell in table.SelectNodes(".//tr"))
                     {
-                        try
+                        if (cell.InnerText.Contains("There are no subtitles"))
                         {
-                            if (cell.InnerText.Contains("There are no subtitles"))
-                            {
-                                break;
-                            }
+                            break;
+                        }
 
-                            string Name = cell.SelectNodes("//span[2]")[index].InnerText;
-                            string Comment = doc.DocumentNode.SelectNodes(".//tr/td//div")[index].InnerText;
-                            //remove empty line
-                            if (Comment.Contains("&nbsp;"))
-                            {
-                                Comment = Comment.Replace("&nbsp;", "");
-                            }
+                        string Name = cell.SelectSingleNode(".//td[@class='a1']//a//span[2]")?.InnerText.Trim();
+                        string Translator = cell.SelectSingleNode(".//td[@class='a5']//a")?.InnerText.Trim();
+                        string Comment = cell.SelectSingleNode(".//td[@class='a6']//div")?.InnerText.Trim();
+                        if (Comment != null && Comment.Contains("&nbsp;"))
+                        {
+                            Comment = Comment.Replace("&nbsp;", "");
+                        }
+                        Comment = Comment + Environment.NewLine + Translator;
 
-                            string Link = doc.DocumentNode.SelectNodes(".//tr/td//a")[index].Attributes["href"].Value;
+                        string Link = cell.SelectSingleNode(".//td[@class='a1']//a")?.Attributes["href"]?.Value.Trim();
 
-                            //escape Unnecessary line
-                            if (Link.Contains("/u/"))
-                            {
-                                continue;
-                            }
-
+                        if (Name != null)
+                        {
                             ItemResultModel item = new ItemResultModel { Name = Name, Translator = Comment, Link = Link, Language = GlobalData.Config.SubtitleLang };
                             ItemResult.Add(item);
-                        }
-                        catch (ArgumentOutOfRangeException)
-                        {
-                            // هنگام دریافت نام فیلم با این خطا مواجه میشویم که با این کد از حلقه خارج می شویم
-                            break;
                         }
                     }
                 }
@@ -403,7 +401,7 @@ namespace SubtitleDownloader
                 {
                     HandyControl.Controls.MessageBox.Error(Properties.Langs.Lang.NotFound);
                 }
-            busyIndicator.IsBusy = false;
+                busyIndicator.IsBusy = false;
 
             }
             catch (ArgumentNullException) { }
@@ -412,13 +410,16 @@ namespace SubtitleDownloader
 
         private void SearchList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (GlobalData.Config.ServerUrl.Contains("subf2m.co"))
+            if (IsListReady)
             {
-                Subf2mCore();
-            }
-            else
-            {
-                SubsceneCore();
+                if (GlobalData.Config.ServerUrl.Contains("subf2m.co"))
+                {
+                    Subf2mCore();
+                }
+                else
+                {
+                    SubsceneCore();
+                }
             }
         }
 
@@ -553,5 +554,13 @@ namespace SubtitleDownloader
             }
         }
         #endregion
+
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (IsListReady)
+            {
+                IsListReady = false;
+            }
+        }
     }
 }
