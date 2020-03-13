@@ -3,7 +3,11 @@ using HandyControl.Tools;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Prism.Ioc;
+using Prism.Regions;
+using SubtitleDownloader.Views;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,13 +18,72 @@ namespace SubtitleDownloader
 {
     public partial class App
     {
-        public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty, string.Empty };
+        public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
 
+        private static readonly List<string> wordsToRemove = "Hdcam HDCAM . - XviD AC3 EVO WEBRip FGT MP3 CMRG Pahe 10bit 720p 1080p 480p WEB-DL H264 H265 x264 x265 800MB 900MB HEVC PSA RARBG 6CH 2CH CAMRip Rip AVS RMX HDTV RMTeam mSD SVA MkvCage MeGusta TBS AMZN DDP5.1 DDP5 SHITBOX NITRO WEB DL 1080 720 480 MrMovie BWBP NTG "
+            .Split(' ').ToList();
+
+        public static string StringWordsRemove(string stringToClean)
+        {
+            return string.Join(" ", stringToClean.Split(' ').Except(wordsToRemove));
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+            if (e.Args.Length > 0)
+            {
+                string NameFromContextMenu = StringWordsRemove(Path.GetFileNameWithoutExtension(e.Args[0]));
+                NameFromContextMenu = Regex.Replace(NameFromContextMenu, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
+                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "S[0-9].{1}E[0-9].{1}", ""); // remove SXXEXX ==> X is 0-9
+                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
+
+                WindowsContextMenuArgument[0] = NameFromContextMenu;
+                WindowsContextMenuArgument[1] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
+
+                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
+            }
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        }
+
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<MainWindow>();
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<MainContent>();
+            containerRegistry.RegisterForNavigation<LeftMainContent>();
+            containerRegistry.RegisterForNavigation<About>();
+            containerRegistry.RegisterForNavigation<Settings>();
+            containerRegistry.RegisterForNavigation<Updater>();
+            containerRegistry.RegisterForNavigation<PopularSeries>();
+            containerRegistry.RegisterForNavigation<Subscene>();
+            containerRegistry.RegisterForNavigation<SubsceneDownload>();
+        }
+
+        internal void UpdateSkin(SkinType skin)
+        {
+            Resources.MergedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(ResourceHelper.GetSkin(skin));
+            Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
+            });
+            Current.MainWindow?.OnApplyTemplate();
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
             GlobalData.Init();
+
+            if (GlobalData.Config.Skin != SkinType.Default)
+            {
+                UpdateSkin(GlobalData.Config.Skin);
+            }
 
             //init Appcenter Crash Reporter
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
@@ -28,103 +91,6 @@ namespace SubtitleDownloader
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
                                typeof(Analytics), typeof(Crashes));
 
-            //set Lang
-            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
-
-            //set Skin
-            if (GlobalData.Config.Skin != SkinType.Default)
-            {
-                UpdateSkin(GlobalData.Config.Skin);
-            }
-
-            if (e.Args.Length > 0)
-            {
-                //this words must be remove
-                var replacements = new[]{
-                   new{Find="Hdcam",Replace=" "},
-                   new{Find="HDCAM",Replace=" "},
-                   new{Find=".",Replace=" "},
-                   new{Find="-",Replace=" "},
-                   new{Find="XviD",Replace=" "},
-                   new{Find="AC3",Replace=" "},
-                   new{Find="EVO",Replace=" "},
-                   new{Find="WEBRip",Replace=" "},
-                   new{Find="FGT",Replace=" "},
-                   new{Find="MP3",Replace=" "},
-                   new{Find="CMRG",Replace=" "},
-                   new{Find="Pahe",Replace=" "},
-                   new{Find="10bit",Replace=" "},
-                   new{Find="720p",Replace=" "},
-                   new{Find="1080p",Replace=" "},
-                   new{Find="480p",Replace=" "},
-                   new{Find="WEB-DL",Replace=" "},
-                   new{Find="H264",Replace=" "},
-                   new{Find="H265",Replace=" "},
-                   new{Find="x264",Replace=" "},
-                   new{Find="x265",Replace=" "},
-                   new{Find="800MB",Replace=" "},
-                   new{Find="900MB",Replace=" "},
-                   new{Find="HEVC",Replace=" "},
-                   new{Find="PSA",Replace=" "},
-                   new{Find="RARBG",Replace=" "},
-                   new{Find="6CH",Replace=" "},
-                   new{Find="2CH",Replace=" "},
-                   new{Find="CAMRip",Replace=" "},
-                   new{Find="Rip",Replace=" "},
-                   new{Find="AVS",Replace=" "},
-                   new{Find="RMX",Replace=" "},
-                   new{Find="HDTV",Replace=" "},
-                   new{Find="RMTeam",Replace=" "},
-                   new{Find="mSD",Replace=" "},
-                   new{Find="SVA",Replace=" "},
-                   new{Find="MkvCage",Replace=" "},
-                   new{Find="MeGusta",Replace=" "},
-                   new{Find="TBS",Replace=" "},
-                   new{Find="AMZN",Replace=" "},
-                   new{Find="DDP5.1",Replace=" "},
-                   new{Find="DDP5",Replace=" "},
-                   new{Find="SHITBOX",Replace=" "},
-                   new{Find="NITRO",Replace=" "},
-                   new{Find="WEB DL",Replace=" "},
-                   new{Find="1080",Replace=" "},
-                   new{Find="720",Replace=" "},
-                   new{Find="480",Replace=" "},
-                   new{Find="MrMovie",Replace=" "},
-                   new{Find="BWBP",Replace=" "},
-                   new{Find="NTG",Replace=" "}
-                            };
-
-                string NameFromContextMenu = replacements.Aggregate(Path.GetFileNameWithoutExtension(e.Args[0]), (current, set) => current.Replace(set.Find, set.Replace));
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "S[0-9].{1}E[0-9].{1}", ""); // remove SXXEXX ==> X is 0-9
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
-
-                //get ContextMenu Argument
-                WindowsContextMenuArgument[2] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
-
-                if (e.Args.Length == 1)
-                {
-                    WindowsContextMenuArgument[0] = NameFromContextMenu;
-                }
-                else if (e.Args.Length == 2)
-                {
-                    WindowsContextMenuArgument[1] = NameFromContextMenu;
-                }
-            }
-
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        }
-        internal void UpdateSkin(SkinType skin)
-        {
-            Resources.MergedDictionaries.Clear();
-            Resources.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri($"pack://application:,,,/HandyControl;component/Themes/Skin{skin.ToString()}.xaml")
-            });
-            Resources.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
-            });
         }
     }
 }

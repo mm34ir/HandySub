@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="SubtitleDownloader.Views.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"     
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <hc:TransitioningContentControl>
+      <hc:ScrollViewer>
+        <Border hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
+            <StackPanel Margin="20,10,20,20">
+                <hc:Divider LineStrokeThickness="2" Content="دانلود"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="مسیر ذخیره"/>
+                    <Button Command="{Binding SelectFolderCommand}" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                    <hc:TextBox Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" Grid.Column="2" hc:InfoElement.Placeholder="انتخاب پوشه برای ذخیره..." IsReadOnly="True" />
+                </Grid>
+                <ToggleButton IsChecked="{Binding GetIsCheckedAutoDownload}" HorizontalAlignment="Left" Command="{Binding AutoDownloadCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="دانلود خودکار زیرنویس بعد از انتخاب زیرنویس  " Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="نمایش اطلاعیه هنگام اتمام دانلود" Style="{StaticResource ToggleButtonSwitch}"/>
+                <hc:Divider LineStrokeThickness="2" Content="زیرنویس"/>
+                <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentLanguage}" hc:InfoElement.Placeholder="انتخاب زبان زیرنویس...">
+                    <ComboBoxItem Content="farsi_persian"/>
+                    <ComboBoxItem Content="english"/>
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="SelectionChanged">
+                            <hc:EventToCommand Command="{Binding SubtitleLanguageCommand}" PassEventArgsToCommand="True"/>
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:ComboBox>
+                    <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10" hc:InfoElement.Placeholder="انتخاب سرور زیرنویس...">
+                    <ComboBoxItem Content="https://subf2m.co"/>
+                    <ComboBoxItem Content="https://sub.deltaleech.com"/>
+                    <ComboBoxItem Content="https://subcenter.xyz"/>
+                    <ComboBoxItem Content="https://subscene.com"/>
+                     <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="SelectionChanged">
+                            <hc:EventToCommand Command="{Binding ServerChangedCommand}" PassEventArgsToCommand="True"/>
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:ComboBox>
+                <hc:Divider LineStrokeThickness="2" Content="عمومی"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="افزودن برنامه به منوی کلیک راست فایل ها" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="افزودن برنامه به منوی کلیک راست پوشه ها" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="اجرای برنامه در پس زمینه (برنامه به جای بستن مخفی خواهد شد و از سیستم ترای قابل دسترس خواهد بود)" Style="{StaticResource ToggleButtonSwitch}"/>
+            </StackPanel>
+        </Border>
+        </hc:ScrollViewer>
+    </hc:TransitioningContentControl>
+</UserControl>

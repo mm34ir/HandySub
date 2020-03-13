@@ -1,5 +1,4 @@
-﻿using HandyControl.Controls;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -32,12 +31,13 @@ namespace SubtitleDownloader
         {
             try
             {
+
                 string json = JsonConvert.SerializeObject(Config);
                 File.WriteAllText(AppConfig.SavePath, json);
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Error(Properties.Langs.Lang.AccessError, Properties.Langs.Lang.AccessErrorTitle);
+                HandyControl.Controls.MessageBox.Error("شما دسترسی لازم را ندارید لطفا برنامه را بصورت ادمین اجرا کنید یا پوشه برنامه را به محل دیگری (خارج از پوشه های سیستمی) منتقل کنید", "خطای دسترسی");
             }
         }
 
