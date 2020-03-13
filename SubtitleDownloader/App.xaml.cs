@@ -20,12 +20,17 @@ namespace SubtitleDownloader
     {
         public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
 
-        private static readonly List<string> wordsToRemove = "Hdcam HDCAM . - XviD AC3 EVO WEBRip FGT MP3 CMRG Pahe 10bit 720p 1080p 480p WEB-DL H264 H265 x264 x265 800MB 900MB HEVC PSA RARBG 6CH 2CH CAMRip Rip AVS RMX HDTV RMTeam mSD SVA MkvCage MeGusta TBS AMZN DDP5.1 DDP5 SHITBOX NITRO WEB DL 1080 720 480 MrMovie BWBP NTG "
-            .Split(' ').ToList();
+        private readonly List<string> wordsToRemove = "TURKISH VIDEOFLIX Gisaengchung KOREAN 8CH BluRay Hdcam HDCAM . - XviD AC3 EVO WEBRip FGT MP3 CMRG Pahe 10bit 720p 1080p 480p WEB-DL H264 H265 x264 x265 800MB 900MB HEVC PSA RARBG 6CH 2CH CAMRip Rip AVS RMX HDTV RMTeam mSD SVA MkvCage MeGusta TBS AMZN DDP5.1 DDP5 SHITBOX NITRO WEB DL 1080 720 480 MrMovie BWBP NTG "
+           .Split(' ').ToList();
 
-        public static string StringWordsRemove(string stringToClean)
+        public string RemoveJunkString(string stringToClean)
         {
-            return string.Join(" ", stringToClean.Split(' ').Except(wordsToRemove));
+            string cleaned = Regex.Replace(stringToClean, "\\b" + string.Join("\\b|\\b", wordsToRemove) + "\\b", " ");
+            cleaned = Regex.Replace(cleaned, @"S[0-9].{1}E[0-9].{1}", ""); // remove SXXEXX ==> X is 0-9
+            cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
+            cleaned = Regex.Replace(cleaned, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
+
+            return cleaned.Trim();
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -33,10 +38,7 @@ namespace SubtitleDownloader
 
             if (e.Args.Length > 0)
             {
-                string NameFromContextMenu = StringWordsRemove(Path.GetFileNameWithoutExtension(e.Args[0]));
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "S[0-9].{1}E[0-9].{1}", ""); // remove SXXEXX ==> X is 0-9
-                NameFromContextMenu = Regex.Replace(NameFromContextMenu, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
+                string NameFromContextMenu = RemoveJunkString(Path.GetFileNameWithoutExtension(e.Args[0]));
 
                 WindowsContextMenuArgument[0] = NameFromContextMenu;
                 WindowsContextMenuArgument[1] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
