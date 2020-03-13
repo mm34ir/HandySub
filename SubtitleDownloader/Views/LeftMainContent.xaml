@@ -14,7 +14,7 @@
         <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparent}">
             <ListBoxItem Style="{StaticResource ListBoxItemNew}" Tag="Subscene" Margin="10,5,10,0" Content="سابسین"/>
             <ListBoxItem Style="{StaticResource ListBoxItemNew}" Tag="PopularSeries" Margin="10,5,10,0" Content="زیرنویس های محبوب"/>
-            <ListBoxItem Style="{StaticResource ListBoxItemNew}" Tag="Settings" Margin="10,5,10,0" Content="تنظیمات"/>
+            <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="تنظیمات"/>
             <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="بروزرسانی"/>
             <ListBoxItem Tag="About" Margin="10,5,10,0" Content="درباره ما"/>
             <hc:Interaction.Triggers>
