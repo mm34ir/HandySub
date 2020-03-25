@@ -33,6 +33,7 @@
                 </hc:ComboBox>
                     <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10" hc:InfoElement.Placeholder="انتخاب سرور زیرنویس...">
                     <ComboBoxItem Content="https://subf2m.co"/>
+                    <ComboBoxItem Content="https://subf2m.ir"/>
                     <ComboBoxItem Content="https://sub.deltaleech.com"/>
                     <ComboBoxItem Content="https://subcenter.xyz"/>
                     <ComboBoxItem Content="https://subscene.com"/>

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace SubtitleDownloader.ViewModels
 {
@@ -174,21 +174,15 @@ namespace SubtitleDownloader.ViewModels
 
         private void SelectFolder()
         {
-
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                IsFolderPicker = true,
-                Title = "انتخاب محل ذخیره",
-                InitialDirectory = GlobalData.Config.StoreLocation
-            };
-
-            CommonFileDialogResult result = dialog.ShowDialog();
-
-            if (result == CommonFileDialogResult.Ok)
-            {
-                CurrentStoreLocation = dialog.FileName + @"\";
-                GlobalData.Config.StoreLocation = CurrentStoreLocation;
-                GlobalData.Save();
+                DialogResult result = dialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    CurrentStoreLocation = dialog.SelectedPath + @"\";
+                    GlobalData.Config.StoreLocation = CurrentStoreLocation;
+                    GlobalData.Save();
+                }
             }
         }
 

@@ -86,7 +86,6 @@ namespace SubtitleDownloader.ViewModels
             string jsonResult = await client.GetStringAsync("https://raw.githubusercontent.com/ghost1372/SubtitlePopular/master/Popular.json");
             dynamic result = JsonConvert.DeserializeObject<dynamic>(jsonResult);
 
-
             return result;
         }
 

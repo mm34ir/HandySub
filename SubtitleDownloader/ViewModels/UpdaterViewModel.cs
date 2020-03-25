@@ -2,12 +2,20 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Reflection;
+using System.Windows;
 
 namespace SubtitleDownloader.ViewModels
 {
     public class UpdaterViewModel : BindableBase
     {
         #region Property
+        private Visibility _IsUpdateExist = Visibility.Collapsed;
+        public Visibility IsUpdateExist
+        {
+            get => _IsUpdateExist;
+            set => SetProperty(ref _IsUpdateExist, value);
+        }
+
         private string _version;
         public string Version
         {
@@ -71,16 +79,18 @@ namespace SubtitleDownloader.ViewModels
                 ChangeLog = ver.Changelog;
                 if (ver.IsExistNewVersion)
                 {
+                    IsUpdateExist = Visibility.Visible;
                     Growl.Success("نسخه جدید پیدا شد!");
                 }
                 else
                 {
+                    IsUpdateExist = Visibility.Collapsed;
                     Growl.Info("شما از آخرین نسخه استفاده میکنید");
                 }
             }
             catch (System.Exception)
             {
-
+                IsUpdateExist = Visibility.Collapsed;
                 Growl.Error("هیچ نسخه ای پیدا نشد");
             }
         }
