@@ -3,6 +3,7 @@ using HandyControl.Tools;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Regions;
 using SubtitleDownloader.Views;
@@ -16,12 +17,30 @@ using System.Windows;
 
 namespace SubtitleDownloader
 {
-    public partial class App
+    public partial class App : PrismApplication
     {
         public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
 
         private readonly List<string> wordsToRemove = "DD5 YTS TURKISH VIDEOFLIX Gisaengchung KOREAN 8CH BluRay Hdcam HDCAM . - XviD AC3 EVO WEBRip FGT MP3 CMRG Pahe 10bit 720p 1080p 480p WEB-DL H264 H265 x264 x265 800MB 900MB HEVC PSA RARBG 6CH 2CH CAMRip Rip AVS RMX HDTV RMTeam mSD SVA MkvCage MeGusta TBS AMZN DDP5.1 DDP5 SHITBOX NITRO WEB DL 1080 720 480 MrMovie BWBP NTG "
            .Split(' ').ToList();
+
+        public App()
+        {
+            GlobalData.Init();
+
+            if (GlobalData.Config.Skin != SkinType.Default)
+            {
+                UpdateSkin(GlobalData.Config.Skin);
+            }
+
+            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+
+            //init Appcenter Crash Reporter
+            AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
+                   typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
+                               typeof(Analytics), typeof(Crashes));
+        }
 
         public string RemoveJunkString(string stringToClean)
         {
@@ -74,24 +93,6 @@ namespace SubtitleDownloader
                 Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
             });
             Current.MainWindow?.OnApplyTemplate();
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            GlobalData.Init();
-
-            if (GlobalData.Config.Skin != SkinType.Default)
-            {
-                UpdateSkin(GlobalData.Config.Skin);
-            }
-
-            //init Appcenter Crash Reporter
-            AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
-                   typeof(Analytics), typeof(Crashes));
-            AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
-                               typeof(Analytics), typeof(Crashes));
-
         }
     }
 }

@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using SubtitleDownloader.Language;
 using SubtitleDownloader.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -98,7 +99,7 @@ namespace SubtitleDownloader.ViewModels
                 HtmlNodeCollection repeater = doc.DocumentNode.SelectNodes("//div[@class='title']");
                 if (repeater == null)
                 {
-                    MessageBox.Error("زیرنویس موردنظر پیدا نشد");
+                    MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
                 }
                 else
                 {
@@ -120,11 +121,11 @@ namespace SubtitleDownloader.ViewModels
             catch (System.NullReferenceException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + ex.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + hx.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
