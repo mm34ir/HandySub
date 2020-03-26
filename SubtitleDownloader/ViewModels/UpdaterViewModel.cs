@@ -1,13 +1,22 @@
 ﻿using HandyControl.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
+using SubtitleDownloader.Language;
 using System.Reflection;
+using System.Windows;
 
 namespace SubtitleDownloader.ViewModels
 {
     public class UpdaterViewModel : BindableBase
     {
         #region Property
+        private Visibility _IsUpdateExist = Visibility.Collapsed;
+        public Visibility IsUpdateExist
+        {
+            get => _IsUpdateExist;
+            set => SetProperty(ref _IsUpdateExist, value);
+        }
+
         private string _version;
         public string Version
         {
@@ -71,17 +80,19 @@ namespace SubtitleDownloader.ViewModels
                 ChangeLog = ver.Changelog;
                 if (ver.IsExistNewVersion)
                 {
-                    Growl.Success("نسخه جدید پیدا شد!");
+                    IsUpdateExist = Visibility.Visible;
+                    Growl.Success(Lang.ResourceManager.GetString("NewVersionFound"));
                 }
                 else
                 {
-                    Growl.Info("شما از آخرین نسخه استفاده میکنید");
+                    IsUpdateExist = Visibility.Collapsed;
+                    Growl.Info(Lang.ResourceManager.GetString("LatestVersion"));
                 }
             }
             catch (System.Exception)
             {
-
-                Growl.Error("هیچ نسخه ای پیدا نشد");
+                IsUpdateExist = Visibility.Collapsed;
+                Growl.Error(Lang.ResourceManager.GetString("NoNewVersion"));
             }
         }
     }

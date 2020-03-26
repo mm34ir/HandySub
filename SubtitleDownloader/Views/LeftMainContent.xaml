@@ -6,17 +6,20 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource RegionBrush}"
         xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:lang="clr-namespace:SubtitleDownloader.Language"
+        xmlns:ext="clr-namespace:SubtitleDownloader.DynamicLanguage"
+        ext:Translation.ResourceManager="{x:Static lang:Lang.ResourceManager}"
         Margin="16"
         CornerRadius="10"
         Effect="{StaticResource EffectShadow4}">
     <DockPanel>
-        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="زیرنویس" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
+        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="{ext:Loc Subtitle}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
         <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparent}">
-            <ListBoxItem Style="{StaticResource ListBoxItemNew}" Tag="Subscene" Margin="10,5,10,0" Content="سابسین"/>
-            <ListBoxItem Style="{StaticResource ListBoxItemNew}" Tag="PopularSeries" Margin="10,5,10,0" Content="زیرنویس های محبوب"/>
-            <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="تنظیمات"/>
-            <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="بروزرسانی"/>
-            <ListBoxItem Tag="About" Margin="10,5,10,0" Content="درباره ما"/>
+            <ListBoxItem Tag="Subscene" Margin="10,5,10,0" Content="{ext:Loc Subscene}"/>
+            <ListBoxItem Tag="PopularSeries" Margin="10,5,10,0" Content="{ext:Loc PopularSub}"/>
+            <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="{ext:Loc Settings}"/>
+            <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="{ext:Loc Update}"/>
+            <ListBoxItem Tag="About" Margin="10,5,10,0" Content="{ext:Loc AboutUs}"/>
             <hc:Interaction.Triggers>
                 <hc:EventTrigger EventName="SelectionChanged">
                     <hc:EventToCommand Command="{Binding SwitchItemCmd}" PassEventArgsToCommand="True"/>

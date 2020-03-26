@@ -2,20 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:prism="http://prismlibrary.com/"      
-             xmlns:local="clr-namespace:SubtitleDownloader.Views"
-             xmlns:vm="clr-namespace:SubtitleDownloader.ViewModels"
+             xmlns:lang="clr-namespace:SubtitleDownloader.Language"
+             xmlns:ext="clr-namespace:SubtitleDownloader.DynamicLanguage"
+             ext:Translation.ResourceManager="{x:Static lang:Lang.ResourceManager}"
              prism:ViewModelLocator.AutoWireViewModel="True">
-
     <hc:TransitioningContentControl>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" IsRealTime="True" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="جستجوی زیرنویس..."/>
-            <hc:BusyIndicator IsBusy="{Binding IsBusy}" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="...درحال دریافت اطلاعات">
+            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" IsRealTime="True" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{ext:Loc SearchSub}"/>
+            <hc:BusyIndicator IsBusy="{Binding IsBusy}" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{ext:Loc Loading}">
                 <ListBox FlowDirection="LeftToRight" Background="Transparent" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding ItemsView}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
+using SubtitleDownloader.Language;
 using System;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace SubtitleDownloader.ViewModels
 {
@@ -85,8 +86,8 @@ namespace SubtitleDownloader.ViewModels
             GetIsCheckedShowNotification = GlobalData.Config.IsShowNotification;
             GetIsCheckedShowNotifyIcon = GlobalData.Config.IsShowNotifyIcon;
 
-            CurrentLanguage = string.Format("زبان زیرنویس ({0})", GlobalData.Config.SubtitleLang);
-            CurrentServer = string.Format("سرور زیرنویس ({0})", GlobalData.Config.ServerUrl);
+            CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalData.Config.SubtitleLang);
+            CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalData.Config.ServerUrl);
         }
 
         private void ServerChanged(SelectionChangedEventArgs e)
@@ -101,7 +102,7 @@ namespace SubtitleDownloader.ViewModels
                 {
                     GlobalData.Config.ServerUrl = item.Content.ToString();
                     GlobalData.Save();
-                    CurrentServer = string.Format("سرور زیرنویس ({0})", GlobalData.Config.ServerUrl);
+                    CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalData.Config.ServerUrl);
                 }
             }
         }
@@ -118,7 +119,7 @@ namespace SubtitleDownloader.ViewModels
                 {
                     GlobalData.Config.SubtitleLang = item.Content.ToString();
                     GlobalData.Save();
-                    CurrentLanguage = string.Format("زبان زیرنویس ({0})", GlobalData.Config.SubtitleLang);
+                    CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalData.Config.SubtitleLang);
                 }
             }
         }
@@ -174,21 +175,15 @@ namespace SubtitleDownloader.ViewModels
 
         private void SelectFolder()
         {
-
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                IsFolderPicker = true,
-                Title = "انتخاب محل ذخیره",
-                InitialDirectory = GlobalData.Config.StoreLocation
-            };
-
-            CommonFileDialogResult result = dialog.ShowDialog();
-
-            if (result == CommonFileDialogResult.Ok)
-            {
-                CurrentStoreLocation = dialog.FileName + @"\";
-                GlobalData.Config.StoreLocation = CurrentStoreLocation;
-                GlobalData.Save();
+                DialogResult result = dialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    CurrentStoreLocation = dialog.SelectedPath + @"\";
+                    GlobalData.Config.StoreLocation = CurrentStoreLocation;
+                    GlobalData.Save();
+                }
             }
         }
 

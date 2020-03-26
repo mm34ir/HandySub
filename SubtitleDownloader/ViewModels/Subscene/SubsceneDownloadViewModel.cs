@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using SubtitleDownloader.Data;
+using SubtitleDownloader.Language;
 using SubtitleDownloader.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -169,7 +170,7 @@ namespace SubtitleDownloader.ViewModels
                 }
 
                 SubtitleDownloadLink = item.Link;
-                Content = "دانلود زیرنویس";
+                Content = Lang.ResourceManager.GetString("SubDownload");
                 IsOpen = true;
 
                 if (GlobalData.Config.IsAutoDownloadSubtitle)
@@ -231,7 +232,7 @@ namespace SubtitleDownloader.ViewModels
                 }
                 else
                 {
-                    MessageBox.Error("زیرنویس موردنظر پیدا نشد");
+                    MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
                 }
                 IsBusy = false;
 
@@ -240,11 +241,11 @@ namespace SubtitleDownloader.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + ex.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + hx.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -264,7 +265,7 @@ namespace SubtitleDownloader.ViewModels
 
                 if (repeater == null)
                 {
-                    MessageBox.Error("زیرنویس موردنظر پیدا نشد");
+                    MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
                 }
                 else
                 {
@@ -291,11 +292,11 @@ namespace SubtitleDownloader.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + ex.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error("سرور در دسترس نیست" + "\n" + hx.Message);
+                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -339,14 +340,26 @@ namespace SubtitleDownloader.ViewModels
             IsEnabled = true;
             MaskCanClose = true;
             Progress = 0;
-            Content = "باز کردن پوشه";
+            Content = Lang.ResourceManager.GetString("OpenFolder");
             if (GlobalData.Config.IsShowNotification)
             {
-                Growl.Info(new GrowlInfo
+                Growl.Clear();
+                Growl.Ask(new GrowlInfo
                 {
-                    CancelStr = "انصراف",
-                    ConfirmStr = "باز کردن پوشه",
-                    Message = $"{ Episode + subName } دانلود شد"
+                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
+                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
+                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), Episode + subName),
+                    ActionBeforeClose = b =>
+                    {
+
+                        if (!b)
+                        {
+                            return true;
+                        }
+                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                        return true;
+
+                    }
                 });
             }
         }
@@ -356,12 +369,12 @@ namespace SubtitleDownloader.ViewModels
             try
             {
 
-                if (Content != "باز کردن پوشه")
+                if (Content != Lang.ResourceManager.GetString("OpenFolder"))
                 {
                     MaskCanClose = false;
                     IsChecked = true;
                     IsEnabled = false;
-                    Content = "...درحال دانلود";
+                    Content = Lang.ResourceManager.GetString("Downloading");
                     Progress = 0;
 
                     HtmlWeb web = new HtmlWeb();
@@ -398,7 +411,7 @@ namespace SubtitleDownloader.ViewModels
             }
             catch (UnauthorizedAccessException)
             {
-                HandyControl.Controls.MessageBox.Error("شما دسترسی لازم را ندارید لطفا برنامه را بصورت ادمین اجرا کنید یا پوشه برنامه را به محل دیگری (خارج از پوشه های سیستمی) منتقل کنید", "خطای دسترسی");
+                HandyControl.Controls.MessageBox.Error(Lang.ResourceManager.GetString("AdminError"), Lang.ResourceManager.GetString("AdminErrorTitle"));
             }
             catch (NotSupportedException) { }
             catch (ArgumentException) { }

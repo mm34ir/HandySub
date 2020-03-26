@@ -1,4 +1,8 @@
-﻿using HandyControl.Data;
+﻿using HandyControl.Controls;
+using HandyControl.Data;
+using SubtitleDownloader.DynamicLanguage;
+using SubtitleDownloader.Language;
+using SubtitleDownloader.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -33,6 +37,32 @@ namespace SubtitleDownloader.Views
                 ((App)Application.Current).UpdateSkin(tag);
             }
         }
+
+        private void ButtonLangs_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is Button button && button.Tag is string tag)
+            {
+                PopupConfig.IsOpen = false;
+                if (tag.Equals(GlobalData.Config.UILang))
+                {
+                    return;
+                }
+
+                Growl.Ask(Lang.ResourceManager.GetString("ChangeLanguage"), b =>
+                {
+                    if (!b)
+                    {
+                        return true;
+                    }
+
+                    GlobalData.Config.UILang = tag;
+                    GlobalData.Save();
+                    TranslationSource.Instance.Language = tag;
+                    ((MainWindowViewModel)(DataContext)).SetFlowDirection();
+                    return true;
+                });
+            }
+        }
         #endregion
 
         protected override void OnClosing(CancelEventArgs e)
@@ -44,8 +74,8 @@ namespace SubtitleDownloader.Views
                 {
                     MessageBoxResult result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
                     {
-                        Message = "برنامه در پس زمینه در حال اجرا خواهد بود و از سیستم ترای قابل دسترس خواهد بود و این پنجره به جای بستن، مخفی خواهد شد. آیا موافقید؟",
-                        Caption = "Subtitle Downloder",
+                        Message = Lang.ResourceManager.GetString("RunInBackgroundMainWindow"),
+                        Caption = Lang.ResourceManager.GetString("Title"),
                         Button = MessageBoxButton.YesNo,
                         IconBrushKey = ResourceToken.AccentBrush,
                         IconKey = ResourceToken.InfoGeometry

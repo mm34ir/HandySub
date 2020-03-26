@@ -1,19 +1,25 @@
 ﻿using Prism.Mvvm;
+using System.Windows;
 
 namespace SubtitleDownloader.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Subtitle Downloader";
-        public string Title
+        private FlowDirection _MainFlowDirection;
+        public FlowDirection MainFlowDirection
         {
-            get => _title;
-            set => SetProperty(ref _title, value);
+            get => _MainFlowDirection;
+            set => SetProperty(ref _MainFlowDirection, value);
         }
-
 
         public MainWindowViewModel()
         {
+            SetFlowDirection();
+        }
+
+        public void SetFlowDirection()
+        {
+            MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
     }
 }
