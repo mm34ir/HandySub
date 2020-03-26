@@ -7,7 +7,7 @@ namespace SubtitleDownloader
     {
         public static readonly string SavePath = $"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json";
 
-        public string UILang { get; set; } = "en";
+        public string UILang { get; set; } = "fa-IR";
         public string SubtitleLang { get; set; } = "farsi_persian";
         public string StoreLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
         public string ServerUrl { get; set; } = "https://sub.deltaleech.com";
