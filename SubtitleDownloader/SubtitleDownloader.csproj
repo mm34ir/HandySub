@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>SubtitleDownloader</AssemblyName>
     <RootNamespace>SubtitleDownloader</RootNamespace>
-    <Version>1.4.2.0</Version>
+    <Version>1.4.3.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © Mahdi 2018-2020</Copyright>
     <FileVersion>1.4.1.0</FileVersion>
@@ -30,7 +30,7 @@
     <None Remove="Resources\Img\subtitle.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HandyControls" Version="2.4.9.2" />
+    <PackageReference Include="HandyControls" Version="2.4.9.3" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.1.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.1.0" />

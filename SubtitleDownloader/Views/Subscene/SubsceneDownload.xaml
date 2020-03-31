@@ -21,7 +21,7 @@
             </Grid>
             <Border Grid.Row="1" hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
                 <hc:BusyIndicator IsBusy="{Binding IsBusy}" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{ext:Loc Loading}">
-                    <ListBox Margin="5" BorderThickness="0" FlowDirection="LeftToRight" ItemsSource="{Binding DataList}">
+                    <ListBox hc:ListBoxAttach.IsOddEvenRow="True" AlternationCount="2" Margin="5" BorderThickness="0" FlowDirection="LeftToRight" ItemsSource="{Binding DataList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>

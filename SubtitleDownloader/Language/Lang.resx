@@ -339,4 +339,7 @@
   <data name="SaveToPc" xml:space="preserve">
     <value>ذخیره</value>
   </data>
+  <data name="SubsceneSearchSub" xml:space="preserve">
+    <value>جستجوی زیرنویس با اسم یا آی دی Imdb...</value>
+  </data>
 </root>

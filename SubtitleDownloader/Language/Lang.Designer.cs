@@ -682,6 +682,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to جستجوی زیرنویس با اسم یا آی دی Imdb....
+        /// </summary>
+        public static string SubsceneSearchSub {
+            get {
+                return ResourceManager.GetString("SubsceneSearchSub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to سرور زیرنویس ({0}).
         /// </summary>
         public static string SubServer {

@@ -339,4 +339,7 @@
   <data name="SaveToPc" xml:space="preserve">
     <value>Save To PC</value>
   </data>
+  <data name="SubsceneSearchSub" xml:space="preserve">
+    <value>Search Subtitle by Title or Imdb Id...</value>
+  </data>
 </root>
