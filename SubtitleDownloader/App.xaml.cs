@@ -61,9 +61,8 @@ namespace SubtitleDownloader
 
                 WindowsContextMenuArgument[0] = NameFromContextMenu;
                 WindowsContextMenuArgument[1] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
-
-                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
             }
+            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }

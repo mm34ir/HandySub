@@ -6,11 +6,11 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>SubtitleDownloader</AssemblyName>
     <RootNamespace>SubtitleDownloader</RootNamespace>
-    <Version>1.4.1.0</Version>
+    <Version>1.4.2.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © Mahdi 2018-2020</Copyright>
     <FileVersion>1.4.1.0</FileVersion>
-    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <AssemblyVersion>1.4.2.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
     <Authors>Mahdi Hosseini</Authors>
@@ -45,9 +45,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Font\IRANSans.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Font\IRANSans.ttf" />
     <Resource Include="Resources\Img\cloud.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
