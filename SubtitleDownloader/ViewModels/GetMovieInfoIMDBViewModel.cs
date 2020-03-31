@@ -45,7 +45,7 @@ namespace SubtitleDownloader.ViewModels
             set => SetProperty(ref _visibility, value);
         }
 
-        private string _searchText = "tt1442449";
+        private string _searchText;
         public string SearchText
         {
             get => _searchText;
