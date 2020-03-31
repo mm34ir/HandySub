@@ -17,6 +17,7 @@
         <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparent}">
             <ListBoxItem Tag="Subscene" Margin="10,5,10,0" Content="{ext:Loc Subscene}"/>
             <ListBoxItem Tag="PopularSeries" Margin="10,5,10,0" Content="{ext:Loc PopularSub}"/>
+            <ListBoxItem Tag="GetMovieInfoIMDB" Margin="10,5,10,0" Style="{StaticResource ListBoxItemNew}" Content="{ext:Loc GetMovieInfo}"/>
             <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="{ext:Loc Settings}"/>
             <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="{ext:Loc Update}"/>
             <ListBoxItem Tag="About" Margin="10,5,10,0" Content="{ext:Loc AboutUs}"/>

@@ -59,6 +59,7 @@ namespace SubtitleDownloader.Views
                     GlobalData.Save();
                     TranslationSource.Instance.Language = tag;
                     ((MainWindowViewModel)(DataContext)).SetFlowDirection();
+                    GetMovieInfoIMDBViewModel.Instance.MainFlowDirection = ((MainWindowViewModel)(DataContext)).SetFlowDirection();
                     return true;
                 });
             }

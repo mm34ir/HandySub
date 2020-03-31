@@ -21,7 +21,7 @@
         Height="450"
         MinHeight="450"
         Width="900"
-        MinWidth="900">
+        MinWidth="920">
     <hc:Window.NonClientAreaContent>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -59,7 +59,7 @@
     <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}" Background="{StaticResource CloudDrawingBrush}">
         <Grid FlowDirection="{Binding MainFlowDirection}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240" MinWidth="240" MaxWidth="400"/>
+                <ColumnDefinition Width="260" MinWidth="260" MaxWidth="400"/>
                 <ColumnDefinition MinWidth="200"/>
             </Grid.ColumnDefinitions>
             <userControl:LeftMainContent/>

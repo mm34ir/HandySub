@@ -82,6 +82,7 @@ namespace SubtitleDownloader
             containerRegistry.RegisterForNavigation<PopularSeries>();
             containerRegistry.RegisterForNavigation<Subscene>();
             containerRegistry.RegisterForNavigation<SubsceneDownload>();
+            containerRegistry.RegisterForNavigation<GetMovieInfoIMDB>();
         }
 
         internal void UpdateSkin(SkinType skin)

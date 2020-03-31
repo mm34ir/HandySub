@@ -261,4 +261,82 @@
   <data name="Version" xml:space="preserve">
     <value>نسخه {0}</value>
   </data>
+  <data name="GetMovieInfo" xml:space="preserve">
+    <value>دریافت اطلاعات فیلم و سریال</value>
+  </data>
+  <data name="GetIMDBSearch" xml:space="preserve">
+    <value>نام یا آیدی IMDB فیلم یا سریال را بنویسید... [مثال: tt1442449 یا spartacus]</value>
+  </data>
+  <data name="ImdbInfo" xml:space="preserve">
+    <value>اطلاعات IMDB</value>
+  </data>
+  <data name="IMDBId" xml:space="preserve">
+    <value>آی دی:</value>
+  </data>
+  <data name="IMDBRating" xml:space="preserve">
+    <value>امتیاز:</value>
+  </data>
+  <data name="IMDBVotes" xml:space="preserve">
+    <value>تعداد رای:</value>
+  </data>
+  <data name="MoSerInfo" xml:space="preserve">
+    <value>اطلاعات فیلم/سریال</value>
+  </data>
+  <data name="IMDBTitle" xml:space="preserve">
+    <value>عنوان:</value>
+  </data>
+  <data name="IMDBYear" xml:space="preserve">
+    <value>سال:</value>
+  </data>
+  <data name="IMDBReleased" xml:space="preserve">
+    <value>انتشار:</value>
+  </data>
+  <data name="IMDBType" xml:space="preserve">
+    <value>نوع:</value>
+  </data>
+  <data name="IMDBTotalSeasons" xml:space="preserve">
+    <value>تعداد کل فصل ها:</value>
+  </data>
+  <data name="IMDBLanguage" xml:space="preserve">
+    <value>زبان:</value>
+  </data>
+  <data name="IMDBCountry" xml:space="preserve">
+    <value>کشور:</value>
+  </data>
+  <data name="IMDBAwards" xml:space="preserve">
+    <value>جوایز:</value>
+  </data>
+  <data name="IMDBRated" xml:space="preserve">
+    <value>امتیاز:</value>
+  </data>
+  <data name="IMDBRatings" xml:space="preserve">
+    <value>امتیاز:</value>
+  </data>
+  <data name="IMDBSource" xml:space="preserve">
+    <value>منبع:</value>
+  </data>
+  <data name="IMDBValue" xml:space="preserve">
+    <value>امتیاز:</value>
+  </data>
+  <data name="IMDBMetascore" xml:space="preserve">
+    <value>امتیاز متا:</value>
+  </data>
+  <data name="IMDBGenre" xml:space="preserve">
+    <value>ژانر:</value>
+  </data>
+  <data name="IMDBDirector" xml:space="preserve">
+    <value>کارگردان:</value>
+  </data>
+  <data name="IMDBWriter" xml:space="preserve">
+    <value>نویسنده:</value>
+  </data>
+  <data name="IMDBActors" xml:space="preserve">
+    <value>بازیگران:</value>
+  </data>
+  <data name="IMDBPlot" xml:space="preserve">
+    <value>خلاصه داستان:</value>
+  </data>
+  <data name="SaveToPc" xml:space="preserve">
+    <value>ذخیره</value>
+  </data>
 </root>

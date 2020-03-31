@@ -261,4 +261,82 @@
   <data name="Version" xml:space="preserve">
     <value>Version {0}</value>
   </data>
+  <data name="GetMovieInfo" xml:space="preserve">
+    <value>Get Movie and Series Info</value>
+  </data>
+  <data name="GetIMDBSearch" xml:space="preserve">
+    <value>Type Movie or Series IMDB Id or Title... [Example tt1442449 or Spartacus]</value>
+  </data>
+  <data name="ImdbInfo" xml:space="preserve">
+    <value>IMDB Info</value>
+  </data>
+  <data name="IMDBId" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="IMDBRating" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
+  <data name="IMDBVotes" xml:space="preserve">
+    <value>Votes:</value>
+  </data>
+  <data name="MoSerInfo" xml:space="preserve">
+    <value>Movie/Series Info</value>
+  </data>
+  <data name="IMDBTitle" xml:space="preserve">
+    <value>Title:</value>
+  </data>
+  <data name="IMDBYear" xml:space="preserve">
+    <value>Year:</value>
+  </data>
+  <data name="IMDBReleased" xml:space="preserve">
+    <value>Released:</value>
+  </data>
+  <data name="IMDBType" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="IMDBTotalSeasons" xml:space="preserve">
+    <value>Total Seasons:</value>
+  </data>
+  <data name="IMDBLanguage" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="IMDBCountry" xml:space="preserve">
+    <value>Country:</value>
+  </data>
+  <data name="IMDBAwards" xml:space="preserve">
+    <value>Awards:</value>
+  </data>
+  <data name="IMDBRated" xml:space="preserve">
+    <value>Rated:</value>
+  </data>
+  <data name="IMDBRatings" xml:space="preserve">
+    <value>Ratings:</value>
+  </data>
+  <data name="IMDBSource" xml:space="preserve">
+    <value>Source:</value>
+  </data>
+  <data name="IMDBValue" xml:space="preserve">
+    <value>Value:</value>
+  </data>
+  <data name="IMDBMetascore" xml:space="preserve">
+    <value>Meta Score:</value>
+  </data>
+  <data name="IMDBGenre" xml:space="preserve">
+    <value>Genre:</value>
+  </data>
+  <data name="IMDBDirector" xml:space="preserve">
+    <value>Director:</value>
+  </data>
+  <data name="IMDBWriter" xml:space="preserve">
+    <value>Writer:</value>
+  </data>
+  <data name="IMDBActors" xml:space="preserve">
+    <value>Actors:</value>
+  </data>
+  <data name="IMDBPlot" xml:space="preserve">
+    <value>Plot:</value>
+  </data>
+  <data name="SaveToPc" xml:space="preserve">
+    <value>Save To PC</value>
+  </data>
 </root>

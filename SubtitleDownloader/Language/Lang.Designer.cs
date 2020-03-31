@@ -250,6 +250,222 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام یا آیدی IMDB فیلم یا سریال را بنویسید... [مثال: tt1442449 یا spartacus].
+        /// </summary>
+        public static string GetIMDBSearch {
+            get {
+                return ResourceManager.GetString("GetIMDBSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دریافت اطلاعات فیلم و سریال.
+        /// </summary>
+        public static string GetMovieInfo {
+            get {
+                return ResourceManager.GetString("GetMovieInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to بازیگران:.
+        /// </summary>
+        public static string IMDBActors {
+            get {
+                return ResourceManager.GetString("IMDBActors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to جوایز:.
+        /// </summary>
+        public static string IMDBAwards {
+            get {
+                return ResourceManager.GetString("IMDBAwards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کشور:.
+        /// </summary>
+        public static string IMDBCountry {
+            get {
+                return ResourceManager.GetString("IMDBCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کارگردان:.
+        /// </summary>
+        public static string IMDBDirector {
+            get {
+                return ResourceManager.GetString("IMDBDirector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ژانر:.
+        /// </summary>
+        public static string IMDBGenre {
+            get {
+                return ResourceManager.GetString("IMDBGenre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to آی دی:.
+        /// </summary>
+        public static string IMDBId {
+            get {
+                return ResourceManager.GetString("IMDBId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اطلاعات IMDB.
+        /// </summary>
+        public static string ImdbInfo {
+            get {
+                return ResourceManager.GetString("ImdbInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to زبان:.
+        /// </summary>
+        public static string IMDBLanguage {
+            get {
+                return ResourceManager.GetString("IMDBLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to امتیاز متا:.
+        /// </summary>
+        public static string IMDBMetascore {
+            get {
+                return ResourceManager.GetString("IMDBMetascore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to خلاصه داستان:.
+        /// </summary>
+        public static string IMDBPlot {
+            get {
+                return ResourceManager.GetString("IMDBPlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to امتیاز:.
+        /// </summary>
+        public static string IMDBRated {
+            get {
+                return ResourceManager.GetString("IMDBRated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to امتیاز:.
+        /// </summary>
+        public static string IMDBRating {
+            get {
+                return ResourceManager.GetString("IMDBRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to امتیاز:.
+        /// </summary>
+        public static string IMDBRatings {
+            get {
+                return ResourceManager.GetString("IMDBRatings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to انتشار:.
+        /// </summary>
+        public static string IMDBReleased {
+            get {
+                return ResourceManager.GetString("IMDBReleased", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to منبع:.
+        /// </summary>
+        public static string IMDBSource {
+            get {
+                return ResourceManager.GetString("IMDBSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عنوان:.
+        /// </summary>
+        public static string IMDBTitle {
+            get {
+                return ResourceManager.GetString("IMDBTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تعداد کل فصل ها:.
+        /// </summary>
+        public static string IMDBTotalSeasons {
+            get {
+                return ResourceManager.GetString("IMDBTotalSeasons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نوع:.
+        /// </summary>
+        public static string IMDBType {
+            get {
+                return ResourceManager.GetString("IMDBType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to امتیاز:.
+        /// </summary>
+        public static string IMDBValue {
+            get {
+                return ResourceManager.GetString("IMDBValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تعداد رای:.
+        /// </summary>
+        public static string IMDBVotes {
+            get {
+                return ResourceManager.GetString("IMDBVotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نویسنده:.
+        /// </summary>
+        public static string IMDBWriter {
+            get {
+                return ResourceManager.GetString("IMDBWriter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سال:.
+        /// </summary>
+        public static string IMDBYear {
+            get {
+                return ResourceManager.GetString("IMDBYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to شما از آخرین نسخه استفاده میکنید.
         /// </summary>
         public static string LatestVersion {
@@ -264,6 +480,15 @@ namespace SubtitleDownloader.Language {
         public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اطلاعات فیلم/سریال.
+        /// </summary>
+        public static string MoSerInfo {
+            get {
+                return ResourceManager.GetString("MoSerInfo", resourceCulture);
             }
         }
         
@@ -345,6 +570,15 @@ namespace SubtitleDownloader.Language {
         public static string RunInBackgroundMainWindow {
             get {
                 return ResourceManager.GetString("RunInBackgroundMainWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ذخیره.
+        /// </summary>
+        public static string SaveToPc {
+            get {
+                return ResourceManager.GetString("SaveToPc", resourceCulture);
             }
         }
         

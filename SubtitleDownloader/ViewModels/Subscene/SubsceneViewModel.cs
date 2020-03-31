@@ -8,6 +8,8 @@ using SubtitleDownloader.Language;
 using SubtitleDownloader.Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -81,6 +83,35 @@ namespace SubtitleDownloader.ViewModels
             }
         }
 
+        private async Task<string> getTitleByImdbId(string ImdbId)
+        {
+            string result = string.Empty;
+            string url = $"http://www.omdbapi.com/?i={ImdbId}&apikey=2a59a17e";
+
+            try
+            {
+                using var client = new HttpClient();
+                string responseBody = await client.GetStringAsync(url);
+                var parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
+
+                if (parse.Response.Equals("True"))
+                {
+                    result = parse.Title;
+                }
+                else
+                {
+                    Growl.Error(parse.Error);
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                Growl.Error(ex.Message);
+            }
+
+            return result;
+        }
+
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
             try
@@ -92,6 +123,14 @@ namespace SubtitleDownloader.ViewModels
 
                 ContentVisibility = Visibility.Visible;
                 IsBusy = true;
+
+
+                //Get Title with imdb
+                if (SearchText.StartsWith("tt"))
+                {
+                    SearchText = await getTitleByImdbId(SearchText);
+                }
+
                 string url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, SearchText);
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(url);
