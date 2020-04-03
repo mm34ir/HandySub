@@ -13,7 +13,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,20,10,0" hc:InfoElement.Placeholder="{ext:Loc GetIMDBSearch}">
+            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,10,10,0" hc:InfoElement.Placeholder="{ext:Loc GetIMDBSearch}">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SearchStarted">
                         <hc:EventToCommand Command="{Binding OnSearchStartedCommand}" PassEventArgsToCommand="True"/>
@@ -67,10 +67,9 @@
                                             </hc:EventTrigger>
                                         </hc:Interaction.Triggers>
                                     </Label>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBYear}"/>
-                                    <Label Name="lblYear" FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelDanger}" Content="{Binding Year}">
+
+                                    <Label Margin="10,0,0,0" Content="{ext:Loc IMDBYear}"/>
+                                    <Label Name="lblYear" Margin="10,0" FlowDirection="LeftToRight" Style="{DynamicResource LabelDanger}" Content="{Binding Year}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
                                                 <hc:InvokeCommandAction Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=lblYear, Path=Content}"/>
@@ -78,7 +77,7 @@
                                         </hc:Interaction.Triggers>
                                     </Label>
                                 </StackPanel>
-                                <StackPanel Margin="0,10" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBReleased}"/>
                                     <Label Name="lblReleased" FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Released}">
                                         <hc:Interaction.Triggers>
@@ -87,22 +86,19 @@
                                             </hc:EventTrigger>
                                         </hc:Interaction.Triggers>
                                     </Label>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBType}"/>
-                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Type}"/>
+
+                                    <Label Margin="10,0" Content="{ext:Loc IMDBType}"/>
+                                    <Label Style="{DynamicResource LabelInfo}" Content="{Binding Type}"/>
                                 </StackPanel>
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBTotalSeasons}"/>
                                     <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding TotalSeasons}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBLanguage}"/>
-                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Language}"/>
-                                </StackPanel>
-                                <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBCountry}"/>
-                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Country}"/>
+
+                                    <Label Margin="10,0" Content="{ext:Loc IMDBLanguage}"/>
+                                    <Label Style="{DynamicResource LabelInfo}" Content="{Binding Language}"/>
+
+                                    <Label Margin="10,0" Content="{ext:Loc IMDBCountry}"/>
+                                    <Label Style="{DynamicResource LabelInfo}" Content="{Binding Country}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBAwards}"/>
@@ -113,12 +109,12 @@
                                             </hc:EventTrigger>
                                         </hc:Interaction.Triggers>
                                     </Label>
+
+                                    <Label Margin="10,0" Content="{ext:Loc IMDBRated}"/>
+                                    <Label Style="{DynamicResource LabelInfo}" Content="{Binding Rated}"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBRated}"/>
-                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Rated}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
+
+                                <StackPanel Margin="0,10"  Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBRatings}"/>
                                     <StackPanel Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
@@ -135,11 +131,11 @@
                                             <Label Content="{ext:Loc IMDBValue}"/>
                                             <Label FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding RatingValue}"/>
                                         </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{ext:Loc IMDBMetascore}"/>
+                                            <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Metascore}"/>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                                <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBMetascore}"/>
-                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Metascore}"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal">
@@ -164,26 +160,30 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBWriter}"/>
-                                    <Label Name="lblWriter" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Writer}">
-                                        <hc:Interaction.Triggers>
-                                            <hc:EventTrigger EventName="MouseLeftButtonUp">
-                                                <hc:InvokeCommandAction Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=lblWriter, Path=Content}"/>
-                                            </hc:EventTrigger>
-                                        </hc:Interaction.Triggers>
+                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}">
+                                        <TextBlock FlowDirection="LeftToRight" Name="txtWriter" Width="380" Text="{Binding Writer}" TextWrapping="Wrap">
+                                            <hc:Interaction.Triggers>
+                                                <hc:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <hc:InvokeCommandAction Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=txtWriter, Path=Text}"/>
+                                                </hc:EventTrigger>
+                                            </hc:Interaction.Triggers>
+                                        </TextBlock>
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
                                     <Label Content="{ext:Loc IMDBActors}"/>
-                                    <Label Name="lblActor" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Actors}">
-                                        <hc:Interaction.Triggers>
-                                            <hc:EventTrigger EventName="MouseLeftButtonUp">
-                                                <hc:InvokeCommandAction Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=lblActor, Path=Content}"/>
-                                            </hc:EventTrigger>
-                                        </hc:Interaction.Triggers>
+                                    <Label Margin="10,0" Style="{DynamicResource LabelInfo}">
+                                        <TextBlock FlowDirection="LeftToRight" Name="txtActor" Width="380" Text="{Binding Actors}" TextWrapping="Wrap">
+                                            <hc:Interaction.Triggers>
+                                                <hc:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <hc:InvokeCommandAction Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=txtActor, Path=Text}"/>
+                                                </hc:EventTrigger>
+                                            </hc:Interaction.Triggers>
+                                        </TextBlock>
                                     </Label>
                                 </StackPanel>
                                 <Label Style="{DynamicResource LabelViolet}" HorizontalAlignment="Left" Content="{ext:Loc IMDBPlot}"/>
-                                <TextBox Margin="0,10" IsReadOnly="True" TextWrapping="Wrap" Height="200" Width="600" HorizontalAlignment="Left" VerticalContentAlignment="Top" Text="{Binding Plot}"/>
+                                <TextBox FlowDirection="LeftToRight" Margin="0,10" IsReadOnly="True" TextWrapping="Wrap" Height="150" Width="480" HorizontalAlignment="Left" VerticalContentAlignment="Top" Text="{Binding Plot}"/>
                             </StackPanel>
                         </hc:ScrollViewer>
                         <Image x:Name="src" FlowDirection="LeftToRight" Margin="10" Source="{Binding Poster}" Grid.Column="1">

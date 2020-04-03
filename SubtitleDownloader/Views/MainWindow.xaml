@@ -18,9 +18,9 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Icon="/SubtitleDownloader;component/Resources/Img/subtitle.ico"
-        Height="450"
-        MinHeight="450"
-        Width="900"
+        Height="550"
+        MinHeight="550"
+        Width="1050"
         MinWidth="920">
     <hc:Window.NonClientAreaContent>
         <Grid>

@@ -358,7 +358,7 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to امتیاز:.
+        ///   Looks up a localized string similar to درجه بندی:.
         /// </summary>
         public static string IMDBRated {
             get {
