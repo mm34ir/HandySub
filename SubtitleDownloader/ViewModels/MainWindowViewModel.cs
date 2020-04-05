@@ -19,7 +19,7 @@ namespace SubtitleDownloader.ViewModels
 
         public FlowDirection SetFlowDirection()
         {
-           return MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            return MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
     }
 }

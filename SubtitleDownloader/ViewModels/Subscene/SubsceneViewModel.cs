@@ -90,9 +90,9 @@ namespace SubtitleDownloader.ViewModels
 
             try
             {
-                using var client = new HttpClient();
+                using HttpClient client = new HttpClient();
                 string responseBody = await client.GetStringAsync(url);
-                var parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
+                IMDBModel.Root parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
 
                 if (parse.Response.Equals("True"))
                 {

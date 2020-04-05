@@ -1,23 +1,14 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
-using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using SubtitleDownloader.Model;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace SubtitleDownloader.ViewModels
@@ -59,148 +50,148 @@ namespace SubtitleDownloader.ViewModels
         private string _Title;
         public string Title
         {
-            get { return _Title; }
-            set { SetProperty(ref _Title, value); }
+            get => _Title;
+            set => SetProperty(ref _Title, value);
         }
 
         private string _Year;
         public string Year
         {
-            get { return _Year; }
-            set { SetProperty(ref _Year, value); }
+            get => _Year;
+            set => SetProperty(ref _Year, value);
         }
 
         private string _Released;
         public string Released
         {
-            get { return _Released; }
-            set { SetProperty(ref _Released, value); }
+            get => _Released;
+            set => SetProperty(ref _Released, value);
         }
 
         private string _Type;
         public string Type
         {
-            get { return _Type; }
-            set { SetProperty(ref _Type, value); }
+            get => _Type;
+            set => SetProperty(ref _Type, value);
         }
 
         private string _TotalSeasons;
         public string TotalSeasons
         {
-            get { return _TotalSeasons; }
-            set { SetProperty(ref _TotalSeasons, value); }
+            get => _TotalSeasons;
+            set => SetProperty(ref _TotalSeasons, value);
         }
 
         private string _Language;
         public string Language
         {
-            get { return _Language; }
-            set { SetProperty(ref _Language, value); }
+            get => _Language;
+            set => SetProperty(ref _Language, value);
         }
 
         private string _Country;
         public string Country
         {
-            get { return _Country; }
-            set { SetProperty(ref _Country, value); }
+            get => _Country;
+            set => SetProperty(ref _Country, value);
         }
 
         private string _Awards;
         public string Awards
         {
-            get { return _Awards; }
-            set { SetProperty(ref _Awards, value); }
+            get => _Awards;
+            set => SetProperty(ref _Awards, value);
         }
 
         private string _Rated;
         public string Rated
         {
-            get { return _Rated; }
-            set { SetProperty(ref _Rated, value); }
+            get => _Rated;
+            set => SetProperty(ref _Rated, value);
         }
 
         private string _Metascore;
         public string Metascore
         {
-            get { return _Metascore; }
-            set { SetProperty(ref _Metascore, value); }
+            get => _Metascore;
+            set => SetProperty(ref _Metascore, value);
         }
 
         private string _Genre;
         public string Genre
         {
-            get { return _Genre; }
-            set { SetProperty(ref _Genre, value); }
+            get => _Genre;
+            set => SetProperty(ref _Genre, value);
         }
 
         private string _Director;
         public string Director
         {
-            get { return _Director; }
-            set { SetProperty(ref _Director, value); }
+            get => _Director;
+            set => SetProperty(ref _Director, value);
         }
 
         private string _Writer;
         public string Writer
         {
-            get { return _Writer; }
-            set { SetProperty(ref _Writer, value); }
+            get => _Writer;
+            set => SetProperty(ref _Writer, value);
         }
 
         private string _Actors;
         public string Actors
         {
-            get { return _Actors; }
-            set { SetProperty(ref _Actors, value); }
+            get => _Actors;
+            set => SetProperty(ref _Actors, value);
         }
 
         private string _Plot;
         public string Plot
         {
-            get { return _Plot; }
-            set { SetProperty(ref _Plot, value); }
+            get => _Plot;
+            set => SetProperty(ref _Plot, value);
         }
 
         private string _Poster;
         public string Poster
         {
-            get { return _Poster; }
-            set { SetProperty(ref _Poster, value); }
+            get => _Poster;
+            set => SetProperty(ref _Poster, value);
         }
 
         private string _RatingSource;
         public string RatingSource
         {
-            get { return _RatingSource; }
-            set { SetProperty(ref _RatingSource, value); }
+            get => _RatingSource;
+            set => SetProperty(ref _RatingSource, value);
         }
 
         private string _RatingValue;
         public string RatingValue
         {
-            get { return _RatingValue; }
-            set { SetProperty(ref _RatingValue, value); }
+            get => _RatingValue;
+            set => SetProperty(ref _RatingValue, value);
         }
 
         private string _ImdbId;
         public string ImdbId
         {
-            get { return _ImdbId; }
-            set { SetProperty(ref _ImdbId, value); }
+            get => _ImdbId;
+            set => SetProperty(ref _ImdbId, value);
         }
 
         private string _ImdbRating;
         public string ImdbRating
         {
-            get { return _ImdbRating; }
-            set { SetProperty(ref _ImdbRating, value); }
+            get => _ImdbRating;
+            set => SetProperty(ref _ImdbRating, value);
         }
 
         private string _ImdbVotes;
         public string ImdbVotes
         {
-            get { return _ImdbVotes; }
-            set { SetProperty(ref _ImdbVotes, value); }
+            get => _ImdbVotes;
+            set => SetProperty(ref _ImdbVotes, value);
         }
 
         #endregion
@@ -216,9 +207,11 @@ namespace SubtitleDownloader.ViewModels
 
         private void OnSaveToPc(string source)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Png file (*.png)|*.png|Jpg file (*.jpg)|*.jpg";
-            dialog.FileName = Path.GetFileName(source);
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = "Png file (*.png)|*.png|Jpg file (*.jpg)|*.jpg",
+                FileName = Path.GetFileName(source)
+            };
             if (dialog.ShowDialog() == true)
             {
                 using (WebClient webClient = new WebClient())
@@ -235,7 +228,7 @@ namespace SubtitleDownloader.ViewModels
 
         public FlowDirection SetFlowDirection()
         {
-           return MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            return MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
 
         private async void OnSearchStarted(FunctionEventArgs<string> e)
@@ -259,9 +252,9 @@ namespace SubtitleDownloader.ViewModels
 
             try
             {
-                using var client = new HttpClient();
+                using HttpClient client = new HttpClient();
                 string responseBody = await client.GetStringAsync(url);
-                var parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
+                IMDBModel.Root parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
 
                 if (parse.Response.Equals("True"))
                 {
@@ -288,14 +281,14 @@ namespace SubtitleDownloader.ViewModels
                     if (parse.Ratings != null)
                     {
                         StringBuilder rSource = new StringBuilder();
-                        foreach (var itemSource in parse.Ratings.ToList())
+                        foreach (IMDBModel.Rating itemSource in parse.Ratings.ToList())
                         {
                             rSource.Append(itemSource.Source).Append("|");
                         }
                         RatingSource = rSource.ToString();
 
                         StringBuilder rValue = new StringBuilder();
-                        foreach (var itemValue in parse.Ratings.ToList())
+                        foreach (IMDBModel.Rating itemValue in parse.Ratings.ToList())
                         {
                             rValue.Append(itemValue.Value).Append(" | ");
                         }
@@ -309,7 +302,7 @@ namespace SubtitleDownloader.ViewModels
 
                     Growl.Error(parse.Error);
                 }
-               
+
             }
             catch (HttpRequestException ex)
             {

@@ -197,13 +197,11 @@ namespace SubtitleDownloader.ViewModels
                     {
                         RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
                         regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                        regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle with World Subtitle");
                     }
                     else
                     {
                         RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
                         regFileKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                        regFileKeyOpen.DeleteSubKeyTree("Get Subtitle with World Subtitle");
                     }
                 }
                 else

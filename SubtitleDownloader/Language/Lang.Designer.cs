@@ -412,7 +412,7 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to تعداد کل فصل ها:.
+        ///   Looks up a localized string similar to تعداد فصل:.
         /// </summary>
         public static string IMDBTotalSeasons {
             get {
