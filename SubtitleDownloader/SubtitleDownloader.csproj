@@ -16,8 +16,6 @@
     <Authors>Mahdi Hosseini</Authors>
     <Description>Coded by Mahdi Hosseini</Description>
     <SatelliteResourceLanguages>en;fa</SatelliteResourceLanguages>
-    <AutoIncrementPackageRevision>true</AutoIncrementPackageRevision>
-    <CreateDesktopShortcut>true</CreateDesktopShortcut>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;Core</DefineConstants>
