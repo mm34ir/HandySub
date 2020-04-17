@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:prism="http://prismlibrary.com/"      
-             xmlns:lang="clr-namespace:SubtitleDownloader.Language"
-             xmlns:ext="clr-namespace:SubtitleDownloader.DynamicLanguage"
-             ext:Translation.ResourceManager="{x:Static lang:Lang.ResourceManager}"
+             xmlns:ext="clr-namespace:SubtitleDownloader.Language"
+             ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>
         <Grid>

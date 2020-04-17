@@ -2,9 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"        
-             xmlns:lang="clr-namespace:SubtitleDownloader.Language"
-             xmlns:ext="clr-namespace:SubtitleDownloader.DynamicLanguage"
-             ext:Translation.ResourceManager="{x:Static lang:Lang.ResourceManager}"
+             xmlns:ext="clr-namespace:SubtitleDownloader.Language"
+             ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>

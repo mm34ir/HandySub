@@ -6,9 +6,8 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource RegionBrush}"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:lang="clr-namespace:SubtitleDownloader.Language"
-        xmlns:ext="clr-namespace:SubtitleDownloader.DynamicLanguage"
-        ext:Translation.ResourceManager="{x:Static lang:Lang.ResourceManager}"
+        xmlns:ext="clr-namespace:SubtitleDownloader.Language"
+        ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
         Margin="16"
         CornerRadius="10"
         Effect="{StaticResource EffectShadow4}">

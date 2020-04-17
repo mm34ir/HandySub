@@ -1,6 +1,5 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
-using SubtitleDownloader.DynamicLanguage;
 using SubtitleDownloader.Language;
 using SubtitleDownloader.ViewModels;
 using System;

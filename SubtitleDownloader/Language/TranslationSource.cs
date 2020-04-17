@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Xaml;
 
-namespace SubtitleDownloader.DynamicLanguage
+namespace SubtitleDownloader.Language
 {
     public class TranslationSource : INotifyPropertyChanged
     {
