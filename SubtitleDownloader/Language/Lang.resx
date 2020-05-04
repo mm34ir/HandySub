@@ -345,4 +345,7 @@
   <data name="R2L" xml:space="preserve">
     <value>RightToLeft</value>
   </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>افزونه ها</value>
+  </data>
 </root>

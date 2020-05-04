@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using System.Windows;
 
 namespace SubtitleDownloader.ViewModels
 {
