@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:prism="http://prismlibrary.com/"      
-             xmlns:ext="clr-namespace:SubtitleDownloader.Language"
-             ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
+             
+             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>
         <Grid>
@@ -12,8 +12,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" IsRealTime="True" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{ext:Loc SearchSub}"/>
-            <hc:BusyIndicator IsBusy="{Binding IsBusy}" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{ext:Loc Loading}">
+            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" IsRealTime="True" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{hc:Localization SearchSub}"/>
+            <hc:BusyIndicator IsBusy="{Binding IsBusy}" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{hc:Localization Loading}">
                 <ListBox FlowDirection="LeftToRight" Background="Transparent" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding ItemsView}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

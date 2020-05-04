@@ -7,11 +7,9 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:userControl="clr-namespace:SubtitleDownloader.Views"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        xmlns:ext="clr-namespace:SubtitleDownloader.Language"
-        ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
         mc:Ignorable="d"
         FontFamily="{StaticResource IRANSans}" 
-        Title="{ext:Loc Title}" 
+        Title="{hc:Localization Title}" 
         ShowTitle="True"
         Background="{DynamicResource SecondaryRegionBrush}"
         ResizeMode="CanResizeWithGrip"
@@ -56,7 +54,7 @@
         </Grid>
     </hc:Window.NonClientAreaContent>
     <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}" Background="{StaticResource CloudDrawingBrush}">
-        <Grid FlowDirection="{Binding MainFlowDirection}">
+        <Grid FlowDirection="{hc:Localization R2L}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="260" MinWidth="260" MaxWidth="400"/>
                 <ColumnDefinition MinWidth="200"/>
@@ -70,8 +68,8 @@
             <hc:NotifyIcon Name="notify" Text="SubtitleDownloader">
                 <hc:NotifyIcon.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top" Header="{ext:Loc OpenPanel}"/>
-                        <MenuItem Click="MenuItem_Click" Header="{ext:Loc Exit}"/>
+                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top" Header="{hc:Localization OpenPanel}"/>
+                        <MenuItem Click="MenuItem_Click" Header="{hc:Localization Exit}"/>
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
                 <hc:Interaction.Triggers>

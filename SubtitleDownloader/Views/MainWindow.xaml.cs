@@ -1,7 +1,7 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools;
 using SubtitleDownloader.Language;
-using SubtitleDownloader.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -56,9 +56,8 @@ namespace SubtitleDownloader.Views
 
                     GlobalData.Config.UILang = tag;
                     GlobalData.Save();
-                    TranslationSource.Instance.Language = tag;
-                    ((MainWindowViewModel)(DataContext)).SetFlowDirection();
-                    GetMovieInfoIMDBViewModel.Instance.MainFlowDirection = ((MainWindowViewModel)(DataContext)).SetFlowDirection();
+                    LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(tag);
+                    ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
                     return true;
                 });
             }

@@ -15,19 +15,11 @@ namespace SubtitleDownloader.ViewModels
 {
     public class GetMovieInfoIMDBViewModel : BindableBase
     {
-        public static GetMovieInfoIMDBViewModel Instance;
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; private set; }
         public DelegateCommand<string> CopyCommand { get; private set; }
         public DelegateCommand<string> SaveToPcCommand { get; private set; }
 
         #region Property
-
-        private FlowDirection _MainFlowDirection;
-        public FlowDirection MainFlowDirection
-        {
-            get => _MainFlowDirection;
-            set => SetProperty(ref _MainFlowDirection, value);
-        }
 
         private Visibility _visibility = Visibility.Hidden;
         public Visibility ContentVisibility
@@ -198,11 +190,9 @@ namespace SubtitleDownloader.ViewModels
 
         public GetMovieInfoIMDBViewModel()
         {
-            Instance = this;
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             CopyCommand = new DelegateCommand<string>(OnCopyToClipboard);
             SaveToPcCommand = new DelegateCommand<string>(OnSaveToPc);
-            SetFlowDirection();
         }
 
         private void OnSaveToPc(string source)
@@ -224,11 +214,6 @@ namespace SubtitleDownloader.ViewModels
         private void OnCopyToClipboard(string data)
         {
             Clipboard.SetText(data);
-        }
-
-        public FlowDirection SetFlowDirection()
-        {
-            return MainFlowDirection = GlobalData.Config.UILang.Equals("fa-IR") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
 
         private async void OnSearchStarted(FunctionEventArgs<string> e)

@@ -3,28 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"     
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:ext="clr-namespace:SubtitleDownloader.Language"
-             ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
+             
+             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>
       <hc:ScrollViewer>
         <Border hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
             <StackPanel Margin="20,10,20,20">
-                <hc:Divider LineStrokeThickness="2" Content="{ext:Loc Download}"/>
+                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Download}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{ext:Loc StoreLoc}"/>
+                    <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{hc:Localization StoreLoc}"/>
                     <Button Command="{Binding SelectFolderCommand}" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
-                    <hc:TextBox Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" Grid.Column="2" hc:InfoElement.Placeholder="{ext:Loc ChoosePath}" IsReadOnly="True" />
+                    <hc:TextBox Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" Grid.Column="2" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
                 </Grid>
-                    <ToggleButton IsChecked="{Binding GetIsCheckedAutoDownload}" HorizontalAlignment="Left" Command="{Binding AutoDownloadCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{ext:Loc AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{ext:Loc ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <hc:Divider LineStrokeThickness="2" Content="{ext:Loc Subtitle}"/>
-                <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentLanguage}" hc:InfoElement.Placeholder="{ext:Loc SelectSubLanguage}">
+                    <ToggleButton IsChecked="{Binding GetIsCheckedAutoDownload}" HorizontalAlignment="Left" Command="{Binding AutoDownloadCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Subtitle}"/>
+                <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentLanguage}" hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
                     <ComboBoxItem Content="farsi_persian"/>
                     <ComboBoxItem Content="english"/>
                     <hc:Interaction.Triggers>
@@ -33,7 +33,7 @@
                         </hc:EventTrigger>
                     </hc:Interaction.Triggers>
                 </hc:ComboBox>
-                    <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10" hc:InfoElement.Placeholder="{ext:Loc SelectSubServer}">
+                    <hc:ComboBox IsEditable="False" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10" hc:InfoElement.Placeholder="{hc:Localization SelectSubServer}">
                     <ComboBoxItem Content="https://subf2m.co"/>
                     <ComboBoxItem Content="https://subf2m.ir"/>
                     <ComboBoxItem Content="https://sub.deltaleech.com"/>
@@ -45,10 +45,10 @@
                         </hc:EventTrigger>
                     </hc:Interaction.Triggers>
                 </hc:ComboBox>
-                <hc:Divider LineStrokeThickness="2" Content="{ext:Loc General}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{ext:Loc AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{ext:Loc AddToDirectoryContext}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{ext:Loc RunInBackground}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization General}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToDirectoryContext}" Style="{StaticResource ToggleButtonSwitch}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization RunInBackground}" Style="{StaticResource ToggleButtonSwitch}"/>
             </StackPanel>
         </Border>
         </hc:ScrollViewer>

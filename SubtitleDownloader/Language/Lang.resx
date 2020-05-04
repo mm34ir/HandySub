@@ -342,4 +342,7 @@
   <data name="SubsceneSearchSub" xml:space="preserve">
     <value>جستجوی زیرنویس با اسم یا آی دی Imdb...</value>
   </data>
+  <data name="R2L" xml:space="preserve">
+    <value>RightToLeft</value>
+  </data>
 </root>

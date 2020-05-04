@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:ext="clr-namespace:SubtitleDownloader.Language"
-             ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
+             
+             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>
         <Grid>
@@ -12,7 +12,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,10,10,0" hc:InfoElement.Placeholder="{ext:Loc GetIMDBSearch}">
+            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,10,10,0" hc:InfoElement.Placeholder="{hc:Localization GetIMDBSearch}">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SearchStarted">
                         <hc:EventToCommand Command="{Binding OnSearchStartedCommand}" PassEventArgsToCommand="True"/>
@@ -21,17 +21,17 @@
             </hc:SearchBar>
 
             <Border Visibility="{Binding ContentVisibility}" Grid.Row="1" hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
-                <hc:BusyIndicator IsBusy="{Binding IsBusy}" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{ext:Loc Loading}">
-                    <Grid FlowDirection="{Binding MainFlowDirection}">
+                <hc:BusyIndicator IsBusy="{Binding IsBusy}" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{hc:Localization Loading}">
+                    <Grid FlowDirection="{hc:Localization R2L}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <hc:ScrollViewer FontSize="16" HorizontalScrollBarVisibility="Auto">
                             <StackPanel Margin="10">
-                                <hc:Divider Content="{ext:Loc ImdbInfo}"/>
+                                <hc:Divider Content="{hc:Localization ImdbInfo}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBId}"/>
+                                    <Label Content="{hc:Localization IMDBId}"/>
                                     <Label Name="lblId" Margin="10,0" Style="{DynamicResource LabelWarning}" Content="{Binding ImdbId}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -41,11 +41,11 @@
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBRating}"/>
+                                    <Label Content="{hc:Localization IMDBRating}"/>
                                     <hc:Rate IsEnabled="False" Foreground="{DynamicResource WarningBrush}" Margin="10" AllowHalf="True" Value="{Binding ImdbRating}" ShowText="True" Count="10"/>
                                 </StackPanel>
                                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBVotes}"/>
+                                    <Label Content="{hc:Localization IMDBVotes}"/>
                                     <Label Name="lblVote" Margin="10,0" Style="{DynamicResource LabelWarning}" Content="{Binding ImdbVotes}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -55,10 +55,10 @@
                                     </Label>
                                 </StackPanel>
 
-                                <hc:Divider Content="{ext:Loc MoSerInfo}"/>
+                                <hc:Divider Content="{hc:Localization MoSerInfo}"/>
 
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBTitle}"/>
+                                    <Label Content="{hc:Localization IMDBTitle}"/>
                                     <Label Name="lblTitle" Margin="10,0" Style="{DynamicResource LabelPrimary}" Content="{Binding Title}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -67,7 +67,7 @@
                                         </hc:Interaction.Triggers>
                                     </Label>
 
-                                    <Label Margin="10,0,0,0" Content="{ext:Loc IMDBYear}"/>
+                                    <Label Margin="10,0,0,0" Content="{hc:Localization IMDBYear}"/>
                                     <Label Name="lblYear" Margin="10,0" FlowDirection="LeftToRight" Style="{DynamicResource LabelDanger}" Content="{Binding Year}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -77,7 +77,7 @@
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBReleased}"/>
+                                    <Label Content="{hc:Localization IMDBReleased}"/>
                                     <Label Name="lblReleased" FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Released}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -86,24 +86,24 @@
                                         </hc:Interaction.Triggers>
                                     </Label>
 
-                                    <Label Margin="10,0" Content="{ext:Loc IMDBType}"/>
+                                    <Label Margin="10,0" Content="{hc:Localization IMDBType}"/>
                                     <Label Style="{DynamicResource LabelInfo}" Content="{Binding Type}"/>
 
-                                    <Label Margin="10,0" Content="{ext:Loc IMDBRated}"/>
+                                    <Label Margin="10,0" Content="{hc:Localization IMDBRated}"/>
                                     <Label Content="{Binding Rated}" Style="{DynamicResource LabelInfo}"/>
                                 </StackPanel>
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBTotalSeasons}"/>
+                                    <Label Content="{hc:Localization IMDBTotalSeasons}"/>
                                     <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding TotalSeasons}"/>
 
-                                    <Label Margin="10,0" Content="{ext:Loc IMDBLanguage}"/>
+                                    <Label Margin="10,0" Content="{hc:Localization IMDBLanguage}"/>
                                     <Label Style="{DynamicResource LabelInfo}" Content="{Binding Language}"/>
 
-                                    <Label Margin="10,0" Content="{ext:Loc IMDBCountry}"/>
+                                    <Label Margin="10,0" Content="{hc:Localization IMDBCountry}"/>
                                     <Label Style="{DynamicResource LabelInfo}" Content="{Binding Country}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBAwards}"/>
+                                    <Label Content="{hc:Localization IMDBAwards}"/>
                                     <Label FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}">
                                         <TextBlock Name="lblAward" FlowDirection="LeftToRight" MaxWidth="380" Text="{Binding Awards}" TextWrapping="Wrap">
                                             <hc:Interaction.Triggers>
@@ -117,10 +117,10 @@
                                 </StackPanel>
 
                                 <StackPanel Margin="0,10"  Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBRatings}"/>
+                                    <Label Content="{hc:Localization IMDBRatings}"/>
                                     <StackPanel Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
-                                            <Label Content="{ext:Loc IMDBSource}"/>
+                                            <Label Content="{hc:Localization IMDBSource}"/>
                                             <Label Name="lblRate" FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding RatingSource}">
                                                 <hc:Interaction.Triggers>
                                                     <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -130,18 +130,18 @@
                                             </Label>
                                         </StackPanel>
                                         <StackPanel Margin="0,10" Orientation="Horizontal">
-                                            <Label Content="{ext:Loc IMDBValue}"/>
+                                            <Label Content="{hc:Localization IMDBValue}"/>
                                             <Label FlowDirection="LeftToRight" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding RatingValue}"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Label Content="{ext:Loc IMDBMetascore}"/>
+                                            <Label Content="{hc:Localization IMDBMetascore}"/>
                                             <Label Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Metascore}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBGenre}"/>
+                                    <Label Content="{hc:Localization IMDBGenre}"/>
                                     <Label Name="lblGener" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Genre}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -151,7 +151,7 @@
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBDirector}"/>
+                                    <Label Content="{hc:Localization IMDBDirector}"/>
                                     <Label Name="lblDirector" Margin="10,0" Style="{DynamicResource LabelInfo}" Content="{Binding Director}">
                                         <hc:Interaction.Triggers>
                                             <hc:EventTrigger EventName="MouseLeftButtonUp">
@@ -161,7 +161,7 @@
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBWriter}"/>
+                                    <Label Content="{hc:Localization IMDBWriter}"/>
                                     <Label Margin="10,0" Style="{DynamicResource LabelInfo}">
                                         <TextBlock FlowDirection="LeftToRight" Name="txtWriter" MaxWidth="380" Text="{Binding Writer}" TextWrapping="Wrap">
                                             <hc:Interaction.Triggers>
@@ -173,7 +173,7 @@
                                     </Label>
                                 </StackPanel>
                                 <StackPanel Margin="0,10" Orientation="Horizontal">
-                                    <Label Content="{ext:Loc IMDBActors}"/>
+                                    <Label Content="{hc:Localization IMDBActors}"/>
                                     <Label Margin="10,0" Style="{DynamicResource LabelInfo}">
                                         <TextBlock FlowDirection="LeftToRight" Name="txtActor" MaxWidth="380" Text="{Binding Actors}" TextWrapping="Wrap">
                                             <hc:Interaction.Triggers>
@@ -184,14 +184,14 @@
                                         </TextBlock>
                                     </Label>
                                 </StackPanel>
-                                <Label Style="{DynamicResource LabelViolet}" HorizontalAlignment="Left" Content="{ext:Loc IMDBPlot}"/>
+                                <Label Style="{DynamicResource LabelViolet}" HorizontalAlignment="Left" Content="{hc:Localization IMDBPlot}"/>
                                 <TextBox FlowDirection="LeftToRight" Margin="0,10" IsReadOnly="True" TextWrapping="Wrap" Height="150" Width="480" HorizontalAlignment="Left" VerticalContentAlignment="Top" Text="{Binding Plot}"/>
                             </StackPanel>
                         </hc:ScrollViewer>
                         <Image x:Name="src" FlowDirection="LeftToRight" Margin="10" Source="{Binding Poster}" Grid.Column="1">
                             <Image.ContextMenu>
-                                <ContextMenu FlowDirection="{Binding MainFlowDirection}">
-                                    <MenuItem Command="{Binding SaveToPcCommand}" CommandParameter="{Binding Poster}" Header="{ext:Loc SaveToPc}"/>
+                                <ContextMenu FlowDirection="{hc:Localization R2L}">
+                                    <MenuItem Command="{Binding SaveToPcCommand}" CommandParameter="{Binding Poster}" Header="{hc:Localization SaveToPc}"/>
                                 </ContextMenu>
                             </Image.ContextMenu>
                         </Image>

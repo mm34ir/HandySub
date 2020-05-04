@@ -6,20 +6,18 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource RegionBrush}"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:ext="clr-namespace:SubtitleDownloader.Language"
-        ext:Translation.ResourceManager="{x:Static ext:Lang.ResourceManager}"
         Margin="16"
         CornerRadius="10"
         Effect="{StaticResource EffectShadow4}">
     <DockPanel>
-        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="{ext:Loc Subtitle}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
-        <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparent}">
-            <ListBoxItem Tag="Subscene" Margin="10,5,10,0" Content="{ext:Loc Subscene}"/>
-            <ListBoxItem Tag="PopularSeries" Margin="10,5,10,0" Content="{ext:Loc PopularSub}"/>
-            <ListBoxItem Tag="GetMovieInfoIMDB" Margin="10,5,10,0" Style="{StaticResource ListBoxItemNew}" Content="{ext:Loc GetMovieInfo}"/>
-            <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="{ext:Loc Settings}"/>
-            <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="{ext:Loc Update}"/>
-            <ListBoxItem Tag="About" Margin="10,5,10,0" Content="{ext:Loc AboutUs}"/>
+        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="{hc:Localization Subtitle}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
+        <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">
+            <ListBoxItem Tag="Subscene" Margin="10,5,10,0" Content="{hc:Localization Subscene}"/>
+            <ListBoxItem Tag="PopularSeries" Margin="10,5,10,0" Content="{hc:Localization PopularSub}"/>
+            <ListBoxItem Tag="GetMovieInfoIMDB" Margin="10,5,10,0" Style="{StaticResource ListBoxItemNew}" Content="{hc:Localization GetMovieInfo}"/>
+            <ListBoxItem Tag="Settings" Margin="10,5,10,0" Content="{hc:Localization Settings}"/>
+            <ListBoxItem Tag="Updater" Margin="10,5,10,0" Content="{hc:Localization Update}"/>
+            <ListBoxItem Tag="About" Margin="10,5,10,0" Content="{hc:Localization AboutUs}"/>
             <hc:Interaction.Triggers>
                 <hc:EventTrigger EventName="SelectionChanged">
                     <hc:EventToCommand Command="{Binding SwitchItemCmd}" PassEventArgsToCommand="True"/>

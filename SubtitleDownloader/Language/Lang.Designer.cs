@@ -556,6 +556,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RightToLeft.
+        /// </summary>
+        public static string R2L {
+            get {
+                return ResourceManager.GetString("R2L", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to اجرای برنامه در پس زمینه (برنامه به جای بستن مخفی خواهد شد و از سیستم ترای قابل دسترس خواهد بود).
         /// </summary>
         public static string RunInBackground {

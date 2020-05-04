@@ -1,4 +1,5 @@
-﻿using HandyControl.Data;
+﻿using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Tools;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -6,6 +7,7 @@ using Microsoft.AppCenter.Crashes;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Regions;
+using SubtitleDownloader.Language;
 using SubtitleDownloader.Views;
 using System;
 using System.Collections.Generic;
@@ -27,13 +29,12 @@ namespace SubtitleDownloader
         public App()
         {
             GlobalData.Init();
-
+            LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
+            LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalData.Config.UILang);
             if (GlobalData.Config.Skin != SkinType.Default)
             {
                 UpdateSkin(GlobalData.Config.Skin);
             }
-
-            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
 
             //init Appcenter Crash Reporter
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
@@ -54,6 +55,7 @@ namespace SubtitleDownloader
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
 
             if (e.Args.Length > 0)
             {
@@ -67,7 +69,7 @@ namespace SubtitleDownloader
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
-        protected override Window CreateShell()
+        protected override System.Windows.Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
         }
