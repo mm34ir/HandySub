@@ -4,16 +4,21 @@ using HandyControl.Tools;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Module.Core;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Modularity;
 using Prism.Regions;
 using SubtitleDownloader.Language;
+using SubtitleDownloader.ViewModels;
 using SubtitleDownloader.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -21,6 +26,54 @@ namespace SubtitleDownloader
 {
     public partial class App : PrismApplication
     {
+        #region Module
+        private void CreateModuleDirectory()
+        {
+            if (!Directory.Exists(MODULES_PATH))
+            {
+                Directory.CreateDirectory(MODULES_PATH);
+            }
+        }
+        private const string MODULES_PATH = @".\modules";
+        private ObservableCollection<ModuleModel> moduleCollection = null;
+
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            return new DirectoryModuleCatalog() { ModulePath = MODULES_PATH };
+        }
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            DirectoryModuleCatalog directoryCatalog = (DirectoryModuleCatalog)moduleCatalog;
+            directoryCatalog.Initialize();
+
+            moduleCollection = new ObservableCollection<ModuleModel>();
+            TypeFilter typeFilter = new TypeFilter(InterfaceFilter);
+
+            foreach (IModuleCatalogItem item in directoryCatalog.Items)
+            {
+                ModuleInfo mi = (ModuleInfo)item;
+                // in .NetFrameWork we dont need to replace
+                Assembly asm = Assembly.LoadFrom(mi.Ref.Replace(@"file:///", ""));
+
+                foreach (Type t in asm.GetTypes())
+                {
+                    Type[] myInterfaces = t.FindInterfaces(typeFilter, typeof(IModuleService).ToString());
+
+                    if (myInterfaces.Length > 0)
+                    {
+                        IModuleService moduleService = (IModuleService)asm.CreateInstance(t.FullName);
+                        ModuleModel module = moduleService.GetModule();
+                        moduleCollection.Add(module);
+                    }
+                }
+            }
+        }
+
+        private bool InterfaceFilter(Type typeObj, object criteriaObj)
+        {
+            return typeObj.ToString() == criteriaObj.ToString();
+        }
+        #endregion
         public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
 
         private readonly List<string> wordsToRemove = "RMT DD5 YTS TURKISH VIDEOFLIX Gisaengchung KOREAN 8CH BluRay Hdcam HDCAM . - XviD AC3 EVO WEBRip FGT MP3 CMRG Pahe 10bit 720p 1080p 480p WEB-DL H264 H265 x264 x265 800MB 900MB HEVC PSA RARBG 6CH 2CH CAMRip Rip AVS RMX HDTV RMTeam mSD SVA MkvCage MeGusta TBS AMZN DDP5.1 DDP5 SHITBOX NITRO WEB DL 1080 720 480 MrMovie BWBP NTG "
@@ -28,6 +81,7 @@ namespace SubtitleDownloader
 
         public App()
         {
+            CreateModuleDirectory();
             GlobalData.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalData.Config.UILang);
@@ -71,7 +125,12 @@ namespace SubtitleDownloader
 
         protected override System.Windows.Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            MainWindow shell = Container.Resolve<MainWindow>();
+            if (moduleCollection != null)
+            {
+                LeftMainContentViewModel.Instance.DataService.AddRange(moduleCollection);
+            }
+            return shell;
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

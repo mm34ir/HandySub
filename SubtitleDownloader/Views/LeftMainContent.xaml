@@ -32,11 +32,16 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="10,5,10,0" Tag="{Binding Tag}" Text="{hc:Localization KeyBinding={Binding DisplayName}}"/>
+                                <TextBlock Margin="10,5,10,0" Text="{hc:Localization KeyBinding={Binding DisplayName}}"/>
                                 <Path FlowDirection="LeftToRight" Visibility="{Binding IsNew,Converter={StaticResource Boolean2VisibilityConverter}}" VerticalAlignment="Center" Data="{StaticResource NewGeometry}" Stretch="Uniform" Width="30" Height="14" Fill="{DynamicResource DangerBrush}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="SelectionChanged">
+                            <hc:EventToCommand Command="{Binding SwitchModuleItemCmd}" PassEventArgsToCommand="True"/>
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
                 </ListBox>
             </TabItem>
         </TabControl>

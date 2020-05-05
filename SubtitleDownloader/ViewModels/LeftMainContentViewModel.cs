@@ -1,27 +1,52 @@
-﻿using Prism.Commands;
+﻿using Module.Core;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-
 namespace SubtitleDownloader.ViewModels
 {
     public class LeftMainContentViewModel : BindableBase
     {
+        internal static LeftMainContentViewModel Instance;
         private readonly IRegionManager _regionManager;
 
+        private ObservableCollection<ModuleModel> _dataService = new ObservableCollection<ModuleModel>();
+        public ObservableCollection<ModuleModel> DataService
+        {
+            get => _dataService;
+            set => SetProperty(ref _dataService, value);
+        }
         #region Command
         public DelegateCommand<SelectionChangedEventArgs> SwitchItemCmd { get; private set; }
+        public DelegateCommand<SelectionChangedEventArgs> SwitchModuleItemCmd { get; private set; }
         public DelegateCommand EmptyContentCommand { get; private set; }
         #endregion
 
         public LeftMainContentViewModel(IRegionManager regionManager)
         {
+            Instance = this;
             _regionManager = regionManager;
             SwitchItemCmd = new DelegateCommand<SelectionChangedEventArgs>(Switch);
+            SwitchModuleItemCmd = new DelegateCommand<SelectionChangedEventArgs>(SwitchModule);
             EmptyContentCommand = new DelegateCommand(EmptyContent);
+        }
 
-            initPlugins();
+        private void SwitchModule(SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
+            if (e.AddedItems[0] is ModuleModel item)
+            {
+                //Clear last module
+                EmptyContent();
+
+                // register module
+                _regionManager.RegisterViewWithRegion("ContentRegion", item.DefaultView);
+            }
         }
 
         private void EmptyContent()
@@ -42,27 +67,6 @@ namespace SubtitleDownloader.ViewModels
                     _regionManager.RequestNavigate("ContentRegion", item.Tag.ToString());
                 }
             }
-        }
-
-        public class model
-        {
-            public string DisplayName { get; set; }
-            public string Tag { get; set; }
-            public bool IsNew { get; set; }
-        }
-
-        private ObservableCollection<model> _DataService = new ObservableCollection<model>();
-        public ObservableCollection<model> DataService
-        {
-            get { return _DataService; }
-            set { SetProperty(ref _DataService, value); }
-        }
-
-        public void initPlugins()
-        {
-            DataService.Add(new model { DisplayName = "Plugin", Tag = "Plugin", IsNew = false });
-            DataService.Add(new model { DisplayName = "Plugin", Tag = "Plugin", IsNew = false });
-            DataService.Add(new model { DisplayName = "Plugin", Tag = "Plugin", IsNew = true });
         }
     }
 }

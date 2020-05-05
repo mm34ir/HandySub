@@ -232,6 +232,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ای سابتایتل.
+        /// </summary>
+        public static string ESubtitle {
+            get {
+                return ResourceManager.GetString("ESubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to بستن.
         /// </summary>
         public static string Exit {
@@ -714,6 +723,15 @@ namespace SubtitleDownloader.Language {
         public static string SubServer {
             get {
                 return ResourceManager.GetString("SubServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سابتایتل استار.
+        /// </summary>
+        public static string SubStar {
+            get {
+                return ResourceManager.GetString("SubStar", resourceCulture);
             }
         }
         
