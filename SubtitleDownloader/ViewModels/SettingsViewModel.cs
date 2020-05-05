@@ -1,8 +1,10 @@
-﻿using Microsoft.Win32;
+﻿using HandyControl.Controls;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using SubtitleDownloader.Language;
 using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
@@ -50,6 +52,7 @@ namespace SubtitleDownloader.ViewModels
         #endregion
         #region Command
         public DelegateCommand SelectFolderCommand { get; private set; }
+        public DelegateCommand AddPluginCommand { get; private set; }
 
         public DelegateCommand<object> AutoDownloadCommand { get; private set; }
         public DelegateCommand<object> ShowNotificationCommand { get; private set; }
@@ -64,6 +67,7 @@ namespace SubtitleDownloader.ViewModels
         public SettingsViewModel()
         {
             SelectFolderCommand = new DelegateCommand(SelectFolder);
+            AddPluginCommand = new DelegateCommand(AddNewPlugin);
             AutoDownloadCommand = new DelegateCommand<object>(AutoDownload);
             ShowNotificationCommand = new DelegateCommand<object>(ShowNotification);
             AddToFileContextMenuCommand = new DelegateCommand<object>(AddToFileContextMenu);
@@ -74,6 +78,19 @@ namespace SubtitleDownloader.ViewModels
             ServerChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(ServerChanged);
 
             InitSettings();
+        }
+
+        private void AddNewPlugin()
+        {
+            Microsoft.Win32.OpenFileDialog openFile = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Module files (*.dll)|*.dll"
+            };
+            if (openFile.ShowDialog().Value)
+            {
+                File.Copy(openFile.FileName, $@".\modules\{Path.GetFileName(openFile.FileName)}", true);
+                HandyControl.Controls.MessageBox.Success(LocalizationManager.Instance.Localize("AddedPlugin").ToString());
+            }
         }
 
         private void InitSettings()

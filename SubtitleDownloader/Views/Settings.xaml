@@ -47,7 +47,9 @@
                 <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToDirectoryContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization RunInBackground}" Style="{StaticResource ToggleButtonSwitch}"/>
-            </StackPanel>
+                 <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Plugin}"/>
+                 <Button Margin="0,10" HorizontalAlignment="Left" Style="{StaticResource ButtonDanger}" Command="{Binding AddPluginCommand}" Content="{hc:Localization AddPlugin}"/>
+                </StackPanel>
         </Border>
         </hc:ScrollViewer>
     </hc:TransitioningContentControl>

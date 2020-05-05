@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Mahdi Hosseini</Authors>
+    <Product>Subtitle Module Core</Product>
   </PropertyGroup>
 
 </Project>

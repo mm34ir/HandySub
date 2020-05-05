@@ -348,10 +348,16 @@
   <data name="Plugin" xml:space="preserve">
     <value>Plugins</value>
   </data>
+  <data name="AddPlugin" xml:space="preserve">
+    <value>Add New Plugin</value>
+  </data>
   <data name="ESubtitle" xml:space="preserve">
     <value>E Subtitle</value>
   </data>
   <data name="SubStar" xml:space="preserve">
     <value>SubtitleStar</value>
+  </data>
+  <data name="AddedPlugin" xml:space="preserve">
+    <value>Your Plugin Added, Please Restart application</value>
   </data>
 </root>

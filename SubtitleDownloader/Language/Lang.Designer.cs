@@ -70,6 +70,24 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to پلاگین موردنظر با موفقیت افزوده شد برنامه را مجدد راه اندازی کنید تا تغییرات را مشاهده کنید.
+        /// </summary>
+        public static string AddedPlugin {
+            get {
+                return ResourceManager.GetString("AddedPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to افزودن پلاگین جدید.
+        /// </summary>
+        public static string AddPlugin {
+            get {
+                return ResourceManager.GetString("AddPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست پوشه ها.
         /// </summary>
         public static string AddToDirectoryContext {
