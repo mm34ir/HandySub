@@ -3,11 +3,11 @@
 namespace ESubtitleModule.Views
 {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for ESubtitleDownload
     /// </summary>
-    public partial class ViewA : UserControl
+    public partial class ESubtitleDownload : UserControl
     {
-        public ViewA()
+        public ESubtitleDownload()
         {
             InitializeComponent();
         }

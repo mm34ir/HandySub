@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using ESubtitleModule.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 
 namespace ESubtitleModule
@@ -12,7 +13,7 @@ namespace ESubtitleModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterForNavigation<ESubtitleDownload>();
         }
     }
 }
