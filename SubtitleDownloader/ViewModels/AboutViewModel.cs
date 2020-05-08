@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using SubtitleDownloader.Language;
 using System.Reflection;
 
 namespace SubtitleDownloader.ViewModels
@@ -14,7 +13,7 @@ namespace SubtitleDownloader.ViewModels
         }
         public AboutViewModel()
         {
-            Version = string.Format(Lang.ResourceManager.GetString("Version"), Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
     }
 }

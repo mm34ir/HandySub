@@ -82,12 +82,12 @@ namespace SubtitleDownloader
         public App()
         {
             CreateModuleDirectory();
-            GlobalData.Init();
+            GlobalDataHelper<AppConfig>.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
-            LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalData.Config.UILang);
-            if (GlobalData.Config.Skin != SkinType.Default)
+            LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
+            if (GlobalDataHelper<AppConfig>.Config.Skin != SkinType.Default)
             {
-                UpdateSkin(GlobalData.Config.Skin);
+                UpdateSkin(GlobalDataHelper<AppConfig>.Config.Skin);
             }
 
             //init Appcenter Crash Reporter
@@ -109,7 +109,7 @@ namespace SubtitleDownloader
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+            ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
 
             if (e.Args.Length > 0)
             {

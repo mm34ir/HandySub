@@ -95,16 +95,16 @@ namespace SubtitleDownloader.ViewModels
 
         private void InitSettings()
         {
-            CurrentStoreLocation = GlobalData.Config.StoreLocation;
+            CurrentStoreLocation = GlobalDataHelper<AppConfig>.Config.StoreLocation;
 
-            GetIsCheckedAutoDownload = GlobalData.Config.IsAutoDownloadSubtitle;
-            GetIsCheckedFileContextMenu = GlobalData.Config.IsContextMenuFile;
-            GetIsCheckedFolderContextMenu = GlobalData.Config.IsContextMenuFolder;
-            GetIsCheckedShowNotification = GlobalData.Config.IsShowNotification;
-            GetIsCheckedShowNotifyIcon = GlobalData.Config.IsShowNotifyIcon;
+            GetIsCheckedAutoDownload = GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle;
+            GetIsCheckedFileContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFile;
+            GetIsCheckedFolderContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder;
+            GetIsCheckedShowNotification = GlobalDataHelper<AppConfig>.Config.IsShowNotification;
+            GetIsCheckedShowNotifyIcon = GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon;
 
-            CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalData.Config.SubtitleLang);
-            CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalData.Config.ServerUrl);
+            CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalDataHelper<AppConfig>.Config.SubtitleLang);
+            CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
         }
 
         private void ServerChanged(SelectionChangedEventArgs e)
@@ -115,11 +115,11 @@ namespace SubtitleDownloader.ViewModels
             }
             if (e.AddedItems[0] is ComboBoxItem item)
             {
-                if (!item.Content.ToString().Equals(GlobalData.Config.ServerUrl))
+                if (!item.Content.ToString().Equals(GlobalDataHelper<AppConfig>.Config.ServerUrl))
                 {
-                    GlobalData.Config.ServerUrl = item.Content.ToString();
-                    GlobalData.Save();
-                    CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalData.Config.ServerUrl);
+                    GlobalDataHelper<AppConfig>.Config.ServerUrl = item.Content.ToString();
+                    GlobalDataHelper<AppConfig>.Save();
+                    CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
                 }
             }
         }
@@ -132,11 +132,11 @@ namespace SubtitleDownloader.ViewModels
             }
             if (e.AddedItems[0] is ComboBoxItem item)
             {
-                if (!item.Content.ToString().Equals(GlobalData.Config.SubtitleLang))
+                if (!item.Content.ToString().Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLang))
                 {
-                    GlobalData.Config.SubtitleLang = item.Content.ToString();
-                    GlobalData.Save();
-                    CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalData.Config.SubtitleLang);
+                    GlobalDataHelper<AppConfig>.Config.SubtitleLang = item.Content.ToString();
+                    GlobalDataHelper<AppConfig>.Save();
+                    CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalDataHelper<AppConfig>.Config.SubtitleLang);
                 }
             }
         }
@@ -144,48 +144,48 @@ namespace SubtitleDownloader.ViewModels
         #region ToggleButton
         private void ShowNotification(object isChecked)
         {
-            if ((bool)isChecked != GlobalData.Config.IsShowNotification)
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
-                GlobalData.Config.IsShowNotification = (bool)isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsShowNotification = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
 
         private void IsShowNotifyIcon(object isChecked)
         {
-            if ((bool)isChecked != GlobalData.Config.IsShowNotifyIcon)
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon)
             {
-                GlobalData.Config.IsShowNotifyIcon = (bool)isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
 
         private void AddToFolderContextMenu(object isChecked)
         {
-            if ((bool)isChecked != GlobalData.Config.IsContextMenuFolder)
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder)
             {
-                GlobalData.Config.IsContextMenuFolder = (bool)isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
                 RegisterContextMenu(true, !(bool)isChecked);
             }
         }
 
         private void AddToFileContextMenu(object isChecked)
         {
-            if ((bool)isChecked != GlobalData.Config.IsContextMenuFile)
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsContextMenuFile)
             {
-                GlobalData.Config.IsContextMenuFile = (bool)isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsContextMenuFile = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
                 RegisterContextMenu(false, !(bool)isChecked);
             }
         }
 
         private void AutoDownload(object isChecked)
         {
-            if ((bool)isChecked != GlobalData.Config.IsAutoDownloadSubtitle)
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle)
             {
-                GlobalData.Config.IsAutoDownloadSubtitle = (bool)isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
         #endregion
@@ -198,8 +198,8 @@ namespace SubtitleDownloader.ViewModels
                 if (result == DialogResult.OK)
                 {
                     CurrentStoreLocation = dialog.SelectedPath + @"\";
-                    GlobalData.Config.StoreLocation = CurrentStoreLocation;
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.StoreLocation = CurrentStoreLocation;
+                    GlobalDataHelper<AppConfig>.Save();
                 }
             }
         }

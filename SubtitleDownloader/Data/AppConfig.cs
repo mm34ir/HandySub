@@ -1,9 +1,10 @@
-﻿using HandyControl.Data;
+﻿using HandyControl.Controls;
+using HandyControl.Data;
 using System;
 
 namespace SubtitleDownloader
 {
-    internal class AppConfig
+    internal class AppConfig : GlobalDataHelper<AppConfig>
     {
         public static readonly string SavePath = $"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json";
 

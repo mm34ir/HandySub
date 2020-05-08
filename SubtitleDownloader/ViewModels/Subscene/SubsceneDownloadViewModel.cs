@@ -171,7 +171,7 @@ namespace SubtitleDownloader.ViewModels
                 Content = Lang.ResourceManager.GetString("SubDownload");
                 IsOpen = true;
 
-                if (GlobalData.Config.IsAutoDownloadSubtitle)
+                if (GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle)
                 {
                     OnDownloadClick();
                 }
@@ -180,7 +180,7 @@ namespace SubtitleDownloader.ViewModels
 
         private void GetSubtitle()
         {
-            if (GlobalData.Config.ServerUrl.Contains("subf2m"))
+            if (GlobalDataHelper<AppConfig>.Config.ServerUrl.Contains("subf2m"))
             {
                 Subf2mCore();
             }
@@ -307,7 +307,7 @@ namespace SubtitleDownloader.ViewModels
             string link = navigationContext.Parameters["link_key"] as string;
             if (!string.IsNullOrEmpty(link))
             {
-                subtitleUrl = GlobalData.Config.ServerUrl + link;
+                subtitleUrl = GlobalDataHelper<AppConfig>.Config.ServerUrl + link;
             }
             GetSubtitle();
         }
@@ -339,7 +339,7 @@ namespace SubtitleDownloader.ViewModels
             MaskCanClose = true;
             Progress = 0;
             Content = Lang.ResourceManager.GetString("OpenFolder");
-            if (GlobalData.Config.IsShowNotification)
+            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
                 Growl.Clear();
                 Growl.Ask(new GrowlInfo
@@ -376,13 +376,13 @@ namespace SubtitleDownloader.ViewModels
                     Progress = 0;
 
                     HtmlWeb web = new HtmlWeb();
-                    HtmlDocument doc = await web.LoadFromWebAsync(GlobalData.Config.ServerUrl + SubtitleDownloadLink);
+                    HtmlDocument doc = await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + SubtitleDownloadLink);
 
                     string downloadLink = doc.DocumentNode.SelectSingleNode(
                                 "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
                     // we need to get file name
-                    byte[] data = client.DownloadData(GlobalData.Config.ServerUrl + downloadLink);
+                    byte[] data = client.DownloadData(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
 
                     if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
                     {
@@ -396,11 +396,11 @@ namespace SubtitleDownloader.ViewModels
                     }
                     else // get location from config
                     {
-                        location = GlobalData.Config.StoreLocation + Episode + subName;
+                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation + Episode + subName;
                     }
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                     client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                    client.DownloadFileAsync(new Uri(GlobalData.Config.ServerUrl + downloadLink), location);
+                    client.DownloadFileAsync(new Uri(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink), location);
                 }
                 else
                 {

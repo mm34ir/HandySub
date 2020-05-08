@@ -131,7 +131,7 @@ namespace SubtitleDownloader.ViewModels
                     SearchText = await getTitleByImdbId(SearchText);
                 }
 
-                string url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, SearchText);
+                string url = string.Format(SearchAPI, GlobalDataHelper<AppConfig>.Config.ServerUrl, SearchText);
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(url);
 
@@ -149,7 +149,7 @@ namespace SubtitleDownloader.ViewModels
                         {
                             continue;
                         }
-                        SubsceneModel item = new SubsceneModel { Link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value + $"/{GlobalData.Config.SubtitleLang}/", Name = node.InnerText.Trim() };
+                        SubsceneModel item = new SubsceneModel { Link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value + $"/{GlobalDataHelper<AppConfig>.Config.SubtitleLang}/", Name = node.InnerText.Trim() };
                         DataList.Add(item);
                     }
                 }

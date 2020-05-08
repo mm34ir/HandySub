@@ -26,13 +26,13 @@ namespace SubtitleDownloader.Views
             if (e.OriginalSource is Button button && button.Tag is SkinType tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(GlobalData.Config.Skin))
+                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.Skin))
                 {
                     return;
                 }
 
-                GlobalData.Config.Skin = tag;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.Skin = tag;
+                GlobalDataHelper<AppConfig>.Save();
                 ((App)Application.Current).UpdateSkin(tag);
             }
         }
@@ -42,7 +42,7 @@ namespace SubtitleDownloader.Views
             if (e.OriginalSource is Button button && button.Tag is string tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(GlobalData.Config.UILang))
+                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.UILang))
                 {
                     return;
                 }
@@ -54,10 +54,10 @@ namespace SubtitleDownloader.Views
                         return true;
                     }
 
-                    GlobalData.Config.UILang = tag;
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.UILang = tag;
+                    GlobalDataHelper<AppConfig>.Save();
                     LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(tag);
-                    ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+                    ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
                     return true;
                 });
             }
@@ -67,9 +67,9 @@ namespace SubtitleDownloader.Views
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-            if (GlobalData.Config.IsShowNotifyIcon)
+            if (GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon)
             {
-                if (GlobalData.Config.IsFirstRun)
+                if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
                 {
                     MessageBoxResult result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
                     {
@@ -83,8 +83,8 @@ namespace SubtitleDownloader.Views
                     {
                         Hide();
                         e.Cancel = true;
-                        GlobalData.Config.IsFirstRun = false;
-                        GlobalData.Save();
+                        GlobalDataHelper<AppConfig>.Config.IsFirstRun = false;
+                        GlobalDataHelper<AppConfig>.Save();
                     }
                     else
                     {
