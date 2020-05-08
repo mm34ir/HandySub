@@ -9,7 +9,7 @@
     <Version>1.5.0.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © Mahdi 2018-2020</Copyright>
-    <FileVersion>1.4.0.0</FileVersion>
+    <FileVersion>1.5.0.0</FileVersion>
     <AssemblyVersion>1.5.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
@@ -75,5 +75,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="modules\ESubtitleModule.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

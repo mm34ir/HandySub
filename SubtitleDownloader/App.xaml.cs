@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -27,14 +28,7 @@ namespace SubtitleDownloader
     public partial class App : PrismApplication
     {
         #region Module
-        private void CreateModuleDirectory()
-        {
-            if (!Directory.Exists(MODULES_PATH))
-            {
-                Directory.CreateDirectory(MODULES_PATH);
-            }
-        }
-        private const string MODULES_PATH = @".\modules";
+        private string MODULES_PATH = AppDomain.CurrentDomain.BaseDirectory + "modules";
         private ObservableCollection<ModuleModel> moduleCollection = null;
 
         protected override IModuleCatalog CreateModuleCatalog()
@@ -62,7 +56,9 @@ namespace SubtitleDownloader
                     if (myInterfaces.Length > 0)
                     {
                         IModuleService moduleService = (IModuleService)asm.CreateInstance(t.FullName);
+
                         ModuleModel module = moduleService.GetModule();
+
                         moduleCollection.Add(module);
                     }
                 }
@@ -81,7 +77,6 @@ namespace SubtitleDownloader
 
         public App()
         {
-            CreateModuleDirectory();
             GlobalDataHelper<AppConfig>.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
