@@ -354,9 +354,6 @@
   <data name="ESubtitle" xml:space="preserve">
     <value>E Subtitle</value>
   </data>
-  <data name="SubStar" xml:space="preserve">
-    <value>SubtitleStar</value>
-  </data>
   <data name="AddedPlugin" xml:space="preserve">
     <value>Your Plugin Added, Please Restart application</value>
   </data>

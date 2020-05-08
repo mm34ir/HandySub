@@ -745,15 +745,6 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to سابتایتل استار.
-        /// </summary>
-        public static string SubStar {
-            get {
-                return ResourceManager.GetString("SubStar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to زیرنویس.
         /// </summary>
         public static string Subtitle {

@@ -354,9 +354,6 @@
   <data name="ESubtitle" xml:space="preserve">
     <value>ای سابتایتل</value>
   </data>
-  <data name="SubStar" xml:space="preserve">
-    <value>سابتایتل استار</value>
-  </data>
   <data name="AddedPlugin" xml:space="preserve">
     <value>پلاگین موردنظر با موفقیت افزوده شد برنامه را مجدد راه اندازی کنید تا تغییرات را مشاهده کنید</value>
   </data>
