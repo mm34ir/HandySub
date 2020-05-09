@@ -360,4 +360,7 @@
   <data name="IDM" xml:space="preserve">
     <value>Download Subtitle with Internet Download Manager</value>
   </data>
+  <data name="WorldSub" xml:space="preserve">
+    <value>World Subtitle</value>
+  </data>
 </root>

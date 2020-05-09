@@ -80,5 +80,8 @@
     <None Update="modules\ESubtitleModule.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="modules\WorldSubtitleModule.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

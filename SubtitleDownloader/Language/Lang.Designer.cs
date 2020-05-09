@@ -788,5 +788,14 @@ namespace SubtitleDownloader.Language {
                 return ResourceManager.GetString("Version", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to جهان زیرنویس.
+        /// </summary>
+        public static string WorldSub {
+            get {
+                return ResourceManager.GetString("WorldSub", resourceCulture);
+            }
+        }
     }
 }

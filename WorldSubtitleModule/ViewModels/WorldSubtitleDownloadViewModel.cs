@@ -1,5 +1,4 @@
-﻿using ESubtitleModule.Models;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HtmlAgilityPack;
 using Prism.Commands;
@@ -8,12 +7,14 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using WorldSubtitleModule.Models;
 
-namespace ESubtitleModule.ViewModels
+namespace WorldSubtitleModule.ViewModels
 {
-    public class ESubtitleDownloadViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class WorldSubtitleDownloadViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         private readonly IRegionManager _regionManager;
         public bool KeepAlive => false;
@@ -23,8 +24,8 @@ namespace ESubtitleModule.ViewModels
         private string subName = string.Empty;
 
         #region Property
-        private ObservableCollection<EDownloadModel> _dataList = new ObservableCollection<EDownloadModel>();
-        public ObservableCollection<EDownloadModel> DataList
+        private ObservableCollection<WorldSubtitleDownloadModel> _dataList = new ObservableCollection<WorldSubtitleDownloadModel>();
+        public ObservableCollection<WorldSubtitleDownloadModel> DataList
         {
             get => _dataList;
             set => SetProperty(ref _dataList, value);
@@ -64,7 +65,7 @@ namespace ESubtitleModule.ViewModels
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand<string> DownloadCommand { get; private set; }
         #endregion
-        public ESubtitleDownloadViewModel(IRegionManager regionManager)
+        public WorldSubtitleDownloadViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
             GoBackCommand = new DelegateCommand(GoBack);
@@ -81,7 +82,7 @@ namespace ESubtitleModule.ViewModels
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                HtmlNodeCollection items = doc.DocumentNode.SelectNodes("//a[@class='Download']");
+                HtmlNodeCollection items = doc.DocumentNode.SelectNodes(@"//div[@id='new-link']/ul/li");
                 if (items == null)
                 {
                     MessageBox.Error(LocalizationManager.Instance.Localize("SubNotFound").ToString());
@@ -91,7 +92,17 @@ namespace ESubtitleModule.ViewModels
                     DataList?.Clear();
                     foreach (HtmlNode node in items)
                     {
-                        EDownloadModel item = new EDownloadModel { DisplayName = node.SelectSingleNode(".//span[last()]").InnerText, DownloadLink = node.Attributes["href"].Value };
+                        string displayName = node.SelectSingleNode(".//div[@class='new-link-1']").InnerText;
+                        string status = node.SelectSingleNode(".//div[@class='new-link-2']").InnerText;
+                        string link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value;
+
+                        if (status.Contains("&nbsp;"))
+                        {
+                            status = status.Replace("&nbsp;", "");
+                        }
+                        displayName = displayName + " - " + status;
+
+                        WorldSubtitleDownloadModel item = new WorldSubtitleDownloadModel { DisplayName = displayName, DownloadLink = link };
                         DataList.Add(item);
                     }
                 }
@@ -116,7 +127,7 @@ namespace ESubtitleModule.ViewModels
 
         private void GoBack()
         {
-            _regionManager.RequestNavigate("ContentRegion", "ESubtitle");
+            _regionManager.RequestNavigate("ContentRegion", "WorldSubtitle");
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -137,7 +148,6 @@ namespace ESubtitleModule.ViewModels
         {
 
         }
-
         #region Downloader
         private void OnDownload(string link)
         {
@@ -176,11 +186,11 @@ namespace ESubtitleModule.ViewModels
             string strCmdText = $"/C /d \"{link}\"";
             try
             {
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
+                Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
             }
-            catch (System.ComponentModel.Win32Exception)
+            catch (Win32Exception)
             {
-                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
+                Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
             }
         }
 

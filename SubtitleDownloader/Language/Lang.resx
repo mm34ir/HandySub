@@ -360,4 +360,7 @@
   <data name="IDM" xml:space="preserve">
     <value>هماهنگی با اینترنت دانلود منیجر (زیرنویس ها با IDM دانلود خواهند شد)</value>
   </data>
+  <data name="WorldSub" xml:space="preserve">
+    <value>جهان زیرنویس</value>
+  </data>
 </root>
