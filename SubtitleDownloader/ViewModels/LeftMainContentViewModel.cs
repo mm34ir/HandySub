@@ -11,7 +11,7 @@ namespace SubtitleDownloader.ViewModels
         internal static LeftMainContentViewModel Instance;
         private readonly IRegionManager _regionManager;
 
-        private int _MainSelectedIndex = -1;
+        private int _MainSelectedIndex = 0;
         public int MainSelectedIndex
         {
             get => _MainSelectedIndex;
