@@ -1,13 +1,13 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HtmlAgilityPack;
+using Module.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using WorldSubtitleModule.Models;
@@ -176,21 +176,8 @@ namespace WorldSubtitleModule.ViewModels
                 }
                 else
                 {
-                    OpenIDM(link);
+                    ModuleHelper.OpenLinkWithIDM(link);
                 }
-            }
-        }
-
-        private void OpenIDM(string link)
-        {
-            string strCmdText = $"/C /d \"{link}\"";
-            try
-            {
-                Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
-            }
-            catch (Win32Exception)
-            {
-                Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
             }
         }
 

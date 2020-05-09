@@ -1,12 +1,12 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HtmlAgilityPack;
+using Module.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using WorldSubtitleModule.Model;
@@ -88,7 +88,7 @@ namespace WorldSubtitleModule.ViewModels
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt"))
                 {
-                    SearchText = await getTitleByImdbId(SearchText);
+                    SearchText = await ModuleHelper.GetTitleByImdbId(SearchText, errorCallBack);
                 }
 
                 HtmlWeb web = new HtmlWeb();
@@ -140,6 +140,11 @@ namespace WorldSubtitleModule.ViewModels
             return false;
         }
 
+        private void errorCallBack(string e)
+        {
+            Growl.Error(e);
+        }
+
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
             if (string.IsNullOrEmpty(SearchText))
@@ -166,35 +171,6 @@ namespace WorldSubtitleModule.ViewModels
             }
             catch (NullReferenceException) { }
             catch (FormatException) { }
-        }
-
-        private async Task<string> getTitleByImdbId(string ImdbId)
-        {
-            string result = string.Empty;
-            string url = $"http://www.omdbapi.com/?i={ImdbId}&apikey=2a59a17e";
-
-            try
-            {
-                using HttpClient client = new HttpClient();
-                string responseBody = await client.GetStringAsync(url);
-                IMDBModel.Root parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
-
-                if (parse.Response.Equals("True"))
-                {
-                    result = parse.Title;
-                }
-                else
-                {
-                    Growl.Error(parse.Error);
-                }
-
-            }
-            catch (HttpRequestException ex)
-            {
-                Growl.Error(ex.Message);
-            }
-
-            return result;
         }
     }
 }

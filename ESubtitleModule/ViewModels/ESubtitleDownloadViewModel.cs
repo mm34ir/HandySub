@@ -2,6 +2,7 @@
 using HandyControl.Controls;
 using HandyControl.Data;
 using HtmlAgilityPack;
+using Module.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -166,21 +167,8 @@ namespace ESubtitleModule.ViewModels
                 }
                 else
                 {
-                    OpenIDM(link);
+                    ModuleHelper.OpenLinkWithIDM(link);
                 }
-            }
-        }
-
-        private void OpenIDM(string link)
-        {
-            string strCmdText = $"/C /d \"{link}\"";
-            try
-            {
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
             }
         }
 
@@ -190,12 +178,6 @@ namespace ESubtitleModule.ViewModels
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
             Progress = int.Parse(Math.Truncate(percentage).ToString());
-        }
-
-        private dynamic GetConfig()
-        {
-            string configFile = File.ReadAllText("AppConfig.json");
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(configFile);
         }
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
@@ -223,6 +205,11 @@ namespace ESubtitleModule.ViewModels
                     }
                 });
             }
+        }
+        private dynamic GetConfig()
+        {
+            string configFile = File.ReadAllText("AppConfig.json");
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(configFile);
         }
         #endregion
     }

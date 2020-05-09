@@ -79,7 +79,7 @@ namespace SubtitleDownloader
             GlobalDataHelper<AppConfig>.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
-            
+
 
             //init Appcenter Crash Reporter
             AppCenter.Start("3770b372-60d5-49a1-8340-36a13ae5fb71",
@@ -100,7 +100,7 @@ namespace SubtitleDownloader
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
+
             ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
 
             if (e.Args.Length > 0)
