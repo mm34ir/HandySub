@@ -11,6 +11,20 @@ namespace SubtitleDownloader.ViewModels
         internal static LeftMainContentViewModel Instance;
         private readonly IRegionManager _regionManager;
 
+        private int _MainSelectedIndex = -1;
+        public int MainSelectedIndex
+        {
+            get => _MainSelectedIndex;
+            set => SetProperty(ref _MainSelectedIndex, value);
+        }
+
+        private int _ModuleSelectedIndex = -1;
+        public int ModuleSelectedIndex
+        {
+            get => _ModuleSelectedIndex;
+            set => SetProperty(ref _ModuleSelectedIndex, value);
+        }
+
         private ObservableCollection<ModuleModel> _dataService = new ObservableCollection<ModuleModel>();
         public ObservableCollection<ModuleModel> DataService
         {
@@ -46,6 +60,7 @@ namespace SubtitleDownloader.ViewModels
 
                 // register module
                 _regionManager.RegisterViewWithRegion("ContentRegion", item.DefaultView);
+                MainSelectedIndex = -1;
             }
         }
 
@@ -65,6 +80,7 @@ namespace SubtitleDownloader.ViewModels
                 if (item.Tag != null)
                 {
                     _regionManager.RequestNavigate("ContentRegion", item.Tag.ToString());
+                    ModuleSelectedIndex = -1;
                 }
             }
         }

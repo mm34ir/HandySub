@@ -9,6 +9,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
                 <hc:Interaction.Triggers>
@@ -39,6 +40,14 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </hc:BusyIndicator>
+            <Label Style="{StaticResource LabelDanger}" Grid.Row="2" Margin="10" HorizontalAlignment="{hc:Localization L2R}">
+                <Label.Content>
+                    <hc:Localization Key="CurrentModule">
+                        <Binding Path="ModuleName"/>
+                    </hc:Localization>
+                </Label.Content>
+            </Label>
+
         </Grid>
     </hc:TransitioningContentControl>
 </UserControl>

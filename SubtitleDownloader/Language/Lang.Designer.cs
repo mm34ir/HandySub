@@ -187,6 +187,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ماژول فعلی : {0}.
+        /// </summary>
+        public static string CurrentModule {
+            get {
+                return ResourceManager.GetString("CurrentModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نسخه فعلی .
         /// </summary>
         public static string CurrentVer {
@@ -498,6 +507,15 @@ namespace SubtitleDownloader.Language {
         public static string IMDBYear {
             get {
                 return ResourceManager.GetString("IMDBYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left.
+        /// </summary>
+        public static string L2R {
+            get {
+                return ResourceManager.GetString("L2R", resourceCulture);
             }
         }
         

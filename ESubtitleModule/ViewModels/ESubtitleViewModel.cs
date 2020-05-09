@@ -20,6 +20,12 @@ namespace ESubtitleModule.ViewModels
         private readonly IRegionManager _regionManager;
 
         #region Property
+        private string _ModuleName = LocalizationManager.Instance.Localize("ESubtitle").ToString();
+        public string ModuleName
+        {
+            get => LocalizationManager.Instance.Localize("ESubtitle").ToString();
+            set => SetProperty(ref _ModuleName, value);
+        }
         private ObservableCollection<AvatarModel> _dataList = new ObservableCollection<AvatarModel>();
         public ObservableCollection<AvatarModel> DataList
         {

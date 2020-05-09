@@ -363,4 +363,10 @@
   <data name="WorldSub" xml:space="preserve">
     <value>World Subtitle</value>
   </data>
+  <data name="L2R" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="CurrentModule" xml:space="preserve">
+    <value>Current Module: {0}</value>
+  </data>
 </root>

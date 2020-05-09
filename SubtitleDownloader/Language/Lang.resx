@@ -363,4 +363,10 @@
   <data name="WorldSub" xml:space="preserve">
     <value>جهان زیرنویس</value>
   </data>
+  <data name="L2R" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="CurrentModule" xml:space="preserve">
+    <value>ماژول فعلی : {0}</value>
+  </data>
 </root>

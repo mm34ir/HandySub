@@ -13,7 +13,7 @@
         <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="{hc:Localization Subtitle}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
         <TabControl ItemContainerStyle="{StaticResource TabItemTransparentStyle}" Style="{StaticResource TabControlInLine}" Background="Transparent" SelectedIndex="0">
             <TabItem Header="{hc:Localization Subtitle}">
-                <ListBox VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">
+                <ListBox SelectedIndex="{Binding MainSelectedIndex, UpdateSourceTrigger=PropertyChanged}" VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">
                     <ListBoxItem Tag="Subscene" Margin="10,5,10,0" Content="{hc:Localization Subscene}"/>
                     <ListBoxItem Tag="PopularSeries" Margin="10,5,10,0" Content="{hc:Localization PopularSub}"/>
                     <ListBoxItem Tag="GetMovieInfoIMDB" Margin="10,5,10,0" Content="{hc:Localization GetMovieInfo}"/>
@@ -28,7 +28,7 @@
                 </ListBox>
             </TabItem>
             <TabItem Header="{hc:Localization Plugin}">
-                <ListBox ItemsSource="{Binding DataService}" VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">
+                <ListBox SelectedIndex="{Binding ModuleSelectedIndex, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding DataService}" VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
