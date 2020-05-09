@@ -141,24 +141,44 @@ namespace ESubtitleModule.ViewModels
         #region Downloader
         private void OnDownload(string link)
         {
+            if (!Convert.ToBoolean(GetConfig().IsIDMEngine))
+            {
+                try
+                {
+                    IsChecked = true;
+                    IsEnabled = false;
+                    Progress = 0;
+                    subName = Path.GetFileName(link);
+                    location = GetConfig().StoreLocation + subName;
+
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                    client.DownloadFileAsync(new Uri(link), location);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    HandyControl.Controls.MessageBox.Error(LocalizationManager.Instance.Localize("AdminError").ToString(), LocalizationManager.Instance.Localize("AdminErrorTitle").ToString());
+                }
+                catch (NotSupportedException) { }
+                catch (ArgumentException) { }
+            }
+            else
+            {
+                OpenIDM(link);
+            }
+        }
+
+        private void OpenIDM(string link)
+        {
+            string strCmdText = $"/C /d \"{link}\"";
             try
             {
-                IsChecked = true;
-                IsEnabled = false;
-                Progress = 0;
-                subName = Path.GetFileName(link);
-                location = GetConfig().StoreLocation + subName;
-
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                client.DownloadFileAsync(new Uri(link), location);
+                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
             }
-            catch (UnauthorizedAccessException)
+            catch (System.ComponentModel.Win32Exception)
             {
-                HandyControl.Controls.MessageBox.Error(LocalizationManager.Instance.Localize("AdminError").ToString(), LocalizationManager.Instance.Localize("AdminErrorTitle").ToString());
+                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
             }
-            catch (NotSupportedException) { }
-            catch (ArgumentException) { }
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)

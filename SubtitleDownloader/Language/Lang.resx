@@ -357,4 +357,7 @@
   <data name="AddedPlugin" xml:space="preserve">
     <value>پلاگین موردنظر با موفقیت افزوده شد برنامه را مجدد راه اندازی کنید تا تغییرات را مشاهده کنید</value>
   </data>
+  <data name="IDM" xml:space="preserve">
+    <value>هماهنگی با اینترنت دانلود منیجر (زیرنویس ها با IDM دانلود خواهند شد)</value>
+  </data>
 </root>

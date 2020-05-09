@@ -357,4 +357,7 @@
   <data name="AddedPlugin" xml:space="preserve">
     <value>Your Plugin Added, Please Restart application</value>
   </data>
+  <data name="IDM" xml:space="preserve">
+    <value>Download Subtitle with Internet Download Manager</value>
+  </data>
 </root>

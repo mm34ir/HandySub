@@ -49,6 +49,9 @@ namespace SubtitleDownloader.ViewModels
 
         private bool _getIsCheckedShowNotifyIcon;
         public bool GetIsCheckedShowNotifyIcon { get => _getIsCheckedShowNotifyIcon; set => SetProperty(ref _getIsCheckedShowNotifyIcon, value); }
+
+        private bool _getIsCheckedIDM;
+        public bool GetIsCheckedIDM { get => _getIsCheckedIDM; set => SetProperty(ref _getIsCheckedIDM, value); }
         #endregion
         #region Command
         public DelegateCommand SelectFolderCommand { get; private set; }
@@ -59,6 +62,7 @@ namespace SubtitleDownloader.ViewModels
         public DelegateCommand<object> AddToFileContextMenuCommand { get; private set; }
         public DelegateCommand<object> AddToFolderContextMenuCommand { get; private set; }
         public DelegateCommand<object> IsShowNotifyIconCommand { get; private set; }
+        public DelegateCommand<object> IDMCommand { get; private set; }
 
         public DelegateCommand<SelectionChangedEventArgs> SubtitleLanguageCommand { get; private set; }
         public DelegateCommand<SelectionChangedEventArgs> ServerChangedCommand { get; private set; }
@@ -73,12 +77,13 @@ namespace SubtitleDownloader.ViewModels
             AddToFileContextMenuCommand = new DelegateCommand<object>(AddToFileContextMenu);
             AddToFolderContextMenuCommand = new DelegateCommand<object>(AddToFolderContextMenu);
             IsShowNotifyIconCommand = new DelegateCommand<object>(IsShowNotifyIcon);
+            IDMCommand = new DelegateCommand<object>(IDM);
 
             SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
             ServerChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(ServerChanged);
-
             InitSettings();
         }
+
 
         private void AddNewPlugin()
         {
@@ -102,6 +107,7 @@ namespace SubtitleDownloader.ViewModels
             GetIsCheckedFolderContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder;
             GetIsCheckedShowNotification = GlobalDataHelper<AppConfig>.Config.IsShowNotification;
             GetIsCheckedShowNotifyIcon = GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon;
+            GetIsCheckedIDM = GlobalDataHelper<AppConfig>.Config.IsIDMEngine;
 
             CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalDataHelper<AppConfig>.Config.SubtitleLang);
             CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
@@ -142,6 +148,15 @@ namespace SubtitleDownloader.ViewModels
         }
 
         #region ToggleButton
+        private void IDM(object isChecked)
+        {
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
+            {
+                GlobalDataHelper<AppConfig>.Config.IsIDMEngine = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
+            }
+        }
+
         private void ShowNotification(object isChecked)
         {
             if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsShowNotification)

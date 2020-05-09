@@ -40,7 +40,7 @@ namespace SubtitleDownloader.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
-        private string _content = "دانلود زیرنویس";
+        private string _content = LocalizationManager.Instance.Localize("SubDownload").ToString();
         public string Content
         {
             get => _content;
@@ -381,26 +381,38 @@ namespace SubtitleDownloader.ViewModels
                     string downloadLink = doc.DocumentNode.SelectSingleNode(
                                 "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
-                    // we need to get file name
-                    byte[] data = client.DownloadData(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
+                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
+                    {
+                        // we need to get file name
+                        byte[] data = client.DownloadData(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
 
-                    if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
-                    {
-                        subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
-                    }
+                        if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
+                        {
+                            subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+                        }
 
-                    // if luanched from ContextMenu set location next to the movie file
-                    if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                    {
-                        location = App.WindowsContextMenuArgument[1] + Episode + subName;
+                        // if luanched from ContextMenu set location next to the movie file
+                        if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
+                        {
+                            location = App.WindowsContextMenuArgument[1] + Episode + subName;
+                        }
+                        else // get location from config
+                        {
+                            location = GlobalDataHelper<AppConfig>.Config.StoreLocation + Episode + subName;
+                        }
+                        client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                        client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                        client.DownloadFileAsync(new Uri(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink), location);
                     }
-                    else // get location from config
+                    else
                     {
-                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation + Episode + subName;
+                        IsChecked = false;
+                        IsEnabled = true;
+                        MaskCanClose = true;
+                        Progress = 0;
+                        Content = LocalizationManager.Instance.Localize("SubDownload").ToString();
+                        OpenIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
                     }
-                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                    client.DownloadFileAsync(new Uri(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink), location);
                 }
                 else
                 {
@@ -413,6 +425,19 @@ namespace SubtitleDownloader.ViewModels
             }
             catch (NotSupportedException) { }
             catch (ArgumentException) { }
+        }
+
+        private void OpenIDM(string link)
+        {
+            string strCmdText = $"/C /d \"{link}\"";
+            try
+            {
+                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
+            }
         }
         #endregion
     }

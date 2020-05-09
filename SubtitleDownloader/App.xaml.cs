@@ -19,7 +19,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -28,7 +27,7 @@ namespace SubtitleDownloader
     public partial class App : PrismApplication
     {
         #region Module
-        private string MODULES_PATH = AppDomain.CurrentDomain.BaseDirectory + "modules";
+        private readonly string MODULES_PATH = AppDomain.CurrentDomain.BaseDirectory + "modules";
         private ObservableCollection<ModuleModel> moduleCollection = null;
 
         protected override IModuleCatalog CreateModuleCatalog()

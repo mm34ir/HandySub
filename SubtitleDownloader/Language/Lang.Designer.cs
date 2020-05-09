@@ -295,6 +295,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to هماهنگی با اینترنت دانلود منیجر (زیرنویس ها با IDM دانلود خواهند شد).
+        /// </summary>
+        public static string IDM {
+            get {
+                return ResourceManager.GetString("IDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to بازیگران:.
         /// </summary>
         public static string IMDBActors {

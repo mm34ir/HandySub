@@ -353,3 +353,4 @@ MigrationBackup/
 .ionide/
 SubtitleDownloader/costura32/e_sqlite3.dll
 SubtitleDownloader/costura64/e_sqlite3.dll
+SubtitleDownloader/modules/ESubtitleModule.dll

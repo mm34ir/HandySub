@@ -8,7 +8,7 @@
         <hc:ScrollViewer>
              <Border hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
             <StackPanel Margin="0,3,0,0">
-                <TextBlock Margin="32,48,32,10" HorizontalAlignment="Center" Text="Subtitler Downloader" Style="{StaticResource TextBlockLargeBold}"/>
+                <TextBlock Margin="32,48,32,10" HorizontalAlignment="Center" Text="Subtitle Downloader" Style="{StaticResource TextBlockLargeBold}"/>
                     <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" Style="{StaticResource TextBlockLargeBold}">
                         <TextBlock.Text>
                             <hc:Localization Key="Version">

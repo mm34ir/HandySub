@@ -44,6 +44,7 @@
                     </hc:Interaction.Triggers>
                 </hc:ComboBox>
                 <hc:Divider LineStrokeThickness="2" Content="{hc:Localization General}"/>
+                <ToggleButton IsChecked="{Binding GetIsCheckedIDM}" HorizontalAlignment="Left" Command="{Binding IDMCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization IDM}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToDirectoryContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization RunInBackground}" Style="{StaticResource ToggleButtonSwitch}"/>

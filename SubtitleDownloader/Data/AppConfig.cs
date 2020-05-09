@@ -18,6 +18,7 @@ namespace SubtitleDownloader
         public bool IsShowNotification { get; set; } = true;
         public bool IsShowNotifyIcon { get; set; } = false;
         public bool IsFirstRun { get; set; } = true;
+        public bool IsIDMEngine { get; set; } = false;
 
         public SkinType Skin { get; set; } = SkinType.Default;
     }
