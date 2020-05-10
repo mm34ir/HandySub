@@ -1,6 +1,7 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HtmlAgilityPack;
+using Module.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -411,7 +412,7 @@ namespace SubtitleDownloader.ViewModels
                         MaskCanClose = true;
                         Progress = 0;
                         Content = LocalizationManager.Instance.Localize("SubDownload").ToString();
-                        OpenIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
+                        ModuleHelper.OpenLinkWithIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink, IDMNotFound);
                     }
                 }
                 else
@@ -426,18 +427,9 @@ namespace SubtitleDownloader.ViewModels
             catch (NotSupportedException) { }
             catch (ArgumentException) { }
         }
-
-        private void OpenIDM(string link)
+        private void IDMNotFound()
         {
-            string strCmdText = $"/C /d \"{link}\"";
-            try
-            {
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Internet Download Manager\IDMan.exe", strCmdText);
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Download Manager\IDMan.exe", strCmdText);
-            }
+            MessageBox.Warning(LocalizationManager.Instance.Localize("IDMNot").ToString());
         }
         #endregion
     }

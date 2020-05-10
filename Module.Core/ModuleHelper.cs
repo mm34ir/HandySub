@@ -40,8 +40,8 @@ namespace Module.Core
         public static void OpenLinkWithIDM(string link, Action errorCallBack = null)
         {
             string command = $"/C /d \"{link}\"";
-            string IDManX64Location = @"C:\Program Files (xx86)\Internet Download Manager\IDMan.exe";
-            string IDManX86Location = @"C:\Program Files\Internetx Download Manager\IDMan.exe";
+            string IDManX64Location = @"C:\Program Files (x86)\Internet Download Manager\IDMan.exe";
+            string IDManX86Location = @"C:\Program Files\Internet Download Manager\IDMan.exe";
             if (File.Exists(IDManX64Location))
             {
                 System.Diagnostics.Process.Start(IDManX64Location, command);
