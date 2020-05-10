@@ -4,25 +4,43 @@ using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using SubtitleDownloader.Data;
 using SubtitleDownloader.Language;
 using SubtitleDownloader.Model;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace SubtitleDownloader.ViewModels
 {
     public class SubsceneViewModel : BindableBase, INavigationAware
     {
+        internal static SubsceneViewModel Instance;
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
 
         private readonly IRegionManager _regionManager;
 
         #region Property
+        private string _DefaultSubLang;
+        public string DefaultSubLang
+        {
+            get => LocalizationManager.Instance.Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+            set => SetProperty(ref _DefaultSubLang, value);
+        }
+
+        private ObservableCollection<LanguageModel> _languageItems = new ObservableCollection<LanguageModel>();
+        public ObservableCollection<LanguageModel> LanguageItems
+        {
+            get => _languageItems;
+            set => SetProperty(ref _languageItems, value);
+        }
+
         private Visibility _visibility = Visibility.Hidden;
         public Visibility ContentVisibility
         {
@@ -50,11 +68,15 @@ namespace SubtitleDownloader.ViewModels
         #endregion
 
         #region Command
+        public DelegateCommand<SelectionChangedEventArgs> SubtitleLanguageCommand { get; private set; }
+
         public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; private set; }
 
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; private set; }
 
         #endregion
+
+        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(LanguageItems);
 
         public SubsceneViewModel()
         {
@@ -63,10 +85,34 @@ namespace SubtitleDownloader.ViewModels
 
         public SubsceneViewModel(IRegionManager regionManager)
         {
+            Instance = this;
             _regionManager = regionManager;
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
+            SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
+            LoadLanguage();
+        }
 
+        public void LoadLanguage()
+        {
+            LanguageItems.Clear();
+            DefaultSubLang = LocalizationManager.Instance.Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+            LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
+        }
+        private void SubtitleLanguageChanged(SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            if (e.AddedItems[0] is LanguageModel item)
+            {
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage))
+                {
+                    GlobalDataHelper<AppConfig>.Config.SubtitleLanguage = item;
+                    GlobalDataHelper<AppConfig>.Save();
+                }
+            }
         }
 
         private void OpenSubtitlePage(SelectionChangedEventArgs e)

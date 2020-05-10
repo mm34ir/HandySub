@@ -63,6 +63,10 @@ namespace SubtitleDownloader.Views
                     {
                         SettingsViewModel.Instance.LoadSubtitleLanguage();
                     }
+                    if (SubsceneViewModel.Instance != null)
+                    {
+                        SubsceneViewModel.Instance.LoadLanguage();
+                    }
                     return true;
                 });
             }

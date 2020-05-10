@@ -4,5 +4,6 @@
     {
         public string DisplayName { get; set; }
         public string LanguageCode { get; set; }
+        public string LocalizeCode { get; set; }
     }
 }

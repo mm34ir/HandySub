@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using SubtitleDownloader.Data;
 using SubtitleDownloader.Language;
 using SubtitleDownloader.Model;
 using System;
@@ -18,6 +19,21 @@ namespace SubtitleDownloader.ViewModels
     {
         internal static SettingsViewModel Instance;
         #region Property
+
+        private string _DefaultSubLang;
+        public string DefaultSubLang
+        {
+            get => LocalizationManager.Instance.Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+            set => SetProperty(ref _DefaultSubLang, value);
+        }
+
+        private string _DefaultSubServer;
+        public string DefaultSubServer
+        {
+            get => GlobalDataHelper<AppConfig>.Config.ServerUrl;
+            set => SetProperty(ref _DefaultSubServer, value);
+        }
+
         private ObservableCollection<LanguageModel> _languageItems = new ObservableCollection<LanguageModel>();
         public ObservableCollection<LanguageModel> LanguageItems
         {
@@ -127,49 +143,15 @@ namespace SubtitleDownloader.ViewModels
             GetIsCheckedShowNotifyIcon = GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon;
             GetIsCheckedIDM = GlobalDataHelper<AppConfig>.Config.IsIDMEngine;
 
-
             LoadSubtitleLanguage();
         }
 
         public void LoadSubtitleLanguage()
         {
-            CurrentLanguage = GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.DisplayName;
-            CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
             LanguageItems.Clear();
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFarsi, LanguageCode = "farsi_persian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLEnglish, LanguageCode = "english" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLAlbanian, LanguageCode = "albanian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLArabic, LanguageCode = "arabic" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBengali, LanguageCode = "bengali" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBrazilian, LanguageCode = "brazillian-portuguese" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBurmese, LanguageCode = "burmese" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLCroatian, LanguageCode = "croatian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLDanish, LanguageCode = "danish" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLDutch, LanguageCode = "dutch" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFinnish, LanguageCode = "finnish" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFrench, LanguageCode = "french" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLGerman, LanguageCode = "german" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHebrew, LanguageCode = "hebrew" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHindi, LanguageCode = "hindi" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLIndonesian, LanguageCode = "indonesian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLItalian, LanguageCode = "italian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLJapanese, LanguageCode = "japanese" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLKorean, LanguageCode = "korean" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLMalay, LanguageCode = "malay" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLMalayalam, LanguageCode = "malayalam" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLNorwegian, LanguageCode = "norwegian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLRomanian, LanguageCode = "romanian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLRussian, LanguageCode = "russian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSerbian, LanguageCode = "serbian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSpanish, LanguageCode = "spanish" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSwedish, LanguageCode = "swedish" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLTamil, LanguageCode = "tamil" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLThai, LanguageCode = "thai" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLTurkish, LanguageCode = "turkish" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLUrdu, LanguageCode = "urdu" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLVietnamese, LanguageCode = "vietnamese" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHungarian, LanguageCode = "hungarian" });
-            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLPortuguese, LanguageCode = "portuguese" });
+            DefaultSubLang = CurrentLanguage = LocalizationManager.Instance.Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+            CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
+            LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
         }
 
         private void ServerChanged(SelectionChangedEventArgs e)

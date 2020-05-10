@@ -10,7 +10,18 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <hc:ComboBox Width="150" Margin="10" ItemsSource="{Binding ItemsView}" SelectedValuePath="DisplayName" SelectedValue="{Binding DefaultSubLang}" DisplayMemberPath="DisplayName" hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="SelectionChanged">
+                        <hc:EventToCommand Command="{Binding SubtitleLanguageCommand}" PassEventArgsToCommand="True"/>
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+            </hc:ComboBox>
+            <hc:SearchBar Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SearchStarted">
                         <hc:EventToCommand Command="{Binding OnSearchStartedCommand}" PassEventArgsToCommand="True"/>
