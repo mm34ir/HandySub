@@ -12,7 +12,7 @@ namespace ESubtitleModule
             {
                 DisplayName = "ESubtitle",
                 ModuleName = moduleAType.Name,
-                IsNew = true,
+                IsNew = false,
                 DefaultView = typeof(Views.ESubtitle)
             };
             return module;

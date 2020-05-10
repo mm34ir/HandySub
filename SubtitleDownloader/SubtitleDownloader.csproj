@@ -6,11 +6,11 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>SubtitleDownloader</AssemblyName>
     <RootNamespace>SubtitleDownloader</RootNamespace>
-    <Version>1.5.1.0</Version>
+    <Version>1.5.2.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © Mahdi 2018-2020</Copyright>
-    <FileVersion>1.5.1.0</FileVersion>
-    <AssemblyVersion>1.5.1.0</AssemblyVersion>
+    <FileVersion>1.5.2.0</FileVersion>
+    <AssemblyVersion>1.5.2.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
     <Authors>Mahdi Hosseini</Authors>

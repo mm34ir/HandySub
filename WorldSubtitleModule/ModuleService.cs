@@ -12,7 +12,7 @@ namespace WorldSubtitleModule
             {
                 DisplayName = "WorldSub",
                 ModuleName = moduleAType.Name,
-                IsNew = true,
+                IsNew = false,
                 DefaultView = typeof(Views.WorldSubtitle)
             };
             return module;

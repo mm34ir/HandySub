@@ -369,4 +369,7 @@
   <data name="CurrentModule" xml:space="preserve">
     <value>ماژول فعلی : {0}</value>
   </data>
+  <data name="IDMNot" xml:space="preserve">
+    <value>اینترنت دانلود منیجر در سیستم شما پیدا نشد</value>
+  </data>
 </root>

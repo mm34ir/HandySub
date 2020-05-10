@@ -369,4 +369,7 @@
   <data name="CurrentModule" xml:space="preserve">
     <value>Current Module: {0}</value>
   </data>
+  <data name="IDMNot" xml:space="preserve">
+    <value>Internet Download Manager Not Found, Please Install IDM on Drive C</value>
+  </data>
 </root>

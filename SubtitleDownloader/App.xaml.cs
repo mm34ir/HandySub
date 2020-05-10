@@ -42,25 +42,33 @@ namespace SubtitleDownloader
             moduleCollection = new ObservableCollection<ModuleModel>();
             TypeFilter typeFilter = new TypeFilter(InterfaceFilter);
 
-            foreach (IModuleCatalogItem item in directoryCatalog.Items)
+            try
             {
-                ModuleInfo mi = (ModuleInfo)item;
-                // in .NetFrameWork we dont need to replace
-                Assembly asm = Assembly.LoadFrom(mi.Ref.Replace(@"file:///", ""));
-
-                foreach (Type t in asm.GetTypes())
+                foreach (IModuleCatalogItem item in directoryCatalog.Items)
                 {
-                    Type[] myInterfaces = t.FindInterfaces(typeFilter, typeof(IModuleService).ToString());
+                    ModuleInfo mi = (ModuleInfo)item;
+                    // in .NetFrameWork we dont need to replace
+                    Assembly asm = Assembly.LoadFrom(mi.Ref.Replace(@"file:///", ""));
 
-                    if (myInterfaces.Length > 0)
+                    foreach (Type t in asm.GetTypes())
                     {
-                        IModuleService moduleService = (IModuleService)asm.CreateInstance(t.FullName);
+                        Type[] myInterfaces = t.FindInterfaces(typeFilter, typeof(IModuleService).ToString());
 
-                        ModuleModel module = moduleService.GetModule();
+                        if (myInterfaces.Length > 0)
+                        {
+                            IModuleService moduleService = (IModuleService)asm.CreateInstance(t.FullName);
 
-                        moduleCollection.Add(module);
+                            ModuleModel module = moduleService.GetModule();
+
+                            moduleCollection.Add(module);
+                        }
                     }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                HandyControl.Controls.MessageBox.Error(ex.Message);
             }
         }
 

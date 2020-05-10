@@ -313,6 +313,15 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to اینترنت دانلود منیجر در سیستم شما پیدا نشد.
+        /// </summary>
+        public static string IDMNot {
+            get {
+                return ResourceManager.GetString("IDMNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to بازیگران:.
         /// </summary>
         public static string IMDBActors {

@@ -151,36 +151,42 @@ namespace WorldSubtitleModule.ViewModels
         #region Downloader
         private void OnDownload(string link)
         {
-            if (!string.IsNullOrEmpty(link))
+            try
             {
-                if (!Convert.ToBoolean(GetConfig().IsIDMEngine))
+                if (!string.IsNullOrEmpty(link))
                 {
-                    try
+                    bool IsIDMEngine = GetConfig().IsIDMEngine ?? false;
+
+                    if (!IsIDMEngine)
                     {
                         IsChecked = true;
                         IsEnabled = false;
                         Progress = 0;
                         subName = Path.GetFileName(link);
-                        location = GetConfig().StoreLocation + subName;
+                        string StoreLocation = GetConfig().StoreLocation ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
+                        location = StoreLocation + subName;
 
                         client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                         client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
                         client.DownloadFileAsync(new Uri(link), location);
                     }
-                    catch (UnauthorizedAccessException)
+                    else
                     {
-                        HandyControl.Controls.MessageBox.Error(LocalizationManager.Instance.Localize("AdminError").ToString(), LocalizationManager.Instance.Localize("AdminErrorTitle").ToString());
+                        ModuleHelper.OpenLinkWithIDM(link, IDMNotFound);
                     }
-                    catch (NotSupportedException) { }
-                    catch (ArgumentException) { }
-                }
-                else
-                {
-                    ModuleHelper.OpenLinkWithIDM(link);
                 }
             }
+            catch (UnauthorizedAccessException)
+            {
+                HandyControl.Controls.MessageBox.Error(LocalizationManager.Instance.Localize("AdminError").ToString(), LocalizationManager.Instance.Localize("AdminErrorTitle").ToString());
+            }
+            catch (NotSupportedException) { }
+            catch (ArgumentException) { }
         }
-
+        private void IDMNotFound()
+        {
+            MessageBox.Warning(LocalizationManager.Instance.Localize("IDMNot").ToString());
+        }
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             double bytesIn = double.Parse(e.BytesReceived.ToString());
@@ -189,37 +195,42 @@ namespace WorldSubtitleModule.ViewModels
             Progress = int.Parse(Math.Truncate(percentage).ToString());
         }
 
+        private void Completed(object sender, AsyncCompletedEventArgs e)
+        {
+            try
+            {
+                IsChecked = false;
+                IsEnabled = true;
+                Progress = 0;
+                bool IsShowNotification = GetConfig().IsShowNotification ?? true;
+
+                if (IsShowNotification)
+                {
+                    Growl.Clear();
+                    Growl.Ask(new GrowlInfo
+                    {
+                        CancelStr = LocalizationManager.Instance.Localize("Cancel").ToString(),
+                        ConfirmStr = LocalizationManager.Instance.Localize("OpenFolder").ToString(),
+                        Message = string.Format(LocalizationManager.Instance.Localize("Downloaded").ToString(), subName),
+                        ActionBeforeClose = b =>
+                        {
+                            if (!b)
+                            {
+                                return true;
+                            }
+                            System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                            return true;
+
+                        }
+                    });
+                }
+            }
+            catch (Exception) { }
+        }
         private dynamic GetConfig()
         {
             string configFile = File.ReadAllText("AppConfig.json");
             return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(configFile);
-        }
-
-        private void Completed(object sender, AsyncCompletedEventArgs e)
-        {
-            IsChecked = false;
-            IsEnabled = true;
-            Progress = 0;
-            if (Convert.ToBoolean(GetConfig().IsShowNotification))
-            {
-                Growl.Clear();
-                Growl.Ask(new GrowlInfo
-                {
-                    CancelStr = LocalizationManager.Instance.Localize("Cancel").ToString(),
-                    ConfirmStr = LocalizationManager.Instance.Localize("OpenFolder").ToString(),
-                    Message = string.Format(LocalizationManager.Instance.Localize("Downloaded").ToString(), subName),
-                    ActionBeforeClose = b =>
-                    {
-                        if (!b)
-                        {
-                            return true;
-                        }
-                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-                        return true;
-
-                    }
-                });
-            }
         }
         #endregion
     }
