@@ -3,16 +3,28 @@ using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using SubtitleDownloader.Language;
+using SubtitleDownloader.Model;
 using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
 
 namespace SubtitleDownloader.ViewModels
 {
     public class SettingsViewModel : BindableBase
     {
+        internal static SettingsViewModel Instance;
         #region Property
+        private ObservableCollection<LanguageModel> _languageItems = new ObservableCollection<LanguageModel>();
+        public ObservableCollection<LanguageModel> LanguageItems
+        {
+            get => _languageItems;
+            set => SetProperty(ref _languageItems, value);
+        }
+
         private string _CurrentStoreLocation;
         public string CurrentStoreLocation
         {
@@ -68,8 +80,12 @@ namespace SubtitleDownloader.ViewModels
         public DelegateCommand<SelectionChangedEventArgs> ServerChangedCommand { get; private set; }
         #endregion
 
+        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(LanguageItems);
+
+
         public SettingsViewModel()
         {
+            Instance = this;
             SelectFolderCommand = new DelegateCommand(SelectFolder);
             AddPluginCommand = new DelegateCommand(AddNewPlugin);
             AutoDownloadCommand = new DelegateCommand<object>(AutoDownload);
@@ -81,6 +97,8 @@ namespace SubtitleDownloader.ViewModels
 
             SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
             ServerChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(ServerChanged);
+            ItemsView.SortDescriptions.Add(new SortDescription("DisplayName", ListSortDirection.Ascending));
+
             InitSettings();
         }
 
@@ -109,8 +127,49 @@ namespace SubtitleDownloader.ViewModels
             GetIsCheckedShowNotifyIcon = GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon;
             GetIsCheckedIDM = GlobalDataHelper<AppConfig>.Config.IsIDMEngine;
 
-            CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalDataHelper<AppConfig>.Config.SubtitleLang);
+
+            LoadSubtitleLanguage();
+        }
+
+        public void LoadSubtitleLanguage()
+        {
+            CurrentLanguage = GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.DisplayName;
             CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
+            LanguageItems.Clear();
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFarsi, LanguageCode = "farsi_persian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLEnglish, LanguageCode = "english" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLAlbanian, LanguageCode = "albanian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLArabic, LanguageCode = "arabic" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBengali, LanguageCode = "bengali" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBrazilian, LanguageCode = "brazillian-portuguese" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLBurmese, LanguageCode = "burmese" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLCroatian, LanguageCode = "croatian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLDanish, LanguageCode = "danish" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLDutch, LanguageCode = "dutch" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFinnish, LanguageCode = "finnish" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLFrench, LanguageCode = "french" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLGerman, LanguageCode = "german" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHebrew, LanguageCode = "hebrew" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHindi, LanguageCode = "hindi" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLIndonesian, LanguageCode = "indonesian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLItalian, LanguageCode = "italian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLJapanese, LanguageCode = "japanese" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLKorean, LanguageCode = "korean" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLMalay, LanguageCode = "malay" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLMalayalam, LanguageCode = "malayalam" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLNorwegian, LanguageCode = "norwegian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLRomanian, LanguageCode = "romanian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLRussian, LanguageCode = "russian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSerbian, LanguageCode = "serbian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSpanish, LanguageCode = "spanish" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLSwedish, LanguageCode = "swedish" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLTamil, LanguageCode = "tamil" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLThai, LanguageCode = "thai" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLTurkish, LanguageCode = "turkish" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLUrdu, LanguageCode = "urdu" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLVietnamese, LanguageCode = "vietnamese" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLHungarian, LanguageCode = "hungarian" });
+            LanguageItems.Add(new LanguageModel { DisplayName = Lang.SLPortuguese, LanguageCode = "portuguese" });
         }
 
         private void ServerChanged(SelectionChangedEventArgs e)
@@ -136,13 +195,13 @@ namespace SubtitleDownloader.ViewModels
             {
                 return;
             }
-            if (e.AddedItems[0] is ComboBoxItem item)
+            if (e.AddedItems[0] is LanguageModel item)
             {
-                if (!item.Content.ToString().Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLang))
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage))
                 {
-                    GlobalDataHelper<AppConfig>.Config.SubtitleLang = item.Content.ToString();
+                    GlobalDataHelper<AppConfig>.Config.SubtitleLanguage = item;
                     GlobalDataHelper<AppConfig>.Save();
-                    CurrentLanguage = string.Format(Lang.ResourceManager.GetString("SubLanguage"), GlobalDataHelper<AppConfig>.Config.SubtitleLang);
+                    CurrentLanguage = GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.DisplayName;
                 }
             }
         }

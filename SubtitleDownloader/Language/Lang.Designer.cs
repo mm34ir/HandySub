@@ -718,6 +718,312 @@ namespace SubtitleDownloader.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to آلبانی.
+        /// </summary>
+        public static string SLAlbanian {
+            get {
+                return ResourceManager.GetString("SLAlbanian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عربی.
+        /// </summary>
+        public static string SLArabic {
+            get {
+                return ResourceManager.GetString("SLArabic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to بنگالی.
+        /// </summary>
+        public static string SLBengali {
+            get {
+                return ResourceManager.GetString("SLBengali", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to برزیلی - پرتغالی.
+        /// </summary>
+        public static string SLBrazilian {
+            get {
+                return ResourceManager.GetString("SLBrazilian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to برمه ای.
+        /// </summary>
+        public static string SLBurmese {
+            get {
+                return ResourceManager.GetString("SLBurmese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کرواتی.
+        /// </summary>
+        public static string SLCroatian {
+            get {
+                return ResourceManager.GetString("SLCroatian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دانمارکی.
+        /// </summary>
+        public static string SLDanish {
+            get {
+                return ResourceManager.GetString("SLDanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to هلندی.
+        /// </summary>
+        public static string SLDutch {
+            get {
+                return ResourceManager.GetString("SLDutch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to انگلیسی.
+        /// </summary>
+        public static string SLEnglish {
+            get {
+                return ResourceManager.GetString("SLEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فارسی.
+        /// </summary>
+        public static string SLFarsi {
+            get {
+                return ResourceManager.GetString("SLFarsi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فنلاندی.
+        /// </summary>
+        public static string SLFinnish {
+            get {
+                return ResourceManager.GetString("SLFinnish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فرانسوی.
+        /// </summary>
+        public static string SLFrench {
+            get {
+                return ResourceManager.GetString("SLFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to آلمانی.
+        /// </summary>
+        public static string SLGerman {
+            get {
+                return ResourceManager.GetString("SLGerman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عبری.
+        /// </summary>
+        public static string SLHebrew {
+            get {
+                return ResourceManager.GetString("SLHebrew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to هندی.
+        /// </summary>
+        public static string SLHindi {
+            get {
+                return ResourceManager.GetString("SLHindi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مجارستانی.
+        /// </summary>
+        public static string SLHungarian {
+            get {
+                return ResourceManager.GetString("SLHungarian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اندونزیایی.
+        /// </summary>
+        public static string SLIndonesian {
+            get {
+                return ResourceManager.GetString("SLIndonesian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ایتالیایی.
+        /// </summary>
+        public static string SLItalian {
+            get {
+                return ResourceManager.GetString("SLItalian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ژاپنی.
+        /// </summary>
+        public static string SLJapanese {
+            get {
+                return ResourceManager.GetString("SLJapanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کره ای.
+        /// </summary>
+        public static string SLKorean {
+            get {
+                return ResourceManager.GetString("SLKorean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مالایی.
+        /// </summary>
+        public static string SLMalay {
+            get {
+                return ResourceManager.GetString("SLMalay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مالایایی.
+        /// </summary>
+        public static string SLMalayalam {
+            get {
+                return ResourceManager.GetString("SLMalayalam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نروژی.
+        /// </summary>
+        public static string SLNorwegian {
+            get {
+                return ResourceManager.GetString("SLNorwegian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پرتغالی.
+        /// </summary>
+        public static string SLPortuguese {
+            get {
+                return ResourceManager.GetString("SLPortuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رومانیایی.
+        /// </summary>
+        public static string SLRomanian {
+            get {
+                return ResourceManager.GetString("SLRomanian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to روسی.
+        /// </summary>
+        public static string SLRussian {
+            get {
+                return ResourceManager.GetString("SLRussian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to صربی.
+        /// </summary>
+        public static string SLSerbian {
+            get {
+                return ResourceManager.GetString("SLSerbian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اسپانیایی.
+        /// </summary>
+        public static string SLSpanish {
+            get {
+                return ResourceManager.GetString("SLSpanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سوئدی.
+        /// </summary>
+        public static string SLSwedish {
+            get {
+                return ResourceManager.GetString("SLSwedish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تامیل.
+        /// </summary>
+        public static string SLTamil {
+            get {
+                return ResourceManager.GetString("SLTamil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تایلندی.
+        /// </summary>
+        public static string SLThai {
+            get {
+                return ResourceManager.GetString("SLThai", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ترکی.
+        /// </summary>
+        public static string SLTurkish {
+            get {
+                return ResourceManager.GetString("SLTurkish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to اردو.
+        /// </summary>
+        public static string SLUrdu {
+            get {
+                return ResourceManager.GetString("SLUrdu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ویتنامی.
+        /// </summary>
+        public static string SLVietnamese {
+            get {
+                return ResourceManager.GetString("SLVietnamese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to مسیر ذخیره.
         /// </summary>
         public static string StoreLoc {

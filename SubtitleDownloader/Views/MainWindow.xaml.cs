@@ -2,6 +2,7 @@
 using HandyControl.Data;
 using HandyControl.Tools;
 using SubtitleDownloader.Language;
+using SubtitleDownloader.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -58,6 +59,10 @@ namespace SubtitleDownloader.Views
                     GlobalDataHelper<AppConfig>.Save();
                     LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(tag);
                     ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
+                    if (SettingsViewModel.Instance != null)
+                    {
+                        SettingsViewModel.Instance.LoadSubtitleLanguage();
+                    }
                     return true;
                 });
             }

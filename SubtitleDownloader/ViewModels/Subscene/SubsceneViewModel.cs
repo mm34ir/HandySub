@@ -149,7 +149,7 @@ namespace SubtitleDownloader.ViewModels
                         {
                             continue;
                         }
-                        SubsceneModel item = new SubsceneModel { Link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value + $"/{GlobalDataHelper<AppConfig>.Config.SubtitleLang}/", Name = node.InnerText.Trim() };
+                        SubsceneModel item = new SubsceneModel { Link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value + $"/{GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LanguageCode}/", Name = node.InnerText.Trim() };
                         DataList.Add(item);
                     }
                 }

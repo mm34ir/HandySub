@@ -372,4 +372,106 @@
   <data name="IDMNot" xml:space="preserve">
     <value>Internet Download Manager Not Found, Please Install IDM on Drive C</value>
   </data>
+  <data name="SLEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SLFarsi" xml:space="preserve">
+    <value>Farsi</value>
+  </data>
+  <data name="SLAlbanian" xml:space="preserve">
+    <value>Albanian</value>
+  </data>
+  <data name="SLArabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="SLBengali" xml:space="preserve">
+    <value>Bengali</value>
+  </data>
+  <data name="SLBrazilian" xml:space="preserve">
+    <value>Brazillian-Portuguese</value>
+  </data>
+  <data name="SLBurmese" xml:space="preserve">
+    <value>Burmese</value>
+  </data>
+  <data name="SLCroatian" xml:space="preserve">
+    <value>Croatian</value>
+  </data>
+  <data name="SLDanish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="SLDutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="SLFinnish" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
+  <data name="SLFrench" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="SLGerman" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="SLHebrew" xml:space="preserve">
+    <value>Hebrew</value>
+  </data>
+  <data name="SLHindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="SLIndonesian" xml:space="preserve">
+    <value>Indonesian</value>
+  </data>
+  <data name="SLItalian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="SLJapanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="SLKorean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="SLRussian" xml:space="preserve">
+    <value>Russian</value>
+  </data>
+  <data name="SLSpanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="SLTurkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="SLMalay" xml:space="preserve">
+    <value>Malay</value>
+  </data>
+  <data name="SLMalayalam" xml:space="preserve">
+    <value>Malayalam</value>
+  </data>
+  <data name="SLNorwegian" xml:space="preserve">
+    <value>Norwegian</value>
+  </data>
+  <data name="SLRomanian" xml:space="preserve">
+    <value>Romanian</value>
+  </data>
+  <data name="SLSerbian" xml:space="preserve">
+    <value>Serbian</value>
+  </data>
+  <data name="SLSwedish" xml:space="preserve">
+    <value>Swedish</value>
+  </data>
+  <data name="SLTamil" xml:space="preserve">
+    <value>Tamil</value>
+  </data>
+  <data name="SLThai" xml:space="preserve">
+    <value>Thai</value>
+  </data>
+  <data name="SLUrdu" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
+  <data name="SLVietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="SLPortuguese" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="SLHungarian" xml:space="preserve">
+    <value>Hungarian</value>
+  </data>
 </root>

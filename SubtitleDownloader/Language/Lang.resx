@@ -372,4 +372,106 @@
   <data name="IDMNot" xml:space="preserve">
     <value>اینترنت دانلود منیجر در سیستم شما پیدا نشد</value>
   </data>
+  <data name="SLEnglish" xml:space="preserve">
+    <value>انگلیسی</value>
+  </data>
+  <data name="SLFarsi" xml:space="preserve">
+    <value>فارسی</value>
+  </data>
+  <data name="SLArabic" xml:space="preserve">
+    <value>عربی</value>
+  </data>
+  <data name="SLAlbanian" xml:space="preserve">
+    <value>آلبانی</value>
+  </data>
+  <data name="SLBengali" xml:space="preserve">
+    <value>بنگالی</value>
+  </data>
+  <data name="SLBrazilian" xml:space="preserve">
+    <value>برزیلی - پرتغالی</value>
+  </data>
+  <data name="SLBurmese" xml:space="preserve">
+    <value>برمه ای</value>
+  </data>
+  <data name="SLCroatian" xml:space="preserve">
+    <value>کرواتی</value>
+  </data>
+  <data name="SLDanish" xml:space="preserve">
+    <value>دانمارکی</value>
+  </data>
+  <data name="SLDutch" xml:space="preserve">
+    <value>هلندی</value>
+  </data>
+  <data name="SLFinnish" xml:space="preserve">
+    <value>فنلاندی</value>
+  </data>
+  <data name="SLFrench" xml:space="preserve">
+    <value>فرانسوی</value>
+  </data>
+  <data name="SLGerman" xml:space="preserve">
+    <value>آلمانی</value>
+  </data>
+  <data name="SLHebrew" xml:space="preserve">
+    <value>عبری</value>
+  </data>
+  <data name="SLHindi" xml:space="preserve">
+    <value>هندی</value>
+  </data>
+  <data name="SLIndonesian" xml:space="preserve">
+    <value>اندونزیایی</value>
+  </data>
+  <data name="SLItalian" xml:space="preserve">
+    <value>ایتالیایی</value>
+  </data>
+  <data name="SLJapanese" xml:space="preserve">
+    <value>ژاپنی</value>
+  </data>
+  <data name="SLKorean" xml:space="preserve">
+    <value>کره ای</value>
+  </data>
+  <data name="SLRussian" xml:space="preserve">
+    <value>روسی</value>
+  </data>
+  <data name="SLSpanish" xml:space="preserve">
+    <value>اسپانیایی</value>
+  </data>
+  <data name="SLTurkish" xml:space="preserve">
+    <value>ترکی</value>
+  </data>
+  <data name="SLMalay" xml:space="preserve">
+    <value>مالایی</value>
+  </data>
+  <data name="SLMalayalam" xml:space="preserve">
+    <value>مالایایی</value>
+  </data>
+  <data name="SLNorwegian" xml:space="preserve">
+    <value>نروژی</value>
+  </data>
+  <data name="SLRomanian" xml:space="preserve">
+    <value>رومانیایی</value>
+  </data>
+  <data name="SLSerbian" xml:space="preserve">
+    <value>صربی</value>
+  </data>
+  <data name="SLSwedish" xml:space="preserve">
+    <value>سوئدی</value>
+  </data>
+  <data name="SLTamil" xml:space="preserve">
+    <value>تامیل</value>
+  </data>
+  <data name="SLThai" xml:space="preserve">
+    <value>تایلندی</value>
+  </data>
+  <data name="SLUrdu" xml:space="preserve">
+    <value>اردو</value>
+  </data>
+  <data name="SLVietnamese" xml:space="preserve">
+    <value>ویتنامی</value>
+  </data>
+  <data name="SLPortuguese" xml:space="preserve">
+    <value>پرتغالی</value>
+  </data>
+  <data name="SLHungarian" xml:space="preserve">
+    <value>مجارستانی</value>
+  </data>
 </root>
