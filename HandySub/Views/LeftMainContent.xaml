@@ -10,7 +10,7 @@
         CornerRadius="10"
         Effect="{StaticResource EffectShadow4}">
     <DockPanel>
-        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="{hc:Localization Subtitle}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
+        <Button Command="{Binding EmptyContentCommand}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10,10,10,4" Content="HandySub" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}"/>
         <TabControl ItemContainerStyle="{StaticResource TabItemTransparentStyle}" Style="{StaticResource TabControlInLine}" Background="Transparent" SelectedIndex="0">
             <TabItem Header="{hc:Localization Subtitle}">
                 <ListBox SelectedIndex="{Binding MainSelectedIndex, UpdateSourceTrigger=PropertyChanged}" VirtualizingStackPanel.IsVirtualizing="True" BorderThickness="0" SelectionMode="Single" Style="{StaticResource ListBoxTransparentStyle}">

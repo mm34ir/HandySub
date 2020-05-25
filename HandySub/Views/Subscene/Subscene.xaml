@@ -21,7 +21,7 @@
                     </hc:EventTrigger>
                 </hc:Interaction.Triggers>
             </hc:ComboBox>
-            <hc:SearchBar Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10" hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
+            <hc:SearchBar Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="0,10,10,10" hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SearchStarted">
                         <hc:EventToCommand Command="{Binding OnSearchStartedCommand}" PassEventArgsToCommand="True"/>

@@ -21,6 +21,7 @@ using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using HandyControl.Themes;
 
 namespace HandySub
 {
@@ -118,9 +119,14 @@ namespace HandySub
                 WindowsContextMenuArgument[0] = NameFromContextMenu;
                 WindowsContextMenuArgument[1] = e.Args[0].Replace(Path.GetFileName(e.Args[0]), "");
             }
-            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
         }
 
         protected override System.Windows.Window CreateShell()
@@ -150,8 +156,9 @@ namespace HandySub
             containerRegistry.RegisterForNavigation<GetMovieInfoIMDB>();
         }
 
-        internal void UpdateSkin(SkinType skin)
+        public void UpdateSkin(SkinType skin)
         {
+            SharedResourceDictionary.SharedDictionaries.Clear();
             Resources.MergedDictionaries.Add(ResourceHelper.GetSkin(skin));
             Resources.MergedDictionaries.Add(new ResourceDictionary
             {
