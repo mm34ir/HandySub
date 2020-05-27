@@ -80,6 +80,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="modules\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="modules\ESubtitleModule.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
