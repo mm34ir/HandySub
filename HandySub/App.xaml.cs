@@ -85,7 +85,7 @@ namespace HandySub
 
         public App()
         {
-            GlobalDataHelper<AppConfig>.Init();
+            GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture = new System.Globalization.CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
 

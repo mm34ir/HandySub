@@ -8,8 +8,6 @@ namespace HandySub
 {
     internal class AppConfig : GlobalDataHelper<AppConfig>
     {
-        public static readonly string SavePath = $"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json";
-
         public string UILang { get; set; } = "en-US";
         public LanguageModel SubtitleLanguage { get; set; } = new LanguageModel { LanguageCode = "farsi_persian", DisplayName = Lang.SLFarsi, LocalizeCode = "SLFarsi" };
         public string StoreLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
