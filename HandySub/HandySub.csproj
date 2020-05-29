@@ -6,11 +6,11 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>HandySub</AssemblyName>
     <RootNamespace>HandySub</RootNamespace>
-    <Version>1.5.3.1</Version>
+    <Version>1.5.3.2</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © HandyOrg 2018-2020</Copyright>
-    <FileVersion>1.5.3.1</FileVersion>
-    <AssemblyVersion>1.5.3.1</AssemblyVersion>
+    <FileVersion>1.5.3.2</FileVersion>
+    <AssemblyVersion>1.5.3.2</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
     <Authors>Mahdi Hosseini</Authors>
@@ -36,8 +36,8 @@
   <ItemGroup>
     <PackageReference Include="HandyControls" Version="2.5.3" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.1" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.1" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.2" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />
   </ItemGroup>
