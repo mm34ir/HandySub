@@ -3,11 +3,11 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for Updater
+    /// Interaction logic for WorldSubtitleDownload
     /// </summary>
-    public partial class Updater : UserControl
+    public partial class WorldSubtitleDownload : UserControl
     {
-        public Updater()
+        public WorldSubtitleDownload()
         {
             InitializeComponent();
         }

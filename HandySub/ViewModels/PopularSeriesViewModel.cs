@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using HandySub.Model;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using HandySub.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

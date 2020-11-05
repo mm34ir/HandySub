@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <AssemblyName>HandySub</AssemblyName>
     <RootNamespace>HandySub</RootNamespace>
-    <Version>1.5.3.2</Version>
+    <Version>2.0.0.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © HandyOrg 2018-2020</Copyright>
-    <FileVersion>1.5.3.2</FileVersion>
-    <AssemblyVersion>1.5.3.2</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
     <Authors>Mahdi Hosseini</Authors>
@@ -27,19 +27,24 @@
     <DefineConstants>TRACE;Core</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="modules\**" />
+    <EmbeddedResource Remove="modules\**" />
+    <None Remove="modules\**" />
+    <Page Remove="modules\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Font\IRANSans.ttf" />
-    <None Remove="Resources\Img\cloud.png" />
     <None Remove="Resources\Img\Flag\en.png" />
     <None Remove="Resources\Img\Flag\fa.png" />
     <None Remove="Resources\Img\subtitle.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HandyControls" Version="2.5.3" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />
+    <PackageReference Include="HandyControls" Version="3.0.0-rc.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.26" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.3" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.3-preview.201004.0" />
+    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
@@ -49,13 +54,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Module.Core\Module.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Font\IRANSans.ttf" />
-    <Resource Include="Resources\Img\cloud.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\Img\Flag\en.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -78,16 +77,5 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="modules\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="modules\ESubtitleModule.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="modules\WorldSubtitleModule.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

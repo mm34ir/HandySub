@@ -5,24 +5,24 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl>
-      <hc:ScrollViewer>
-        <Border hc:ScrollViewer.IsInertiaEnabled="True" Background="{DynamicResource RegionBrush}" Margin="16" CornerRadius="10" Effect="{StaticResource EffectShadow4}">
-            <StackPanel Margin="20,10,20,20">
-                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Download}"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{hc:Localization StoreLoc}"/>
-                    <Button Command="{Binding SelectFolderCommand}" Foreground="{DynamicResource PrimaryBrush}" Grid.Column="1" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
-                    <hc:TextBox Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" Grid.Column="2" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
-                </Grid>
-                    <ToggleButton IsChecked="{Binding GetIsCheckedAutoDownload}" HorizontalAlignment="Left" Command="{Binding AutoDownloadCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AutoDownload}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Subtitle}"/>
-                    <hc:ComboBox IsEditable="False" ItemsSource="{Binding ItemsView}" SelectedValuePath="DisplayName" SelectedValue="{Binding DefaultSubLang}" DisplayMemberPath="DisplayName" hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
+        <Grid Background="{DynamicResource RegionBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <hc:ScrollViewer>
+                <StackPanel Margin="10,10">
+                    <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization Download}" Style="{StaticResource TextBlockTitleBold}"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{hc:Localization StoreLoc}"/>
+                        <Button Margin="10,0" Command="{Binding SelectFolderCommand}" Foreground="{DynamicResource PrimaryBrush}" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                        <hc:TextBox Width="225" Margin="0,0,60,0" Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
+                    </StackPanel>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
+                    <TextBlock Margin="0,20,0,10" HorizontalAlignment="Left" Text="{hc:Localization Subtitle}" Style="{StaticResource TextBlockTitleBold}"/>
+
+                    <hc:ComboBox Width="330" HorizontalAlignment="Left" Margin="0,0,60,0" IsEditable="False" ItemsSource="{Binding ItemsView}" SelectedValuePath="DisplayName" SelectedValue="{Binding DefaultSubLang}" DisplayMemberPath="DisplayName" hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
                         <hc:TitleElement.Title>
                             <hc:Localization Key="SubLanguage">
                                 <Binding Path="CurrentLanguage"/>
@@ -34,27 +34,54 @@
                             </hc:EventTrigger>
                         </hc:Interaction.Triggers>
                     </hc:ComboBox>
-                    <hc:ComboBox IsEditable="False" SelectedValuePath="Content" SelectedValue="{Binding DefaultSubServer}" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10" hc:InfoElement.Placeholder="{hc:Localization SelectSubServer}">
-                    <ComboBoxItem Content="https://subf2m.co"/>
-                    <ComboBoxItem Content="https://subf2m.ir"/>
-                    <ComboBoxItem Content="https://sub.deltaleech.com"/>
-                    <ComboBoxItem Content="https://subcenter.xyz"/>
-                    <ComboBoxItem Content="https://subscene.com"/>
-                     <hc:Interaction.Triggers>
-                        <hc:EventTrigger EventName="SelectionChanged">
-                            <hc:EventToCommand Command="{Binding ServerChangedCommand}" PassEventArgsToCommand="True"/>
-                        </hc:EventTrigger>
-                    </hc:Interaction.Triggers>
-                </hc:ComboBox>
-                <hc:Divider LineStrokeThickness="2" Content="{hc:Localization General}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedIDM}" HorizontalAlignment="Left" Command="{Binding IDMCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization IDM}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedFolderContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFolderContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToDirectoryContext}" Style="{StaticResource ToggleButtonSwitch}"/>
-                <ToggleButton IsChecked="{Binding GetIsCheckedShowNotifyIcon}" HorizontalAlignment="Left" Command="{Binding IsShowNotifyIconCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization RunInBackground}" Style="{StaticResource ToggleButtonSwitch}"/>
-                 <hc:Divider LineStrokeThickness="2" Content="{hc:Localization Plugin}"/>
-                 <Button Margin="0,10" HorizontalAlignment="Left" Style="{StaticResource ButtonDanger}" Command="{Binding AddPluginCommand}" Content="{hc:Localization AddPlugin}"/>
+                    <hc:ComboBox Width="330" HorizontalAlignment="Left" IsEditable="False" SelectedValuePath="Content" SelectedValue="{Binding DefaultSubServer}" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10,60,10" hc:InfoElement.Placeholder="{hc:Localization SelectSubServer}">
+                        <ComboBoxItem Content="https://subf2m.co"/>
+                        <ComboBoxItem Content="https://subf2m.ir"/>
+                        <ComboBoxItem Content="https://sub.deltaleech.com"/>
+                        <ComboBoxItem Content="https://subcenter.xyz"/>
+                        <ComboBoxItem Content="https://subscene.com"/>
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="SelectionChanged">
+                                <hc:EventToCommand Command="{Binding ServerChangedCommand}" PassEventArgsToCommand="True"/>
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </hc:ComboBox>
+                    <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization General}" Style="{StaticResource TextBlockTitleBold}"/>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedIDM}" HorizontalAlignment="Left" Command="{Binding IDMCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization IDM}" Style="{StaticResource ToggleButtonSwitch}"/>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 </StackPanel>
-        </Border>
-        </hc:ScrollViewer>
+            </hc:ScrollViewer>
+
+            <StackPanel Margin="10,20,50,20" Grid.Column="1">
+                <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="HandySub" Style="{StaticResource TextBlockTitleBold}"/>
+
+                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" FontSize="14">
+                    <Hyperlink CommandParameter="https://github.com/HandyOrg/HandySub" Command="hc:ControlCommands.OpenLink" TextDecorations="{x:Null}">
+                        <TextBlock Text="{hc:Localization Gitrepo}"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0,10" HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" FontSize="14">
+                    <Hyperlink CommandParameter="https://github.com/HandyOrg/HandySub/issues" Command="hc:ControlCommands.OpenLink" TextDecorations="{x:Null}">
+                        <TextBlock Text="{hc:Localization Reportbug}"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" FontSize="14">
+                    <Hyperlink CommandParameter="https://github.com/HandyOrg/HandySub/issues" Command="hc:ControlCommands.OpenLink" TextDecorations="{x:Null}">
+                        <TextBlock Text="{hc:Localization Requestfeature}"/>
+                    </Hyperlink>
+                </TextBlock>
+
+                <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization Update}" Style="{StaticResource TextBlockTitleBold}"/>
+
+                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" FontSize="14">
+                    <TextBlock.Text>
+                        <hc:Localization Key="Version">
+                            <Binding Path="Version" />
+                        </hc:Localization>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Button HorizontalAlignment="Left" Margin="0,10" Content="{hc:Localization CheckForUpdate}" FontSize="14" Style="{DynamicResource ButtonPrimary}" Command="{Binding CheckUpdateCommand}"/>
+            </StackPanel>
+        </Grid>
     </hc:TransitioningContentControl>
 </UserControl>

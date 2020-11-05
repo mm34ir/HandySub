@@ -1,8 +1,8 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
+using HandySub.Model;
 using Prism.Commands;
 using Prism.Mvvm;
-using HandySub.Model;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -285,13 +285,13 @@ namespace HandySub.ViewModels
                 {
                     ContentVisibility = Visibility.Hidden;
 
-                    Growl.Error(parse.Error);
+                    Growl.ErrorGlobal(parse.Error);
                 }
 
             }
             catch (HttpRequestException ex)
             {
-                Growl.Error(ex.Message);
+                Growl.ErrorGlobal(ex.Message);
             }
             finally
             {

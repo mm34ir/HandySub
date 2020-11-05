@@ -1,17 +1,15 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
+using HandySub.Data;
+using HandySub.Language;
+using HandySub.Model;
 using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using HandySub.Data;
-using HandySub.Language;
-using HandySub.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -129,34 +127,7 @@ namespace HandySub.ViewModels
             }
         }
 
-        private async Task<string> getTitleByImdbId(string ImdbId)
-        {
-            string result = string.Empty;
-            string url = $"http://www.omdbapi.com/?i={ImdbId}&apikey=2a59a17e";
 
-            try
-            {
-                using HttpClient client = new HttpClient();
-                string responseBody = await client.GetStringAsync(url);
-                IMDBModel.Root parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
-
-                if (parse.Response.Equals("True"))
-                {
-                    result = parse.Title;
-                }
-                else
-                {
-                    Growl.Error(parse.Error);
-                }
-
-            }
-            catch (HttpRequestException ex)
-            {
-                Growl.Error(ex.Message);
-            }
-
-            return result;
-        }
 
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
@@ -174,7 +145,7 @@ namespace HandySub.ViewModels
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt"))
                 {
-                    SearchText = await getTitleByImdbId(SearchText);
+                    SearchText = await Helper.GetTitleByImdbId(SearchText);
                 }
 
                 string url = string.Format(SearchAPI, GlobalDataHelper<AppConfig>.Config.ServerUrl, SearchText);
@@ -206,11 +177,11 @@ namespace HandySub.ViewModels
             catch (System.NullReferenceException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {

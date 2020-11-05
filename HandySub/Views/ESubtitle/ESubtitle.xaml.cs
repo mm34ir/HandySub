@@ -3,11 +3,11 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for About
+    /// Interaction logic for ESubtitle
     /// </summary>
-    public partial class About : UserControl
+    public partial class ESubtitle : UserControl
     {
-        public About()
+        public ESubtitle()
         {
             InitializeComponent();
         }

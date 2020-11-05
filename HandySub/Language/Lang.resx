@@ -120,20 +120,14 @@
   <data name="AboutUs" xml:space="preserve">
     <value>درباره ما</value>
   </data>
-  <data name="AddToDirectoryContext" xml:space="preserve">
-    <value>افزودن برنامه به منوی کلیک راست پوشه ها</value>
-  </data>
   <data name="AddToFileContext" xml:space="preserve">
-    <value>افزودن برنامه به منوی کلیک راست فایل ها</value>
+    <value>افزودن برنامه به منوی کلیک راست</value>
   </data>
   <data name="AdminError" xml:space="preserve">
     <value>شما دسترسی لازم را ندارید لطفا برنامه را بصورت ادمین اجرا کنید یا پوشه برنامه را به محل دیگری (خارج از پوشه های سیستمی) منتقل کنید</value>
   </data>
   <data name="AdminErrorTitle" xml:space="preserve">
     <value>خطای دسترسی</value>
-  </data>
-  <data name="AutoDownload" xml:space="preserve">
-    <value>دانلود خودکار زیرنویس بعد از انتخاب زیرنویس</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>انصراف</value>
@@ -147,18 +141,6 @@
   <data name="ChoosePath" xml:space="preserve">
     <value>انتخاب پوشه برای ذخیره...</value>
   </data>
-  <data name="ContactUs" xml:space="preserve">
-    <value>تماس با ما</value>
-  </data>
-  <data name="Created" xml:space="preserve">
-    <value>ایجاد در </value>
-  </data>
-  <data name="CurrentVer" xml:space="preserve">
-    <value>نسخه فعلی </value>
-  </data>
-  <data name="Developer" xml:space="preserve">
-    <value>برنامه نویس مهدی حسینی</value>
-  </data>
   <data name="Download" xml:space="preserve">
     <value>دانلود</value>
   </data>
@@ -167,12 +149,6 @@
   </data>
   <data name="Downloading" xml:space="preserve">
     <value>...درحال دانلود</value>
-  </data>
-  <data name="DownloadLink" xml:space="preserve">
-    <value>لینک دانلود</value>
-  </data>
-  <data name="DownloadNewVer" xml:space="preserve">
-    <value>دانلود بروزرسانی جدید</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>بستن</value>
@@ -186,32 +162,14 @@
   <data name="Loading" xml:space="preserve">
     <value>...درحال دریافت اطلاعات</value>
   </data>
-  <data name="NewVer" xml:space="preserve">
-    <value>نسخه جدید </value>
-  </data>
   <data name="NewVersionFound" xml:space="preserve">
-    <value>نسخه جدید پیدا شد!</value>
+    <value>نسخه جدید پیدا شد آیا میخواهید دانلود کنید؟</value>
   </data>
   <data name="NoNewVersion" xml:space="preserve">
     <value>هیچ نسخه ای پیدا نشد</value>
   </data>
   <data name="OpenFolder" xml:space="preserve">
     <value>باز کردن پوشه</value>
-  </data>
-  <data name="OpenPanel" xml:space="preserve">
-    <value>باز کردن پنل</value>
-  </data>
-  <data name="PopularSub" xml:space="preserve">
-    <value>زیرنویس های محبوب</value>
-  </data>
-  <data name="Published" xml:space="preserve">
-    <value>انتشار در</value>
-  </data>
-  <data name="RunInBackground" xml:space="preserve">
-    <value>اجرای برنامه در پس زمینه (برنامه به جای بستن مخفی خواهد شد و از سیستم ترای قابل دسترس خواهد بود)</value>
-  </data>
-  <data name="RunInBackgroundMainWindow" xml:space="preserve">
-    <value>برنامه در پس زمینه در حال اجرا خواهد بود و از سیستم ترای قابل دسترس خواهد بود و این پنجره به جای بستن، مخفی خواهد شد. آیا موافقید؟</value>
   </data>
   <data name="SearchSub" xml:space="preserve">
     <value>جستجوی زیرنویس...</value>
@@ -345,17 +303,8 @@
   <data name="R2L" xml:space="preserve">
     <value>RightToLeft</value>
   </data>
-  <data name="Plugin" xml:space="preserve">
-    <value>افزونه ها</value>
-  </data>
-  <data name="AddPlugin" xml:space="preserve">
-    <value>افزودن پلاگین جدید</value>
-  </data>
   <data name="ESubtitle" xml:space="preserve">
     <value>ای سابتایتل</value>
-  </data>
-  <data name="AddedPlugin" xml:space="preserve">
-    <value>پلاگین موردنظر با موفقیت افزوده شد برنامه را مجدد راه اندازی کنید تا تغییرات را مشاهده کنید</value>
   </data>
   <data name="IDM" xml:space="preserve">
     <value>هماهنگی با اینترنت دانلود منیجر (زیرنویس ها با IDM دانلود خواهند شد)</value>
@@ -365,9 +314,6 @@
   </data>
   <data name="L2R" xml:space="preserve">
     <value>Left</value>
-  </data>
-  <data name="CurrentModule" xml:space="preserve">
-    <value>ماژول فعلی : {0}</value>
   </data>
   <data name="IDMNot" xml:space="preserve">
     <value>اینترنت دانلود منیجر در سیستم شما پیدا نشد</value>
@@ -473,5 +419,14 @@
   </data>
   <data name="SLHungarian" xml:space="preserve">
     <value>مجارستانی</value>
+  </data>
+  <data name="Gitrepo" xml:space="preserve">
+    <value>مخزن گیتهاب</value>
+  </data>
+  <data name="Reportbug" xml:space="preserve">
+    <value>گزارش خطا</value>
+  </data>
+  <data name="Requestfeature" xml:space="preserve">
+    <value>درخواست ویژگی جدید</value>
   </data>
 </root>

@@ -3,8 +3,6 @@ using HandyControl.Data;
 using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.ViewModels;
-using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 namespace HandySub.Views
@@ -48,7 +46,7 @@ namespace HandySub.Views
                     return;
                 }
 
-                Growl.Ask(Lang.ResourceManager.GetString("ChangeLanguage"), b =>
+                Growl.AskGlobal(Lang.ResourceManager.GetString("ChangeLanguage"), b =>
                 {
                     if (!b)
                     {
@@ -72,49 +70,5 @@ namespace HandySub.Views
             }
         }
         #endregion
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            if (GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon)
-            {
-                if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
-                {
-                    MessageBoxResult result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
-                    {
-                        Message = Lang.ResourceManager.GetString("RunInBackgroundMainWindow"),
-                        Caption = Lang.ResourceManager.GetString("Title"),
-                        Button = MessageBoxButton.YesNo,
-                        IconBrushKey = ResourceToken.AccentBrush,
-                        IconKey = ResourceToken.InfoGeometry
-                    });
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        Hide();
-                        e.Cancel = true;
-                        GlobalDataHelper<AppConfig>.Config.IsFirstRun = false;
-                        GlobalDataHelper<AppConfig>.Save();
-                    }
-                    else
-                    {
-                        base.OnClosing(e);
-                    }
-                }
-                else
-                {
-                    Hide();
-                    e.Cancel = true;
-                }
-            }
-            else
-            {
-                base.OnClosing(e);
-            }
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
-using HtmlAgilityPack;
-using Module.Core;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using HandySub.Data;
 using HandySub.Language;
 using HandySub.Model;
+using HtmlAgilityPack;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -171,11 +170,6 @@ namespace HandySub.ViewModels
                 SubtitleDownloadLink = item.Link;
                 Content = Lang.ResourceManager.GetString("SubDownload");
                 IsOpen = true;
-
-                if (GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle)
-                {
-                    OnDownloadClick();
-                }
             }
         }
 
@@ -240,11 +234,11 @@ namespace HandySub.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -291,11 +285,11 @@ namespace HandySub.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -343,7 +337,7 @@ namespace HandySub.ViewModels
             if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
                 Growl.Clear();
-                Growl.Ask(new GrowlInfo
+                Growl.AskGlobal(new GrowlInfo
                 {
                     CancelStr = Lang.ResourceManager.GetString("Cancel"),
                     ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
@@ -412,7 +406,7 @@ namespace HandySub.ViewModels
                         MaskCanClose = true;
                         Progress = 0;
                         Content = LocalizationManager.Instance.Localize("SubDownload").ToString();
-                        ModuleHelper.OpenLinkWithIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink, IDMNotFound);
+                        Helper.OpenLinkWithIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink, IDMNotFound);
                     }
                 }
                 else

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:prism="http://prismlibrary.com/"
-        xmlns:userControl="clr-namespace:HandySub.Views"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         FontFamily="{StaticResource IRANSans}" 
@@ -44,40 +44,29 @@
                             <Button Tag="{x:Static hc:SkinType.Dark}" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
                                 <Border Background="Black" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
                             </Button>
-                            <Button Tag="{x:Static hc:SkinType.Violet}" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Border Background="DarkViolet" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </Popup>
         </Grid>
     </hc:Window.NonClientAreaContent>
-    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}" Background="{StaticResource CloudDrawingBrush}">
-        <Grid FlowDirection="{hc:Localization R2L}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" MinWidth="260" MaxWidth="400"/>
-                <ColumnDefinition MinWidth="200"/>
-            </Grid.ColumnDefinitions>
-            <userControl:LeftMainContent/>
-            <userControl:MainContent Grid.Column="1"/>
-            <GridSplitter Margin="0,26,10,26" Grid.Column="0" HorizontalAlignment="Right" Width="4" Background="Transparent"/>
-            <hc:ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right" IsInertiaEnabled="True" IsPenetrating="True">
-                <StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,10,10"/>
-            </hc:ScrollViewer>
-            <hc:NotifyIcon Name="notify" Text="HandySub">
-                <hc:NotifyIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top" Header="{hc:Localization OpenPanel}"/>
-                        <MenuItem Click="MenuItem_Click" Header="{hc:Localization Exit}"/>
-                    </ContextMenu>
-                </hc:NotifyIcon.ContextMenu>
-                <hc:Interaction.Triggers>
-                    <hc:EventTrigger EventName="Click">
-                        <hc:EventToCommand Command="hc:ControlCommands.PushMainWindow2Top"/>
-                    </hc:EventTrigger>
-                </hc:Interaction.Triggers>
-            </hc:NotifyIcon>
-        </Grid>
-    </Border>
+    <ui:NavigationView FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
+        <ui:NavigationView.MenuItems>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" IsSelected="True" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="globe" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle" Content="{hc:Localization WorldSub}"/>
+            <ui:NavigationViewItemSeparator/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB" Content="{hc:Localization GetMovieInfo}"/>
+        </ui:NavigationView.MenuItems>
+
+        <ui:NavigationView.FooterMenuItems>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
+        </ui:NavigationView.FooterMenuItems>
+        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <hc:Interaction.Triggers>
+            <hc:EventTrigger EventName="SelectionChanged">
+                <hc:EventToCommand Command="{Binding SwitchCommand}" PassEventArgsToCommand="True"/>
+            </hc:EventTrigger>
+        </hc:Interaction.Triggers>
+    </ui:NavigationView>
 </hc:Window>
