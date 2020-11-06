@@ -49,7 +49,7 @@ namespace HandySub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var boot = new Bootstrapper();
+            Bootstrapper boot = new Bootstrapper();
             boot.Run();
             ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
 
@@ -69,7 +69,7 @@ namespace HandySub
             SharedResourceDictionary.SharedDictionaries.Clear();
             ResourceHelper.GetTheme("hcTheme", Resources).Skin = skin;
 
-            var tm = ThemeManager.Current;
+            ThemeManager tm = ThemeManager.Current;
             if (tm.ActualApplicationTheme == ApplicationTheme.Dark)
             {
                 tm.ApplicationTheme = ApplicationTheme.Light;

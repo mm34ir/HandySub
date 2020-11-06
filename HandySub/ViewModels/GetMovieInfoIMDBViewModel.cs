@@ -16,12 +16,11 @@ namespace HandySub.ViewModels
     public class GetMovieInfoIMDBViewModel : BindableBase
     {
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; private set; }
-        public DelegateCommand<string> CopyCommand { get; private set; }
         public DelegateCommand<string> SaveToPcCommand { get; private set; }
 
         #region Property
 
-        private Visibility _visibility = Visibility.Hidden;
+        private Visibility _visibility = Visibility.Collapsed;
         public Visibility ContentVisibility
         {
             get => _visibility;
@@ -88,25 +87,11 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _Country, value);
         }
 
-        private string _Awards;
-        public string Awards
-        {
-            get => _Awards;
-            set => SetProperty(ref _Awards, value);
-        }
-
         private string _Rated;
         public string Rated
         {
             get => _Rated;
             set => SetProperty(ref _Rated, value);
-        }
-
-        private string _Metascore;
-        public string Metascore
-        {
-            get => _Metascore;
-            set => SetProperty(ref _Metascore, value);
         }
 
         private string _Genre;
@@ -151,20 +136,6 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _Poster, value);
         }
 
-        private string _RatingSource;
-        public string RatingSource
-        {
-            get => _RatingSource;
-            set => SetProperty(ref _RatingSource, value);
-        }
-
-        private string _RatingValue;
-        public string RatingValue
-        {
-            get => _RatingValue;
-            set => SetProperty(ref _RatingValue, value);
-        }
-
         private string _ImdbId;
         public string ImdbId
         {
@@ -172,18 +143,11 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _ImdbId, value);
         }
 
-        private string _ImdbRating;
+        private string _ImdbRating = "0";
         public string ImdbRating
         {
             get => _ImdbRating;
             set => SetProperty(ref _ImdbRating, value);
-        }
-
-        private string _ImdbVotes;
-        public string ImdbVotes
-        {
-            get => _ImdbVotes;
-            set => SetProperty(ref _ImdbVotes, value);
         }
 
         #endregion
@@ -191,7 +155,6 @@ namespace HandySub.ViewModels
         public GetMovieInfoIMDBViewModel()
         {
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
-            CopyCommand = new DelegateCommand<string>(OnCopyToClipboard);
             SaveToPcCommand = new DelegateCommand<string>(OnSaveToPc);
         }
 
@@ -211,11 +174,6 @@ namespace HandySub.ViewModels
             }
         }
 
-        private void OnCopyToClipboard(string data)
-        {
-            Clipboard.SetText(data);
-        }
-
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
             if (string.IsNullOrEmpty(SearchText))
@@ -223,7 +181,6 @@ namespace HandySub.ViewModels
                 return;
             }
 
-            ContentVisibility = Visibility.Visible;
             IsBusy = true;
             string url = string.Empty;
             if (SearchText.StartsWith("tt"))
@@ -245,7 +202,6 @@ namespace HandySub.ViewModels
                 {
                     ImdbId = parse.imdbID;
                     ImdbRating = parse.imdbRating;
-                    ImdbVotes = parse.imdbVotes;
                     Title = parse.Title;
                     Year = parse.Year;
                     Released = parse.Released;
@@ -253,9 +209,7 @@ namespace HandySub.ViewModels
                     TotalSeasons = parse.totalSeasons;
                     Language = parse.Language;
                     Country = parse.Country;
-                    Awards = parse.Awards;
                     Rated = parse.Rated;
-                    Metascore = parse.Metascore;
                     Genre = parse.Genre;
                     Director = parse.Director;
                     Writer = parse.Writer;
@@ -263,27 +217,12 @@ namespace HandySub.ViewModels
                     Plot = parse.Plot;
                     Poster = parse.Poster;
 
-                    if (parse.Ratings != null)
-                    {
-                        StringBuilder rSource = new StringBuilder();
-                        foreach (IMDBModel.Rating itemSource in parse.Ratings.ToList())
-                        {
-                            rSource.Append(itemSource.Source).Append("|");
-                        }
-                        RatingSource = rSource.ToString();
-
-                        StringBuilder rValue = new StringBuilder();
-                        foreach (IMDBModel.Rating itemValue in parse.Ratings.ToList())
-                        {
-                            rValue.Append(itemValue.Value).Append(" | ");
-                        }
-                        RatingValue = rValue.ToString();
-                    }
+                    ContentVisibility = Visibility.Visible;
                     IsBusy = false;
                 }
                 else
                 {
-                    ContentVisibility = Visibility.Hidden;
+                    ContentVisibility = Visibility.Collapsed;
 
                     Growl.ErrorGlobal(parse.Error);
                 }

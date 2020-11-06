@@ -33,7 +33,6 @@ namespace HandySub
             containerRegistry.RegisterForNavigation<ESubtitle>();
             containerRegistry.RegisterForNavigation<ESubtitleDownload>();
             containerRegistry.RegisterForNavigation<Settings>();
-            containerRegistry.RegisterForNavigation<PopularSeries>();
             containerRegistry.RegisterForNavigation<Subscene>();
             containerRegistry.RegisterForNavigation<SubsceneDownload>();
             containerRegistry.RegisterForNavigation<GetMovieInfoIMDB>();

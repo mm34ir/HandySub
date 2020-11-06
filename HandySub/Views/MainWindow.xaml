@@ -20,36 +20,50 @@
         Width="1050"
         MinWidth="920">
     <hc:Window.NonClientAreaContent>
-        <Grid>
+        <Grid Margin="20,0" FlowDirection="{hc:Localization R2L}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
-            <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-25" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">
-                <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="4" Margin="16" Effect="{StaticResource EffectShadow2}">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Button.Click="ButtonLangs_OnClick" Margin="10,10,0,10">
-                            <Button Tag="fa-IR" Style="{StaticResource ButtonCustom}">
-                                <Image Width="32" Source="/HandySub;component/Resources/Img/Flag/fa.png"/>
-                            </Button>
-                            <Button Tag="en-US" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Image Width="32" Source="/HandySub;component/Resources/Img/Flag/en.png"/>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Button.Click="ButtonSkins_OnClick"  Margin="10,10,10,10">
-                            <Button Tag="{x:Static hc:SkinType.Default}" Style="{StaticResource ButtonCustom}">
-                                <Border Background="White" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
-                            <Button Tag="{x:Static hc:SkinType.Dark}" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Border Background="Black" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Popup>
+            <StackPanel Height="29">
+                <Menu FlowDirection="{hc:Localization R2L}">
+                    <MenuItem Header="{hc:Localization ThemeLang}">
+                        <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
+                            <MenuItem Tag="{x:Static hc:SkinType.Default}" Header="{hc:Localization Light}">
+                                <MenuItem.Icon>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Tag="{x:Static hc:SkinType.Dark}" Header="{hc:Localization Dark}">
+                                <MenuItem.Icon>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="Black"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource TransferXaml}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{hc:Localization Language}" MenuItem.Click="MenuLanguage_OnClick">
+                            <MenuItem Tag="fa-IR" Header="{hc:Localization SLFarsi}">
+                                <MenuItem.Icon>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/fa.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Tag="en-US" Header="{hc:Localization SLEnglish}">
+                                <MenuItem.Icon>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/en.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource LanguageXaml}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+
         </Grid>
     </hc:Window.NonClientAreaContent>
+    
     <ui:NavigationView FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
         <ui:NavigationView.MenuItems>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" IsSelected="True" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}"/>

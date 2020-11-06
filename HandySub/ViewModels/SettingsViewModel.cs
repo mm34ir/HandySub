@@ -101,7 +101,7 @@ namespace HandySub.ViewModels
             try
             {
                 UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("HandyOrg", "HandySub");
-                var link = ver.Asset[0].browser_download_url;
+                string link = ver.Asset[0].browser_download_url;
 
                 if (ver.IsExistNewVersion)
                 {

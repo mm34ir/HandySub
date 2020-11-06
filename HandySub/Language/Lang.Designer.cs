@@ -133,6 +133,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تاریک.
+        /// </summary>
+        public static string Dark {
+            get {
+                return ResourceManager.GetString("Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to دانلود.
         /// </summary>
         public static string Download {
@@ -241,15 +250,6 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to جوایز:.
-        /// </summary>
-        public static string IMDBAwards {
-            get {
-                return ResourceManager.GetString("IMDBAwards", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to کشور:.
         /// </summary>
         public static string IMDBCountry {
@@ -286,29 +286,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to اطلاعات IMDB.
-        /// </summary>
-        public static string ImdbInfo {
-            get {
-                return ResourceManager.GetString("ImdbInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to زبان:.
         /// </summary>
         public static string IMDBLanguage {
             get {
                 return ResourceManager.GetString("IMDBLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to امتیاز متا:.
-        /// </summary>
-        public static string IMDBMetascore {
-            get {
-                return ResourceManager.GetString("IMDBMetascore", resourceCulture);
             }
         }
         
@@ -340,29 +322,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to امتیاز:.
-        /// </summary>
-        public static string IMDBRatings {
-            get {
-                return ResourceManager.GetString("IMDBRatings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to انتشار:.
         /// </summary>
         public static string IMDBReleased {
             get {
                 return ResourceManager.GetString("IMDBReleased", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to منبع:.
-        /// </summary>
-        public static string IMDBSource {
-            get {
-                return ResourceManager.GetString("IMDBSource", resourceCulture);
             }
         }
         
@@ -394,24 +358,6 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to امتیاز:.
-        /// </summary>
-        public static string IMDBValue {
-            get {
-                return ResourceManager.GetString("IMDBValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to تعداد رای:.
-        /// </summary>
-        public static string IMDBVotes {
-            get {
-                return ResourceManager.GetString("IMDBVotes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to نویسنده:.
         /// </summary>
         public static string IMDBWriter {
@@ -439,6 +385,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to زبان.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to شما از آخرین نسخه استفاده میکنید.
         /// </summary>
         public static string LatestVersion {
@@ -448,20 +403,20 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to روشن.
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ...درحال دریافت اطلاعات.
         /// </summary>
         public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to اطلاعات فیلم/سریال.
-        /// </summary>
-        public static string MoSerInfo {
-            get {
-                return ResourceManager.GetString("MoSerInfo", resourceCulture);
             }
         }
         
@@ -957,6 +912,24 @@ namespace HandySub.Language {
         public static string Subtitle {
             get {
                 return ResourceManager.GetString("Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پوسته.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پوسته و زبان.
+        /// </summary>
+        public static string ThemeLang {
+            get {
+                return ResourceManager.GetString("ThemeLang", resourceCulture);
             }
         }
         

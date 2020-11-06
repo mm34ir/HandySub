@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
     <value>درباره ما</value>
@@ -225,20 +225,11 @@
   <data name="GetIMDBSearch" xml:space="preserve">
     <value>نام یا آیدی IMDB فیلم یا سریال را بنویسید... [مثال: tt1442449 یا spartacus]</value>
   </data>
-  <data name="ImdbInfo" xml:space="preserve">
-    <value>اطلاعات IMDB</value>
-  </data>
   <data name="IMDBId" xml:space="preserve">
     <value>آی دی:</value>
   </data>
   <data name="IMDBRating" xml:space="preserve">
     <value>امتیاز:</value>
-  </data>
-  <data name="IMDBVotes" xml:space="preserve">
-    <value>تعداد رای:</value>
-  </data>
-  <data name="MoSerInfo" xml:space="preserve">
-    <value>اطلاعات فیلم/سریال</value>
   </data>
   <data name="IMDBTitle" xml:space="preserve">
     <value>عنوان:</value>
@@ -261,23 +252,8 @@
   <data name="IMDBCountry" xml:space="preserve">
     <value>کشور:</value>
   </data>
-  <data name="IMDBAwards" xml:space="preserve">
-    <value>جوایز:</value>
-  </data>
   <data name="IMDBRated" xml:space="preserve">
     <value>درجه بندی:</value>
-  </data>
-  <data name="IMDBRatings" xml:space="preserve">
-    <value>امتیاز:</value>
-  </data>
-  <data name="IMDBSource" xml:space="preserve">
-    <value>منبع:</value>
-  </data>
-  <data name="IMDBValue" xml:space="preserve">
-    <value>امتیاز:</value>
-  </data>
-  <data name="IMDBMetascore" xml:space="preserve">
-    <value>امتیاز متا:</value>
   </data>
   <data name="IMDBGenre" xml:space="preserve">
     <value>ژانر:</value>
@@ -428,5 +404,20 @@
   </data>
   <data name="Requestfeature" xml:space="preserve">
     <value>درخواست ویژگی جدید</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>تاریک</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>زبان</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>روشن</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>پوسته</value>
+  </data>
+  <data name="ThemeLang" xml:space="preserve">
+    <value>پوسته و زبان</value>
   </data>
 </root>

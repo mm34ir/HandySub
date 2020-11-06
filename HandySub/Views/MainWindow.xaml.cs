@@ -15,16 +15,11 @@ namespace HandySub.Views
         }
 
         #region Change Skin and Language
-        private void ButtonConfig_OnClick(object sender, RoutedEventArgs e)
-        {
-            PopupConfig.IsOpen = true;
-        }
 
-        private void ButtonSkins_OnClick(object sender, RoutedEventArgs e)
+        private void MenuSkins_OnClick(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is Button button && button.Tag is SkinType tag)
+            if (e.OriginalSource is MenuItem button && button.Tag is SkinType tag)
             {
-                PopupConfig.IsOpen = false;
                 if (tag.Equals(GlobalDataHelper<AppConfig>.Config.Skin))
                 {
                     return;
@@ -35,12 +30,12 @@ namespace HandySub.Views
                 ((App)Application.Current).UpdateSkin(tag);
             }
         }
+        #endregion
 
-        private void ButtonLangs_OnClick(object sender, RoutedEventArgs e)
+        private void MenuLanguage_OnClick(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is Button button && button.Tag is string tag)
+            if (e.OriginalSource is MenuItem button && button.Tag is string tag)
             {
-                PopupConfig.IsOpen = false;
                 if (tag.Equals(GlobalDataHelper<AppConfig>.Config.UILang))
                 {
                     return;
@@ -69,6 +64,5 @@ namespace HandySub.Views
                 });
             }
         }
-        #endregion
     }
 }
