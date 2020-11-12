@@ -12,7 +12,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
-    <ApplicationIcon>Resources\Img\subtitle.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Img\icon.ico</ApplicationIcon>
     <Authors>Mahdi Hosseini</Authors>
     <Description>Coded by Mahdi Hosseini</Description>
     <SatelliteResourceLanguages>en;fa</SatelliteResourceLanguages>
@@ -36,11 +36,12 @@
     <None Remove="Resources\Font\IRANSans.ttf" />
     <None Remove="Resources\Img\Flag\en.png" />
     <None Remove="Resources\Img\Flag\fa.png" />
-    <None Remove="Resources\Img\subtitle.ico" />
+    <None Remove="Resources\Img\icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Downloader" Version="1.9.6" />
     <PackageReference Include="HandyControls" Version="3.0.0-rc.2" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.26" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.3" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.3" />
     <PackageReference Include="ModernWpfUI" Version="0.9.3-preview.201004.0" />
@@ -61,9 +62,7 @@
     <Resource Include="Resources\Img\Flag\fa.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Img\subtitle.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Img\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Language\Lang.Designer.cs">

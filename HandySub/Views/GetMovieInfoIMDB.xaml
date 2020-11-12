@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <hc:TransitioningContentControl>
+    <hc:TransitioningContentControl TransitionMode="Fade">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -17,48 +17,47 @@
                     </hc:EventTrigger>
                 </hc:Interaction.Triggers>
             </hc:SearchBar>
-            <hc:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy}" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{hc:Localization Loading}">
-                <Grid Visibility="{Binding ContentVisibility}" FlowDirection="{hc:Localization R2L}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+            <Grid Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityReConverter}}" FlowDirection="{hc:Localization R2L}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-                    <Border Style="{StaticResource BorderClip}" CornerRadius="8" Margin="10">
-                        <Image x:Name="src" FlowDirection="LeftToRight" Source="{Binding Poster, TargetNullValue={x:Null}}" MaxWidth="240">
-                            <Image.ContextMenu>
-                                <ContextMenu FlowDirection="{hc:Localization R2L}">
-                                    <MenuItem Command="{Binding SaveToPcCommand}" CommandParameter="{Binding Poster}" Header="{hc:Localization SaveToPc}">
-                                        <MenuItem.Icon>
-                                            <Path Data="{DynamicResource DownloadGeometry}" Fill="{DynamicResource PrimaryTextBrush}"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </ContextMenu>
-                            </Image.ContextMenu>
-                        </Image>
-                    </Border>
-                    <StackPanel HorizontalAlignment="Left" Grid.Column="1">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10" VerticalAlignment="Top" Style="{DynamicResource TextBlockTitleBold}" Text="{Binding Title}"/>
-                            <hc:Rate IsEnabled="False" Foreground="{DynamicResource WarningBrush}" Margin="0,13" AllowHalf="True" Value="{Binding ImdbRating}" ShowText="True" Count="10"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10,0,5,0" Style="{DynamicResource TextBlockSubTitle}" Text="{hc:Localization IMDBId}"/>
+                <Border Style="{StaticResource BorderClip}" CornerRadius="8" Margin="10">
+                    <Image x:Name="src" FlowDirection="LeftToRight" Source="{Binding Poster, TargetNullValue={x:Null}}" MaxWidth="240">
+                        <Image.ContextMenu>
+                            <ContextMenu FlowDirection="{hc:Localization R2L}">
+                                <MenuItem Command="{Binding SaveToPcCommand}" CommandParameter="{Binding Poster}" Header="{hc:Localization SaveToPc}">
+                                    <MenuItem.Icon>
+                                        <Path Data="{DynamicResource DownloadGeometry}" Fill="{DynamicResource PrimaryTextBrush}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>
+                </Border>
+                <StackPanel HorizontalAlignment="Left" Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10" VerticalAlignment="Top" Style="{DynamicResource TextBlockTitleBold}" Text="{Binding Title}"/>
+                        <hc:Rate IsEnabled="False" Foreground="{DynamicResource WarningBrush}" Margin="0,13" AllowHalf="True" Value="{Binding ImdbRating}" ShowText="True" Count="10"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0,5,0" Style="{DynamicResource TextBlockSubTitle}" Text="{hc:Localization IMDBId}"/>
 
-                            <TextBlock Style="{DynamicResource TextBlockSubTitle}">
+                        <TextBlock Style="{DynamicResource TextBlockSubTitle}">
                                 <Hyperlink Command="hc:ControlCommands.OpenLink" CommandParameter="{Binding ElementName=imdblink, Path=Text}" TextDecorations="{x:Null}">
                                     <TextBlock Text="{Binding ImdbId}"/>
                                 </Hyperlink>
                             </TextBlock>
-                            <TextBlock x:Name="imdblink" Visibility="Collapsed" Text="{Binding ImdbId, StringFormat= 'https://www.imdb.com/title/\{0\}'}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10,0" HorizontalAlignment="Left" FlowDirection="LeftToRight" Style="{DynamicResource TextBlockSubTitle}" Text="{Binding Year}"/>
-                            <TextBlock HorizontalAlignment="Left" Margin="10,0" Style="{DynamicResource TextBlockSubTitle}">
+                        <TextBlock x:Name="imdblink" Visibility="Collapsed" Text="{Binding ImdbId, StringFormat= 'https://www.imdb.com/title/\{0\}'}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0" HorizontalAlignment="Left" FlowDirection="LeftToRight" Style="{DynamicResource TextBlockSubTitle}" Text="{Binding Year}"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Style="{DynamicResource TextBlockSubTitle}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{hc:Localization IMDBReleased}"/>
                                     <TextBlock FlowDirection="LeftToRight" Margin="5,0" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Released}"/>
@@ -67,8 +66,8 @@
                                 </StackPanel>
                             </TextBlock>
 
-                        </StackPanel>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Style="{DynamicResource TextBlockSubTitle}">
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,0" Style="{DynamicResource TextBlockSubTitle}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{hc:Localization IMDBRated}"/>
                                     <TextBlock FlowDirection="LeftToRight" Margin="10,0,5,0" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Rated}"/>
@@ -78,30 +77,53 @@
                                     <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Country}"/> 
                                 </StackPanel>
                         </TextBlock>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{DynamicResource TextBlockSubTitle}" Margin="10,0,5,0" Text="{hc:Localization IMDBLanguage}"/>
-                            <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Language}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{DynamicResource TextBlockSubTitle}" Margin="10,0,5,0" Text="{hc:Localization IMDBGenre}"/>
-                            <TextBlock Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Genre}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBDirector}" Style="{DynamicResource TextBlockSubTitle}"/>
-                            <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Director}"/>
-                            <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBWriter}" Style="{DynamicResource TextBlockSubTitle}"/>
-                            <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Writer}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBActors}" Style="{DynamicResource TextBlockSubTitle}"/>
-                            <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Actors}"/>
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockSubTitle}" Margin="10,0,5,0" Text="{hc:Localization IMDBLanguage}"/>
+                        <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Language}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockSubTitle}" Margin="10,0,5,0" Text="{hc:Localization IMDBGenre}"/>
+                        <TextBlock Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Genre}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBDirector}" Style="{DynamicResource TextBlockSubTitle}"/>
+                        <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Director}"/>
+                        <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBWriter}" Style="{DynamicResource TextBlockSubTitle}"/>
+                        <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Writer}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0,5,0" Text="{hc:Localization IMDBActors}" Style="{DynamicResource TextBlockSubTitle}"/>
+                        <TextBlock FlowDirection="LeftToRight" Style="{DynamicResource TextBlockDefaultPrimary}" Text="{Binding Actors}"/>
                     </StackPanel>
 
-                    <TextBox FontSize="16" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                             FlowDirection="LeftToRight" IsReadOnly="True" TextWrapping="Wrap" Margin="10,0" Text="{Binding Plot}"/>
-                </Grid>
-            </hc:BusyIndicator>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Title}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+
+                <TextBox FontSize="16" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                             FlowDirection="LeftToRight" IsReadOnly="True" TextWrapping="Wrap" Margin="10,0" Text="{Binding Plot}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseStyle}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Title}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+
+            <hc:LoadingCircle Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}"/>
 
         </Grid>
     </hc:TransitioningContentControl>

@@ -844,7 +844,7 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مسیر ذخیره.
+        ///   Looks up a localized string similar to تغییر محل ذخیره فایل ها.
         /// </summary>
         public static string StoreLoc {
             get {

@@ -10,7 +10,6 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -37,13 +36,6 @@ namespace HandySub.ViewModels
         {
             get => _languageItems;
             set => SetProperty(ref _languageItems, value);
-        }
-
-        private Visibility _visibility = Visibility.Hidden;
-        public Visibility ContentVisibility
-        {
-            get => _visibility;
-            set => SetProperty(ref _visibility, value);
         }
 
         private ObservableCollection<SubsceneModel> _dataList = new ObservableCollection<SubsceneModel>();
@@ -138,9 +130,8 @@ namespace HandySub.ViewModels
                     return;
                 }
 
-                ContentVisibility = Visibility.Visible;
                 IsBusy = true;
-
+                DataList?.Clear();
 
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt"))

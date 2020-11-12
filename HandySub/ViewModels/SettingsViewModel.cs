@@ -174,6 +174,8 @@ namespace HandySub.ViewModels
                     GlobalDataHelper<AppConfig>.Config.ServerUrl = item.Content.ToString();
                     GlobalDataHelper<AppConfig>.Save();
                     CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
+                    GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
+
                 }
             }
         }

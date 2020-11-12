@@ -147,6 +147,8 @@ namespace HandySub.ViewModels
             }
             try
             {
+                DataList?.Clear();
+
                 if (await LoadData())
                 {
                     HtmlNodeCollection pagenavi = doc.DocumentNode.SelectNodes("//div[@class='wp-pagenavi']");

@@ -193,7 +193,7 @@
     <value>Show Notification when Download Finished</value>
   </data>
   <data name="StoreLoc" xml:space="preserve">
-    <value>Save Path</value>
+    <value>Change Files Path</value>
   </data>
   <data name="SubDownload" xml:space="preserve">
     <value>Download Subtitle</value>

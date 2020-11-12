@@ -4,11 +4,8 @@ using HandySub.Model;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Windows;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace HandySub.ViewModels
@@ -20,13 +17,6 @@ namespace HandySub.ViewModels
 
         #region Property
 
-        private Visibility _visibility = Visibility.Collapsed;
-        public Visibility ContentVisibility
-        {
-            get => _visibility;
-            set => SetProperty(ref _visibility, value);
-        }
-
         private string _searchText;
         public string SearchText
         {
@@ -36,7 +26,6 @@ namespace HandySub.ViewModels
 
         private bool _isBusy;
         public bool IsBusy { get => _isBusy; set => SetProperty(ref _isBusy, value); }
-
 
         private string _Title;
         public string Title
@@ -217,13 +206,10 @@ namespace HandySub.ViewModels
                     Plot = parse.Plot;
                     Poster = parse.Poster;
 
-                    ContentVisibility = Visibility.Visible;
                     IsBusy = false;
                 }
                 else
                 {
-                    ContentVisibility = Visibility.Collapsed;
-
                     Growl.ErrorGlobal(parse.Error);
                 }
 

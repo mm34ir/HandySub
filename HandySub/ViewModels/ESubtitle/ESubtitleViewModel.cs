@@ -64,6 +64,7 @@ namespace HandySub.ViewModels
 
             try
             {
+                DataList?.Clear();
                 IsBusy = true;
 
                 //Get Title with imdb

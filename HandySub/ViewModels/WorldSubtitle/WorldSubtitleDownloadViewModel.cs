@@ -1,5 +1,7 @@
-﻿using HandyControl.Controls;
+﻿using Downloader;
+using HandyControl.Controls;
 using HandyControl.Data;
+using HandySub.Language;
 using HandySub.Model;
 using HtmlAgilityPack;
 using Prism.Commands;
@@ -9,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
 
 namespace HandySub.ViewModels
 {
@@ -18,7 +19,6 @@ namespace HandySub.ViewModels
         private readonly IRegionManager _regionManager;
         public bool KeepAlive => false;
         private string subtitleUrl = string.Empty;
-        private readonly WebClient client = new WebClient();
         private string location = string.Empty;
         private string subName = string.Empty;
 
@@ -33,8 +33,6 @@ namespace HandySub.ViewModels
         private bool _isBusy;
         public bool IsBusy { get => _isBusy; set => SetProperty(ref _isBusy, value); }
 
-        #region ToggleButton
-
         private bool _isEnabled = true;
         public bool IsEnabled
         {
@@ -42,20 +40,12 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
-        private bool _isChecked = false;
-        public bool IsChecked
-        {
-            get => _isChecked;
-            set => SetProperty(ref _isChecked, value);
-        }
-
-        private int _progress = 0;
-        public int Progress
+        private double _progress = 0;
+        public double Progress
         {
             get => _progress;
             set => SetProperty(ref _progress, value);
         }
-        #endregion
 
         #endregion
 
@@ -99,7 +89,7 @@ namespace HandySub.ViewModels
                         {
                             status = status.Replace("&nbsp;", "");
                         }
-                        displayName = displayName + " - " + status;
+                        displayName = displayName.Trim() + " - " + status.Trim();
 
                         DownloadModel item = new DownloadModel { DisplayName = displayName, DownloadLink = link };
                         DataList.Add(item);
@@ -147,30 +137,29 @@ namespace HandySub.ViewModels
         {
 
         }
-        #region Downloader
-        private void OnDownload(string link)
+
+        private async void OnDownload(string link)
         {
             try
             {
                 if (!string.IsNullOrEmpty(link))
                 {
-                    bool IsIDMEngine = GetConfig().IsIDMEngine ?? false;
-
-                    if (!IsIDMEngine)
+                    IsBusy = true;
+                    IsEnabled = false;
+                    Progress = 0;
+                    subName = Path.GetFileName(link);
+                    location = GlobalDataHelper<AppConfig>.Config.StoreLocation + subName;
+                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
                     {
-                        IsChecked = true;
-                        IsEnabled = false;
-                        Progress = 0;
-                        subName = Path.GetFileName(link);
-                        string StoreLocation = GetConfig().StoreLocation ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
-                        location = StoreLocation + subName;
-
-                        client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                        client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                        client.DownloadFileAsync(new Uri(link), location);
+                        var downloader = new DownloadService();
+                        downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+                        downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
+                        await downloader.DownloadFileAsync(link, location);
                     }
                     else
                     {
+                        IsBusy = false;
+                        IsEnabled = true;
                         Helper.OpenLinkWithIDM(link, IDMNotFound);
                     }
                 }
@@ -186,51 +175,35 @@ namespace HandySub.ViewModels
         {
             MessageBox.Warning(LocalizationManager.Instance.Localize("IDMNot").ToString());
         }
-        private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            double bytesIn = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
-            double percentage = bytesIn / totalBytes * 100;
-            Progress = int.Parse(Math.Truncate(percentage).ToString());
-        }
-
-        private void Completed(object sender, AsyncCompletedEventArgs e)
-        {
-            try
+            IsEnabled = true;
+            IsBusy = false;
+            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
-                IsChecked = false;
-                IsEnabled = true;
-                Progress = 0;
-                bool IsShowNotification = GetConfig().IsShowNotification ?? true;
-
-                if (IsShowNotification)
+                Growl.ClearGlobal();
+                Growl.AskGlobal(new GrowlInfo
                 {
-                    Growl.Clear();
-                    Growl.AskGlobal(new GrowlInfo
+                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
+                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
+                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), subName),
+                    ActionBeforeClose = b =>
                     {
-                        CancelStr = LocalizationManager.Instance.Localize("Cancel").ToString(),
-                        ConfirmStr = LocalizationManager.Instance.Localize("OpenFolder").ToString(),
-                        Message = string.Format(LocalizationManager.Instance.Localize("Downloaded").ToString(), subName),
-                        ActionBeforeClose = b =>
+                        if (!b)
                         {
-                            if (!b)
-                            {
-                                return true;
-                            }
-                            System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
                             return true;
-
                         }
-                    });
-                }
+                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                        return true;
+
+                    }
+                });
             }
-            catch (Exception) { }
         }
-        private dynamic GetConfig()
+
+        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
-            string configFile = File.ReadAllText("AppConfig.json");
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(configFile);
+            Progress = e.ProgressPercentage;
         }
-        #endregion
     }
 }

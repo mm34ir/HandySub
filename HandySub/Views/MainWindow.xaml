@@ -14,7 +14,7 @@
         Background="{DynamicResource SecondaryRegionBrush}"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        Icon="/HandySub;component/Resources/Img/subtitle.ico"
+        Icon="/HandySub;component/Resources/Img/icon.ico"
         Height="550"
         MinHeight="550"
         Width="1050"
@@ -67,7 +67,7 @@
     <ui:NavigationView FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
         <ui:NavigationView.MenuItems>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" IsSelected="True" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}"/>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="globe" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="list" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle" Content="{hc:Localization WorldSub}"/>
             <ui:NavigationViewItemSeparator/>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB" Content="{hc:Localization GetMovieInfo}"/>

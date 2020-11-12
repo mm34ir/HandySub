@@ -190,7 +190,7 @@
     <value>نمایش اطلاعیه هنگام اتمام دانلود</value>
   </data>
   <data name="StoreLoc" xml:space="preserve">
-    <value>مسیر ذخیره</value>
+    <value>تغییر محل ذخیره فایل ها</value>
   </data>
   <data name="SubDownload" xml:space="preserve">
     <value>دانلود زیرنویس</value>

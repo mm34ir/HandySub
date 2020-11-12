@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"     
              xmlns:hc="https://handyorg.github.io/handycontrol"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <hc:TransitioningContentControl>
+    <hc:TransitioningContentControl TransitionMode="Fade">
         <Grid Background="{DynamicResource RegionBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -15,9 +15,9 @@
                     <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization Download}" Style="{StaticResource TextBlockTitleBold}"/>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text="{hc:Localization StoreLoc}"/>
-                        <Button Margin="10,0" Command="{Binding SelectFolderCommand}" Foreground="{DynamicResource PrimaryBrush}" Style="{StaticResource ButtonIconCircular}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
-                        <hc:TextBox Width="225" Margin="0,0,60,0" Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
+                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text=""/>
+                        <Button Command="{Binding SelectFolderCommand}" Content="{hc:Localization StoreLoc}" Style="{StaticResource ButtonDashed}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                        <hc:TextBox Width="225" Margin="10,0,60,0" Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
                     </StackPanel>
                     <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
                     <TextBlock Margin="0,20,0,10" HorizontalAlignment="Left" Text="{hc:Localization Subtitle}" Style="{StaticResource TextBlockTitleBold}"/>
@@ -36,7 +36,6 @@
                     </hc:ComboBox>
                     <hc:ComboBox Width="330" HorizontalAlignment="Left" IsEditable="False" SelectedValuePath="Content" SelectedValue="{Binding DefaultSubServer}" hc:TitleElement.Title="{Binding CurrentServer}" Margin="0,10,60,10" hc:InfoElement.Placeholder="{hc:Localization SelectSubServer}">
                         <ComboBoxItem Content="https://subf2m.co"/>
-                        <ComboBoxItem Content="https://subf2m.ir"/>
                         <ComboBoxItem Content="https://sub.deltaleech.com"/>
                         <ComboBoxItem Content="https://subcenter.xyz"/>
                         <ComboBoxItem Content="https://subscene.com"/>

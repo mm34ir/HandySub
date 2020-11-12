@@ -3,28 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/" xmlns:hc="https://handyorg.github.io/handycontrol"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <hc:TransitioningContentControl>
-        <hc:BusyIndicator IsBusy="{Binding IsBusy}" Grid.Row="1" Foreground="White" FlowDirection="LeftToRight" ProgressBarStyle="{StaticResource ProgressBarPrimaryStripe}" OverlayStyle="{StaticResource RectangleCircular}" BusyContent="{hc:Localization Loading}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button Command="{Binding GoBackCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RightGeometry}"/>
-                <Button Command="{Binding RefreshCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="45,10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RefreshGeometry}"/>
-
-                <ListBox Grid.Row="1" FlowDirection="RightToLeft" Background="Transparent" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="700" FlowDirection="RightToLeft" CornerRadius="5">
-                                <hc:ProgressButton Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DownloadCommand}" CommandParameter="{Binding DownloadLink}" FlowDirection="LeftToRight" Margin="10" Width="300" Height="35" Style="{StaticResource ProgressButtonSuccess}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.IsEnabled}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.IsChecked}" Progress="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Progress}" 
- Content="{Binding DisplayName}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-        </hc:BusyIndicator>
+    <hc:TransitioningContentControl TransitionMode="Fade">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Command="{Binding GoBackCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RightGeometry}"/>
+            <Button Command="{Binding RefreshCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="45,10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RefreshGeometry}"/>
+            <ListBox Grid.Row="1" FlowDirection="RightToLeft" Background="Transparent" ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0" ItemsSource="{Binding DataList}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="700" FlowDirection="RightToLeft" CornerRadius="5">
+                            <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DownloadCommand}" 
+                                                   CommandParameter="{Binding DownloadLink}" FlowDirection="LeftToRight" Margin="10" Width="300" Height="35" 
+                                                   Style="{StaticResource ButtonDashed}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.IsEnabled}" 
+                                                   Content="{Binding DisplayName}"/>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <hc:LoadingCircle Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsEnabled, Converter={StaticResource Boolean2VisibilityReConverter}}" Grid.Row="1" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Progress, StringFormat={}{0:#0.'%'}}"/>
+        </Grid>
     </hc:TransitioningContentControl>
 
 </UserControl>
