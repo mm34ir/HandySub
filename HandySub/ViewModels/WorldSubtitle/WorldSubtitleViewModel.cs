@@ -13,8 +13,10 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace HandySub.ViewModels
 {
-    public class WorldSubtitleViewModel : BindableBase
+    public class WorldSubtitleViewModel : BindableBase, IRegionMemberLifetime
     {
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+
         private HtmlDocument doc;
         private readonly string BasePageUrl = "http://worldsubtitle.info/page/{0}?s=";
 
@@ -54,6 +56,8 @@ namespace HandySub.ViewModels
 
         public WorldSubtitleViewModel(IRegionManager regionManager)
         {
+            MainWindowViewModel.Instance.IsBackEnabled = false;
+
             DataList.Clear();
             GoToLinkCommand = new DelegateCommand<string>(GotoLink);
             _regionManager = regionManager;

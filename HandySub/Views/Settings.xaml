@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"     
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl TransitionMode="Fade">
         <Grid Background="{DynamicResource RegionBrush}">
@@ -12,16 +13,18 @@
             </Grid.ColumnDefinitions>
             <hc:ScrollViewer>
                 <StackPanel Margin="10,10">
-                    <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization Download}" Style="{StaticResource TextBlockTitleBold}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{hc:Localization General}" Style="{StaticResource TextBlockTitleBold}"/>
+                    <hc:ComboBox SelectedIndex="{Binding PaneIndex}" ItemsSource="{Binding Source={hc:EnumBindingSource {x:Type ui:NavigationViewPaneDisplayMode}}}" Width="330" HorizontalAlignment="Left" IsEditable="False" hc:TitleElement.Title="{hc:Localization PaneDisplayMode}" Margin="0,10,60,10" hc:InfoElement.Placeholder="{hc:Localization PaneDisplayMode}">
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="SelectionChanged">
+                                <hc:EventToCommand Command="{Binding PaneDisplayModeChangedCommand}" PassEventArgsToCommand="True"/>
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </hc:ComboBox>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedKeepAlive}" HorizontalAlignment="Left" Command="{Binding KeepAliveUICommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization KeepAliveUI}" Style="{StaticResource ToggleButtonSwitch}"/>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text=""/>
-                        <Button Command="{Binding SelectFolderCommand}" Content="{hc:Localization StoreLoc}" Style="{StaticResource ButtonDashed}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
-                        <hc:TextBox Width="225" Margin="10,0,60,0" Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
-                    </StackPanel>
-                    <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
                     <TextBlock Margin="0,20,0,10" HorizontalAlignment="Left" Text="{hc:Localization Subtitle}" Style="{StaticResource TextBlockTitleBold}"/>
-
                     <hc:ComboBox Width="330" HorizontalAlignment="Left" Margin="0,0,60,0" IsEditable="False" ItemsSource="{Binding ItemsView}" SelectedValuePath="DisplayName" SelectedValue="{Binding DefaultSubLang}" DisplayMemberPath="DisplayName" hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
                         <hc:TitleElement.Title>
                             <hc:Localization Key="SubLanguage">
@@ -45,14 +48,20 @@
                             </hc:EventTrigger>
                         </hc:Interaction.Triggers>
                     </hc:ComboBox>
-                    <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization General}" Style="{StaticResource TextBlockTitleBold}"/>
+
+                    <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="{hc:Localization Download}" Style="{StaticResource TextBlockTitleBold}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,10" Text=""/>
+                        <Button Command="{Binding SelectFolderCommand}" Content="{hc:Localization StoreLoc}" Style="{StaticResource ButtonDashed}" hc:IconElement.Geometry="{DynamicResource SaveGeometry}"/>
+                        <hc:TextBox Width="225" Margin="10,0,60,0" Text="{Binding CurrentStoreLocation}" FlowDirection="LeftToRight" hc:InfoElement.Placeholder="{hc:Localization ChoosePath}" IsReadOnly="True" />
+                    </StackPanel>
+                    <ToggleButton IsChecked="{Binding GetIsCheckedShowNotification}" HorizontalAlignment="Left" Command="{Binding ShowNotificationCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization ShowNotification}" Style="{StaticResource ToggleButtonSwitch}"/>
                     <ToggleButton IsChecked="{Binding GetIsCheckedIDM}" HorizontalAlignment="Left" Command="{Binding IDMCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization IDM}" Style="{StaticResource ToggleButtonSwitch}"/>
-                    <ToggleButton IsChecked="{Binding GetIsCheckedFileContextMenu}" HorizontalAlignment="Left" Command="{Binding AddToFileContextMenuCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="0,10,0,0" Content="{hc:Localization AddToFileContext}" Style="{StaticResource ToggleButtonSwitch}"/>
                 </StackPanel>
             </hc:ScrollViewer>
 
-            <StackPanel Margin="10,20,50,20" Grid.Column="1">
-                <TextBlock Margin="0,10" HorizontalAlignment="Left" Text="HandySub" Style="{StaticResource TextBlockTitleBold}"/>
+            <StackPanel Margin="10,10,50,20" Grid.Column="1">
+                <TextBlock HorizontalAlignment="Left" Text="HandySub" Style="{StaticResource TextBlockTitleBold}"/>
 
                 <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" FontSize="14">
                     <Hyperlink CommandParameter="https://github.com/HandyOrg/HandySub" Command="hc:ControlCommands.OpenLink" TextDecorations="{x:Null}">

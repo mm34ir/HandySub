@@ -420,4 +420,10 @@
   <data name="ThemeLang" xml:space="preserve">
     <value>پوسته و زبان</value>
   </data>
+  <data name="KeepAliveUI" xml:space="preserve">
+    <value>ماندگاری صفحات بعد از تغییر صفحه</value>
+  </data>
+  <data name="PaneDisplayMode" xml:space="preserve">
+    <value>حالت نمایش منوی کناری</value>
+  </data>
 </root>

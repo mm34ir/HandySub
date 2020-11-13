@@ -2,6 +2,7 @@
 using HandyControl.Data;
 using HandySub.Language;
 using HandySub.Model;
+using ModernWpf.Controls;
 using System;
 
 namespace HandySub
@@ -15,6 +16,10 @@ namespace HandySub
         public bool IsContextMenuFile { get; set; } = true;
         public bool IsShowNotification { get; set; } = true;
         public bool IsIDMEngine { get; set; } = false;
+        public bool IsKeepAlive { get; set; } = false;
+        public bool IsBackVisible { get; set; } = false;
+        public bool IsFirstRun { get; set; } = true;
+        public NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
 
         public SkinType Skin { get; set; } = SkinType.Default;
     }

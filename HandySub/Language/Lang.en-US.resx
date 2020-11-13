@@ -423,4 +423,10 @@
   <data name="ThemeLang" xml:space="preserve">
     <value>Theme and Language</value>
   </data>
+  <data name="KeepAliveUI" xml:space="preserve">
+    <value>Keep Alive pages after changing page</value>
+  </data>
+  <data name="PaneDisplayMode" xml:space="preserve">
+    <value>Pane Display Mode</value>
+  </data>
 </root>

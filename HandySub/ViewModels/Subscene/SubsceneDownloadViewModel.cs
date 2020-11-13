@@ -58,12 +58,10 @@ namespace HandySub.ViewModels
 
         #region Command
         public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; private set; }
-        public DelegateCommand GoBackCommand { get; private set; }
         public DelegateCommand RefreshCommand { get; private set; }
         #endregion
 
         public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(DataList);
-        private readonly IRegionManager _regionManager;
 
         public bool KeepAlive => false;
 
@@ -75,16 +73,11 @@ namespace HandySub.ViewModels
         public SubsceneDownloadViewModel() { }
         public SubsceneDownloadViewModel(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
+            MainWindowViewModel.Instance.IsBackEnabled = true;
+
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
             ItemsView.Filter = new Predicate<object>(o => Filter(o as SubsceneDownloadModel));
-            GoBackCommand = new DelegateCommand(GoBack);
             RefreshCommand = new DelegateCommand(GetSubtitle);
-        }
-
-        private void GoBack()
-        {
-            _regionManager.RequestNavigate("ContentRegion", "Subscene");
         }
 
         private bool Filter(SubsceneDownloadModel item)

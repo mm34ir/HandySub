@@ -16,8 +16,10 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace HandySub.ViewModels
 {
-    public class SubsceneViewModel : BindableBase, INavigationAware
+    public class SubsceneViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+
         internal static SubsceneViewModel Instance;
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
 
@@ -76,6 +78,7 @@ namespace HandySub.ViewModels
         public SubsceneViewModel(IRegionManager regionManager)
         {
             Instance = this;
+            MainWindowViewModel.Instance.IsBackEnabled = false;
             _regionManager = regionManager;
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
@@ -183,13 +186,6 @@ namespace HandySub.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            string name = navigationContext.Parameters["name_key"] as string;
-            if (!string.IsNullOrEmpty(name))
-            {
-                SearchText = name;
-                OnSearchStarted(null);
-            }
-
             if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
             {
                 SearchText = App.WindowsContextMenuArgument[0];

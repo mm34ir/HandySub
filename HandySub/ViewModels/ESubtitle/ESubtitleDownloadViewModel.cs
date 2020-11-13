@@ -16,7 +16,6 @@ namespace HandySub.ViewModels
 {
     public class ESubtitleDownloadViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
-        private readonly IRegionManager _regionManager;
         public bool KeepAlive => false;
         private string subtitleUrl = string.Empty;
         private string location = string.Empty;
@@ -50,15 +49,14 @@ namespace HandySub.ViewModels
         #endregion
 
         #region Command
-        public DelegateCommand GoBackCommand { get; private set; }
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand<string> DownloadCommand { get; private set; }
         #endregion
 
         public ESubtitleDownloadViewModel(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
-            GoBackCommand = new DelegateCommand(GoBack);
+            MainWindowViewModel.Instance.IsBackEnabled = true;
+
             RefreshCommand = new DelegateCommand(GetSubtitle);
             DownloadCommand = new DelegateCommand<string>(OnDownload);
         }
@@ -110,10 +108,6 @@ namespace HandySub.ViewModels
             }
         }
 
-        private void GoBack()
-        {
-            _regionManager.RequestNavigate("ContentRegion", "ESubtitle");
-        }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             string link = navigationContext.Parameters["name_key"] as string;

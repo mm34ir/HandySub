@@ -376,6 +376,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ماندگاری صفحات بعد از تغییر صفحه.
+        /// </summary>
+        public static string KeepAliveUI {
+            get {
+                return ResourceManager.GetString("KeepAliveUI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         public static string L2R {
@@ -444,6 +453,15 @@ namespace HandySub.Language {
         public static string OpenFolder {
             get {
                 return ResourceManager.GetString("OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to حالت نمایش منوی کناری.
+        /// </summary>
+        public static string PaneDisplayMode {
+            get {
+                return ResourceManager.GetString("PaneDisplayMode", resourceCulture);
             }
         }
         

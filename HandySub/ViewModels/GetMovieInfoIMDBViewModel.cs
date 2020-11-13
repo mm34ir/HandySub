@@ -3,6 +3,7 @@ using HandyControl.Data;
 using HandySub.Model;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -10,8 +11,10 @@ using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace HandySub.ViewModels
 {
-    public class GetMovieInfoIMDBViewModel : BindableBase
+    public class GetMovieInfoIMDBViewModel : BindableBase, IRegionMemberLifetime
     {
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; private set; }
         public DelegateCommand<string> SaveToPcCommand { get; private set; }
 
@@ -143,6 +146,8 @@ namespace HandySub.ViewModels
 
         public GetMovieInfoIMDBViewModel()
         {
+            MainWindowViewModel.Instance.IsBackEnabled = false;
+
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             SaveToPcCommand = new DelegateCommand<string>(OnSaveToPc);
         }

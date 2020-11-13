@@ -15,8 +15,8 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Icon="/HandySub;component/Resources/Img/icon.ico"
-        Height="550"
-        MinHeight="550"
+        Height="600"
+        MinHeight="600"
         Width="1050"
         MinWidth="920">
     <hc:Window.NonClientAreaContent>
@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Height="29">
                 <Menu FlowDirection="{hc:Localization R2L}">
-                    <MenuItem Header="{hc:Localization ThemeLang}">
+                    <MenuItem IsTabStop="False" Header="{hc:Localization ThemeLang}">
                         <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
                             <MenuItem Tag="{x:Static hc:SkinType.Default}" Header="{hc:Localization Light}">
                                 <MenuItem.Icon>
@@ -63,24 +63,50 @@
 
         </Grid>
     </hc:Window.NonClientAreaContent>
-    
-    <ui:NavigationView FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
+
+    <ui:NavigationView IsTabStop="False" PaneTitle="{hc:Localization Title}" FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="{Binding PaneDisplayMode}" IsBackEnabled="{Binding IsBackEnabled}">
         <ui:NavigationView.MenuItems>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" IsSelected="True" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}"/>
+            <ui:NavigationViewItem IsTabStop="False" FontFamily="{StaticResource IRANSans}" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}">
+                <ui:NavigationViewItem.Style>
+                    <Style TargetType="ui:NavigationViewItem">
+                        <Setter Property="IsSelected" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFirstRun}" Value="False">
+                                <Setter Property="IsSelected" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:NavigationViewItem.Style>
+            </ui:NavigationViewItem>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="list" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle" Content="{hc:Localization WorldSub}"/>
-            <ui:NavigationViewItemSeparator/>
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB" Content="{hc:Localization GetMovieInfo}"/>
         </ui:NavigationView.MenuItems>
 
         <ui:NavigationView.FooterMenuItems>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
+            <ui:NavigationViewItemSeparator/>
+            <ui:NavigationViewItem IsTabStop="False" IsSelected="{Binding IsFirstRun}" FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
         </ui:NavigationView.FooterMenuItems>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
         <hc:Interaction.Triggers>
             <hc:EventTrigger EventName="SelectionChanged">
                 <hc:EventToCommand Command="{Binding SwitchCommand}" PassEventArgsToCommand="True"/>
             </hc:EventTrigger>
+
+            <hc:EventTrigger EventName="BackRequested">
+                <hc:EventToCommand Command="{Binding BackCommand}" PassEventArgsToCommand="True"/>
+            </hc:EventTrigger>
         </hc:Interaction.Triggers>
+
+        <ui:NavigationView.Style>
+            <Style TargetType="ui:NavigationView">
+                <Setter Property="IsBackButtonVisible" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsBackVisible}" Value="True">
+                        <Setter Property="IsBackButtonVisible" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ui:NavigationView.Style>
     </ui:NavigationView>
 </hc:Window>

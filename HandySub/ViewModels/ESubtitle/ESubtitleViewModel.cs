@@ -13,9 +13,10 @@ using System.Text.RegularExpressions;
 
 namespace HandySub.ViewModels
 {
-    public class ESubtitleViewModel : BindableBase
+    public class ESubtitleViewModel : BindableBase, IRegionMemberLifetime
     {
         private readonly IRegionManager _regionManager;
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
 
         #region Property
 
@@ -40,9 +41,13 @@ namespace HandySub.ViewModels
         #region Command
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; private set; }
         public DelegateCommand<string> GoToLinkCommand { get; private set; }
+
         #endregion
+
         public ESubtitleViewModel(IRegionManager regionManager)
         {
+            MainWindowViewModel.Instance.IsBackEnabled = false;
+
             DataList.Clear();
             GoToLinkCommand = new DelegateCommand<string>(GotoLink);
             _regionManager = regionManager;

@@ -9,12 +9,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid>
-                <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,10,80,10" hc:InfoElement.Placeholder="{hc:Localization SearchSub}"/>
-                <Button Command="{Binding GoBackCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RightGeometry}"/>
-                <Button Command="{Binding RefreshCommand}" Height="30" Width="30" hc:BorderElement.CornerRadius="30" Margin="45,10" Padding="5,8" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource RefreshGeometry}"/>
+                <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="10,10,200,10" hc:InfoElement.Placeholder="{hc:Localization SearchSub}"/>
+                <Button Width="180" Content="Refresh" Command="{Binding RefreshCommand}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource ButtonDashedDanger}" hc:IconElement.Geometry="{DynamicResource RefreshGeometry}"/>
             </Grid>
             <ListBox Background="Transparent" Grid.Row="1" IsEnabled="{Binding IsEnabled}" hc:ListBoxAttach.IsOddEvenRow="True" AlternationCount="2" Margin="5" BorderThickness="0" FlowDirection="LeftToRight" ItemsSource="{Binding DataList}">
                 <ListBox.ItemTemplate>

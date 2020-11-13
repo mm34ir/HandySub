@@ -1,5 +1,4 @@
 ﻿using HandyControl.Controls;
-using HandyControl.Data;
 using HandySub.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -13,17 +12,18 @@ namespace HandySub
         protected override void InitializeShell(DependencyObject shell)
         {
             base.InitializeShell(shell);
-            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
+            if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
+            {
+                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Settings");
+            }
+            else
+            {
+                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
+            }
         }
         protected override DependencyObject CreateShell()
         {
-            MainWindow shell = Container.Resolve<MainWindow>();
-
-            if (GlobalDataHelper<AppConfig>.Config.Skin != SkinType.Default)
-            {
-                ((App)Application.Current).UpdateSkin(GlobalDataHelper<AppConfig>.Config.Skin);
-            }
-            return shell;
+            return Container.Resolve<MainWindow>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
