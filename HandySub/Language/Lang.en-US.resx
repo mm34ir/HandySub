@@ -112,28 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
     <value>About Us</value>
   </data>
-  <data name="AddToDirectoryContext" xml:space="preserve">
-    <value>Add Application to Directory Context Menu</value>
-  </data>
   <data name="AddToFileContext" xml:space="preserve">
-    <value>Add Application to Files Context Menu</value>
+    <value>Add Application to Context Menu</value>
   </data>
   <data name="AdminError" xml:space="preserve">
     <value>You dont have Permission, Please Run app as Administrator or change application directory to another drive</value>
   </data>
   <data name="AdminErrorTitle" xml:space="preserve">
     <value>Administrator Access Error</value>
-  </data>
-  <data name="AutoDownload" xml:space="preserve">
-    <value>Auto Download Subtitle After Opening it</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -147,18 +141,6 @@
   <data name="ChoosePath" xml:space="preserve">
     <value>Choose Folder for Saving Subtitles...</value>
   </data>
-  <data name="ContactUs" xml:space="preserve">
-    <value>Contact Us</value>
-  </data>
-  <data name="Created" xml:space="preserve">
-    <value>Created at </value>
-  </data>
-  <data name="CurrentVer" xml:space="preserve">
-    <value>Current Version </value>
-  </data>
-  <data name="Developer" xml:space="preserve">
-    <value>Programmer Mahdi Hosseini</value>
-  </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
   </data>
@@ -167,12 +149,6 @@
   </data>
   <data name="Downloading" xml:space="preserve">
     <value>Downloading...</value>
-  </data>
-  <data name="DownloadLink" xml:space="preserve">
-    <value>Download Link</value>
-  </data>
-  <data name="DownloadNewVer" xml:space="preserve">
-    <value>Download New Update</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>Exit</value>
@@ -186,11 +162,8 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading Data...</value>
   </data>
-  <data name="NewVer" xml:space="preserve">
-    <value>New Version </value>
-  </data>
   <data name="NewVersionFound" xml:space="preserve">
-    <value>New Version Found!</value>
+    <value>New Version Found, do you want to download?</value>
   </data>
   <data name="NoNewVersion" xml:space="preserve">
     <value>We cant find any version</value>
@@ -198,20 +171,8 @@
   <data name="OpenFolder" xml:space="preserve">
     <value>Open Folder</value>
   </data>
-  <data name="OpenPanel" xml:space="preserve">
-    <value>Open Panel</value>
-  </data>
   <data name="PopularSub" xml:space="preserve">
     <value>Popular Subtitle</value>
-  </data>
-  <data name="Published" xml:space="preserve">
-    <value>Published at </value>
-  </data>
-  <data name="RunInBackground" xml:space="preserve">
-    <value>Run In Background (window will be hiding instead of closing)</value>
-  </data>
-  <data name="RunInBackgroundMainWindow" xml:space="preserve">
-    <value>application will be running in background and this window will be hiding instead of closing, do you want?</value>
   </data>
   <data name="SearchSub" xml:space="preserve">
     <value>Search Subtitle...</value>
@@ -232,7 +193,7 @@
     <value>Show Notification when Download Finished</value>
   </data>
   <data name="StoreLoc" xml:space="preserve">
-    <value>Save Path</value>
+    <value>Change Files Path</value>
   </data>
   <data name="SubDownload" xml:space="preserve">
     <value>Download Subtitle</value>
@@ -267,20 +228,11 @@
   <data name="GetIMDBSearch" xml:space="preserve">
     <value>Type Movie or Series IMDB Id or Title... [Example tt1442449 or Spartacus]</value>
   </data>
-  <data name="ImdbInfo" xml:space="preserve">
-    <value>IMDB Info</value>
-  </data>
   <data name="IMDBId" xml:space="preserve">
     <value>ID:</value>
   </data>
   <data name="IMDBRating" xml:space="preserve">
     <value>Rating:</value>
-  </data>
-  <data name="IMDBVotes" xml:space="preserve">
-    <value>Votes:</value>
-  </data>
-  <data name="MoSerInfo" xml:space="preserve">
-    <value>Movie/Series Info</value>
   </data>
   <data name="IMDBTitle" xml:space="preserve">
     <value>Title:</value>
@@ -303,23 +255,8 @@
   <data name="IMDBCountry" xml:space="preserve">
     <value>Country:</value>
   </data>
-  <data name="IMDBAwards" xml:space="preserve">
-    <value>Awards:</value>
-  </data>
   <data name="IMDBRated" xml:space="preserve">
     <value>Rated:</value>
-  </data>
-  <data name="IMDBRatings" xml:space="preserve">
-    <value>Ratings:</value>
-  </data>
-  <data name="IMDBSource" xml:space="preserve">
-    <value>Source:</value>
-  </data>
-  <data name="IMDBValue" xml:space="preserve">
-    <value>Value:</value>
-  </data>
-  <data name="IMDBMetascore" xml:space="preserve">
-    <value>Meta Score:</value>
   </data>
   <data name="IMDBGenre" xml:space="preserve">
     <value>Genre:</value>
@@ -345,17 +282,8 @@
   <data name="R2L" xml:space="preserve">
     <value>LeftToRight</value>
   </data>
-  <data name="Plugin" xml:space="preserve">
-    <value>Plugins</value>
-  </data>
-  <data name="AddPlugin" xml:space="preserve">
-    <value>Add New Plugin</value>
-  </data>
   <data name="ESubtitle" xml:space="preserve">
     <value>E Subtitle</value>
-  </data>
-  <data name="AddedPlugin" xml:space="preserve">
-    <value>Your Plugin Added, Please Restart application</value>
   </data>
   <data name="IDM" xml:space="preserve">
     <value>Download Subtitle with Internet Download Manager</value>
@@ -365,9 +293,6 @@
   </data>
   <data name="L2R" xml:space="preserve">
     <value>Right</value>
-  </data>
-  <data name="CurrentModule" xml:space="preserve">
-    <value>Current Module: {0}</value>
   </data>
   <data name="IDMNot" xml:space="preserve">
     <value>Internet Download Manager Not Found, Please Install IDM on Drive C</value>
@@ -473,5 +398,35 @@
   </data>
   <data name="SLHungarian" xml:space="preserve">
     <value>Hungarian</value>
+  </data>
+  <data name="Gitrepo" xml:space="preserve">
+    <value>Github repository</value>
+  </data>
+  <data name="Reportbug" xml:space="preserve">
+    <value>Report a bug</value>
+  </data>
+  <data name="Requestfeature" xml:space="preserve">
+    <value>Request a feature</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="ThemeLang" xml:space="preserve">
+    <value>Theme and Language</value>
+  </data>
+  <data name="KeepAliveUI" xml:space="preserve">
+    <value>Keep Alive pages after changing page</value>
+  </data>
+  <data name="PaneDisplayMode" xml:space="preserve">
+    <value>Pane Display Mode</value>
   </data>
 </root>

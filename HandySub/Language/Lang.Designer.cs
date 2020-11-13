@@ -70,34 +70,7 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to پلاگین موردنظر با موفقیت افزوده شد برنامه را مجدد راه اندازی کنید تا تغییرات را مشاهده کنید.
-        /// </summary>
-        public static string AddedPlugin {
-            get {
-                return ResourceManager.GetString("AddedPlugin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to افزودن پلاگین جدید.
-        /// </summary>
-        public static string AddPlugin {
-            get {
-                return ResourceManager.GetString("AddPlugin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست پوشه ها.
-        /// </summary>
-        public static string AddToDirectoryContext {
-            get {
-                return ResourceManager.GetString("AddToDirectoryContext", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست فایل ها.
+        ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست.
         /// </summary>
         public static string AddToFileContext {
             get {
@@ -120,15 +93,6 @@ namespace HandySub.Language {
         public static string AdminErrorTitle {
             get {
                 return ResourceManager.GetString("AdminErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to دانلود خودکار زیرنویس بعد از انتخاب زیرنویس.
-        /// </summary>
-        public static string AutoDownload {
-            get {
-                return ResourceManager.GetString("AutoDownload", resourceCulture);
             }
         }
         
@@ -169,47 +133,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to تماس با ما.
+        ///   Looks up a localized string similar to تاریک.
         /// </summary>
-        public static string ContactUs {
+        public static string Dark {
             get {
-                return ResourceManager.GetString("ContactUs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ایجاد در .
-        /// </summary>
-        public static string Created {
-            get {
-                return ResourceManager.GetString("Created", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ماژول فعلی : {0}.
-        /// </summary>
-        public static string CurrentModule {
-            get {
-                return ResourceManager.GetString("CurrentModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to نسخه فعلی .
-        /// </summary>
-        public static string CurrentVer {
-            get {
-                return ResourceManager.GetString("CurrentVer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to برنامه نویس مهدی حسینی.
-        /// </summary>
-        public static string Developer {
-            get {
-                return ResourceManager.GetString("Developer", resourceCulture);
+                return ResourceManager.GetString("Dark", resourceCulture);
             }
         }
         
@@ -237,24 +165,6 @@ namespace HandySub.Language {
         public static string Downloading {
             get {
                 return ResourceManager.GetString("Downloading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to لینک دانلود.
-        /// </summary>
-        public static string DownloadLink {
-            get {
-                return ResourceManager.GetString("DownloadLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to دانلود بروزرسانی جدید.
-        /// </summary>
-        public static string DownloadNewVer {
-            get {
-                return ResourceManager.GetString("DownloadNewVer", resourceCulture);
             }
         }
         
@@ -304,6 +214,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مخزن گیتهاب.
+        /// </summary>
+        public static string Gitrepo {
+            get {
+                return ResourceManager.GetString("Gitrepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to هماهنگی با اینترنت دانلود منیجر (زیرنویس ها با IDM دانلود خواهند شد).
         /// </summary>
         public static string IDM {
@@ -327,15 +246,6 @@ namespace HandySub.Language {
         public static string IMDBActors {
             get {
                 return ResourceManager.GetString("IMDBActors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to جوایز:.
-        /// </summary>
-        public static string IMDBAwards {
-            get {
-                return ResourceManager.GetString("IMDBAwards", resourceCulture);
             }
         }
         
@@ -376,29 +286,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to اطلاعات IMDB.
-        /// </summary>
-        public static string ImdbInfo {
-            get {
-                return ResourceManager.GetString("ImdbInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to زبان:.
         /// </summary>
         public static string IMDBLanguage {
             get {
                 return ResourceManager.GetString("IMDBLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to امتیاز متا:.
-        /// </summary>
-        public static string IMDBMetascore {
-            get {
-                return ResourceManager.GetString("IMDBMetascore", resourceCulture);
             }
         }
         
@@ -430,29 +322,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to امتیاز:.
-        /// </summary>
-        public static string IMDBRatings {
-            get {
-                return ResourceManager.GetString("IMDBRatings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to انتشار:.
         /// </summary>
         public static string IMDBReleased {
             get {
                 return ResourceManager.GetString("IMDBReleased", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to منبع:.
-        /// </summary>
-        public static string IMDBSource {
-            get {
-                return ResourceManager.GetString("IMDBSource", resourceCulture);
             }
         }
         
@@ -484,24 +358,6 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to امتیاز:.
-        /// </summary>
-        public static string IMDBValue {
-            get {
-                return ResourceManager.GetString("IMDBValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to تعداد رای:.
-        /// </summary>
-        public static string IMDBVotes {
-            get {
-                return ResourceManager.GetString("IMDBVotes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to نویسنده:.
         /// </summary>
         public static string IMDBWriter {
@@ -520,11 +376,29 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ماندگاری صفحات بعد از تغییر صفحه.
+        /// </summary>
+        public static string KeepAliveUI {
+            get {
+                return ResourceManager.GetString("KeepAliveUI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         public static string L2R {
             get {
                 return ResourceManager.GetString("L2R", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to زبان.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
@@ -538,6 +412,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to روشن.
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ...درحال دریافت اطلاعات.
         /// </summary>
         public static string Loading {
@@ -547,25 +430,7 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to اطلاعات فیلم/سریال.
-        /// </summary>
-        public static string MoSerInfo {
-            get {
-                return ResourceManager.GetString("MoSerInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to نسخه جدید .
-        /// </summary>
-        public static string NewVer {
-            get {
-                return ResourceManager.GetString("NewVer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to نسخه جدید پیدا شد!.
+        ///   Looks up a localized string similar to نسخه جدید پیدا شد آیا میخواهید دانلود کنید؟.
         /// </summary>
         public static string NewVersionFound {
             get {
@@ -592,38 +457,11 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to باز کردن پنل.
+        ///   Looks up a localized string similar to حالت نمایش منوی کناری.
         /// </summary>
-        public static string OpenPanel {
+        public static string PaneDisplayMode {
             get {
-                return ResourceManager.GetString("OpenPanel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to افزونه ها.
-        /// </summary>
-        public static string Plugin {
-            get {
-                return ResourceManager.GetString("Plugin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to زیرنویس های محبوب.
-        /// </summary>
-        public static string PopularSub {
-            get {
-                return ResourceManager.GetString("PopularSub", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to انتشار در.
-        /// </summary>
-        public static string Published {
-            get {
-                return ResourceManager.GetString("Published", resourceCulture);
+                return ResourceManager.GetString("PaneDisplayMode", resourceCulture);
             }
         }
         
@@ -637,20 +475,20 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to اجرای برنامه در پس زمینه (برنامه به جای بستن مخفی خواهد شد و از سیستم ترای قابل دسترس خواهد بود).
+        ///   Looks up a localized string similar to گزارش خطا.
         /// </summary>
-        public static string RunInBackground {
+        public static string Reportbug {
             get {
-                return ResourceManager.GetString("RunInBackground", resourceCulture);
+                return ResourceManager.GetString("Reportbug", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to برنامه در پس زمینه در حال اجرا خواهد بود و از سیستم ترای قابل دسترس خواهد بود و این پنجره به جای بستن، مخفی خواهد شد. آیا موافقید؟.
+        ///   Looks up a localized string similar to درخواست ویژگی جدید.
         /// </summary>
-        public static string RunInBackgroundMainWindow {
+        public static string Requestfeature {
             get {
-                return ResourceManager.GetString("RunInBackgroundMainWindow", resourceCulture);
+                return ResourceManager.GetString("Requestfeature", resourceCulture);
             }
         }
         
@@ -1024,7 +862,7 @@ namespace HandySub.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مسیر ذخیره.
+        ///   Looks up a localized string similar to تغییر محل ذخیره فایل ها.
         /// </summary>
         public static string StoreLoc {
             get {
@@ -1092,6 +930,24 @@ namespace HandySub.Language {
         public static string Subtitle {
             get {
                 return ResourceManager.GetString("Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پوسته.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پوسته و زبان.
+        /// </summary>
+        public static string ThemeLang {
+            get {
+                return ResourceManager.GetString("ThemeLang", resourceCulture);
             }
         }
         

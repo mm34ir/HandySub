@@ -1,26 +1,25 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
+using HandySub.Data;
+using HandySub.Language;
+using HandySub.Model;
 using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using HandySub.Data;
-using HandySub.Language;
-using HandySub.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace HandySub.ViewModels
 {
-    public class SubsceneViewModel : BindableBase, INavigationAware
+    public class SubsceneViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+
         internal static SubsceneViewModel Instance;
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
 
@@ -39,13 +38,6 @@ namespace HandySub.ViewModels
         {
             get => _languageItems;
             set => SetProperty(ref _languageItems, value);
-        }
-
-        private Visibility _visibility = Visibility.Hidden;
-        public Visibility ContentVisibility
-        {
-            get => _visibility;
-            set => SetProperty(ref _visibility, value);
         }
 
         private ObservableCollection<SubsceneModel> _dataList = new ObservableCollection<SubsceneModel>();
@@ -86,6 +78,7 @@ namespace HandySub.ViewModels
         public SubsceneViewModel(IRegionManager regionManager)
         {
             Instance = this;
+            MainWindowViewModel.Instance.IsBackEnabled = false;
             _regionManager = regionManager;
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
@@ -129,34 +122,7 @@ namespace HandySub.ViewModels
             }
         }
 
-        private async Task<string> getTitleByImdbId(string ImdbId)
-        {
-            string result = string.Empty;
-            string url = $"http://www.omdbapi.com/?i={ImdbId}&apikey=2a59a17e";
 
-            try
-            {
-                using HttpClient client = new HttpClient();
-                string responseBody = await client.GetStringAsync(url);
-                IMDBModel.Root parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel.Root>(responseBody);
-
-                if (parse.Response.Equals("True"))
-                {
-                    result = parse.Title;
-                }
-                else
-                {
-                    Growl.Error(parse.Error);
-                }
-
-            }
-            catch (HttpRequestException ex)
-            {
-                Growl.Error(ex.Message);
-            }
-
-            return result;
-        }
 
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
@@ -167,14 +133,13 @@ namespace HandySub.ViewModels
                     return;
                 }
 
-                ContentVisibility = Visibility.Visible;
                 IsBusy = true;
-
+                DataList?.Clear();
 
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt"))
                 {
-                    SearchText = await getTitleByImdbId(SearchText);
+                    SearchText = await Helper.GetTitleByImdbId(SearchText);
                 }
 
                 string url = string.Format(SearchAPI, GlobalDataHelper<AppConfig>.Config.ServerUrl, SearchText);
@@ -206,11 +171,11 @@ namespace HandySub.ViewModels
             catch (System.NullReferenceException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -221,13 +186,6 @@ namespace HandySub.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            string name = navigationContext.Parameters["name_key"] as string;
-            if (!string.IsNullOrEmpty(name))
-            {
-                SearchText = name;
-                OnSearchStarted(null);
-            }
-
             if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
             {
                 SearchText = App.WindowsContextMenuArgument[0];

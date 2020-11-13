@@ -1,24 +1,37 @@
 ﻿using HandyControl.Controls;
-using Microsoft.Win32;
-using Prism.Commands;
-using Prism.Mvvm;
 using HandySub.Data;
 using HandySub.Language;
 using HandySub.Model;
+using Microsoft.Win32;
+using ModernWpf.Controls;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
 
 namespace HandySub.ViewModels
 {
-    public class SettingsViewModel : BindableBase
+    public class SettingsViewModel : BindableBase, IRegionMemberLifetime
     {
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+
         internal static SettingsViewModel Instance;
+
         #region Property
+
+        private string _version;
+        public string Version
+        {
+            get => _version;
+            set => SetProperty(ref _version, value);
+        }
 
         private string _DefaultSubLang;
         public string DefaultSubLang
@@ -62,8 +75,12 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _currentLanguage, value);
         }
 
-        private bool _getIsCheckedAutoDownload;
-        public bool GetIsCheckedAutoDownload { get => _getIsCheckedAutoDownload; set => SetProperty(ref _getIsCheckedAutoDownload, value); }
+        private int _PaneIndex;
+        public int PaneIndex
+        {
+            get { return _PaneIndex; }
+            set { SetProperty(ref _PaneIndex, value); }
+        }
 
         private bool _getIsCheckedShowNotification;
         public bool GetIsCheckedShowNotification { get => _getIsCheckedShowNotification; set => SetProperty(ref _getIsCheckedShowNotification, value); }
@@ -72,77 +89,59 @@ namespace HandySub.ViewModels
         private bool _getIsCheckedFileContextMenu;
         public bool GetIsCheckedFileContextMenu { get => _getIsCheckedFileContextMenu; set => SetProperty(ref _getIsCheckedFileContextMenu, value); }
 
-        private bool _getIsCheckedFolderContextMenu;
-        public bool GetIsCheckedFolderContextMenu { get => _getIsCheckedFolderContextMenu; set => SetProperty(ref _getIsCheckedFolderContextMenu, value); }
-
-        private bool _getIsCheckedShowNotifyIcon;
-        public bool GetIsCheckedShowNotifyIcon { get => _getIsCheckedShowNotifyIcon; set => SetProperty(ref _getIsCheckedShowNotifyIcon, value); }
-
         private bool _getIsCheckedIDM;
         public bool GetIsCheckedIDM { get => _getIsCheckedIDM; set => SetProperty(ref _getIsCheckedIDM, value); }
-        #endregion
-        #region Command
-        public DelegateCommand SelectFolderCommand { get; private set; }
-        public DelegateCommand AddPluginCommand { get; private set; }
 
-        public DelegateCommand<object> AutoDownloadCommand { get; private set; }
+        private bool _getIsCheckedKeepAlive;
+        public bool GetIsCheckedKeepAlive { get => _getIsCheckedKeepAlive; set => SetProperty(ref _getIsCheckedKeepAlive, value); }
+        #endregion
+
+        #region Command
+        public DelegateCommand CheckUpdateCommand { get; private set; }
+        public DelegateCommand SelectFolderCommand { get; private set; }
         public DelegateCommand<object> ShowNotificationCommand { get; private set; }
         public DelegateCommand<object> AddToFileContextMenuCommand { get; private set; }
-        public DelegateCommand<object> AddToFolderContextMenuCommand { get; private set; }
-        public DelegateCommand<object> IsShowNotifyIconCommand { get; private set; }
+        public DelegateCommand<object> KeepAliveUICommand { get; private set; }
         public DelegateCommand<object> IDMCommand { get; private set; }
 
         public DelegateCommand<SelectionChangedEventArgs> SubtitleLanguageCommand { get; private set; }
         public DelegateCommand<SelectionChangedEventArgs> ServerChangedCommand { get; private set; }
+        public DelegateCommand<SelectionChangedEventArgs> PaneDisplayModeChangedCommand { get; private set; }
         #endregion
 
         public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(LanguageItems);
 
-
         public SettingsViewModel()
         {
+            MainWindowViewModel.Instance.IsBackEnabled = false;
+
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            CheckUpdateCommand = new DelegateCommand(CheckforUpdate);
             Instance = this;
             SelectFolderCommand = new DelegateCommand(SelectFolder);
-            AddPluginCommand = new DelegateCommand(AddNewPlugin);
-            AutoDownloadCommand = new DelegateCommand<object>(AutoDownload);
             ShowNotificationCommand = new DelegateCommand<object>(ShowNotification);
             AddToFileContextMenuCommand = new DelegateCommand<object>(AddToFileContextMenu);
-            AddToFolderContextMenuCommand = new DelegateCommand<object>(AddToFolderContextMenu);
-            IsShowNotifyIconCommand = new DelegateCommand<object>(IsShowNotifyIcon);
+            KeepAliveUICommand = new DelegateCommand<object>(KeepAliveUI);
             IDMCommand = new DelegateCommand<object>(IDM);
 
             SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
             ServerChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(ServerChanged);
+            PaneDisplayModeChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(PaneDisplayModeChanged);
             ItemsView.SortDescriptions.Add(new SortDescription("DisplayName", ListSortDirection.Ascending));
 
             InitSettings();
-        }
-
-
-        private void AddNewPlugin()
-        {
-            Microsoft.Win32.OpenFileDialog openFile = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "Module files (*.dll)|*.dll"
-            };
-            if (openFile.ShowDialog().Value)
-            {
-                File.Copy(openFile.FileName, $@".\modules\{Path.GetFileName(openFile.FileName)}", true);
-                HandyControl.Controls.MessageBox.Success(LocalizationManager.Instance.Localize("AddedPlugin").ToString());
-            }
         }
 
         private void InitSettings()
         {
             CurrentStoreLocation = GlobalDataHelper<AppConfig>.Config.StoreLocation;
 
-            GetIsCheckedAutoDownload = GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle;
             GetIsCheckedFileContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFile;
-            GetIsCheckedFolderContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder;
             GetIsCheckedShowNotification = GlobalDataHelper<AppConfig>.Config.IsShowNotification;
-            GetIsCheckedShowNotifyIcon = GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon;
             GetIsCheckedIDM = GlobalDataHelper<AppConfig>.Config.IsIDMEngine;
+            GetIsCheckedKeepAlive = GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
 
+            PaneIndex = (int)GlobalDataHelper<AppConfig>.Config.PaneDisplayMode;
             LoadSubtitleLanguage();
         }
 
@@ -152,6 +151,54 @@ namespace HandySub.ViewModels
             DefaultSubLang = CurrentLanguage = LocalizationManager.Instance.Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
             CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
             LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
+        }
+
+        private void CheckforUpdate()
+        {
+            try
+            {
+                UpdateHelper.GithubReleaseModel ver = UpdateHelper.CheckForUpdateGithubRelease("HandyOrg", "HandySub");
+                string link = ver.Asset[0].browser_download_url;
+
+                if (ver.IsExistNewVersion)
+                {
+                    Growl.AskGlobal(string.Format(Lang.ResourceManager.GetString("NewVersionFound"), link), b =>
+                    {
+                        if (!b)
+                        {
+                            return true;
+                        }
+                        Process.Start(link);
+                        return true;
+                    });
+                }
+                else
+                {
+                    Growl.InfoGlobal(Lang.ResourceManager.GetString("LatestVersion"));
+                }
+            }
+            catch (System.Exception)
+            {
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("NoNewVersion"));
+            }
+        }
+
+        private void PaneDisplayModeChanged(SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            if (e.AddedItems[0] is NavigationViewPaneDisplayMode item)
+            {
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.PaneDisplayMode))
+                {
+                    GlobalDataHelper<AppConfig>.Config.PaneDisplayMode = item;
+                    GlobalDataHelper<AppConfig>.Save();
+                    GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
+                    MainWindowViewModel.Instance.PaneDisplayMode = item;
+                }
+            }
         }
 
         private void ServerChanged(SelectionChangedEventArgs e)
@@ -167,6 +214,8 @@ namespace HandySub.ViewModels
                     GlobalDataHelper<AppConfig>.Config.ServerUrl = item.Content.ToString();
                     GlobalDataHelper<AppConfig>.Save();
                     CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"), GlobalDataHelper<AppConfig>.Config.ServerUrl);
+                    GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
+
                 }
             }
         }
@@ -189,6 +238,18 @@ namespace HandySub.ViewModels
         }
 
         #region ToggleButton
+        private void KeepAliveUI(object isChecked)
+        {
+            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsKeepAlive)
+            {
+                GlobalDataHelper<AppConfig>.Config.IsKeepAlive = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Config.IsBackVisible = (bool)isChecked;
+                GlobalDataHelper<AppConfig>.Save();
+                GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
+                MainWindowViewModel.Instance.IsBackVisible = !(bool)isChecked;
+            }
+        }
+
         private void IDM(object isChecked)
         {
             if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
@@ -207,43 +268,16 @@ namespace HandySub.ViewModels
             }
         }
 
-        private void IsShowNotifyIcon(object isChecked)
-        {
-            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon)
-            {
-                GlobalDataHelper<AppConfig>.Config.IsShowNotifyIcon = (bool)isChecked;
-                GlobalDataHelper<AppConfig>.Save();
-            }
-        }
-
-        private void AddToFolderContextMenu(object isChecked)
-        {
-            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder)
-            {
-                GlobalDataHelper<AppConfig>.Config.IsContextMenuFolder = (bool)isChecked;
-                GlobalDataHelper<AppConfig>.Save();
-                RegisterContextMenu(true, !(bool)isChecked);
-            }
-        }
-
         private void AddToFileContextMenu(object isChecked)
         {
             if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsContextMenuFile)
             {
                 GlobalDataHelper<AppConfig>.Config.IsContextMenuFile = (bool)isChecked;
                 GlobalDataHelper<AppConfig>.Save();
-                RegisterContextMenu(false, !(bool)isChecked);
+                RegisterContextMenu(!(bool)isChecked);
             }
         }
 
-        private void AutoDownload(object isChecked)
-        {
-            if ((bool)isChecked != GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle)
-            {
-                GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle = (bool)isChecked;
-                GlobalDataHelper<AppConfig>.Save();
-            }
-        }
         #endregion
 
         private void SelectFolder()
@@ -260,44 +294,25 @@ namespace HandySub.ViewModels
             }
         }
 
-        private void RegisterContextMenu(bool IsFolder, bool IsDelete = false)
+        private void RegisterContextMenu(bool IsDelete = false)
         {
             try
             {
                 if (IsDelete)
                 {
-                    if (IsFolder)
-                    {
-                        RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
-                        regFolderKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                    }
-                    else
-                    {
-                        RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
-                        regFileKeyOpen.DeleteSubKeyTree("Get Subtitle");
-                    }
+                    RegistryKey regFolderKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\", true);
+                    RegistryKey regFileKeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\", true);
+
+                    regFolderKeyOpen?.DeleteSubKeyTree("Get Subtitle");
+                    regFileKeyOpen?.DeleteSubKeyTree("Get Subtitle");
                 }
                 else
                 {
-                    if (IsFolder)
+                    RegistryKey regFileOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\", true);
+                    if (regFileOpen == null)
                     {
-                        RegistryKey regFolderOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\", true);
-                        if (regFolderOpen == null)
-                        {
-                            //Subscene
-                            RegistryKey regFolderKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\directory\shell\Get Subtitle\command\");
-                            regFolderKey.SetValue("", $"\"{System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName}\" \"%1\"");
-                        }
-                    }
-                    else
-                    {
-                        RegistryKey regFileOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\", true);
-                        if (regFileOpen == null)
-                        {
-                            //Subscene
-                            RegistryKey regFileKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\");
-                            regFileKey.SetValue("", $"\"{System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName}\" \"%1\"");
-                        }
+                        RegistryKey regFileKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Classes\*\shell\Get Subtitle\command\");
+                        regFileKey.SetValue("", $"\"{System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName}\" \"%1\"");
                     }
                 }
             }

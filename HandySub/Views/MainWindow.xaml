@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:prism="http://prismlibrary.com/"
-        xmlns:userControl="clr-namespace:HandySub.Views"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         FontFamily="{StaticResource IRANSans}" 
@@ -14,70 +14,99 @@
         Background="{DynamicResource SecondaryRegionBrush}"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        Icon="/HandySub;component/Resources/Img/subtitle.ico"
-        Height="550"
-        MinHeight="550"
+        Icon="/HandySub;component/Resources/Img/icon.ico"
+        Height="600"
+        MinHeight="600"
         Width="1050"
         MinWidth="920">
     <hc:Window.NonClientAreaContent>
-        <Grid>
+        <Grid Margin="20,0" FlowDirection="{hc:Localization R2L}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
-            <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-25" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">
-                <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="4" Margin="16" Effect="{StaticResource EffectShadow2}">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Button.Click="ButtonLangs_OnClick" Margin="10,10,0,10">
-                            <Button Tag="fa-IR" Style="{StaticResource ButtonCustom}">
-                                <Image Width="32" Source="/HandySub;component/Resources/Img/Flag/fa.png"/>
-                            </Button>
-                            <Button Tag="en-US" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Image Width="32" Source="/HandySub;component/Resources/Img/Flag/en.png"/>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Button.Click="ButtonSkins_OnClick"  Margin="10,10,10,10">
-                            <Button Tag="{x:Static hc:SkinType.Default}" Style="{StaticResource ButtonCustom}">
-                                <Border Background="White" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
-                            <Button Tag="{x:Static hc:SkinType.Dark}" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Border Background="Black" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
-                            <Button Tag="{x:Static hc:SkinType.Violet}" Style="{StaticResource ButtonCustom}" Margin="0,10,0,0">
-                                <Border Background="DarkViolet" Width="32" Height="21" CornerRadius="2" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"/>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Popup>
+            <StackPanel Height="29">
+                <Menu FlowDirection="{hc:Localization R2L}">
+                    <MenuItem IsTabStop="False" Header="{hc:Localization ThemeLang}">
+                        <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
+                            <MenuItem Tag="{x:Static hc:SkinType.Default}" Header="{hc:Localization Light}">
+                                <MenuItem.Icon>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Tag="{x:Static hc:SkinType.Dark}" Header="{hc:Localization Dark}">
+                                <MenuItem.Icon>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="Black"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource TransferXaml}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{hc:Localization Language}" MenuItem.Click="MenuLanguage_OnClick">
+                            <MenuItem Tag="fa-IR" Header="{hc:Localization SLFarsi}">
+                                <MenuItem.Icon>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/fa.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Tag="en-US" Header="{hc:Localization SLEnglish}">
+                                <MenuItem.Icon>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/en.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource LanguageXaml}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+
         </Grid>
     </hc:Window.NonClientAreaContent>
-    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}" Background="{StaticResource CloudDrawingBrush}">
-        <Grid FlowDirection="{hc:Localization R2L}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" MinWidth="260" MaxWidth="400"/>
-                <ColumnDefinition MinWidth="200"/>
-            </Grid.ColumnDefinitions>
-            <userControl:LeftMainContent/>
-            <userControl:MainContent Grid.Column="1"/>
-            <GridSplitter Margin="0,26,10,26" Grid.Column="0" HorizontalAlignment="Right" Width="4" Background="Transparent"/>
-            <hc:ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right" IsInertiaEnabled="True" IsPenetrating="True">
-                <StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,10,10"/>
-            </hc:ScrollViewer>
-            <hc:NotifyIcon Name="notify" Text="HandySub">
-                <hc:NotifyIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top" Header="{hc:Localization OpenPanel}"/>
-                        <MenuItem Click="MenuItem_Click" Header="{hc:Localization Exit}"/>
-                    </ContextMenu>
-                </hc:NotifyIcon.ContextMenu>
-                <hc:Interaction.Triggers>
-                    <hc:EventTrigger EventName="Click">
-                        <hc:EventToCommand Command="hc:ControlCommands.PushMainWindow2Top"/>
-                    </hc:EventTrigger>
-                </hc:Interaction.Triggers>
-            </hc:NotifyIcon>
-        </Grid>
-    </Border>
+
+    <ui:NavigationView IsTabStop="False" PaneTitle="{hc:Localization Title}" FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="{Binding PaneDisplayMode}" IsBackEnabled="{Binding IsBackEnabled}">
+        <ui:NavigationView.MenuItems>
+            <ui:NavigationViewItem IsTabStop="False" FontFamily="{StaticResource IRANSans}" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}">
+                <ui:NavigationViewItem.Style>
+                    <Style TargetType="ui:NavigationViewItem">
+                        <Setter Property="IsSelected" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFirstRun}" Value="False">
+                                <Setter Property="IsSelected" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:NavigationViewItem.Style>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="list" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle" Content="{hc:Localization WorldSub}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB" Content="{hc:Localization GetMovieInfo}"/>
+        </ui:NavigationView.MenuItems>
+
+        <ui:NavigationView.FooterMenuItems>
+            <ui:NavigationViewItemSeparator/>
+            <ui:NavigationViewItem IsTabStop="False" IsSelected="{Binding IsFirstRun}" FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
+        </ui:NavigationView.FooterMenuItems>
+        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <hc:Interaction.Triggers>
+            <hc:EventTrigger EventName="SelectionChanged">
+                <hc:EventToCommand Command="{Binding SwitchCommand}" PassEventArgsToCommand="True"/>
+            </hc:EventTrigger>
+
+            <hc:EventTrigger EventName="BackRequested">
+                <hc:EventToCommand Command="{Binding BackCommand}" PassEventArgsToCommand="True"/>
+            </hc:EventTrigger>
+        </hc:Interaction.Triggers>
+
+        <ui:NavigationView.Style>
+            <Style TargetType="ui:NavigationView">
+                <Setter Property="IsBackButtonVisible" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsBackVisible}" Value="True">
+                        <Setter Property="IsBackButtonVisible" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ui:NavigationView.Style>
+    </ui:NavigationView>
 </hc:Window>

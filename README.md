@@ -11,3 +11,5 @@ A quick and easy software to download movie and serial subtitles from the Subsce
 ![HandySub](ScreenShot/3.png)
 ![HandySub](ScreenShot/4.png)
 ![HandySub](ScreenShot/5.png)
+![HandySub](ScreenShot/6.png)
+![HandySub](ScreenShot/7.png)

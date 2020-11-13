@@ -1,13 +1,13 @@
-﻿using HandyControl.Controls;
+﻿using Downloader;
+using HandyControl.Controls;
 using HandyControl.Data;
-using HtmlAgilityPack;
-using Module.Core;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using HandySub.Data;
 using HandySub.Language;
 using HandySub.Model;
+using HtmlAgilityPack;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,6 +22,14 @@ namespace HandySub.ViewModels
     public class SubsceneDownloadViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         #region Property
+
+        private double _progress;
+        public double Progress
+        {
+            get => _progress;
+            set => SetProperty(ref _progress, value);
+        }
+
         private string _searchText;
         public string SearchText
         {
@@ -33,65 +41,11 @@ namespace HandySub.ViewModels
             }
         }
 
-        #region ToggleButton
-        private bool _isEnabled = true;
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            set => SetProperty(ref _isEnabled, value);
-        }
-
-        private string _content = LocalizationManager.Instance.Localize("SubDownload").ToString();
-        public string Content
-        {
-            get => _content;
-            set => SetProperty(ref _content, value);
-        }
-
-        private bool _isChecked = false;
-        public bool IsChecked
-        {
-            get => _isChecked;
-            set => SetProperty(ref _isChecked, value);
-        }
-
-        private int _progress = 0;
-        public int Progress
-        {
-            get => _progress;
-            set => SetProperty(ref _progress, value);
-        }
-        #endregion
-        private string _episode;
-        public string Episode
-        {
-            get => _episode;
-            set => SetProperty(ref _episode, value);
-        }
-
-        private string _translator;
-        public string Translator
-        {
-            get => _translator;
-            set => SetProperty(ref _translator, value);
-        }
-
-        private string _info;
-        public string Info
-        {
-            get => _info;
-            set => SetProperty(ref _info, value);
-        }
-
         private bool _isBusy;
         public bool IsBusy { get => _isBusy; set => SetProperty(ref _isBusy, value); }
 
-
-        private bool _isOpen;
-        public bool IsOpen { get => _isOpen; set => SetProperty(ref _isOpen, value); }
-
-        private bool _maskCanClose = true;
-        public bool MaskCanClose { get => _maskCanClose; set => SetProperty(ref _maskCanClose, value); }
+        private bool _isEnabled = true;
+        public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
 
         private ObservableCollection<SubsceneDownloadModel> _datalist = new ObservableCollection<SubsceneDownloadModel>();
         public ObservableCollection<SubsceneDownloadModel> DataList
@@ -103,37 +57,27 @@ namespace HandySub.ViewModels
         #endregion
 
         #region Command
-        public DelegateCommand OnDownloadClickCommand { get; private set; }
         public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; private set; }
-        public DelegateCommand GoBackCommand { get; private set; }
         public DelegateCommand RefreshCommand { get; private set; }
         #endregion
 
         public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(DataList);
-        private readonly IRegionManager _regionManager;
 
         public bool KeepAlive => false;
 
         private readonly WebClient client = new WebClient();
         private string subtitleUrl = string.Empty;
-        private string SubtitleDownloadLink = string.Empty;
         private string location = string.Empty;
         private string subName = string.Empty;
 
         public SubsceneDownloadViewModel() { }
         public SubsceneDownloadViewModel(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
-            OnDownloadClickCommand = new DelegateCommand(OnDownloadClick);
+            MainWindowViewModel.Instance.IsBackEnabled = true;
+
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
             ItemsView.Filter = new Predicate<object>(o => Filter(o as SubsceneDownloadModel));
-            GoBackCommand = new DelegateCommand(GoBack);
             RefreshCommand = new DelegateCommand(GetSubtitle);
-        }
-
-        private void GoBack()
-        {
-            _regionManager.RequestNavigate("ContentRegion", "Subscene");
         }
 
         private bool Filter(SubsceneDownloadModel item)
@@ -142,41 +86,95 @@ namespace HandySub.ViewModels
                             || item.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1 || item.Translator.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1;
         }
 
-        private void OpenSubtitlePage(SelectionChangedEventArgs e)
+        private async void OpenSubtitlePage(SelectionChangedEventArgs e)
         {
+            IsBusy = true;
+            IsEnabled = false;
+            Progress = 0;
             if (e.AddedItems[0] is SubsceneDownloadModel item)
             {
-                Info = item.Name;
-                Translator = item.Translator;
-
-                //remove Unnecessary words
-                if (Info.Contains("By"))
+                try
                 {
-                    int index = Info.IndexOf("By");
-                    if (index > 0)
+                    HtmlWeb web = new HtmlWeb();
+                    HtmlDocument doc = await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + item.Link);
+
+                    string downloadLink = GlobalDataHelper<AppConfig>.Config.ServerUrl + doc.DocumentNode.SelectSingleNode(
+                                "//div[@class='download']//a").GetAttributeValue("href", "nothing");
+
+
+                    // we need to get file name
+                    byte[] data = client.DownloadData(downloadLink);
+
+                    if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
                     {
-                        Info = Info.Substring(0, index);
+                        subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
                     }
 
-                    Info = Regex.Replace(Info, @"\s+", " ");
-                }
+                    // if luanched from ContextMenu set location next to the movie file
+                    if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
+                    {
+                        location = App.WindowsContextMenuArgument[1] + subName;
+                    }
+                    else // get location from config
+                    {
+                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation + subName;
+                    }
 
-                Regex regex = new Regex("S[0-9].{1}E[0-9].{1}");
-                Match match = regex.Match(Info);
-                if (match.Success)
+                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
+                    {
+                        var downloader = new DownloadService();
+                        downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+                        downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
+                        await downloader.DownloadFileAsync(downloadLink, location);
+                    }
+                    else
+                    {
+                        IsBusy = false;
+                        IsEnabled = true;
+                        Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                    }
+                }
+                catch (UnauthorizedAccessException)
                 {
-                    Episode = match.Value;
-                }
+                    HandyControl.Controls.MessageBox.Error(Lang.ResourceManager.GetString("AdminError"), Lang.ResourceManager.GetString("AdminErrorTitle"));
+                    IsBusy = false;
+                    IsEnabled = true;
 
-                SubtitleDownloadLink = item.Link;
-                Content = Lang.ResourceManager.GetString("SubDownload");
-                IsOpen = true;
-
-                if (GlobalDataHelper<AppConfig>.Config.IsAutoDownloadSubtitle)
-                {
-                    OnDownloadClick();
                 }
+                catch (NotSupportedException) { }
+                catch (ArgumentException) { }
             }
+        }
+
+        private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            IsEnabled = true;
+            IsBusy = false;
+            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
+            {
+                Growl.ClearGlobal();
+                Growl.AskGlobal(new GrowlInfo
+                {
+                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
+                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
+                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), subName),
+                    ActionBeforeClose = b =>
+                    {
+                        if (!b)
+                        {
+                            return true;
+                        }
+                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                        return true;
+
+                    }
+                });
+            }
+        }
+
+        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        {
+            Progress = e.ProgressPercentage;
         }
 
         private void GetSubtitle()
@@ -240,11 +238,11 @@ namespace HandySub.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -291,11 +289,11 @@ namespace HandySub.ViewModels
             catch (ArgumentOutOfRangeException) { }
             catch (System.Net.WebException ex)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (System.Net.Http.HttpRequestException hx)
             {
-                Growl.Error(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -323,114 +321,9 @@ namespace HandySub.ViewModels
 
         }
 
-        #region Downloader
-
-        private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            double bytesIn = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
-            double percentage = bytesIn / totalBytes * 100;
-            Progress = int.Parse(Math.Truncate(percentage).ToString());
-        }
-
-        private void Completed(object sender, AsyncCompletedEventArgs e)
-        {
-            IsChecked = false;
-            IsEnabled = true;
-            MaskCanClose = true;
-            Progress = 0;
-            Content = Lang.ResourceManager.GetString("OpenFolder");
-            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
-            {
-                Growl.Clear();
-                Growl.Ask(new GrowlInfo
-                {
-                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
-                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), Episode + subName),
-                    ActionBeforeClose = b =>
-                    {
-
-                        if (!b)
-                        {
-                            return true;
-                        }
-                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-                        return true;
-
-                    }
-                });
-            }
-        }
-
-        private async void OnDownloadClick()
-        {
-            try
-            {
-
-                if (Content != Lang.ResourceManager.GetString("OpenFolder"))
-                {
-                    MaskCanClose = false;
-                    IsChecked = true;
-                    IsEnabled = false;
-                    Content = Lang.ResourceManager.GetString("Downloading");
-                    Progress = 0;
-
-                    HtmlWeb web = new HtmlWeb();
-                    HtmlDocument doc = await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + SubtitleDownloadLink);
-
-                    string downloadLink = doc.DocumentNode.SelectSingleNode(
-                                "//div[@class='download']//a").GetAttributeValue("href", "nothing");
-
-                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
-                    {
-                        // we need to get file name
-                        byte[] data = client.DownloadData(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink);
-
-                        if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
-                        {
-                            subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
-                        }
-
-                        // if luanched from ContextMenu set location next to the movie file
-                        if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                        {
-                            location = App.WindowsContextMenuArgument[1] + Episode + subName;
-                        }
-                        else // get location from config
-                        {
-                            location = GlobalDataHelper<AppConfig>.Config.StoreLocation + Episode + subName;
-                        }
-                        client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                        client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                        client.DownloadFileAsync(new Uri(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink), location);
-                    }
-                    else
-                    {
-                        IsChecked = false;
-                        IsEnabled = true;
-                        MaskCanClose = true;
-                        Progress = 0;
-                        Content = LocalizationManager.Instance.Localize("SubDownload").ToString();
-                        ModuleHelper.OpenLinkWithIDM(GlobalDataHelper<AppConfig>.Config.ServerUrl + downloadLink, IDMNotFound);
-                    }
-                }
-                else
-                {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                HandyControl.Controls.MessageBox.Error(Lang.ResourceManager.GetString("AdminError"), Lang.ResourceManager.GetString("AdminErrorTitle"));
-            }
-            catch (NotSupportedException) { }
-            catch (ArgumentException) { }
-        }
         private void IDMNotFound()
         {
             MessageBox.Warning(LocalizationManager.Instance.Localize("IDMNot").ToString());
         }
-        #endregion
     }
 }
