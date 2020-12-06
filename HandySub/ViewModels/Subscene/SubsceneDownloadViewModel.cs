@@ -11,7 +11,6 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -65,13 +64,10 @@ namespace HandySub.ViewModels
 
         public bool KeepAlive => false;
 
-        private readonly WebClient client = new WebClient();
         private string subtitleUrl = string.Empty;
         private string location = string.Empty;
-        private string subName = string.Empty;
 
-        public SubsceneDownloadViewModel() { }
-        public SubsceneDownloadViewModel(IRegionManager regionManager)
+        public SubsceneDownloadViewModel()
         {
             MainWindowViewModel.Instance.IsBackEnabled = true;
 
@@ -101,23 +97,14 @@ namespace HandySub.ViewModels
                     string downloadLink = GlobalDataHelper<AppConfig>.Config.ServerUrl + doc.DocumentNode.SelectSingleNode(
                                 "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
-
-                    // we need to get file name
-                    byte[] data = client.DownloadData(downloadLink);
-
-                    if (!string.IsNullOrEmpty(client.ResponseHeaders["Content-Disposition"]))
-                    {
-                        subName = client.ResponseHeaders["Content-Disposition"].Substring(client.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
-                    }
-
                     // if luanched from ContextMenu set location next to the movie file
                     if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
                     {
-                        location = App.WindowsContextMenuArgument[1] + subName;
+                        location = App.WindowsContextMenuArgument[1];
                     }
                     else // get location from config
                     {
-                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation + subName;
+                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation;
                     }
 
                     if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
@@ -125,7 +112,7 @@ namespace HandySub.ViewModels
                         var downloader = new DownloadService();
                         downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
                         downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-                        await downloader.DownloadFileAsync(downloadLink, location);
+                        await downloader.DownloadFileAsync(downloadLink, new System.IO.DirectoryInfo(location));
                     }
                     else
                     {
@@ -157,7 +144,7 @@ namespace HandySub.ViewModels
                 {
                     CancelStr = Lang.ResourceManager.GetString("Cancel"),
                     ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), subName),
+                    Message = Lang.ResourceManager.GetString("Subtitle Downloaded"),
                     ActionBeforeClose = b =>
                     {
                         if (!b)

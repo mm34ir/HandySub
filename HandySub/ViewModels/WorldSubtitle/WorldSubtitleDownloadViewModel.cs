@@ -19,7 +19,6 @@ namespace HandySub.ViewModels
         public bool KeepAlive => false;
         private string subtitleUrl = string.Empty;
         private string location = string.Empty;
-        private string subName = string.Empty;
 
         #region Property
         private ObservableCollection<DownloadModel> _dataList = new ObservableCollection<DownloadModel>();
@@ -52,7 +51,7 @@ namespace HandySub.ViewModels
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand<string> DownloadCommand { get; private set; }
         #endregion
-        public WorldSubtitleDownloadViewModel(IRegionManager regionManager)
+        public WorldSubtitleDownloadViewModel()
         {
             MainWindowViewModel.Instance.IsBackEnabled = true;
 
@@ -141,14 +140,13 @@ namespace HandySub.ViewModels
                     IsBusy = true;
                     IsEnabled = false;
                     Progress = 0;
-                    subName = Path.GetFileName(link);
-                    location = GlobalDataHelper<AppConfig>.Config.StoreLocation + subName;
+                    location = GlobalDataHelper<AppConfig>.Config.StoreLocation;
                     if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
                     {
                         var downloader = new DownloadService();
                         downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
                         downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-                        await downloader.DownloadFileAsync(link, location);
+                        await downloader.DownloadFileAsync(link, new DirectoryInfo(location));
                     }
                     else
                     {
@@ -180,7 +178,7 @@ namespace HandySub.ViewModels
                 {
                     CancelStr = Lang.ResourceManager.GetString("Cancel"),
                     ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), subName),
+                    Message = Lang.ResourceManager.GetString("Subtitle Downloaded"),
                     ActionBeforeClose = b =>
                     {
                         if (!b)
