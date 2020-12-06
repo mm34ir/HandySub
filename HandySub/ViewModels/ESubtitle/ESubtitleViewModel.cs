@@ -93,8 +93,9 @@ namespace HandySub.ViewModels
                     DataList?.Clear();
                     foreach (HtmlNode node in items)
                     {
-                        string src = node?.SelectSingleNode(".//a/img")?.Attributes["srcset"]?.Value.Trim().Split(",").ToList().LastOrDefault();
-                        AvatarModel2 item = new AvatarModel2 { AvatarUri = FixImageSrc(src), DisplayName = FixName(itemsName[index].SelectSingleNode(".//a").InnerText.Trim()), SubtitlePage = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value };
+                        string src = node?.SelectSingleNode(".//a//noscript")?.SelectSingleNode("img")?.Attributes["srcset"]?.Value;
+                        src = FixImageSrc(src.Substring(src.LastIndexOf(",") + 1));
+                        AvatarModel2 item = new AvatarModel2 { AvatarUri = src, DisplayName = FixName(itemsName[index].SelectSingleNode(".//a").InnerText.Trim()), SubtitlePage = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value };
 
                         DataList.Add(item);
                         index += 1;
@@ -137,7 +138,7 @@ namespace HandySub.ViewModels
             Match m = regex.Match(src);
             if (m.Success)
             {
-                return m.Value;
+                return m.Value.Trim();
             }
 
             return null;

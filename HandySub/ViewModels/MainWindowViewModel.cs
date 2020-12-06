@@ -10,7 +10,7 @@ namespace HandySub.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        IRegionManager region;
+        readonly IRegionManager region;
         internal static MainWindowViewModel Instance;
 
         public DelegateCommand<NavigationViewSelectionChangedEventArgs> SwitchCommand { get; set; }
@@ -19,29 +19,29 @@ namespace HandySub.ViewModels
         private NavigationViewPaneDisplayMode _paneDisplayMode;
         public NavigationViewPaneDisplayMode PaneDisplayMode
         {
-            get { return GlobalDataHelper<AppConfig>.Config.PaneDisplayMode; }
-            set { SetProperty(ref _paneDisplayMode, value); }
+            get => GlobalDataHelper<AppConfig>.Config.PaneDisplayMode;
+            set => SetProperty(ref _paneDisplayMode, value);
         }
 
         private bool _IsFirstRun;
         public bool IsFirstRun
         {
-            get { return GlobalDataHelper<AppConfig>.Config.IsFirstRun; }
-            set { SetProperty(ref _IsFirstRun, value); }
+            get => GlobalDataHelper<AppConfig>.Config.IsFirstRun;
+            set => SetProperty(ref _IsFirstRun, value);
         }
 
         private bool _isBackVisible;
         public bool IsBackVisible
         {
-            get { return GlobalDataHelper<AppConfig>.Config.IsBackVisible; }
-            set { SetProperty(ref _isBackVisible, value); }
+            get => GlobalDataHelper<AppConfig>.Config.IsBackVisible;
+            set => SetProperty(ref _isBackVisible, value);
         }
 
         private bool _IsBackEnabled;
         public bool IsBackEnabled
         {
-            get { return _IsBackEnabled; }
-            set { SetProperty(ref _IsBackEnabled, value); }
+            get => _IsBackEnabled;
+            set => SetProperty(ref _IsBackEnabled, value);
         }
 
         public MainWindowViewModel(IRegionManager regionManager)

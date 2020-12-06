@@ -78,8 +78,8 @@ namespace HandySub.ViewModels
         private int _PaneIndex;
         public int PaneIndex
         {
-            get { return _PaneIndex; }
-            set { SetProperty(ref _PaneIndex, value); }
+            get => _PaneIndex;
+            set => SetProperty(ref _PaneIndex, value);
         }
 
         private bool _getIsCheckedShowNotification;

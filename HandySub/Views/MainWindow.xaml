@@ -84,7 +84,6 @@
         </ui:NavigationView.MenuItems>
 
         <ui:NavigationView.FooterMenuItems>
-            <ui:NavigationViewItemSeparator/>
             <ui:NavigationViewItem IsTabStop="False" IsSelected="{Binding IsFirstRun}" FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
         </ui:NavigationView.FooterMenuItems>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
