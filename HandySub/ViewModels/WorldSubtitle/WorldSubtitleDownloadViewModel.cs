@@ -10,6 +10,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 
 namespace HandySub.ViewModels
@@ -173,19 +174,20 @@ namespace HandySub.ViewModels
             IsBusy = false;
             if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
+                var downlaodedFileName = ((DownloadPackage)e.UserState).FileName;
                 Growl.ClearGlobal();
                 Growl.AskGlobal(new GrowlInfo
                 {
                     CancelStr = Lang.ResourceManager.GetString("Cancel"),
                     ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = Lang.ResourceManager.GetString("Subtitle Downloaded"),
+                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), Path.GetFileNameWithoutExtension(downlaodedFileName)),
                     ActionBeforeClose = b =>
                     {
                         if (!b)
                         {
                             return true;
                         }
-                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + location + "\"");
+                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
                         return true;
 
                     }

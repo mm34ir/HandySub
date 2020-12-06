@@ -93,7 +93,7 @@ namespace HandySub.ViewModels
                     DataList?.Clear();
                     foreach (HtmlNode node in items)
                     {
-                        string src = node.SelectSingleNode(".//a/img")?.Attributes["srcset"].Value.Trim().Split(",").ToList().LastOrDefault();
+                        string src = node?.SelectSingleNode(".//a/img")?.Attributes["srcset"]?.Value.Trim().Split(",").ToList().LastOrDefault();
                         AvatarModel2 item = new AvatarModel2 { AvatarUri = FixImageSrc(src), DisplayName = FixName(itemsName[index].SelectSingleNode(".//a").InnerText.Trim()), SubtitlePage = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value };
 
                         DataList.Add(item);
