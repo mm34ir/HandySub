@@ -6,7 +6,7 @@ namespace HandySub.Data
     public static class IEnumerable
     {
         /// <summary>
-        /// Support Index In Foreach loop
+        ///     Support Index In Foreach loop
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>

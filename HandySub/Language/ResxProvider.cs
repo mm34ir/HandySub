@@ -1,7 +1,7 @@
-﻿using HandyControl.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using HandyControl.Controls;
 
 namespace HandySub.Language
 {
@@ -11,7 +11,7 @@ namespace HandySub.Language
 
         public object Localize(string key)
         {
-            return Language.Lang.ResourceManager.GetObject(key);
+            return Lang.ResourceManager.GetObject(key);
         }
     }
 }

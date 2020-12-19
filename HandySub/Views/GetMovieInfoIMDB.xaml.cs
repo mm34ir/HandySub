@@ -3,7 +3,7 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for GetMovieInfoIMDB
+    ///     Interaction logic for GetMovieInfoIMDB
     /// </summary>
     public partial class GetMovieInfoIMDB : UserControl
     {

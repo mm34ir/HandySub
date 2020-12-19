@@ -3,7 +3,7 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for Subscene
+    ///     Interaction logic for Subscene
     /// </summary>
     public partial class Subscene : UserControl
     {

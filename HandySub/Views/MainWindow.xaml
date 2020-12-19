@@ -1,28 +1,28 @@
 ﻿<hc:Window x:Class="HandySub.Views.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:prism="http://prismlibrary.com/"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        prism:ViewModelLocator.AutoWireViewModel="True"
-        mc:Ignorable="d"
-        FontFamily="{StaticResource IRANSans}" 
-        Title="{hc:Localization Title}" 
-        ShowTitle="True"
-        Background="{DynamicResource SecondaryRegionBrush}"
-        ResizeMode="CanResizeWithGrip"
-        WindowStartupLocation="CenterScreen"
-        Icon="/HandySub;component/Resources/Img/icon.ico"
-        Height="600"
-        MinHeight="600"
-        Width="1050"
-        MinWidth="920">
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:prism="http://prismlibrary.com/"
+           xmlns:ui="http://schemas.modernwpf.com/2019"
+           prism:ViewModelLocator.AutoWireViewModel="True"
+           mc:Ignorable="d"
+           FontFamily="{StaticResource IRANSans}"
+           Title="{hc:Localization Title}"
+           ShowTitle="True"
+           Background="{DynamicResource SecondaryRegionBrush}"
+           ResizeMode="CanResizeWithGrip"
+           WindowStartupLocation="CenterScreen"
+           Icon="/HandySub;component/Resources/Img/icon.ico"
+           Height="600"
+           MinHeight="600"
+           Width="1050"
+           MinWidth="920">
     <hc:Window.NonClientAreaContent>
         <Grid Margin="20,0" FlowDirection="{hc:Localization R2L}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Height="29">
                 <Menu FlowDirection="{hc:Localization R2L}">
@@ -30,31 +30,31 @@
                         <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
                             <MenuItem Tag="{x:Static hc:SkinType.Default}" Header="{hc:Localization Light}">
                                 <MenuItem.Icon>
-                                    <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke"/>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Tag="{x:Static hc:SkinType.Dark}" Header="{hc:Localization Dark}">
                                 <MenuItem.Icon>
-                                    <Path Data="M3,38V10h42v28H3z" Fill="Black"/>
+                                    <Path Data="M3,38V10h42v28H3z" Fill="Black" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem.Icon>
-                                <Image Source="{StaticResource TransferXaml}"/>
+                                <Image Source="{StaticResource TransferXaml}" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="{hc:Localization Language}" MenuItem.Click="MenuLanguage_OnClick">
                             <MenuItem Tag="fa-IR" Header="{hc:Localization SLFarsi}">
                                 <MenuItem.Icon>
-                                    <Image Source="/HandySub;component/Resources/Img/Flag/fa.png"/>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/fa.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Tag="en-US" Header="{hc:Localization SLEnglish}">
                                 <MenuItem.Icon>
-                                    <Image Source="/HandySub;component/Resources/Img/Flag/en.png"/>
+                                    <Image Source="/HandySub;component/Resources/Img/Flag/en.png" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem.Icon>
-                                <Image Source="{StaticResource LanguageXaml}"/>
+                                <Image Source="{StaticResource LanguageXaml}" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
@@ -64,45 +64,53 @@
         </Grid>
     </hc:Window.NonClientAreaContent>
 
-    <ui:NavigationView IsTabStop="False" PaneTitle="{hc:Localization Title}" FlowDirection="{hc:Localization R2L}" IsSettingsVisible="False" PaneDisplayMode="{Binding PaneDisplayMode}" IsBackEnabled="{Binding IsBackEnabled}">
+    <ui:NavigationView IsTabStop="False" PaneTitle="{hc:Localization Title}" FlowDirection="{hc:Localization R2L}"
+                       IsSettingsVisible="False" PaneDisplayMode="{Binding PaneDisplayMode}"
+                       IsBackEnabled="{Binding IsBackEnabled}">
         <ui:NavigationView.MenuItems>
-            <ui:NavigationViewItem IsTabStop="False" FontFamily="{StaticResource IRANSans}" Icon="find" Tag="Subscene" Content="{hc:Localization Subscene}">
+            <ui:NavigationViewItem IsTabStop="False" FontFamily="{StaticResource IRANSans}" Icon="find" Tag="Subscene"
+                                   Content="{hc:Localization Subscene}">
                 <ui:NavigationViewItem.Style>
                     <Style TargetType="ui:NavigationViewItem">
-                        <Setter Property="IsSelected" Value="False"/>
+                        <Setter Property="IsSelected" Value="False" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsFirstRun}" Value="False">
-                                <Setter Property="IsSelected" Value="True"/>
+                                <Setter Property="IsSelected" Value="True" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ui:NavigationViewItem.Style>
             </ui:NavigationViewItem>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="list" Tag="ESubtitle" Content="{hc:Localization ESubtitle}"/>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle" Content="{hc:Localization WorldSub}"/>
-            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB" Content="{hc:Localization GetMovieInfo}"/>
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="list" Tag="ESubtitle"
+                                   Content="{hc:Localization ESubtitle}" />
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle"
+                                   Content="{hc:Localization WorldSub}" />
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB"
+                                   Content="{hc:Localization GetMovieInfo}" />
         </ui:NavigationView.MenuItems>
 
         <ui:NavigationView.FooterMenuItems>
-            <ui:NavigationViewItem IsTabStop="False" IsSelected="{Binding IsFirstRun}" FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings" Content="{hc:Localization Settings}"/>
+            <ui:NavigationViewItem IsTabStop="False" IsSelected="{Binding IsFirstRun}"
+                                   FontFamily="{StaticResource IRANSans}" Icon="Setting" Tag="Settings"
+                                   Content="{hc:Localization Settings}" />
         </ui:NavigationView.FooterMenuItems>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
         <hc:Interaction.Triggers>
             <hc:EventTrigger EventName="SelectionChanged">
-                <hc:EventToCommand Command="{Binding SwitchCommand}" PassEventArgsToCommand="True"/>
+                <hc:EventToCommand Command="{Binding SwitchCommand}" PassEventArgsToCommand="True" />
             </hc:EventTrigger>
 
             <hc:EventTrigger EventName="BackRequested">
-                <hc:EventToCommand Command="{Binding BackCommand}" PassEventArgsToCommand="True"/>
+                <hc:EventToCommand Command="{Binding BackCommand}" PassEventArgsToCommand="True" />
             </hc:EventTrigger>
         </hc:Interaction.Triggers>
 
         <ui:NavigationView.Style>
             <Style TargetType="ui:NavigationView">
-                <Setter Property="IsBackButtonVisible" Value="Collapsed"/>
+                <Setter Property="IsBackButtonVisible" Value="Collapsed" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsBackVisible}" Value="True">
-                        <Setter Property="IsBackButtonVisible" Value="Visible"/>
+                        <Setter Property="IsBackButtonVisible" Value="Visible" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

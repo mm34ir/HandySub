@@ -1,4 +1,14 @@
-﻿using Downloader;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Downloader;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandySub.Data;
@@ -8,79 +18,51 @@ using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Data;
-using MessageBox = HandyControl.Controls.MessageBox;
+using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 namespace HandySub.ViewModels
 {
     public class SubsceneDownloadViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
-        #region Property
-
-        private double _progress;
-        public double Progress
-        {
-            get => _progress;
-            set => SetProperty(ref _progress, value);
-        }
-
-        private string _searchText;
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                SetProperty(ref _searchText, value);
-                ItemsView.Refresh();
-            }
-        }
-
-        private bool _isBusy;
-        public bool IsBusy { get => _isBusy; set => SetProperty(ref _isBusy, value); }
-
-        private bool _isEnabled = true;
-        public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
-
-        private ObservableCollection<SubsceneDownloadModel> _datalist = new ObservableCollection<SubsceneDownloadModel>();
-        public ObservableCollection<SubsceneDownloadModel> DataList
-        {
-            get => _datalist;
-            set => SetProperty(ref _datalist, value);
-        }
-
-        #endregion
-
-        #region Command
-        public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; private set; }
-        public DelegateCommand RefreshCommand { get; private set; }
-        #endregion
-
-        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(DataList);
-
-        public bool KeepAlive => false;
+        private string location = string.Empty;
 
         private string subtitleUrl = string.Empty;
-        private string location = string.Empty;
 
         public SubsceneDownloadViewModel()
         {
             MainWindowViewModel.Instance.IsBackEnabled = true;
 
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
-            ItemsView.Filter = new Predicate<object>(o => Filter(o as SubsceneDownloadModel));
+            ItemsView.Filter = o => Filter(o as SubsceneDownloadModel);
             RefreshCommand = new DelegateCommand(GetSubtitle);
         }
+
+        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(DataList);
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            var link = navigationContext.Parameters["link_key"] as string;
+            if (!string.IsNullOrEmpty(link)) subtitleUrl = GlobalDataHelper<AppConfig>.Config.ServerUrl + link;
+
+            GetSubtitle();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        public bool KeepAlive => false;
 
         private bool Filter(SubsceneDownloadModel item)
         {
             return SearchText == null
-                            || item.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1 || item.Translator.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1;
+                   || item.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1 ||
+                   item.Translator.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1;
         }
 
         private async void OpenSubtitlePage(SelectionChangedEventArgs e)
@@ -89,31 +71,28 @@ namespace HandySub.ViewModels
             IsEnabled = false;
             Progress = 0;
             if (e.AddedItems[0] is SubsceneDownloadModel item)
-            {
                 try
                 {
-                    HtmlWeb web = new HtmlWeb();
-                    HtmlDocument doc = await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + item.Link);
+                    var web = new HtmlWeb();
+                    var doc =
+                        await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + item.Link);
 
-                    string downloadLink = GlobalDataHelper<AppConfig>.Config.ServerUrl + doc.DocumentNode.SelectSingleNode(
-                                "//div[@class='download']//a").GetAttributeValue("href", "nothing");
+                    var downloadLink = GlobalDataHelper<AppConfig>.Config.ServerUrl + doc.DocumentNode
+                        .SelectSingleNode(
+                            "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
                     // if luanched from ContextMenu set location next to the movie file
                     if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                    {
                         location = App.WindowsContextMenuArgument[1];
-                    }
                     else // get location from config
-                    {
                         location = GlobalDataHelper<AppConfig>.Config.StoreLocation;
-                    }
 
                     if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
                     {
                         var downloader = new DownloadService();
                         downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
                         downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-                        await downloader.DownloadFileAsync(downloadLink, new System.IO.DirectoryInfo(location));
+                        await downloader.DownloadFileAsync(downloadLink, new DirectoryInfo(location));
                     }
                     else
                     {
@@ -124,14 +103,17 @@ namespace HandySub.ViewModels
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    HandyControl.Controls.MessageBox.Error(Lang.ResourceManager.GetString("AdminError"), Lang.ResourceManager.GetString("AdminErrorTitle"));
+                    MessageBox.Error(Lang.ResourceManager.GetString("AdminError"),
+                        Lang.ResourceManager.GetString("AdminErrorTitle"));
                     IsBusy = false;
                     IsEnabled = true;
-
                 }
-                catch (NotSupportedException) { }
-                catch (ArgumentException) { }
-            }
+                catch (NotSupportedException)
+                {
+                }
+                catch (ArgumentException)
+                {
+                }
         }
 
         private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -140,29 +122,27 @@ namespace HandySub.ViewModels
             IsBusy = false;
             if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
-                var downlaodedFileName = ((DownloadPackage)e.UserState).FileName;
+                var downlaodedFileName = ((DownloadPackage) e.UserState).FileName;
 
                 Growl.ClearGlobal();
                 Growl.AskGlobal(new GrowlInfo
                 {
                     CancelStr = Lang.ResourceManager.GetString("Cancel"),
                     ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"), Path.GetFileNameWithoutExtension(downlaodedFileName)),
+                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"),
+                        Path.GetFileNameWithoutExtension(downlaodedFileName)),
                     ActionBeforeClose = b =>
                     {
-                        if (!b)
-                        {
-                            return true;
-                        }
-                        System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
-                        return true;
+                        if (!b) return true;
 
+                        Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
+                        return true;
                     }
                 });
             }
         }
 
-        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        private void Downloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             Progress = e.ProgressPercentage;
         }
@@ -170,13 +150,9 @@ namespace HandySub.ViewModels
         private void GetSubtitle()
         {
             if (GlobalDataHelper<AppConfig>.Config.ServerUrl.Contains("subf2m"))
-            {
                 Subf2mCore();
-            }
             else
-            {
                 SubsceneCore();
-            }
         }
 
         private async void SubsceneCore()
@@ -184,35 +160,30 @@ namespace HandySub.ViewModels
             IsBusy = true;
             try
             {
-                HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = await web.LoadFromWebAsync(subtitleUrl);
+                var web = new HtmlWeb();
+                var doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                HtmlNode table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
+                var table = doc.DocumentNode.SelectSingleNode("//table[1]//tbody");
                 if (table != null)
                 {
                     DataList?.Clear();
-                    foreach (HtmlNode cell in table.SelectNodes(".//tr"))
+                    foreach (var cell in table.SelectNodes(".//tr"))
                     {
-                        if (cell.InnerText.Contains("There are no subtitles"))
-                        {
-                            break;
-                        }
+                        if (cell.InnerText.Contains("There are no subtitles")) break;
 
-                        string Name = cell.SelectSingleNode(".//td[@class='a1']//a//span[2]")?.InnerText.Trim();
-                        string Translator = cell.SelectSingleNode(".//td[@class='a5']//a")?.InnerText.Trim();
-                        string Comment = cell.SelectSingleNode(".//td[@class='a6']//div")?.InnerText.Trim();
-                        if (Comment != null && Comment.Contains("&nbsp;"))
-                        {
-                            Comment = Comment.Replace("&nbsp;", "");
-                        }
+                        var Name = cell.SelectSingleNode(".//td[@class='a1']//a//span[2]")?.InnerText.Trim();
+                        var Translator = cell.SelectSingleNode(".//td[@class='a5']//a")?.InnerText.Trim();
+                        var Comment = cell.SelectSingleNode(".//td[@class='a6']//div")?.InnerText.Trim();
+                        if (Comment != null && Comment.Contains("&nbsp;")) Comment = Comment.Replace("&nbsp;", "");
+
                         Comment = Comment + Environment.NewLine + Translator;
 
-                        string Link = cell.SelectSingleNode(".//td[@class='a1']//a")?.Attributes["href"]?.Value.Trim();
+                        var Link = cell.SelectSingleNode(".//td[@class='a1']//a")?.Attributes["href"]?.Value.Trim();
 
                         if (Name != null)
                         {
-
-                            SubsceneDownloadModel item = new SubsceneDownloadModel { Name = Name, Translator = Comment, Link = Link };
+                            var item = new SubsceneDownloadModel
+                                {Name = Name, Translator = Comment, Link = Link};
                             DataList.Add(item);
                         }
                     }
@@ -221,16 +192,20 @@ namespace HandySub.ViewModels
                 {
                     MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
                 }
-                IsBusy = false;
 
+                IsBusy = false;
             }
-            catch (ArgumentNullException) { }
-            catch (ArgumentOutOfRangeException) { }
-            catch (System.Net.WebException ex)
+            catch (ArgumentNullException)
+            {
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            catch (WebException ex)
             {
                 Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
-            catch (System.Net.Http.HttpRequestException hx)
+            catch (HttpRequestException hx)
             {
                 Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
@@ -245,10 +220,10 @@ namespace HandySub.ViewModels
             IsBusy = true;
             try
             {
-                HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = await web.LoadFromWebAsync(subtitleUrl);
+                var web = new HtmlWeb();
+                var doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                HtmlNodeCollection repeater = doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']");
+                var repeater = doc.DocumentNode.SelectNodes("//ul[@class='scrolllist']");
 
                 if (repeater == null)
                 {
@@ -257,31 +232,39 @@ namespace HandySub.ViewModels
                 else
                 {
                     DataList?.Clear();
-                    foreach ((HtmlNode node, int index) in repeater.WithIndex())
+                    foreach ((var node, var index) in repeater.WithIndex())
                     {
-                        string translator = node.SelectNodes("//div[@class='comment-col']")[index].InnerText;
-                        string download_Link = node.SelectNodes("//a[@class='download icon-download']")[index].GetAttributeValue("href", "");
+                        var translator = node.SelectNodes("//div[@class='comment-col']")[index].InnerText;
+                        var download_Link = node.SelectNodes("//a[@class='download icon-download']")[index]
+                            .GetAttributeValue("href", "");
 
                         //remove empty lines
-                        string singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
+                        var singleLineTranslator = Regex.Replace(translator, @"\s+", " ").Replace("&nbsp;", "");
                         if (singleLineTranslator.Contains("&nbsp;"))
-                        {
                             singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
-                        }
-                        SubsceneDownloadModel item = new SubsceneDownloadModel { Name = node.InnerText.Trim(), Translator = singleLineTranslator.Trim(), Link = download_Link.Trim() };
+
+                        var item = new SubsceneDownloadModel
+                        {
+                            Name = node.InnerText.Trim(), Translator = singleLineTranslator.Trim(),
+                            Link = download_Link.Trim()
+                        };
                         DataList.Add(item);
                     }
                 }
-                IsBusy = false;
 
+                IsBusy = false;
             }
-            catch (ArgumentNullException) { }
-            catch (ArgumentOutOfRangeException) { }
-            catch (System.Net.WebException ex)
+            catch (ArgumentNullException)
+            {
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+            catch (WebException ex)
             {
                 Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
             }
-            catch (System.Net.Http.HttpRequestException hx)
+            catch (HttpRequestException hx)
             {
                 Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
             }
@@ -291,29 +274,65 @@ namespace HandySub.ViewModels
             }
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            string link = navigationContext.Parameters["link_key"] as string;
-            if (!string.IsNullOrEmpty(link))
-            {
-                subtitleUrl = GlobalDataHelper<AppConfig>.Config.ServerUrl + link;
-            }
-            GetSubtitle();
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
-        }
-
         private void IDMNotFound()
         {
             MessageBox.Warning(LocalizationManager.Instance.Localize("IDMNot").ToString());
         }
+
+        #region Property
+
+        private double _progress;
+
+        public double Progress
+        {
+            get => _progress;
+            set => SetProperty(ref _progress, value);
+        }
+
+        private string _searchText;
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                SetProperty(ref _searchText, value);
+                ItemsView.Refresh();
+            }
+        }
+
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
+        private bool _isEnabled = true;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
+        }
+
+        private ObservableCollection<SubsceneDownloadModel> _datalist =
+            new();
+
+        public ObservableCollection<SubsceneDownloadModel> DataList
+        {
+            get => _datalist;
+            set => SetProperty(ref _datalist, value);
+        }
+
+        #endregion
+
+        #region Command
+
+        public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; }
+        public DelegateCommand RefreshCommand { get; }
+
+        #endregion
     }
 }

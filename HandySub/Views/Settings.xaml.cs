@@ -3,7 +3,7 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for Settings
+    ///     Interaction logic for Settings
     /// </summary>
     public partial class Settings : UserControl
     {

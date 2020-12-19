@@ -3,7 +3,7 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for SubsceneDownload
+    ///     Interaction logic for SubsceneDownload
     /// </summary>
     public partial class SubsceneDownload : UserControl
     {

@@ -3,7 +3,7 @@
 namespace HandySub.Views
 {
     /// <summary>
-    /// Interaction logic for WorldSubtitleDownload
+    ///     Interaction logic for WorldSubtitleDownload
     /// </summary>
     public partial class WorldSubtitleDownload : UserControl
     {

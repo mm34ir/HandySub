@@ -1,9 +1,9 @@
-﻿using HandyControl.Controls;
+﻿using System.Windows;
+using HandyControl.Controls;
 using HandySub.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Regions;
-using System.Windows;
 
 namespace HandySub
 {
@@ -12,15 +12,10 @@ namespace HandySub
         protected override void InitializeShell(DependencyObject shell)
         {
             base.InitializeShell(shell);
-            if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
-            {
-                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Settings");
-            }
-            else
-            {
-                Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "Subscene");
-            }
+            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion",
+                GlobalDataHelper<AppConfig>.Config.IsFirstRun ? "Settings" : "Subscene");
         }
+
         protected override DependencyObject CreateShell()
         {
             return Container.Resolve<MainWindow>();

@@ -1,5 +1,4 @@
-﻿
-namespace HandySub.Model
+﻿namespace HandySub.Model
 {
     public class AvatarModel
     {
