@@ -1,6 +1,7 @@
 ﻿using System;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.Model;
 using ModernWpf.Controls;
@@ -24,6 +25,6 @@ namespace HandySub
         public bool IsFirstRun { get; set; } = true;
         public NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
 
-        public SkinType Skin { get; set; } = SkinType.Default;
+        public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
     }
 }

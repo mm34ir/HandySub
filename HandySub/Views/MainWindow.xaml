@@ -28,12 +28,12 @@
                 <Menu FlowDirection="{hc:Localization R2L}">
                     <MenuItem IsTabStop="False" Header="{hc:Localization ThemeLang}">
                         <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
-                            <MenuItem Tag="{x:Static hc:SkinType.Default}" Header="{hc:Localization Light}">
+                            <MenuItem Tag="{x:Static hc:ApplicationTheme.Light}" Header="{hc:Localization Light}">
                                 <MenuItem.Icon>
                                     <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Tag="{x:Static hc:SkinType.Dark}" Header="{hc:Localization Dark}">
+                            <MenuItem Tag="{x:Static hc:ApplicationTheme.Dark}" Header="{hc:Localization Dark}">
                                 <MenuItem.Icon>
                                     <Path Data="M3,38V10h42v28H3z" Fill="Black" />
                                 </MenuItem.Icon>

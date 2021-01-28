@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.ViewModels;
@@ -16,15 +15,15 @@ namespace HandySub.Views
             InitializeComponent();
         }
 
-        #region Change Skin and Language
+        #region Change Theme and Language
 
         private void MenuSkins_OnClick(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem button && button.Tag is SkinType tag)
+            if (e.OriginalSource is MenuItem button && button.Tag is ApplicationTheme tag)
             {
-                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.Skin)) return;
+                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.Theme)) return;
 
-                GlobalDataHelper<AppConfig>.Config.Skin = tag;
+                GlobalDataHelper<AppConfig>.Config.Theme = tag;
                 GlobalDataHelper<AppConfig>.Save();
                 ((App) Application.Current).UpdateSkin(tag);
             }

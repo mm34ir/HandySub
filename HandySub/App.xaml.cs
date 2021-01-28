@@ -8,14 +8,12 @@ using System.Runtime;
 using System.Text.RegularExpressions;
 using System.Windows;
 using HandyControl.Controls;
-using HandyControl.Data;
-using HandyControl.Themes;
 using HandyControl.Tools;
 using HandySub.Language;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using ModernWpf;
+using ApplicationTheme = HandyControl.Tools.ApplicationTheme;
 
 namespace HandySub
 {
@@ -44,8 +42,8 @@ namespace HandySub
             LocalizationManager.Instance.CurrentCulture =
                 new CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
             ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
-            if (GlobalDataHelper<AppConfig>.Config.Skin != SkinType.Default)
-                UpdateSkin(GlobalDataHelper<AppConfig>.Config.Skin);
+            if (GlobalDataHelper<AppConfig>.Config.Theme != ApplicationTheme.Light)
+                UpdateSkin(GlobalDataHelper<AppConfig>.Config.Theme);
 
             ConfigHelper.Instance.SetWindowDefaultStyle();
             ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
@@ -86,14 +84,12 @@ namespace HandySub
             return cleaned.Trim();
         }
 
-        public void UpdateSkin(SkinType skin)
+        public void UpdateSkin(ApplicationTheme theme)
         {
-            SharedResourceDictionary.SharedDictionaries.Clear();
-            ResourceHelper.GetTheme("hcTheme", Resources).Skin = skin;
-
-            ThemeManager.Current.ApplicationTheme = skin == SkinType.Dark ? ApplicationTheme.Dark : ApplicationTheme.Light;
-
-            Current.MainWindow?.OnApplyTemplate();
+            HandyControl.Tools.ThemeManager.Current.ApplicationTheme = theme;
+            ModernWpf.ThemeManager.Current.ApplicationTheme = theme == ApplicationTheme.Dark
+                ? ModernWpf.ApplicationTheme.Dark
+                : ModernWpf.ApplicationTheme.Light;
         }
     }
 }

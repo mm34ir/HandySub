@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -74,8 +75,7 @@ namespace HandySub.ViewModels
 
                         //get title
                         var Title = node.SelectSingleNode(".//a").Attributes["title"].Value;
-                        var Img = node.SelectSingleNode(".//a/img")?.Attributes["src"].Value;
-
+                        var Img = node.SelectSingleNode(".//a/img")?.Attributes["data-src"].Value;
                         DataList.Add(new AvatarModel2
                         {
                             DisplayName = Title,
