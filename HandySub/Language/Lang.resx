@@ -429,4 +429,7 @@
   <data name="Accent" xml:space="preserve">
     <value>تغییر رنگ لهجه</value>
   </data>
+  <data name="ISub" xml:space="preserve">
+    <value>آی زیرنویس</value>
+  </data>
 </root>

@@ -93,6 +93,8 @@
                                    Content="{hc:Localization ESubtitle}" />
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="world" Tag="WorldSubtitle"
                                    Content="{hc:Localization WorldSub}" />
+            <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="mail" Tag="ISubtitles"
+                                   Content="{hc:Localization ISub}" />
             <ui:NavigationViewItem FontFamily="{StaticResource IRANSans}" Icon="find" Tag="GetMovieInfoIMDB"
                                    Content="{hc:Localization GetMovieInfo}" />
         </ui:NavigationView.MenuItems>

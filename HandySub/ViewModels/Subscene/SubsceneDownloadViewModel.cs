@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Downloader;
@@ -19,6 +20,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace HandySub.ViewModels
 {
@@ -125,19 +127,22 @@ namespace HandySub.ViewModels
                 var downlaodedFileName = ((DownloadPackage) e.UserState).FileName;
 
                 Growl.ClearGlobal();
-                Growl.AskGlobal(new GrowlInfo
+                Application.Current.Dispatcher.Invoke((Action) delegate
                 {
-                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
-                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = string.Format(Lang.ResourceManager.GetString("Downloaded"),
-                        Path.GetFileNameWithoutExtension(downlaodedFileName)),
-                    ActionBeforeClose = b =>
+                    Growl.AskGlobal(new GrowlInfo
                     {
-                        if (!b) return true;
+                        CancelStr = Lang.ResourceManager.GetString("Cancel"),
+                        ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
+                        Message = string.Format(Lang.ResourceManager.GetString("Downloaded"),
+                            Path.GetFileNameWithoutExtension(downlaodedFileName)),
+                        ActionBeforeClose = b =>
+                        {
+                            if (!b) return true;
 
-                        Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
-                        return true;
-                    }
+                            Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
+                            return true;
+                        }
+                    });
                 });
             }
         }

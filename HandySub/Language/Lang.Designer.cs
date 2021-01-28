@@ -385,6 +385,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to آی زیرنویس.
+        /// </summary>
+        public static string ISub {
+            get {
+                return ResourceManager.GetString("ISub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ماندگاری صفحات بعد از تغییر صفحه.
         /// </summary>
         public static string KeepAliveUI {
