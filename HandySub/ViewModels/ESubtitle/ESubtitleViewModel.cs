@@ -32,7 +32,7 @@ namespace HandySub.ViewModels
             OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
         }
 
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private void GotoLink(string name)
         {

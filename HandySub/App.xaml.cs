@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media;
 using HandyControl.Controls;
 using HandyControl.Tools;
 using HandySub.Language;
@@ -37,13 +38,15 @@ namespace HandySub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            GlobalDataHelper<AppConfig>.Init($"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json");
+            GlobalData.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture =
-                new CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
-            ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
-            if (GlobalDataHelper<AppConfig>.Config.Theme != ApplicationTheme.Light)
-                UpdateSkin(GlobalDataHelper<AppConfig>.Config.Theme);
+                new CultureInfo(GlobalData.Config.UILang);
+            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+            if (GlobalData.Config.Theme != ApplicationTheme.Light)
+                UpdateTheme(GlobalData.Config.Theme);
+
+            UpdateAccentColor(GlobalData.Config.Accent);
 
             ConfigHelper.Instance.SetWindowDefaultStyle();
             ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
@@ -65,10 +68,10 @@ namespace HandySub
             var boot = new Bootstrapper();
             boot.Run();
 
-            if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
+            if (GlobalData.Config.IsFirstRun)
             {
-                GlobalDataHelper<AppConfig>.Config.IsFirstRun = false;
-                GlobalDataHelper<AppConfig>.Save();
+                GlobalData.Config.IsFirstRun = false;
+                GlobalData.Save();
             }
         }
 
@@ -84,12 +87,44 @@ namespace HandySub
             return cleaned.Trim();
         }
 
-        public void UpdateSkin(ApplicationTheme theme)
+        public void UpdateAccentColor(Brush accent)
         {
-            HandyControl.Tools.ThemeManager.Current.ApplicationTheme = theme;
-            ModernWpf.ThemeManager.Current.ApplicationTheme = theme == ApplicationTheme.Dark
-                ? ModernWpf.ApplicationTheme.Dark
-                : ModernWpf.ApplicationTheme.Light;
+            if (accent != null && ThemeManager.Current.ActualAccentColor != accent)
+            {
+                ThemeManager.Current.ActualAccentColor = accent;
+
+                if (accent.GetType() == typeof(LinearGradientBrush))
+                {
+                    var brush = (LinearGradientBrush) accent;
+                    var solid = new SolidColorBrush(brush.GradientStops[1].Color);
+                    ModernWpf.ThemeManager.Current.AccentColor = solid.Color;
+                }
+                else
+                {
+                    Color color = ((SolidColorBrush) accent).Color;
+                    ModernWpf.ThemeManager.Current.AccentColor = color;
+                }
+            }
+            else if (ThemeManager.Current.ActualAccentColor != accent && accent == null)
+            {
+                var brush = ResourceHelper.GetResource<Brush>("PrimaryBrush");
+                ThemeManager.Current.ActualAccentColor = brush;
+
+                var linBrush = (LinearGradientBrush) brush;
+                var solid = new SolidColorBrush(linBrush.GradientStops[1].Color);
+                ModernWpf.ThemeManager.Current.AccentColor = solid.Color;
+            }
+        }
+
+        public void UpdateTheme(ApplicationTheme theme)
+        {
+            if (ThemeManager.Current.ApplicationTheme != theme)
+            {
+                ThemeManager.Current.ApplicationTheme = theme;
+                ModernWpf.ThemeManager.Current.ApplicationTheme = theme == ApplicationTheme.Dark
+                    ? ModernWpf.ApplicationTheme.Dark
+                    : ModernWpf.ApplicationTheme.Light;
+            }
         }
     }
 }

@@ -61,13 +61,13 @@ namespace HandySub.ViewModels
         {
         }
 
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         public void LoadLanguage()
         {
             LanguageItems.Clear();
             DefaultSubLang = LocalizationManager.Instance
-                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
             LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
         }
 
@@ -76,10 +76,10 @@ namespace HandySub.ViewModels
             if (e.AddedItems.Count == 0) return;
 
             if (e.AddedItems[0] is LanguageModel item)
-                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage))
+                if (!item.Equals(GlobalData.Config.SubtitleLanguage))
                 {
-                    GlobalDataHelper<AppConfig>.Config.SubtitleLanguage = item;
-                    GlobalDataHelper<AppConfig>.Save();
+                    GlobalData.Config.SubtitleLanguage = item;
+                    GlobalData.Save();
                 }
         }
 
@@ -108,7 +108,7 @@ namespace HandySub.ViewModels
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt")) SearchText = await Helper.GetTitleByImdbId(SearchText);
 
-                var url = string.Format(SearchAPI, GlobalDataHelper<AppConfig>.Config.ServerUrl, SearchText);
+                var url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, SearchText);
                 var web = new HtmlWeb();
                 var doc = await web.LoadFromWebAsync(url);
 
@@ -127,7 +127,7 @@ namespace HandySub.ViewModels
                         var item = new SubsceneModel
                         {
                             Link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value +
-                                   $"/{GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LanguageCode}/",
+                                   $"/{GlobalData.Config.SubtitleLanguage.LanguageCode}/",
                             Name = node.InnerText.Trim()
                         };
                         DataList.Add(item);
@@ -166,7 +166,7 @@ namespace HandySub.ViewModels
         public string DefaultSubLang
         {
             get => LocalizationManager.Instance
-                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
             set => SetProperty(ref _DefaultSubLang, value);
         }
 

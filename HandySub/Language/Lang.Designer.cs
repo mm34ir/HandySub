@@ -70,6 +70,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تغییر رنگ لهجه.
+        /// </summary>
+        public static string Accent {
+            get {
+                return ResourceManager.GetString("Accent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to افزودن برنامه به منوی کلیک راست.
         /// </summary>
         public static string AddToFileContext {

@@ -26,23 +26,31 @@
             </Grid.ColumnDefinitions>
             <StackPanel Height="29">
                 <Menu FlowDirection="{hc:Localization R2L}">
-                    <MenuItem IsTabStop="False" Header="{hc:Localization ThemeLang}">
-                        <MenuItem MenuItem.Click="MenuSkins_OnClick" Header="{hc:Localization Theme}">
+                    <MenuItem FontSize="13" Margin="0,-5" Style="{StaticResource DefaultMenuItemStyle}"
+                              IsTabStop="False" Header="{hc:Localization ThemeLang}">
+                        <MenuItem Style="{StaticResource DefaultMenuItemStyle}" MenuItem.Click="MenuSkins_OnClick"
+                                  Header="{hc:Localization Theme}">
                             <MenuItem Tag="{x:Static hc:ApplicationTheme.Light}" Header="{hc:Localization Light}">
                                 <MenuItem.Icon>
-                                    <Path Data="M3,38V10h42v28H3z" Fill="WhiteSmoke" />
+                                    <Rectangle Fill="White" Opacity="0.95"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Tag="{x:Static hc:ApplicationTheme.Dark}" Header="{hc:Localization Dark}">
                                 <MenuItem.Icon>
-                                    <Path Data="M3,38V10h42v28H3z" Fill="Black" />
+                                    <Rectangle Fill="Black" Opacity="0.75"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Tag="Accent" Header="{hc:Localization Accent}">
+                                <MenuItem.Icon>
+                                    <Rectangle Fill="{DynamicResource PrimaryBrush}" Opacity="0.75"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem.Icon>
                                 <Image Source="{StaticResource TransferXaml}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{hc:Localization Language}" MenuItem.Click="MenuLanguage_OnClick">
+                        <MenuItem Style="{StaticResource DefaultMenuItemStyle}" Header="{hc:Localization Language}"
+                                  MenuItem.Click="MenuLanguage_OnClick">
                             <MenuItem Tag="fa-IR" Header="{hc:Localization SLFarsi}">
                                 <MenuItem.Icon>
                                     <Image Source="/HandySub;component/Resources/Img/Flag/fa.png" />

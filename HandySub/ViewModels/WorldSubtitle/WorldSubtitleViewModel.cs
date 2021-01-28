@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,7 +33,7 @@ namespace HandySub.ViewModels
             PageUpdatedCommand = new DelegateCommand<FunctionEventArgs<int>>(OnPageUpdated);
         }
 
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private async void OnPageUpdated(FunctionEventArgs<int> e)
         {

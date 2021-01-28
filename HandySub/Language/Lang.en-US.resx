@@ -429,4 +429,7 @@
   <data name="PaneDisplayMode" xml:space="preserve">
     <value>Pane Display Mode</value>
   </data>
+  <data name="Accent" xml:space="preserve">
+    <value>Change Accent Color</value>
+  </data>
 </root>

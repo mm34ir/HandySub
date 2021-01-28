@@ -426,4 +426,7 @@
   <data name="PaneDisplayMode" xml:space="preserve">
     <value>حالت نمایش منوی کناری</value>
   </data>
+  <data name="Accent" xml:space="preserve">
+    <value>تغییر رنگ لهجه</value>
+  </data>
 </root>

@@ -24,7 +24,7 @@ namespace HandySub.ViewModels
 
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; }
         public DelegateCommand<string> SaveToPcCommand { get; }
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private void OnSaveToPc(string source)
         {
@@ -46,7 +46,9 @@ namespace HandySub.ViewModels
 
             IsBusy = true;
             var url = string.Empty;
-            url = SearchText.StartsWith("tt") ? $"http://www.omdbapi.com/?i={SearchText}&apikey=2a59a17e" : $"http://www.omdbapi.com/?t={SearchText}&apikey=2a59a17e";
+            url = SearchText.StartsWith("tt")
+                ? $"http://www.omdbapi.com/?i={SearchText}&apikey=2a59a17e"
+                : $"http://www.omdbapi.com/?t={SearchText}&apikey=2a59a17e";
 
             try
             {

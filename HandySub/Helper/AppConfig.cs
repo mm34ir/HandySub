@@ -1,6 +1,5 @@
 ﻿using System;
-using HandyControl.Controls;
-using HandyControl.Data;
+using System.Windows.Media;
 using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.Model;
@@ -8,8 +7,10 @@ using ModernWpf.Controls;
 
 namespace HandySub
 {
-    internal class AppConfig : GlobalDataHelper<AppConfig>
+    internal class AppConfig
     {
+        public static readonly string SavePath = $"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json";
+
         public string UILang { get; set; } = "en-US";
 
         public LanguageModel SubtitleLanguage { get; set; } = new()
@@ -26,5 +27,6 @@ namespace HandySub
         public NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
 
         public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
+        public Brush Accent { get; set; } = ResourceHelper.GetResource<Brush>("PrimaryBrush");
     }
 }
