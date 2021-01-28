@@ -10,6 +10,8 @@ namespace HandySub
 {
     public class Helper
     {
+        public static string ISubtitleBaseAddress = "https://isubtitles.org";
+
         public static async Task<string> GetTitleByImdbId(string ImdbId, Action<string> errorCallBack = null)
         {
             var result = string.Empty;

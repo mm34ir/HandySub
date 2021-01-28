@@ -17,7 +17,6 @@ using HtmlAgilityPack;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using DownloadProgressChangedEventArgs = System.Net.DownloadProgressChangedEventArgs;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace HandySub.ViewModels
@@ -60,50 +59,56 @@ namespace HandySub.ViewModels
             IsBusy = true;
             IsEnabled = false;
             Progress = 0;
-            //if (e.AddedItems[0] is SubsceneDownloadModel item)
-            //    try
-            //    {
-            //        var web = new HtmlWeb();
-            //        var doc =
-            //            await web.LoadFromWebAsync(GlobalData.Config.ServerUrl + item.Link);
+            if (e.AddedItems[0] is SubsceneDownloadModel item)
+                try
+                {
+                    var web = new HtmlWeb();
+                    var doc = await web.LoadFromWebAsync(item.Link);
 
-            //        var downloadLink = GlobalData.Config.ServerUrl + doc.DocumentNode
-            //            .SelectSingleNode(
-            //                "//div[@class='download']//a").GetAttributeValue("href", "nothing");
+                    var downloadLink = Helper.ISubtitleBaseAddress + doc?.DocumentNode
+                        ?.SelectSingleNode("//div[@class='col-lg-16 col-md-24 col-sm-16']//a")?.Attributes["href"]
+                        ?.Value;
 
-            //        // if luanched from ContextMenu set location next to the movie file
-            //        if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-            //            location = App.WindowsContextMenuArgument[1];
-            //        else // get location from config
-            //            location = GlobalData.Config.StoreLocation;
+                    location = GlobalData.Config.StoreLocation;
 
-            //        if (!GlobalData.Config.IsIDMEngine)
-            //        {
-            //            var downloader = new DownloadService();
-            //            downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
-            //            downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-            //            await downloader.DownloadFileAsync(downloadLink, new DirectoryInfo(location));
-            //        }
-            //        else
-            //        {
-            //            IsBusy = false;
-            //            IsEnabled = true;
-            //            Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
-            //        }
-            //    }
-            //    catch (UnauthorizedAccessException)
-            //    {
-            //        MessageBox.Error(Lang.ResourceManager.GetString("AdminError"),
-            //            Lang.ResourceManager.GetString("AdminErrorTitle"));
-            //        IsBusy = false;
-            //        IsEnabled = true;
-            //    }
-            //    catch (NotSupportedException)
-            //    {
-            //    }
-            //    catch (ArgumentException)
-            //    {
-            //    }
+                    if (!GlobalData.Config.IsIDMEngine)
+                    {
+                        var downloader = new DownloadService();
+                        downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+                        downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
+                        await downloader.DownloadFileAsync(downloadLink, new DirectoryInfo(location));
+                    }
+                    else
+                    {
+                        IsBusy = false;
+                        IsEnabled = true;
+                        Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                    }
+                }
+                catch (WebException)
+                {
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Error(Lang.ResourceManager.GetString("AdminError"),
+                        Lang.ResourceManager.GetString("AdminErrorTitle"));
+                }
+                catch (NotSupportedException)
+                {
+                }
+                catch (ArgumentException)
+                {
+                }
+                finally
+                {
+                    IsBusy = false;
+                    IsEnabled = true;
+                }
+        }
+
+        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        {
+            Progress = e.ProgressPercentage;
         }
 
         private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -135,11 +140,6 @@ namespace HandySub.ViewModels
             }
         }
 
-        private void Downloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            Progress = e.ProgressPercentage;
-        }
-
         private async void GetSubtitle()
         {
             IsBusy = true;
@@ -148,48 +148,48 @@ namespace HandySub.ViewModels
                 var web = new HtmlWeb();
                 var doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                foreach (HtmlNode table in doc.DocumentNode.SelectNodes("//table"))
+                var table = doc.DocumentNode.SelectSingleNode("//table");
+
+                if (table != null)
                 {
-                    Debug.WriteLine("Found: " + table.InnerHtml);
-                    //foreach (HtmlNode row in table.SelectNodes("tr"))
-                    //{
-                    //    Debug.WriteLine("row");
-                    //    foreach (HtmlNode cell in row.SelectNodes("th|td"))
-                    //    {
-                    //        Debug.WriteLine("cell: " + cell.InnerText);
-                    //    }
-                    //}
+                    var movieData = table.SelectNodes("//td[@data-title='Release / Movie']");
+                    var commentData = table.SelectNodes("//td[@data-title='Comment']");
+
+                    if (movieData != null)
+                    {
+                        DataList?.Clear();
+                        int index = 0;
+                        string title = string.Empty;
+                        string href = string.Empty;
+                        string comment = string.Empty;
+                        foreach (var row in movieData)
+                        {
+                            var currentRow = row.SelectNodes("a");
+                            foreach (var cell in currentRow)
+                            {
+                                title = cell?.InnerText?.Trim();
+                                href = $"{Helper.ISubtitleBaseAddress}{cell?.Attributes["href"]?.Value?.Trim()}";
+                            }
+
+                            comment = commentData[index]?.InnerText?.Trim();
+                            if (comment != null && comment.Contains("&nbsp;"))
+                                comment = comment.Replace("&nbsp;", "");
+
+                            if (!string.IsNullOrEmpty(title))
+                            {
+                                var item = new SubsceneDownloadModel
+                                    {Name = title, Translator = comment, Link = href};
+                                DataList.Add(item);
+                            }
+
+                            index += 1;
+                        }
+                    }
                 }
-
-
-                //if (table != null)
-                //{
-                //    DataList?.Clear();
-                //    foreach (var cell in table)
-                //    {
-                //        //if (cell.InnerText.Contains("There are no subtitles")) break;
-
-                //        //var Name = cell.SelectSingleNode(".//td[@class='a1']//a//span[2]")?.InnerText.Trim();
-                //        //var Translator = cell.SelectSingleNode(".//td[@class='a5']//a")?.InnerText.Trim();
-                //        //var Comment = cell.SelectSingleNode(".//td[@class='a6']//div")?.InnerText.Trim();
-                //        //if (Comment != null && Comment.Contains("&nbsp;")) Comment = Comment.Replace("&nbsp;", "");
-
-                //        //Comment = Comment + Environment.NewLine + Translator;
-
-                //        //var Link = cell.SelectSingleNode(".//td[@class='a1']//a")?.Attributes["href"]?.Value.Trim();
-
-                //        //if (Name != null)
-                //        //{
-                //        //    var item = new SubsceneDownloadModel
-                //        //    { Name = Name, Translator = Comment, Link = Link };
-                //        //    DataList.Add(item);
-                //        //}
-                //    }
-                //}
-                //else
-                //{
-                //    MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
-                //}
+                else
+                {
+                    MessageBox.Error(Lang.ResourceManager.GetString("SubNotFound"));
+                }
 
                 IsBusy = false;
             }

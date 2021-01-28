@@ -41,21 +41,18 @@ namespace HandySub.ViewModels
 
         private async void OnSearchStarted(FunctionEventArgs<string> e)
         {
-            if (string.IsNullOrEmpty(SearchText)) return;
-
             try
             {
+                if (string.IsNullOrEmpty(SearchText)) return;
                 DataList?.Clear();
                 IsBusy = true;
-
                 //Get Title with imdb
                 if (SearchText.StartsWith("tt")) SearchText = await Helper.GetTitleByImdbId(SearchText, errorCallBack);
 
                 var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync($"https://isubtitles.org/search?kwd={SearchText}");
+                var doc = await web.LoadFromWebAsync($"{Helper.ISubtitleBaseAddress}/search?kwd={SearchText}");
 
                 var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
-                var itemsName = doc.DocumentNode.SelectNodes("//div[@class='col-lg-18 col-md-16 col-sm-18']");
                 if (items == null)
                 {
                     MessageBox.Error(LocalizationManager.Instance.Localize("SubNotFound").ToString());
@@ -66,25 +63,21 @@ namespace HandySub.ViewModels
                     DataList?.Clear();
                     foreach (var node in items)
                     {
-                        var src =
-                            $"https://isubtitles.org{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}";
-                        var name = FixName(itemsName[index].SelectSingleNode(".//h3/a")?.InnerText.Trim());
-                        var page = FixPage(
-                            $"https://isubtitles.org{itemsName[index].SelectSingleNode(".//h3/a")?.Attributes["href"]?.Value}");
+                        var src = FixImg(
+                            $"{Helper.ISubtitleBaseAddress}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
+                        var name = node?.SelectSingleNode(".//div/div[2]/h3/a");
 
-                        if (string.IsNullOrEmpty(src) && string.IsNullOrEmpty(name))
-                        {
-                            continue;
-                        }
+                        var page = FixPage($"{Helper.ISubtitleBaseAddress}{name?.Attributes["href"]?.Value}");
 
                         var item = new AvatarModel2
                         {
                             AvatarUri = src,
-                            DisplayName = name,
+                            DisplayName = FixName(name?.InnerText),
                             SubtitlePage = page
                         };
 
                         DataList.Add(item);
+
                         index += 1;
                     }
                 }
@@ -116,10 +109,23 @@ namespace HandySub.ViewModels
             }
         }
 
+        private string FixImg(string img)
+        {
+            if (img.Contains(";"))
+            {
+                int index = img.IndexOf(";");
+                return img.Substring(0, index);
+            }
+            else
+            {
+                return img;
+            }
+        }
+
         private string FixName(string name)
         {
             string rem = "&#160";
-            if (name.Contains(rem))
+            if (!string.IsNullOrEmpty(name) && name.Contains(rem))
             {
                 return name.Replace(rem, "");
             }
@@ -132,7 +138,7 @@ namespace HandySub.ViewModels
         private string FixPage(string page)
         {
             string rem = "-subtitles";
-            if (page.Contains(rem))
+            if (!string.IsNullOrEmpty(page) && page.Contains(rem))
             {
                 var lang = GlobalData.Config.SubtitleLanguage.LanguageCode.Replace("_", "-");
                 return page.Replace(rem, $"/{lang}-subtitles");
