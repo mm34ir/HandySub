@@ -24,6 +24,7 @@ namespace HandySub
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<ISubtitles>();
+            containerRegistry.RegisterForNavigation<ISubtitlesDownload>();
             containerRegistry.RegisterForNavigation<WorldSubtitle>();
             containerRegistry.RegisterForNavigation<WorldSubtitleDownload>();
             containerRegistry.RegisterForNavigation<ESubtitle>();

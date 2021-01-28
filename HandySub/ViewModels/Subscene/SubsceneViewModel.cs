@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Windows.Controls;
-using System.Windows.Data;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandySub.Data;
@@ -39,9 +37,6 @@ namespace HandySub.ViewModels
             SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
             LoadLanguage();
         }
-
-        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(LanguageItems);
-
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

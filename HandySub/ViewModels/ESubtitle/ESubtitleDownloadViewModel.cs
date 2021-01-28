@@ -6,7 +6,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
-using System.Windows.Threading;
 using Downloader;
 using HandyControl.Controls;
 using HandyControl.Data;

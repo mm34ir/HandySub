@@ -9,7 +9,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <hc:TransitioningContentControl TransitionMode="Fade">
-        <hc:ToggleBlock IsChecked="{Binding IsBusy}" VerticalContentAlignment="Stretch"
+        <hc:ToggleBlock Focusable="False"
+                        IsChecked="{Binding IsBusy, Converter={StaticResource Boolean2BooleanReConverter}}"
+                        VerticalContentAlignment="Stretch"
                         HorizontalContentAlignment="Stretch">
             <hc:ToggleBlock.UnCheckedContent>
                 <hc:LoadingCircle
@@ -21,9 +23,24 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <hc:SearchBar Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                  ShowClearButton="True"
-                                  Style="{StaticResource SearchBarPlus}" Margin="10"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <hc:ComboBox Width="150" Margin="10" ItemsSource="{Binding LanguageItems}"
+                                 SelectedValuePath="DisplayName"
+                                 SelectedValue="{Binding DefaultSubLang}" DisplayMemberPath="DisplayName"
+                                 hc:InfoElement.Placeholder="{hc:Localization SelectSubLanguage}">
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="SelectionChanged">
+                                <hc:EventToCommand Command="{Binding SubtitleLanguageCommand}"
+                                                   PassEventArgsToCommand="True" />
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </hc:ComboBox>
+                    <hc:SearchBar Name="srch" Grid.Column="1"
+                                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                  ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="0,10,10,10"
                                   hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
                         <hc:Interaction.Triggers>
                             <hc:EventTrigger EventName="SearchStarted">
@@ -32,7 +49,7 @@
                             </hc:EventTrigger>
                         </hc:Interaction.Triggers>
                     </hc:SearchBar>
-                    <ListBox Grid.Row="1" Background="Transparent" FlowDirection="LeftToRight"
+                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent" FlowDirection="LeftToRight"
                              ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0"
                              ItemsSource="{Binding DataList}"
                              ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}">

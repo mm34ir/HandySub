@@ -8,10 +8,10 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using Downloader;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using HandySub.Data;
 using HandySub.Language;
 using HandySub.Model;
@@ -35,11 +35,9 @@ namespace HandySub.ViewModels
             MainWindowViewModel.Instance.IsBackEnabled = true;
 
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
-            ItemsView.Filter = o => Filter(o as SubsceneDownloadModel);
             RefreshCommand = new DelegateCommand(GetSubtitle);
         }
 
-        public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(DataList);
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -59,13 +57,6 @@ namespace HandySub.ViewModels
         }
 
         public bool KeepAlive => false;
-
-        private bool Filter(SubsceneDownloadModel item)
-        {
-            return SearchText == null
-                   || item.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1 ||
-                   item.Translator.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1;
-        }
 
         private async void OpenSubtitlePage(SelectionChangedEventArgs e)
         {
@@ -302,7 +293,10 @@ namespace HandySub.ViewModels
             set
             {
                 SetProperty(ref _searchText, value);
-                ItemsView.Refresh();
+                DataList.ShapeView()
+                    .Where(p => (p.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1) ||
+                                (p.Translator.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) != -1))
+                    .Apply();
             }
         }
 

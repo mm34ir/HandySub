@@ -32,17 +32,17 @@
                                   Header="{hc:Localization Theme}">
                             <MenuItem Tag="{x:Static hc:ApplicationTheme.Light}" Header="{hc:Localization Light}">
                                 <MenuItem.Icon>
-                                    <Rectangle Fill="White" Opacity="0.95"/>
+                                    <Rectangle Fill="White" Opacity="0.95" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Tag="{x:Static hc:ApplicationTheme.Dark}" Header="{hc:Localization Dark}">
                                 <MenuItem.Icon>
-                                    <Rectangle Fill="Black" Opacity="0.75"/>
+                                    <Rectangle Fill="Black" Opacity="0.75" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Tag="Accent" Header="{hc:Localization Accent}">
                                 <MenuItem.Icon>
-                                    <Rectangle Fill="{DynamicResource PrimaryBrush}" Opacity="0.75"/>
+                                    <Rectangle Fill="{DynamicResource PrimaryBrush}" Opacity="0.75" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem.Icon>
