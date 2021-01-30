@@ -29,7 +29,7 @@ namespace HandySub
 
         public static void Save()
         {
-            var json = JsonConvert.SerializeObject(Config);
+            var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
             File.WriteAllText(AppConfig.SavePath, json);
         }
 

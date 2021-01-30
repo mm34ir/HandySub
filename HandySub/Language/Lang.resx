@@ -432,4 +432,7 @@
   <data name="ISub" xml:space="preserve">
     <value>آی زیرنویس</value>
   </data>
+  <data name="NoResult" xml:space="preserve">
+    <value>تاریخچه ای پیدا نشد</value>
+  </data>
 </root>

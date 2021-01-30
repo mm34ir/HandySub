@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="http://schemas.modernwpf.com/2019"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <hc:TransitioningContentControl TransitionMode="Fade">
         <hc:ToggleBlock Focusable="False"
@@ -14,7 +15,7 @@
                     IsRunning="{Binding IsBusy, Converter={StaticResource Boolean2BooleanReConverter}}" />
             </hc:ToggleBlock.UnCheckedContent>
             <hc:ToggleBlock.CheckedContent>
-                <Grid FocusManager.FocusedElement="{Binding ElementName=srch}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition />
@@ -34,17 +35,7 @@
                             </hc:EventTrigger>
                         </hc:Interaction.Triggers>
                     </hc:ComboBox>
-                    <hc:SearchBar Name="srch" Grid.Column="1"
-                                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                  ShowClearButton="True" Style="{StaticResource SearchBarPlus}" Margin="0,10,10,10"
-                                  hc:InfoElement.Placeholder="{hc:Localization SubsceneSearchSub}">
-                        <hc:Interaction.Triggers>
-                            <hc:EventTrigger EventName="SearchStarted">
-                                <hc:EventToCommand Command="{Binding OnSearchStartedCommand}"
-                                                   PassEventArgsToCommand="True" />
-                            </hc:EventTrigger>
-                        </hc:Interaction.Triggers>
-                    </hc:SearchBar>
+                    <controls:AutoSuggestBox Background="{DynamicResource RegionBrush}" Grid.Column="1" FlowDirection="{hc:Localization R2L}" FontSize="13" Padding="0" FontFamily="{StaticResource IRANSans}" QueryIcon="find" Name="autoBox" TextChanged="AutoSuggestBox_OnTextChanged" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Margin="0,10,10,10" PlaceholderText="{hc:Localization SubsceneSearchSub}"/>
 
                     <ListBox Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent"
                              hc:ListBoxAttach.IsOddEvenRow="True"

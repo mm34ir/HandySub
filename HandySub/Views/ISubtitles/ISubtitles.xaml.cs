@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+using HandySub.ViewModels;
+using ModernWpf.Controls;
 
 namespace HandySub.Views
 {
@@ -23,6 +12,21 @@ namespace HandySub.Views
         public ISubtitles()
         {
             InitializeComponent();
+            Helper.AddAutoSuggestBoxContextMenu(autoBox);
+        }
+
+        private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            Helper.LoadHistory(sender, args, autoBox);
+        }
+
+        private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(args.QueryText))
+            {
+                Helper.AddHistory(args.QueryText);
+                ISubtitlesViewModel.Instance.OnSearchStarted(args.QueryText);
+            }
         }
     }
 }

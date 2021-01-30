@@ -466,6 +466,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تاریخچه ای پیدا نشد.
+        /// </summary>
+        public static string NoResult {
+            get {
+                return ResourceManager.GetString("NoResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to باز کردن پوشه.
         /// </summary>
         public static string OpenFolder {

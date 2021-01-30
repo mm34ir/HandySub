@@ -17,6 +17,7 @@ namespace HandySub.ViewModels
 {
     public class WorldSubtitleViewModel : BindableBase, IRegionMemberLifetime
     {
+        internal static WorldSubtitleViewModel Instance;
         private readonly IRegionManager _regionManager;
         private readonly string BasePageUrl = "http://worldsubtitle.info/page/{0}?s=";
 
@@ -24,12 +25,12 @@ namespace HandySub.ViewModels
 
         public WorldSubtitleViewModel(IRegionManager regionManager)
         {
+            Instance = this;
             MainWindowViewModel.Instance.IsBackEnabled = false;
 
             DataList.Clear();
             GoToLinkCommand = new DelegateCommand<string>(GotoLink);
             _regionManager = regionManager;
-            OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             PageUpdatedCommand = new DelegateCommand<FunctionEventArgs<int>>(OnPageUpdated);
         }
 
@@ -119,7 +120,7 @@ namespace HandySub.ViewModels
             Growl.ErrorGlobal(e);
         }
 
-        private async void OnSearchStarted(FunctionEventArgs<string> e)
+        public async void OnSearchStarted()
         {
             if (string.IsNullOrEmpty(SearchText)) return;
 
@@ -198,7 +199,6 @@ namespace HandySub.ViewModels
 
         #region Command
 
-        public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; }
         public DelegateCommand<string> GoToLinkCommand { get; }
         public DelegateCommand<FunctionEventArgs<int>> PageUpdatedCommand { get; }
 

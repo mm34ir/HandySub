@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using HandyControl.Tools;
 using HandySub.Language;
@@ -24,6 +25,7 @@ namespace HandySub
         public bool IsKeepAlive { get; set; } = false;
         public bool IsBackVisible { get; set; } = false;
         public bool IsFirstRun { get; set; } = true;
+        public List<string> History = new List<string>();
         public NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
 
         public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;

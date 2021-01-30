@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandySub.Model;
 using HtmlAgilityPack;
 using Prism.Commands;
@@ -17,6 +16,7 @@ namespace HandySub.ViewModels
 {
     public class ESubtitleViewModel : BindableBase, IRegionMemberLifetime
     {
+        internal static ESubtitleViewModel Instance;
         private readonly IRegionManager _regionManager;
 
         private readonly List<string> wordsToRemove = "دانلود زیرنویس فارسی فیلم,دانلود زیرنویس فارسی سریال"
@@ -24,12 +24,12 @@ namespace HandySub.ViewModels
 
         public ESubtitleViewModel(IRegionManager regionManager)
         {
+            Instance = this;
             MainWindowViewModel.Instance.IsBackEnabled = false;
 
             DataList.Clear();
             GoToLinkCommand = new DelegateCommand<string>(GotoLink);
             _regionManager = regionManager;
-            OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
         }
 
         public bool KeepAlive => GlobalData.Config.IsKeepAlive;
@@ -41,9 +41,9 @@ namespace HandySub.ViewModels
             _regionManager.RequestNavigate("ContentRegion", "ESubtitleDownload", parameters);
         }
 
-        private async void OnSearchStarted(FunctionEventArgs<string> e)
+        public async void OnSearchStarted(string query)
         {
-            if (string.IsNullOrEmpty(SearchText)) return;
+            if (string.IsNullOrEmpty(query)) return;
 
             try
             {
@@ -51,10 +51,10 @@ namespace HandySub.ViewModels
                 IsBusy = true;
 
                 //Get Title with imdb
-                if (SearchText.StartsWith("tt")) SearchText = await Helper.GetTitleByImdbId(SearchText, errorCallBack);
+                if (query.StartsWith("tt")) query = await Helper.GetTitleByImdbId(query, errorCallBack);
 
                 var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync("https://esubtitle.com/?s=" + SearchText);
+                var doc = await web.LoadFromWebAsync("https://esubtitle.com/?s=" + query);
 
                 var items = doc.DocumentNode.SelectNodes("//div[@class='poster_box']");
                 var itemsName = doc.DocumentNode.SelectNodes("//div[@class='text']");
@@ -141,14 +141,6 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _dataList, value);
         }
 
-        private string _searchText;
-
-        public string SearchText
-        {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
-        }
-
         private bool _isBusy;
 
         public bool IsBusy
@@ -160,8 +152,6 @@ namespace HandySub.ViewModels
         #endregion
 
         #region Command
-
-        public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; }
         public DelegateCommand<string> GoToLinkCommand { get; }
 
         #endregion

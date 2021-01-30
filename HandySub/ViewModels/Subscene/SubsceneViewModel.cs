@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Windows.Controls;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandySub.Data;
 using HandySub.Language;
 using HandySub.Model;
@@ -17,6 +16,7 @@ namespace HandySub.ViewModels
 {
     public class SubsceneViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        public string SearchText = string.Empty;
         private const string SearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";
 
         internal static SubsceneViewModel Instance;
@@ -32,7 +32,6 @@ namespace HandySub.ViewModels
             Instance = this;
             MainWindowViewModel.Instance.IsBackEnabled = false;
             _regionManager = regionManager;
-            OnSearchStartedCommand = new DelegateCommand<FunctionEventArgs<string>>(OnSearchStarted);
             OpenSubtitlePageCommand = new DelegateCommand<SelectionChangedEventArgs>(OpenSubtitlePage);
             SubtitleLanguageCommand = new DelegateCommand<SelectionChangedEventArgs>(SubtitleLanguageChanged);
             LoadLanguage();
@@ -43,7 +42,7 @@ namespace HandySub.ViewModels
             if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
             {
                 SearchText = App.WindowsContextMenuArgument[0];
-                OnSearchStarted(null);
+                OnSearchStarted();
             }
         }
 
@@ -91,7 +90,7 @@ namespace HandySub.ViewModels
         }
 
 
-        private async void OnSearchStarted(FunctionEventArgs<string> e)
+        public async void OnSearchStarted()
         {
             try
             {
@@ -181,14 +180,6 @@ namespace HandySub.ViewModels
             set => SetProperty(ref _dataList, value);
         }
 
-        private string _searchText;
-
-        public string SearchText
-        {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
-        }
-
         private bool _isBusy;
 
         public bool IsBusy
@@ -204,9 +195,6 @@ namespace HandySub.ViewModels
         public DelegateCommand<SelectionChangedEventArgs> SubtitleLanguageCommand { get; }
 
         public DelegateCommand<SelectionChangedEventArgs> OpenSubtitlePageCommand { get; }
-
-        public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; }
-
         #endregion
     }
 }

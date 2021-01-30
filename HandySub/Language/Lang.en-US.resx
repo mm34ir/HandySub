@@ -435,4 +435,7 @@
   <data name="ISub" xml:space="preserve">
     <value>I Subtitles</value>
   </data>
+  <data name="NoResult" xml:space="preserve">
+    <value>No results found</value>
+  </data>
 </root>
