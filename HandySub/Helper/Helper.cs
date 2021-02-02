@@ -14,14 +14,17 @@ using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.Model;
 using ModernWpf.Controls;
+using Prism.Commands;
 
 namespace HandySub
 {
     public class Helper
     {
-        public static string ISubtitleBaseAddress = "https://isubtitles.org";
+        public static Helper Current { get; } = new Helper();
 
-        public static async Task<string> GetTitleByImdbId(string ImdbId, Action<string> errorCallBack = null)
+        public string ISubtitleBaseAddress = "https://isubtitles.org";
+
+        public async Task<string> GetTitleByImdbId(string ImdbId, Action<string> errorCallBack = null)
         {
             var result = string.Empty;
             var url = $"http://www.omdbapi.com/?i={ImdbId}&apikey=2a59a17e";
@@ -45,7 +48,7 @@ namespace HandySub
             return result;
         }
 
-        public static void OpenLinkWithIDM(string link, Action errorCallBack = null)
+        public void OpenLinkWithIDM(string link, Action errorCallBack = null)
         {
             var command = $"/C /d \"{link}\"";
             var IDManX64Location = @"C:\Program Files (x86)\Internet Download Manager\IDMan.exe";
@@ -64,7 +67,7 @@ namespace HandySub
             }
         }
 
-        public static void AddAutoSuggestBoxContextMenu(FrameworkElement element)
+        public void AddAutoSuggestBoxContextMenu(FrameworkElement element)
         {
             var flyout = new MenuFlyout();
             flyout.Items.Add(new MenuItem()
@@ -75,12 +78,12 @@ namespace HandySub
                 { Header = "Paste", InputGestureText = "Ctrl+V", Command = ApplicationCommands.Paste, Icon = new PathIcon() { Data = ResourceHelper.GetResource<Geometry>("PasteGeometry") } });
             flyout.Items.Add(new Separator());
             flyout.Items.Add(new MenuItem()
-                { Header = "Clear History", Command = new History(), Icon = new PathIcon() { Data = ResourceHelper.GetResource<Geometry>("ClearGeometry") } });
+                { Header = Lang.ClearHistory, Command = ClearHistoryCommand, Icon = new PathIcon() { Data = ResourceHelper.GetResource<Geometry>("ClearGeometry") } });
 
             ContextFlyoutService.SetContextFlyout(element, flyout);
         }
 
-        public static void AddHistory(string item)
+        public void AddHistory(string item)
         {
             int historyCount = GlobalData.Config.History.Count;
             
@@ -95,28 +98,25 @@ namespace HandySub
                 GlobalData.Init();
             }
         }
+        #region ClearHistory
+        private DelegateCommand _clearHistoryCommand;
+        public DelegateCommand ClearHistoryCommand =>
+            _clearHistoryCommand ?? (_clearHistoryCommand = new DelegateCommand(OnClearHistory, CanExecute));
 
-        class History : ICommand
+        private bool CanExecute()
         {
-            public bool CanExecute(object parameter)
-            {
-                return GlobalData.Config.History.Count > 0;
-            }
-            public event EventHandler CanExecuteChanged
-            {
-                add { CommandManager.RequerySuggested += value; }
-                remove { CommandManager.RequerySuggested -= value; }
-            }
-
-            public void Execute(object parameter)
-            {
-                GlobalData.Config.History = new List<string>();
-                GlobalData.Save();
-                GlobalData.Init();
-            }
+            return GlobalData.Config.History.Count > 0;
         }
 
-        public static void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, AutoSuggestBox autoBox)
+        public void OnClearHistory()
+        {
+            GlobalData.Config.History = new List<string>();
+            GlobalData.Save();
+            GlobalData.Init();
+            ClearHistoryCommand.RaiseCanExecuteChanged();
+        }
+        #endregion
+        public void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, AutoSuggestBox autoBox)
         {
             var suggestions = new List<string>();
             var history = GlobalData.Config.History;

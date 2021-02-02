@@ -435,4 +435,7 @@
   <data name="NoResult" xml:space="preserve">
     <value>تاریخچه ای پیدا نشد</value>
   </data>
+  <data name="ClearHistory" xml:space="preserve">
+    <value>حذف تاریخچه جستجو</value>
+  </data>
 </root>

@@ -55,7 +55,7 @@ namespace HandySub.ViewModels
                 IsBusy = true;
 
                 //Get Title with imdb
-                if (SearchText.StartsWith("tt")) SearchText = await Helper.GetTitleByImdbId(SearchText, errorCallBack);
+                if (SearchText.StartsWith("tt")) SearchText = await Helper.Current.GetTitleByImdbId(SearchText, errorCallBack);
 
                 var web = new HtmlWeb();
                 doc = await web.LoadFromWebAsync(Url + SearchText);

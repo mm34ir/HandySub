@@ -12,19 +12,19 @@ namespace HandySub.Views
         public WorldSubtitle()
         {
             InitializeComponent();
-            Helper.AddAutoSuggestBoxContextMenu(autoBox);
+            Helper.Current.AddAutoSuggestBoxContextMenu(autoBox);
         }
 
         private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            Helper.LoadHistory(sender, args, autoBox);
+            Helper.Current.LoadHistory(sender, args, autoBox);
         }
 
         private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (!string.IsNullOrEmpty(args.QueryText))
             {
-                Helper.AddHistory(args.QueryText);
+                Helper.Current.AddHistory(args.QueryText);
                 WorldSubtitleViewModel.Instance.SearchText = args.QueryText;
                 WorldSubtitleViewModel.Instance.OnSearchStarted();
             }

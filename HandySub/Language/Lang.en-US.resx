@@ -438,4 +438,7 @@
   <data name="NoResult" xml:space="preserve">
     <value>No results found</value>
   </data>
+  <data name="ClearHistory" xml:space="preserve">
+    <value>Clear Search History</value>
+  </data>
 </root>

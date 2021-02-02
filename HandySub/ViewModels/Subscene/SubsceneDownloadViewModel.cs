@@ -91,7 +91,7 @@ namespace HandySub.ViewModels
                     {
                         IsBusy = false;
                         IsEnabled = true;
-                        Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                        Helper.Current.OpenLinkWithIDM(downloadLink, IDMNotFound);
                     }
                 }
                 catch (UnauthorizedAccessException)

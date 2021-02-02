@@ -51,7 +51,7 @@ namespace HandySub.ViewModels
                 IsBusy = true;
 
                 //Get Title with imdb
-                if (query.StartsWith("tt")) query = await Helper.GetTitleByImdbId(query, errorCallBack);
+                if (query.StartsWith("tt")) query = await Helper.Current.GetTitleByImdbId(query, errorCallBack);
 
                 var web = new HtmlWeb();
                 var doc = await web.LoadFromWebAsync("https://esubtitle.com/?s=" + query);

@@ -100,7 +100,7 @@ namespace HandySub.ViewModels
                 DataList?.Clear();
 
                 //Get Title with imdb
-                if (SearchText.StartsWith("tt")) SearchText = await Helper.GetTitleByImdbId(SearchText);
+                if (SearchText.StartsWith("tt")) SearchText = await Helper.Current.GetTitleByImdbId(SearchText);
 
                 var url = string.Format(SearchAPI, GlobalData.Config.ServerUrl, SearchText);
                 var web = new HtmlWeb();

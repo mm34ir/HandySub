@@ -47,10 +47,10 @@ namespace HandySub.ViewModels
                 DataList?.Clear();
                 IsBusy = true;
                 //Get Title with imdb
-                if (query.StartsWith("tt")) query = await Helper.GetTitleByImdbId(query, errorCallBack);
+                if (query.StartsWith("tt")) query = await Helper.Current.GetTitleByImdbId(query, errorCallBack);
 
                 var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync($"{Helper.ISubtitleBaseAddress}/search?kwd={query}");
+                var doc = await web.LoadFromWebAsync($"{Helper.Current.ISubtitleBaseAddress}/search?kwd={query}");
 
                 var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
                 if (items == null)
@@ -64,10 +64,10 @@ namespace HandySub.ViewModels
                     foreach (var node in items)
                     {
                         var src = FixImg(
-                            $"{Helper.ISubtitleBaseAddress}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
+                            $"{Helper.Current.ISubtitleBaseAddress}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
                         var name = node?.SelectSingleNode(".//div/div[2]/h3/a");
 
-                        var page = FixPage($"{Helper.ISubtitleBaseAddress}{name?.Attributes["href"]?.Value}");
+                        var page = FixPage($"{Helper.Current.ISubtitleBaseAddress}{name?.Attributes["href"]?.Value}");
 
                         var item = new AvatarModel2
                         {

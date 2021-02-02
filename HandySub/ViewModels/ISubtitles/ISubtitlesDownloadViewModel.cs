@@ -65,7 +65,7 @@ namespace HandySub.ViewModels
                     var web = new HtmlWeb();
                     var doc = await web.LoadFromWebAsync(item.Link);
 
-                    var downloadLink = Helper.ISubtitleBaseAddress + doc?.DocumentNode
+                    var downloadLink = Helper.Current.ISubtitleBaseAddress + doc?.DocumentNode
                         ?.SelectSingleNode("//div[@class='col-lg-16 col-md-24 col-sm-16']//a")?.Attributes["href"]
                         ?.Value;
 
@@ -82,7 +82,7 @@ namespace HandySub.ViewModels
                     {
                         IsBusy = false;
                         IsEnabled = true;
-                        Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                        Helper.Current.OpenLinkWithIDM(downloadLink, IDMNotFound);
                     }
                 }
                 catch (WebException)
@@ -168,7 +168,7 @@ namespace HandySub.ViewModels
                             foreach (var cell in currentRow)
                             {
                                 title = cell?.InnerText?.Trim();
-                                href = $"{Helper.ISubtitleBaseAddress}{cell?.Attributes["href"]?.Value?.Trim()}";
+                                href = $"{Helper.Current.ISubtitleBaseAddress}{cell?.Attributes["href"]?.Value?.Trim()}";
                             }
 
                             comment = commentData[index]?.InnerText?.Trim();

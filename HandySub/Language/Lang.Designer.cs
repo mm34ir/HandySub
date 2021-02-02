@@ -142,6 +142,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to حذف تاریخچه جستجو.
+        /// </summary>
+        public static string ClearHistory {
+            get {
+                return ResourceManager.GetString("ClearHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تاریک.
         /// </summary>
         public static string Dark {

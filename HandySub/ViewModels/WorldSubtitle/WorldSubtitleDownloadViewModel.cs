@@ -132,7 +132,7 @@ namespace HandySub.ViewModels
                     {
                         IsBusy = false;
                         IsEnabled = true;
-                        Helper.OpenLinkWithIDM(link, IDMNotFound);
+                        Helper.Current.OpenLinkWithIDM(link, IDMNotFound);
                     }
                 }
             }
