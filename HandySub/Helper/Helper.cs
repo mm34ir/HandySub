@@ -83,13 +83,17 @@ namespace HandySub
         public static void AddHistory(string item)
         {
             int historyCount = GlobalData.Config.History.Count;
-            if (historyCount > 19)
+            
+            if (!GlobalData.Config.History.Exists(x=>x.IndexOf(item, StringComparison.OrdinalIgnoreCase) != -1))
             {
-                GlobalData.Config.History.RemoveAt(0);
+                if (historyCount > 19)
+                {
+                    GlobalData.Config.History.RemoveAt(0);
+                }
+                GlobalData.Config.History.Add(item);
+                GlobalData.Save();
+                GlobalData.Init();
             }
-            GlobalData.Config.History.Add(item);
-            GlobalData.Save();
-            GlobalData.Init();
         }
 
         class History : ICommand

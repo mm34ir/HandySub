@@ -19,7 +19,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <controls:AutoSuggestBox Background="{DynamicResource RegionBrush}" FlowDirection="{hc:Localization R2L}" FontSize="13" Padding="0" FontFamily="{StaticResource IRANSans}" QueryIcon="find" Name="autoBox" TextChanged="AutoSuggestBox_OnTextChanged" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Margin="10" PlaceholderText="{hc:Localization SubsceneSearchSub}"/>
+                    <controls:AutoSuggestBox FlowDirection="{hc:Localization R2L}" Name="autoBox" TextChanged="AutoSuggestBox_OnTextChanged" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Margin="10" PlaceholderText="{hc:Localization SubsceneSearchSub}"/>
                         <ListBox Grid.Row="1" Background="Transparent" FlowDirection="LeftToRight"
                                  ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0"
                                  ItemsSource="{Binding DataList}"

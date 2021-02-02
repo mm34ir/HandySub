@@ -121,7 +121,16 @@
                 <WrapPanel HorizontalAlignment="Center"
                            hc:PanelElement.FluidMoveBehavior="{StaticResource BehaviorXY200}" />
             </ItemsPanelTemplate>
-            
+
+            <Style TargetType="ui:AutoSuggestBox">
+                <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontFamily" Value="{StaticResource IRANSans}"/>
+                <Setter Property="QueryIcon" Value="Find"/>
+                <Style.Resources>
+                    <Style TargetType="ListView" BasedOn="{StaticResource DefaultListViewStyle}"/>
+                </Style.Resources>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

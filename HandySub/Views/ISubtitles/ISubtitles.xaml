@@ -39,7 +39,7 @@
                             </hc:EventTrigger>
                         </hc:Interaction.Triggers>
                     </hc:ComboBox>
-                    <controls:AutoSuggestBox Background="{DynamicResource RegionBrush}" Grid.Column="1" FlowDirection="{hc:Localization R2L}" FontSize="13" Padding="0" FontFamily="{StaticResource IRANSans}" QueryIcon="find" Name="autoBox" TextChanged="AutoSuggestBox_OnTextChanged" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Margin="0,10,10,10" PlaceholderText="{hc:Localization SubsceneSearchSub}"/>
+                    <controls:AutoSuggestBox Grid.Column="1" FlowDirection="{hc:Localization R2L}" Name="autoBox" TextChanged="AutoSuggestBox_OnTextChanged" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Margin="0,10,10,10" PlaceholderText="{hc:Localization SubsceneSearchSub}"/>
 
                     <ListBox Grid.Row="1" Grid.ColumnSpan="2" Background="Transparent" FlowDirection="LeftToRight"
                              ItemContainerStyle="{StaticResource ListBoxItemCustom}" BorderThickness="0"
