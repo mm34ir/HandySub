@@ -30,7 +30,7 @@ namespace HandySub.ViewModels
             LoadLanguage();
         }
 
-        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
 
         private void GotoLink(string name)
         {
@@ -140,7 +140,7 @@ namespace HandySub.ViewModels
             string rem = "-subtitles";
             if (!string.IsNullOrEmpty(page) && page.Contains(rem))
             {
-                var lang = GlobalData.Config.SubtitleLanguage.LanguageCode.Replace("_", "-");
+                var lang = GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LanguageCode.Replace("_", "-");
                 return page.Replace(rem, $"/{lang}-subtitles");
             }
             else
@@ -158,7 +158,7 @@ namespace HandySub.ViewModels
         {
             LanguageItems.Clear();
             DefaultSubLang = LocalizationManager.Instance
-                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
             LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
         }
 
@@ -167,10 +167,10 @@ namespace HandySub.ViewModels
             if (e.AddedItems.Count == 0) return;
 
             if (e.AddedItems[0] is LanguageModel item)
-                if (!item.Equals(GlobalData.Config.SubtitleLanguage))
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage))
                 {
-                    GlobalData.Config.SubtitleLanguage = item;
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.SubtitleLanguage = item;
+                    GlobalDataHelper<AppConfig>.Save();
                 }
         }
 
@@ -181,7 +181,7 @@ namespace HandySub.ViewModels
         public string DefaultSubLang
         {
             get => LocalizationManager.Instance
-                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
             set => SetProperty(ref _DefaultSubLang, value);
         }
 

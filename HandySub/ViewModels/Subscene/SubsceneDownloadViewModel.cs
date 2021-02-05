@@ -42,7 +42,7 @@ namespace HandySub.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var link = navigationContext.Parameters["link_key"] as string;
-            if (!string.IsNullOrEmpty(link)) subtitleUrl = GlobalData.Config.ServerUrl + link;
+            if (!string.IsNullOrEmpty(link)) subtitleUrl = GlobalDataHelper<AppConfig>.Config.ServerUrl + link;
 
             GetSubtitle();
         }
@@ -68,9 +68,9 @@ namespace HandySub.ViewModels
                 {
                     var web = new HtmlWeb();
                     var doc =
-                        await web.LoadFromWebAsync(GlobalData.Config.ServerUrl + item.Link);
+                        await web.LoadFromWebAsync(GlobalDataHelper<AppConfig>.Config.ServerUrl + item.Link);
 
-                    var downloadLink = GlobalData.Config.ServerUrl + doc.DocumentNode
+                    var downloadLink = GlobalDataHelper<AppConfig>.Config.ServerUrl + doc.DocumentNode
                         .SelectSingleNode(
                             "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
@@ -78,9 +78,9 @@ namespace HandySub.ViewModels
                     if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
                         location = App.WindowsContextMenuArgument[1];
                     else // get location from config
-                        location = GlobalData.Config.StoreLocation;
+                        location = GlobalDataHelper<AppConfig>.Config.StoreLocation;
 
-                    if (!GlobalData.Config.IsIDMEngine)
+                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
                     {
                         var downloader = new DownloadService();
                         downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
@@ -113,7 +113,7 @@ namespace HandySub.ViewModels
         {
             IsEnabled = true;
             IsBusy = false;
-            if (GlobalData.Config.IsShowNotification)
+            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
                 var downlaodedFileName = ((DownloadPackage) e.UserState).FileName;
 
@@ -145,7 +145,7 @@ namespace HandySub.ViewModels
 
         private void GetSubtitle()
         {
-            if (GlobalData.Config.ServerUrl.Contains("subf2m"))
+            if (GlobalDataHelper<AppConfig>.Config.ServerUrl.Contains("subf2m"))
                 Subf2mCore();
             else
                 SubsceneCore();

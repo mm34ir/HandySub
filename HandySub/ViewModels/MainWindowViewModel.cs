@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using HandyControl.Controls;
 using HandySub.Views;
 using ModernWpf.Controls;
 using Prism.Commands;
@@ -34,19 +35,19 @@ namespace HandySub.ViewModels
 
         public NavigationViewPaneDisplayMode PaneDisplayMode
         {
-            get => GlobalData.Config.PaneDisplayMode;
+            get => GlobalDataHelper<AppConfig>.Config.PaneDisplayMode;
             set => SetProperty(ref _paneDisplayMode, value);
         }
 
         public bool IsFirstRun
         {
-            get => GlobalData.Config.IsFirstRun;
+            get => GlobalDataHelper<AppConfig>.Config.IsFirstRun;
             set => SetProperty(ref _IsFirstRun, value);
         }
 
         public bool IsBackVisible
         {
-            get => GlobalData.Config.IsBackVisible;
+            get => GlobalDataHelper<AppConfig>.Config.IsBackVisible;
             set => SetProperty(ref _isBackVisible, value);
         }
 

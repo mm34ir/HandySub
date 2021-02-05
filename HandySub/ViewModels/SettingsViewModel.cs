@@ -44,18 +44,18 @@ namespace HandySub.ViewModels
         }
 
         public ICollectionView ItemsView => CollectionViewSource.GetDefaultView(LanguageItems);
-        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
 
         private void InitSettings()
         {
-            CurrentStoreLocation = GlobalData.Config.StoreLocation;
+            CurrentStoreLocation = GlobalDataHelper<AppConfig>.Config.StoreLocation;
 
-            GetIsCheckedFileContextMenu = GlobalData.Config.IsContextMenuFile;
-            GetIsCheckedShowNotification = GlobalData.Config.IsShowNotification;
-            GetIsCheckedIDM = GlobalData.Config.IsIDMEngine;
-            GetIsCheckedKeepAlive = GlobalData.Config.IsKeepAlive;
+            GetIsCheckedFileContextMenu = GlobalDataHelper<AppConfig>.Config.IsContextMenuFile;
+            GetIsCheckedShowNotification = GlobalDataHelper<AppConfig>.Config.IsShowNotification;
+            GetIsCheckedIDM = GlobalDataHelper<AppConfig>.Config.IsIDMEngine;
+            GetIsCheckedKeepAlive = GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
 
-            PaneIndex = (int) GlobalData.Config.PaneDisplayMode;
+            PaneIndex = (int) GlobalDataHelper<AppConfig>.Config.PaneDisplayMode;
             LoadSubtitleLanguage();
         }
 
@@ -63,9 +63,9 @@ namespace HandySub.ViewModels
         {
             LanguageItems.Clear();
             DefaultSubLang = CurrentLanguage = LocalizationManager.Instance
-                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
             CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"),
-                GlobalData.Config.ServerUrl);
+                GlobalDataHelper<AppConfig>.Config.ServerUrl);
             LanguageItems.AddRange(SupportedLanguages.LoadSubtitleLanguage());
         }
 
@@ -98,11 +98,11 @@ namespace HandySub.ViewModels
             if (e.AddedItems.Count == 0) return;
 
             if (e.AddedItems[0] is NavigationViewPaneDisplayMode item)
-                if (!item.Equals(GlobalData.Config.PaneDisplayMode))
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.PaneDisplayMode))
                 {
-                    GlobalData.Config.PaneDisplayMode = item;
-                    GlobalData.Save();
-                    GlobalData.Init();
+                    GlobalDataHelper<AppConfig>.Config.PaneDisplayMode = item;
+                    GlobalDataHelper<AppConfig>.Save();
+                    GlobalDataHelper<AppConfig>.Init();
                     MainWindowViewModel.Instance.PaneDisplayMode = item;
                 }
         }
@@ -112,13 +112,13 @@ namespace HandySub.ViewModels
             if (e.AddedItems.Count == 0) return;
 
             if (e.AddedItems[0] is ComboBoxItem item)
-                if (!item.Content.ToString().Equals(GlobalData.Config.ServerUrl))
+                if (!item.Content.ToString().Equals(GlobalDataHelper<AppConfig>.Config.ServerUrl))
                 {
-                    GlobalData.Config.ServerUrl = item.Content.ToString();
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.ServerUrl = item.Content.ToString();
+                    GlobalDataHelper<AppConfig>.Save();
                     CurrentServer = string.Format(Lang.ResourceManager.GetString("SubServer"),
-                        GlobalData.Config.ServerUrl);
-                    GlobalData.Init();
+                        GlobalDataHelper<AppConfig>.Config.ServerUrl);
+                    GlobalDataHelper<AppConfig>.Init();
                 }
         }
 
@@ -127,11 +127,11 @@ namespace HandySub.ViewModels
             if (e.AddedItems.Count == 0) return;
 
             if (e.AddedItems[0] is LanguageModel item)
-                if (!item.Equals(GlobalData.Config.SubtitleLanguage))
+                if (!item.Equals(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage))
                 {
-                    GlobalData.Config.SubtitleLanguage = item;
-                    GlobalData.Save();
-                    CurrentLanguage = GlobalData.Config.SubtitleLanguage.DisplayName;
+                    GlobalDataHelper<AppConfig>.Config.SubtitleLanguage = item;
+                    GlobalDataHelper<AppConfig>.Save();
+                    CurrentLanguage = GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.DisplayName;
                 }
         }
 
@@ -142,8 +142,8 @@ namespace HandySub.ViewModels
             if (result == DialogResult.OK)
             {
                 CurrentStoreLocation = dialog.SelectedPath + @"\";
-                GlobalData.Config.StoreLocation = CurrentStoreLocation;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.StoreLocation = CurrentStoreLocation;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
 
@@ -196,7 +196,7 @@ namespace HandySub.ViewModels
         public string DefaultSubLang
         {
             get => LocalizationManager.Instance
-                .Localize(GlobalData.Config.SubtitleLanguage.LocalizeCode).ToString();
+                .Localize(GlobalDataHelper<AppConfig>.Config.SubtitleLanguage.LocalizeCode).ToString();
             set => SetProperty(ref _DefaultSubLang, value);
         }
 
@@ -204,7 +204,7 @@ namespace HandySub.ViewModels
 
         public string DefaultSubServer
         {
-            get => GlobalData.Config.ServerUrl;
+            get => GlobalDataHelper<AppConfig>.Config.ServerUrl;
             set => SetProperty(ref _DefaultSubServer, value);
         }
 
@@ -302,40 +302,40 @@ namespace HandySub.ViewModels
 
         private void KeepAliveUI(object isChecked)
         {
-            if ((bool) isChecked != GlobalData.Config.IsKeepAlive)
+            if ((bool) isChecked != GlobalDataHelper<AppConfig>.Config.IsKeepAlive)
             {
-                GlobalData.Config.IsKeepAlive = (bool) isChecked;
-                GlobalData.Config.IsBackVisible = (bool) isChecked;
-                GlobalData.Save();
-                GlobalData.Init();
+                GlobalDataHelper<AppConfig>.Config.IsKeepAlive = (bool) isChecked;
+                GlobalDataHelper<AppConfig>.Config.IsBackVisible = (bool) isChecked;
+                GlobalDataHelper<AppConfig>.Save();
+                GlobalDataHelper<AppConfig>.Init();
                 MainWindowViewModel.Instance.IsBackVisible = !(bool) isChecked;
             }
         }
 
         private void IDM(object isChecked)
         {
-            if ((bool) isChecked != GlobalData.Config.IsIDMEngine)
+            if ((bool) isChecked != GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
             {
-                GlobalData.Config.IsIDMEngine = (bool) isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsIDMEngine = (bool) isChecked;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
 
         private void ShowNotification(object isChecked)
         {
-            if ((bool) isChecked != GlobalData.Config.IsShowNotification)
+            if ((bool) isChecked != GlobalDataHelper<AppConfig>.Config.IsShowNotification)
             {
-                GlobalData.Config.IsShowNotification = (bool) isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsShowNotification = (bool) isChecked;
+                GlobalDataHelper<AppConfig>.Save();
             }
         }
 
         private void AddToFileContextMenu(object isChecked)
         {
-            if ((bool) isChecked != GlobalData.Config.IsContextMenuFile)
+            if ((bool) isChecked != GlobalDataHelper<AppConfig>.Config.IsContextMenuFile)
             {
-                GlobalData.Config.IsContextMenuFile = (bool) isChecked;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.IsContextMenuFile = (bool) isChecked;
+                GlobalDataHelper<AppConfig>.Save();
                 RegisterContextMenu(!(bool) isChecked);
             }
         }

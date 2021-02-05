@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HandyControl.Controls;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using HandyControl.Controls;
 
 namespace HandySub.Language
 {

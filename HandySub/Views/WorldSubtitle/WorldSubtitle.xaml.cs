@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
-using HandySub.ViewModels;
+﻿using HandySub.ViewModels;
 using ModernWpf.Controls;
+using System.Windows.Controls;
 
 namespace HandySub.Views
 {

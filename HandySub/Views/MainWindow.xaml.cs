@@ -23,10 +23,10 @@ namespace HandySub.Views
         {
             if (e.OriginalSource is MenuItem button && button.Tag is ApplicationTheme tag)
             {
-                if (tag.Equals(GlobalData.Config.Theme)) return;
+                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.Theme)) return;
 
-                GlobalData.Config.Theme = tag;
-                GlobalData.Save();
+                GlobalDataHelper<AppConfig>.Config.Theme = tag;
+                GlobalDataHelper<AppConfig>.Save();
                 ((App) Application.Current).UpdateTheme(tag);
             }
             else if (e.OriginalSource is MenuItem btn && (string) btn.Tag is "Accent")
@@ -42,7 +42,7 @@ namespace HandySub.Views
                     MinHeight = 0,
                     Title = Lang.Accent
                 };
-                var brush = GlobalData.Config.Accent;
+                var brush = GlobalDataHelper<AppConfig>.Config.Accent;
                 if (brush.GetType() == typeof(LinearGradientBrush))
                 {
                     var lbrush = (LinearGradientBrush) brush;
@@ -57,8 +57,8 @@ namespace HandySub.Views
                 picker.SelectedColorChanged += delegate
                 {
                     ((App) Application.Current).UpdateAccentColor(picker.SelectedBrush);
-                    GlobalData.Config.Accent = picker.SelectedBrush;
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.Accent = picker.SelectedBrush;
+                    GlobalDataHelper<AppConfig>.Save();
                     window.Close();
                 };
                 picker.Canceled += delegate { window.Close(); };
@@ -72,16 +72,16 @@ namespace HandySub.Views
         {
             if (e.OriginalSource is MenuItem button && button.Tag is string tag)
             {
-                if (tag.Equals(GlobalData.Config.UILang)) return;
+                if (tag.Equals(GlobalDataHelper<AppConfig>.Config.UILang)) return;
 
                 Growl.AskGlobal(Lang.ResourceManager.GetString("ChangeLanguage"), b =>
                 {
                     if (!b) return true;
 
-                    GlobalData.Config.UILang = tag;
-                    GlobalData.Save();
+                    GlobalDataHelper<AppConfig>.Config.UILang = tag;
+                    GlobalDataHelper<AppConfig>.Save();
                     LocalizationManager.Instance.CurrentCulture = new CultureInfo(tag);
-                    ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+                    ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
                     if (SettingsViewModel.Instance != null) SettingsViewModel.Instance.LoadSubtitleLanguage();
 
                     if (SubsceneViewModel.Instance != null) SubsceneViewModel.Instance.LoadLanguage();

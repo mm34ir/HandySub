@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using HandyControl.Controls;
 using HandyControl.Tools;
 using HandySub.Language;
 using HandySub.Model;
@@ -85,17 +86,17 @@ namespace HandySub
 
         public void AddHistory(string item)
         {
-            int historyCount = GlobalData.Config.History.Count;
+            int historyCount = GlobalDataHelper<AppConfig>.Config.History.Count;
             
-            if (!GlobalData.Config.History.Exists(x=>x.IndexOf(item, StringComparison.OrdinalIgnoreCase) != -1))
+            if (!GlobalDataHelper<AppConfig>.Config.History.Exists(x=>x.IndexOf(item, StringComparison.OrdinalIgnoreCase) != -1))
             {
                 if (historyCount > 19)
                 {
-                    GlobalData.Config.History.RemoveAt(0);
+                    GlobalDataHelper<AppConfig>.Config.History.RemoveAt(0);
                 }
-                GlobalData.Config.History.Add(item);
-                GlobalData.Save();
-                GlobalData.Init();
+                GlobalDataHelper<AppConfig>.Config.History.Add(item);
+                GlobalDataHelper<AppConfig>.Save();
+                GlobalDataHelper<AppConfig>.Init();
             }
         }
         #region ClearHistory
@@ -105,21 +106,21 @@ namespace HandySub
 
         private bool CanExecute()
         {
-            return GlobalData.Config.History.Count > 0;
+            return GlobalDataHelper<AppConfig>.Config.History.Count > 0;
         }
 
         public void OnClearHistory()
         {
-            GlobalData.Config.History = new List<string>();
-            GlobalData.Save();
-            GlobalData.Init();
+            GlobalDataHelper<AppConfig>.Config.History = new List<string>();
+            GlobalDataHelper<AppConfig>.Save();
+            GlobalDataHelper<AppConfig>.Init();
             ClearHistoryCommand.RaiseCanExecuteChanged();
         }
         #endregion
         public void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, AutoSuggestBox autoBox)
         {
             var suggestions = new List<string>();
-            var history = GlobalData.Config.History;
+            var history = GlobalDataHelper<AppConfig>.Config.History;
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var querySplit = sender.Text.Split(' ');
