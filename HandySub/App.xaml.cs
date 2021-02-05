@@ -38,15 +38,15 @@ namespace HandySub
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            GlobalDataHelper<AppConfig>.Init();
+            GlobalData.Init();
             LocalizationManager.Instance.LocalizationProvider = new ResxProvider();
             LocalizationManager.Instance.CurrentCulture =
-                new CultureInfo(GlobalDataHelper<AppConfig>.Config.UILang);
-            ConfigHelper.Instance.SetLang(GlobalDataHelper<AppConfig>.Config.UILang);
-            if (GlobalDataHelper<AppConfig>.Config.Theme != ApplicationTheme.Light)
-                UpdateTheme(GlobalDataHelper<AppConfig>.Config.Theme);
+                new CultureInfo(GlobalData.Config.UILang);
+            ConfigHelper.Instance.SetLang(GlobalData.Config.UILang);
+            if (GlobalData.Config.Theme != ApplicationTheme.Light)
+                UpdateTheme(GlobalData.Config.Theme);
 
-            UpdateAccentColor(GlobalDataHelper<AppConfig>.Config.Accent);
+            UpdateAccentColor(GlobalData.Config.Accent);
 
             ConfigHelper.Instance.SetWindowDefaultStyle();
             ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
@@ -68,10 +68,10 @@ namespace HandySub
             var boot = new Bootstrapper();
             boot.Run();
 
-            if (GlobalDataHelper<AppConfig>.Config.IsFirstRun)
+            if (GlobalData.Config.IsFirstRun)
             {
-                GlobalDataHelper<AppConfig>.Config.IsFirstRun = false;
-                GlobalDataHelper<AppConfig>.Save();
+                GlobalData.Config.IsFirstRun = false;
+                GlobalData.Save();
             }
         }
 

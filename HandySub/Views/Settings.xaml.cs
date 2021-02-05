@@ -10,6 +10,13 @@ namespace HandySub.Views
         public Settings()
         {
             InitializeComponent();
+            btnClear.IsEnabled = Helper.Current.ClearHistoryCommand.CanExecute();
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Helper.Current.ClearHistoryCommand.Execute();
+            btnClear.IsEnabled = Helper.Current.ClearHistoryCommand.CanExecute();
         }
     }
 }

@@ -457,6 +457,15 @@ namespace HandySub.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to اطلاعات.
+        /// </summary>
+        public static string MovieInfo {
+            get {
+                return ResourceManager.GetString("MovieInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نسخه جدید پیدا شد آیا میخواهید دانلود کنید؟.
         /// </summary>
         public static string NewVersionFound {
@@ -561,6 +570,15 @@ namespace HandySub.Language {
         public static string SelectSubServer {
             get {
                 return ResourceManager.GetString("SelectSubServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to سرورها.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
             }
         }
         

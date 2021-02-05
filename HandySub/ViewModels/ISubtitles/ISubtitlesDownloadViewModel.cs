@@ -69,9 +69,9 @@ namespace HandySub.ViewModels
                         ?.SelectSingleNode("//div[@class='col-lg-16 col-md-24 col-sm-16']//a")?.Attributes["href"]
                         ?.Value;
 
-                    location = GlobalDataHelper<AppConfig>.Config.StoreLocation;
+                    location = GlobalData.Config.StoreLocation;
 
-                    if (!GlobalDataHelper<AppConfig>.Config.IsIDMEngine)
+                    if (!GlobalData.Config.IsIDMEngine)
                     {
                         var downloader = new DownloadService();
                         downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
@@ -115,7 +115,7 @@ namespace HandySub.ViewModels
         {
             IsEnabled = true;
             IsBusy = false;
-            if (GlobalDataHelper<AppConfig>.Config.IsShowNotification)
+            if (GlobalData.Config.IsShowNotification)
             {
                 var downlaodedFileName = ((DownloadPackage) e.UserState).FileName;
 

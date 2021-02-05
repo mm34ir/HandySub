@@ -438,4 +438,10 @@
   <data name="ClearHistory" xml:space="preserve">
     <value>حذف تاریخچه جستجو</value>
   </data>
+  <data name="MovieInfo" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>سرورها</value>
+  </data>
 </root>

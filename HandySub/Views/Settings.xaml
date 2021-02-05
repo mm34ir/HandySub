@@ -94,11 +94,7 @@
                                   CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
                                   Margin="0,10,0,0" Content="{hc:Localization IDM}"
                                   Style="{StaticResource ToggleButtonSwitch}" />
-                    <Button Margin="0,30,0,0" HorizontalAlignment="Left" Command="{Binding ClearHistoryCommand}" Content="{hc:Localization ClearHistory}" Width="200" hc:IconElement.Geometry="{DynamicResource ClearGeometry}">
-                        <Button.DataContext>
-                            <local:Helper/>
-                        </Button.DataContext>
-                    </Button>
+                    <Button x:Name="btnClear" Margin="0,30,0,0" HorizontalAlignment="Left" Click="Button_Click" Content="{hc:Localization ClearHistory}" Width="200" hc:IconElement.Geometry="{DynamicResource ClearGeometry}"/>
                 </StackPanel>
             </hc:ScrollViewer>
 

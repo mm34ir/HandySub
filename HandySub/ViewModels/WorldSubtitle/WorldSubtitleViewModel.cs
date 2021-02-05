@@ -34,7 +34,7 @@ namespace HandySub.ViewModels
             PageUpdatedCommand = new DelegateCommand<FunctionEventArgs<int>>(OnPageUpdated);
         }
 
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private async void OnPageUpdated(FunctionEventArgs<int> e)
         {

@@ -32,7 +32,7 @@ namespace HandySub.ViewModels
             _regionManager = regionManager;
         }
 
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private void GotoLink(string name)
         {

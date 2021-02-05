@@ -46,7 +46,7 @@
 		<PackageReference Include="HtmlAgilityPack" Version="1.11.30" />
 		<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.1.0" />
 		<PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.1.0" />
-		<PackageReference Include="ModernWpfUis" Version="1.1.0" />
+		<PackageReference Include="ModernWpfUis" Version="1.2.0" />
 		<PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
 	</ItemGroup>
 	<ItemGroup>

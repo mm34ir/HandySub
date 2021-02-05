@@ -24,7 +24,7 @@ namespace HandySub.ViewModels
 
         public DelegateCommand<FunctionEventArgs<string>> OnSearchStartedCommand { get; }
         public DelegateCommand<string> SaveToPcCommand { get; }
-        public bool KeepAlive => GlobalDataHelper<AppConfig>.Config.IsKeepAlive;
+        public bool KeepAlive => GlobalData.Config.IsKeepAlive;
 
         private void OnSaveToPc(string source)
         {

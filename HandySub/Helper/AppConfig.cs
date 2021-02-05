@@ -10,8 +10,10 @@ using ModernWpf.Controls;
 
 namespace HandySub
 {
-    internal class AppConfig : GlobalDataHelper<AppConfig>
+    internal class AppConfig
     {
+        public static readonly string SavePath = $"{AppDomain.CurrentDomain.BaseDirectory}AppConfig.json";
+
         public string UILang { get; set; } = "en-US";
 
         public LanguageModel SubtitleLanguage { get; set; } = new()
@@ -25,6 +27,7 @@ namespace HandySub
         public bool IsKeepAlive { get; set; } = false;
         public bool IsBackVisible { get; set; } = false;
         public bool IsFirstRun { get; set; } = true;
+
         public List<string> History = new List<string>();
         public NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
 

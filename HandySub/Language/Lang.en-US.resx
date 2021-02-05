@@ -187,7 +187,7 @@
     <value>The server is not available</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>General</value>
   </data>
   <data name="ShowNotification" xml:space="preserve">
     <value>Show Notification when Download Finished</value>
@@ -440,5 +440,11 @@
   </data>
   <data name="ClearHistory" xml:space="preserve">
     <value>Clear Search History</value>
+  </data>
+  <data name="MovieInfo" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Servers</value>
   </data>
 </root>

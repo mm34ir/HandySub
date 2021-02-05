@@ -13,7 +13,7 @@ namespace HandySub
         {
             base.InitializeShell(shell);
             Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion",
-                GlobalDataHelper<AppConfig>.Config.IsFirstRun ? "Settings" : "Subscene");
+                GlobalData.Config.IsFirstRun ? "Settings" : "Subscene");
         }
 
         protected override DependencyObject CreateShell()

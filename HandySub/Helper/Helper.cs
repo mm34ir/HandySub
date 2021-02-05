@@ -86,17 +86,16 @@ namespace HandySub
 
         public void AddHistory(string item)
         {
-            int historyCount = GlobalDataHelper<AppConfig>.Config.History.Count;
-            
-            if (!GlobalDataHelper<AppConfig>.Config.History.Exists(x=>x.IndexOf(item, StringComparison.OrdinalIgnoreCase) != -1))
+            int historyCount = GlobalData.Config.History.Count;
+            if (!GlobalData.Config.History.Exists(x=>x.IndexOf(item, StringComparison.OrdinalIgnoreCase) != -1))
             {
                 if (historyCount > 19)
                 {
-                    GlobalDataHelper<AppConfig>.Config.History.RemoveAt(0);
+                    GlobalData.Config.History.RemoveAt(0);
                 }
-                GlobalDataHelper<AppConfig>.Config.History.Add(item);
-                GlobalDataHelper<AppConfig>.Save();
-                GlobalDataHelper<AppConfig>.Init();
+                GlobalData.Config.History.Add(item);
+                GlobalData.Save();
+                GlobalData.Init();
             }
         }
         #region ClearHistory
@@ -106,21 +105,21 @@ namespace HandySub
 
         private bool CanExecute()
         {
-            return GlobalDataHelper<AppConfig>.Config.History.Count > 0;
+            return GlobalData.Config.History.Count > 0;
         }
 
         public void OnClearHistory()
         {
-            GlobalDataHelper<AppConfig>.Config.History = new List<string>();
-            GlobalDataHelper<AppConfig>.Save();
-            GlobalDataHelper<AppConfig>.Init();
+            GlobalData.Config.History = new List<string>();
+            GlobalData.Save();
+            GlobalData.Init();
             ClearHistoryCommand.RaiseCanExecuteChanged();
         }
         #endregion
         public void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, AutoSuggestBox autoBox)
         {
             var suggestions = new List<string>();
-            var history = GlobalDataHelper<AppConfig>.Config.History;
+            var history = GlobalData.Config.History;
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var querySplit = sender.Text.Split(' ');
