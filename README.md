@@ -1,10 +1,18 @@
 # HandySub
  Download Subtitle from Subscene
 
-A quick and easy software to download movie and serial subtitles from the Subscene website and its derivatives
+A quick and easy Application to download movie and series subtitles from the Subscene and other subtitle websites.
+
 - Get Movie\Series Information from IMDB
-- Prism MVVM
-- Multi Language Interface (Dynamic Language Change)
+- Download Subtitle from Subscene
+- Supports all subtitle languages
+- Ability to run through the Windows right click menu
+- Very fast and flexible
+- Ability to personalize interface and Settings
+- Dark and Light Theme
+- Multiple servers
+- Ability to Search between subtitles
+- Multi Language Interface
 
 ![HandySub](ScreenShot/1.png)
 ![HandySub](ScreenShot/2.png)
