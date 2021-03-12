@@ -5,14 +5,12 @@ using HandySub.Assets;
 using HandySub.Assets.Strings;
 using HandySub.Models;
 using ModernWpf.Controls;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-
+using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
     /// <summary>
@@ -20,7 +18,6 @@ namespace HandySub.Views
     /// </summary>
     public partial class General : UserControl
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         string Version = string.Empty;
         public General()
         {
@@ -117,7 +114,7 @@ namespace HandySub.Views
                             return true;
                         }
 
-                        Helper.StartProcess(ver.Asset[0].browser_download_url);
+                        StartProcess(ver.Asset[0].browser_download_url);
                         return true;
                     });
                 }
@@ -165,9 +162,7 @@ namespace HandySub.Views
 
         private bool CanExecuteClearHistory()
         {
-            var _setting = JsonSettings.Load<ISettings>().EnableAutosave();
-
-            if (_setting.History.Count > 0)
+            if (Settings.History.Count > 0)
             {
                 btnClear.IsEnabled = true;
                 return true;
@@ -181,7 +176,7 @@ namespace HandySub.Views
 
         private void ClearHistory_Click(object sender, RoutedEventArgs e)
         {
-            Helper.OnClearHistory();
+            OnClearHistory();
             CanExecuteClearHistory();
         }
 

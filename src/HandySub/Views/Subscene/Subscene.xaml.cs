@@ -3,8 +3,6 @@ using HandyControl.Properties.Langs;
 using HandySub.Assets;
 using HtmlAgilityPack;
 using ModernWpf.Controls;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -12,7 +10,7 @@ using System.Net;
 using System.Windows.Controls;
 using HandySub.Models;
 using HandyControl.Tools.Extension;
-
+using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
     /// <summary>
@@ -20,8 +18,6 @@ namespace HandySub.Views
     /// </summary>
     public partial class Subscene : UserControl
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
-
         ObservableCollection<SubsceneSearchModel> DataList = new ObservableCollection<SubsceneSearchModel>();
 
         public Subscene()
@@ -37,14 +33,14 @@ namespace HandySub.Views
 
         private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            Helper.LoadHistory(sender, args, autoBox);
+            LoadHistory(sender, args, autoBox);
         }
 
         private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (!string.IsNullOrEmpty(args.QueryText))
             {
-                Helper.AddHistory(args.QueryText);
+                AddHistory(args.QueryText);
                 OnSearchStarted();
             }
         }
@@ -61,7 +57,7 @@ namespace HandySub.Views
                 DataList.ShapeView().ClearAll().Apply();
                 //Get Title with imdb
                 if (autoBox.Text.StartsWith("tt"))
-                    autoBox.Text = await Helper.GetImdbIdFromTitle(autoBox.Text);
+                    autoBox.Text = await GetImdbIdFromTitle(autoBox.Text);
 
                 var url = string.Format(Consts.SubsceneSearchAPI, Settings.SubsceneServer.Url, autoBox.Text);
                 var web = new HtmlWeb();

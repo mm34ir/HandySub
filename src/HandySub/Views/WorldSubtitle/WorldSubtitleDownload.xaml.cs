@@ -3,8 +3,6 @@ using HandySub.Assets;
 using HandySub.Models;
 using HtmlAgilityPack;
 using ModernWpf.Navigation;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -21,7 +19,7 @@ using System.Windows.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using System.Diagnostics;
-
+using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
     /// <summary>
@@ -29,7 +27,6 @@ namespace HandySub.Views
     /// </summary>
     public partial class WorldSubtitleDownload : Page
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         ObservableCollection<DownloadModel> DataList = new ObservableCollection<DownloadModel>();
         private string location = string.Empty;
         private string subtitleUrl = string.Empty;
@@ -147,7 +144,7 @@ namespace HandySub.Views
                     else
                     {
                         tgBlock.IsChecked = true;
-                        Helper.OpenLinkWithIDM(link, IDMNotFound);
+                        OpenLinkWithIDM(link, IDMNotFound);
                     }
                 }
             }

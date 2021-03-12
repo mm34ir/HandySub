@@ -1,22 +1,16 @@
 ﻿using Downloader;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using HandySub.Assets;
 using HandySub.Models;
-using Microsoft.AppCenter.Utils.Files;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.Json;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace HandySub.Views

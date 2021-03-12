@@ -4,8 +4,6 @@ using HandySub.Models;
 using HtmlAgilityPack;
 using ModernWpf.Controls;
 using ModernWpf.Navigation;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Net.Http;
 using System.Net;
@@ -23,7 +21,7 @@ using System.ComponentModel;
 using HandyControl.Tools;
 using HandyControl.Data;
 using HandySub.Assets.Strings;
-
+using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
     /// <summary>
@@ -31,7 +29,6 @@ namespace HandySub.Views
     /// </summary>
     public partial class SubsceneDownload : Page
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         ObservableCollection<SubsceneDownloadModel> DataList = new ObservableCollection<SubsceneDownloadModel>();
 
         private string location = string.Empty;
@@ -224,7 +221,7 @@ namespace HandySub.Views
                 else
                 {
                     tgBlock.IsChecked = true;
-                    Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                    OpenLinkWithIDM(downloadLink, IDMNotFound);
                 }
             }
             catch (UnauthorizedAccessException)

@@ -4,8 +4,6 @@ using HandySub.Models;
 using HtmlAgilityPack;
 using ModernWpf.Controls;
 using ModernWpf.Navigation;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,7 +18,7 @@ using HandyControl.Tools.Extension;
 using HandyControl.Data;
 using Path = System.IO.Path;
 using System.Diagnostics;
-
+using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
     /// <summary>
@@ -28,7 +26,6 @@ namespace HandySub.Views
     /// </summary>
     public partial class ISubtitleDownload : Page
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         ObservableCollection<SubsceneDownloadModel> DataList = new ObservableCollection<SubsceneDownloadModel>();
         private string location = string.Empty;
         private string subtitleUrl = string.Empty;
@@ -165,7 +162,7 @@ namespace HandySub.Views
                 if (!Settings.IsIDMEnabled)
                 {
                     fileName = $"{item.Name}.zip";
-                    var link = await Helper.GetRedirectedUrl(downloadLink);
+                    var link = await GetRedirectedUrl(downloadLink);
                     var client = new WebClient();
                     client.DownloadProgressChanged += Client_DownloadProgressChanged;
                     client.DownloadFileCompleted += Client_DownloadFileCompleted;
@@ -174,7 +171,7 @@ namespace HandySub.Views
                 else
                 {
                     tgBlock.IsChecked = true;
-                    Helper.OpenLinkWithIDM(downloadLink, IDMNotFound);
+                    OpenLinkWithIDM(downloadLink, IDMNotFound);
                 }
             }
             catch (UnauthorizedAccessException)

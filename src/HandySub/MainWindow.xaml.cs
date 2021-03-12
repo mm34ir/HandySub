@@ -1,25 +1,21 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Themes;
 using HandyControl.Tools;
-using HandySub.Assets;
 using HandySub.Assets.Strings;
 using HandySub.Views;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-
+using static HandySub.Assets.Helper;
 namespace HandySub
 {
     public partial class MainWindow
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         internal static MainWindow Instance;
         public MainWindow()
         {
@@ -89,13 +85,11 @@ namespace HandySub
 
         private void ApplicationTheme_Click(object sender, RoutedEventArgs e)
         {
-            ISettings _setting = JsonSettings.Load<ISettings>().EnableAutosave();
-
             if (e.OriginalSource is AppBarButton button && button.Tag is ApplicationTheme tag)
             {
-                if (tag.Equals(_setting.Theme)) return;
+                if (tag.Equals(Settings.Theme)) return;
 
-                _setting.Theme = tag;
+                Settings.Theme = tag;
                 ((App)Application.Current).UpdateTheme(tag);
             }
             else if (e.OriginalSource is AppBarButton btn && (string)btn.Tag is "Accent")
@@ -112,15 +106,15 @@ namespace HandySub
                     Title = Lang.ResourceManager.GetString("Accent")
                 };
 
-                if (_setting.Accent != null)
+                if (Settings.Accent != null)
                 {
-                    picker.SelectedBrush = new SolidColorBrush(ApplicationHelper.GetColorFromBrush(_setting.Accent));
+                    picker.SelectedBrush = new SolidColorBrush(ApplicationHelper.GetColorFromBrush(Settings.Accent));
                 }
 
                 picker.SelectedColorChanged += delegate
                 {
                     ((App)Application.Current).UpdateAccent(picker.SelectedBrush);
-                    _setting.Accent = picker.SelectedBrush;
+                    Settings.Accent = picker.SelectedBrush;
                     window.Close();
                 };
                 picker.Canceled += delegate { window.Close(); };
@@ -130,16 +124,15 @@ namespace HandySub
 
         private void OpenFlyout(string resourceKey, FrameworkElement element)
         {
-            ISettings _setting = JsonSettings.Load<ISettings>();
             var cmdBarFlyout = (CommandBarFlyout)Resources[resourceKey];
-            var paneMode = _setting.PaneDisplayMode;
+            var paneMode = Settings.PaneDisplayMode;
             switch (paneMode)
             {
                 case NavigationViewPaneDisplayMode.Auto:
                 case NavigationViewPaneDisplayMode.Left:
                 case NavigationViewPaneDisplayMode.LeftCompact:
                 case NavigationViewPaneDisplayMode.LeftMinimal:
-                    if (_setting.InterfaceLanguage.Equals("fa-IR"))
+                    if (Settings.InterfaceLanguage.Equals("fa-IR"))
                     {
                         cmdBarFlyout.Placement = FlyoutPlacementMode.LeftEdgeAlignedTop;
                     }
@@ -149,7 +142,7 @@ namespace HandySub
                     }
                     break;
                 case NavigationViewPaneDisplayMode.Top:
-                    if (_setting.InterfaceLanguage.Equals("fa-IR"))
+                    if (Settings.InterfaceLanguage.Equals("fa-IR"))
                     {
                         cmdBarFlyout.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft; ;
                     }
@@ -229,12 +222,12 @@ namespace HandySub
 
         private void LanguageChange_Click(object sender, RoutedEventArgs e)
         {
-            ISettings _setting = JsonSettings.Load<ISettings>().EnableAutosave();
             if (e.OriginalSource is AppBarButton button && button.Tag is string tag)
             {
-                if (tag.Equals(_setting.InterfaceLanguage)) return;
+                if (tag.Equals(Settings.InterfaceLanguage))
+                    return;
 
-                _setting.InterfaceLanguage = tag;
+                Settings.InterfaceLanguage = tag;
                 ConfigHelper.Instance.SetLang(tag);
             }
         }

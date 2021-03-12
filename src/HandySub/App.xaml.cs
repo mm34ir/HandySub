@@ -5,8 +5,6 @@ using HandySub.Assets;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using nucs.JsonSettings;
-using nucs.JsonSettings.Autosave;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,12 +12,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
-
+using static HandySub.Assets.Helper;
 namespace HandySub
 {
     public partial class App : Application
     {
-        ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
         public static string[] WindowsContextMenuArgument = { string.Empty, string.Empty };
 
         private readonly List<string> wordsToRemove =
