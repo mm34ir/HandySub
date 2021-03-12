@@ -123,9 +123,6 @@
   <data name="AdminError" xml:space="preserve">
     <value>شما دسترسی ادمین ندارید، لطفا برنامه را بصورت ادمین اجرا کنید</value>
   </data>
-  <data name="All" xml:space="preserve">
-    <value>همه</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>انصراف</value>
   </data>

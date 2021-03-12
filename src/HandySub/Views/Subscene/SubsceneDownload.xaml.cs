@@ -288,8 +288,19 @@ namespace HandySub.Views
 
         private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            DataList.ShapeView().Where(p => (p.Name.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1) ||
-                                (p.Translator.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1)).Apply();
+            var lang = (string)cmbLanguage.SelectedItem;
+            if (lang.Equals("All"))
+            {
+                DataList.ShapeView().Where(p=> (p.Name.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1) ||
+                         (p.Translator.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1)).Apply();
+            }
+            else
+            {
+                DataList.ShapeView().Where(p => (p.Language.Contains(lang, StringComparison.OrdinalIgnoreCase)) &&
+                         (p.Name.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1) ||
+                         (p.Language.Contains(lang, StringComparison.OrdinalIgnoreCase)) &&
+                         (p.Translator.IndexOf(autoBox.Text, StringComparison.OrdinalIgnoreCase) != -1)).Apply();
+            }
         }
 
         private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -299,7 +310,7 @@ namespace HandySub.Views
             {
                 Settings.SubtitleLanguage = item;
             }
-            if (item.Equals(Lang.ResourceManager.GetString("All")))
+            if (item.Equals("All"))
             {
                 DataList.ShapeView().ClearAll().Apply();
             }

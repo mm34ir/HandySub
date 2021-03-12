@@ -18,7 +18,7 @@ namespace HandySub.Assets
         public virtual int Version { get; set; } = 13991222;
         
         public virtual string InterfaceLanguage { get; set; } = "en-US";
-        public virtual string SubtitleLanguage { get; set; } = Lang.ResourceManager.GetString("All");
+        public virtual string SubtitleLanguage { get; set; } = "All";
         public virtual string StoreLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
         public virtual ServerModel SubsceneServer { get; set; } = new ServerModel { Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com"};
         public virtual ServerModel ShellServer { get; set; } = new ServerModel { Index = 0};
@@ -37,7 +37,7 @@ namespace HandySub.Assets
 
         public ISettings()
         {
-            Version = 13991222;
+            Version = 13991223;
         }
 
         public ISettings(string fileName) : base(fileName)

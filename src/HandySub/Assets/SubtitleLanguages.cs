@@ -1,5 +1,4 @@
-﻿using HandyControl.Properties.Langs;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 namespace HandySub.Assets
 {
     public class SubtitleLanguages
@@ -8,7 +7,7 @@ namespace HandySub.Assets
         {
             return new ObservableCollection<string>
             {
-                Lang.ResourceManager.GetString("All"),
+                "All",
                 "Persian",
                 "English",
                 "Albanian",

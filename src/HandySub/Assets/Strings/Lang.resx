@@ -123,9 +123,6 @@
   <data name="AdminError" xml:space="preserve">
     <value>you dont have admin access, please run application as administrator</value>
   </data>
-  <data name="All" xml:space="preserve">
-    <value>All</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
