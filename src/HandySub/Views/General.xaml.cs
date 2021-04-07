@@ -27,6 +27,28 @@ namespace HandySub.Views
             LoadInitialSettings();
         }
 
+        private void LoadInitialSettings()
+        {
+            Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            num.Value = Settings.MaxHistoryNumber;
+
+            cmbPaneDisplay.SelectedItem = Settings.PaneDisplayMode;
+            cmbSubsceneServer.SelectedIndex = Settings.SubsceneServer.Index;
+            cmbShellServer.SelectedIndex = Settings.ShellServer.Index;
+            MainWindow.Instance.navView.PaneDisplayMode = Settings.PaneDisplayMode;
+
+            tgIDM.IsChecked = Settings.IsIDMEnabled;
+            tgNotify.IsChecked = Settings.IsShowNotification;
+            tgBack.IsChecked = Settings.IsBackEnabled;
+            tgContext.IsChecked = Settings.IsAddToContextMenu;
+
+            txtLocation.Text = Lang.ResourceManager.GetString("CurrentLocation").Format(Settings.StoreLocation);
+            currentVersion.Text = Lang.ResourceManager.GetString("CurrentVersion").Format(Version);
+
+            CanExecuteClearHistory();
+        }
+
+        #region Generate Servers
         private void GenerateServers()
         {
             List<ServerModel> servers = new List<ServerModel>
@@ -52,27 +74,9 @@ namespace HandySub.Views
             cmbShellServer.ItemsSource = servers;
         }
 
+        #endregion
 
-        private void LoadInitialSettings()
-        {
-            Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
-
-            cmbPaneDisplay.SelectedItem = Settings.PaneDisplayMode;
-            cmbSubsceneServer.SelectedIndex = Settings.SubsceneServer.Index;
-            cmbShellServer.SelectedIndex = Settings.ShellServer.Index;
-            MainWindow.Instance.navView.PaneDisplayMode = Settings.PaneDisplayMode;
-
-            tgIDM.IsChecked = Settings.IsIDMEnabled;
-            tgBack.IsChecked = Settings.IsBackEnabled;
-            tgContext.IsChecked = Settings.IsAddToContextMenu;
-            currentVersion.Text = Lang.ResourceManager.GetString("CurrentVersion").Format(Version);
-
-            CanExecuteClearHistory();
-
-            num.Value = Settings.MaxHistoryNumber;
-            txtLocation.Text = Lang.ResourceManager.GetString("CurrentLocation").Format(Settings.StoreLocation);
-        }
-
+        #region ComboBox SelectionChanged
         private void cmbPaneDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var mode = (NavigationViewPaneDisplayMode)cmbPaneDisplay.SelectedItem;
@@ -83,6 +87,26 @@ namespace HandySub.Views
             }
         }
 
+        private void cmbShellServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mode = (ServerModel)cmbShellServer.SelectedItem;
+            if (mode != Settings.ShellServer)
+            {
+                Settings.ShellServer = mode;
+            }
+        }
+
+        private void cmbSubsceneServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mode = (ServerModel)cmbSubsceneServer.SelectedItem;
+            if (mode != Settings.SubsceneServer)
+            {
+                Settings.SubsceneServer = mode;
+            }
+        }
+        #endregion
+
+        #region ToggleButton Checked/UnChecked
         private void tgIDM_Checked(object sender, RoutedEventArgs e)
         {
             var state = tgIDM.IsChecked.Value;
@@ -91,6 +115,77 @@ namespace HandySub.Views
                 Settings.IsIDMEnabled = state;
             }
         }
+
+        private void tgContext_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgContext.IsChecked.Value;
+            if (state != Settings.IsAddToContextMenu)
+            {
+                Settings.IsAddToContextMenu = state;
+                if (state)
+                {
+                    cmbShellServer.Visibility = Visibility.Visible;
+                    ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.ContextMenuName, Consts.ShellCommand);
+                }
+                else
+                {
+                    cmbShellServer.Visibility = Visibility.Collapsed;
+                    ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.ContextMenuName);
+                }
+            }
+        }
+
+        private void tgBack_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgBack.IsChecked.Value;
+            if (state != Settings.IsBackEnabled)
+            {
+                Settings.IsBackEnabled = state;
+                MainWindow.Instance.navView.IsBackButtonVisible = state ? NavigationViewBackButtonVisible.Visible : NavigationViewBackButtonVisible.Collapsed;
+            }
+        }
+
+        private void tgNotify_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgNotify.IsChecked.Value;
+            if (state != Settings.IsShowNotification)
+            {
+                Settings.IsShowNotification = state;
+            }
+        }
+        #endregion
+
+        #region History
+        private bool CanExecuteClearHistory()
+        {
+            if (Settings.History.Count > 0)
+            {
+                btnClear.IsEnabled = true;
+                return true;
+            }
+            else
+            {
+                btnClear.IsEnabled = false;
+                return false;
+            }
+        }
+
+        private void ClearHistory_Click(object sender, RoutedEventArgs e)
+        {
+            OnClearHistory();
+            CanExecuteClearHistory();
+        }
+
+        private void num_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        {
+            var val = num.Value;
+            if (val != Settings.MaxHistoryNumber)
+            {
+                Settings.MaxHistoryNumber = (int)val;
+            }
+        }
+
+        #endregion
 
         private void ResetAccent_Click(object sender, RoutedEventArgs e)
         {
@@ -132,73 +227,6 @@ namespace HandySub.Views
             }
         }
 
-        private void tgContext_Checked(object sender, RoutedEventArgs e)
-        {
-            var state = tgContext.IsChecked.Value;
-            if (state != Settings.IsAddToContextMenu)
-            {
-                Settings.IsAddToContextMenu = state;
-                if (state)
-                {
-                    cmbShellServer.Visibility = Visibility.Visible;
-                    ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.ContextMenuName, Consts.ShellCommand);
-                }
-                else
-                {
-                    cmbShellServer.Visibility = Visibility.Collapsed;
-                    ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.ContextMenuName);
-                }
-            }
-        }
-
-        private void cmbSubsceneServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var mode = (ServerModel)cmbSubsceneServer.SelectedItem;
-            if (mode != Settings.SubsceneServer)
-            {
-                Settings.SubsceneServer = mode;
-            }
-        }
-
-        private bool CanExecuteClearHistory()
-        {
-            if (Settings.History.Count > 0)
-            {
-                btnClear.IsEnabled = true;
-                return true;
-            }
-            else 
-            {
-                btnClear.IsEnabled = false;
-                return false;
-            }
-        }
-
-        private void ClearHistory_Click(object sender, RoutedEventArgs e)
-        {
-            OnClearHistory();
-            CanExecuteClearHistory();
-        }
-
-        private void num_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
-        {
-            var val = num.Value;
-            if (val != Settings.MaxHistoryNumber)
-            {
-                Settings.MaxHistoryNumber = (int)val;
-            }
-        }
-
-        private void tgBack_Checked(object sender, RoutedEventArgs e)
-        {
-            var state = tgBack.IsChecked.Value;
-            if (state != Settings.IsBackEnabled)
-            {
-                Settings.IsBackEnabled = state;
-                MainWindow.Instance.navView.IsBackButtonVisible = state ? NavigationViewBackButtonVisible.Visible : NavigationViewBackButtonVisible.Collapsed;
-            }
-        }
-
         private void SubtitleStoreLocation_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -208,15 +236,6 @@ namespace HandySub.Views
                     txtLocation.Text = Lang.ResourceManager.GetString("CurrentLocation").Format(dialog.SelectedPath);
                     Settings.StoreLocation = dialog.SelectedPath;
                 }
-            }
-        }
-
-        private void cmbShellServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var mode = (ServerModel)cmbShellServer.SelectedItem;
-            if (mode != Settings.ShellServer)
-            {
-                Settings.ShellServer = mode;
             }
         }
     }

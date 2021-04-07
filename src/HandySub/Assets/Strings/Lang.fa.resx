@@ -274,13 +274,16 @@
     <value>نتیجه ای پیدا نشد</value>
   </data>
   <data name="TGBack" xml:space="preserve">
-    <value>دکمه برگشت</value>
+    <value>نمایش دکمه برگشت</value>
   </data>
   <data name="TGContext" xml:space="preserve">
     <value>افزودن برنامه به منوی کلیک راست ویندوز</value>
   </data>
   <data name="TGIDM" xml:space="preserve">
     <value>دانلود با اینترنت دانلود منیجر</value>
+  </data>
+  <data name="TGNotify" xml:space="preserve">
+    <value>نمایش اطلاعیه بعد از اتمام دانلود</value>
   </data>
   <data name="Theme" xml:space="preserve">
     <value>پوسته</value>

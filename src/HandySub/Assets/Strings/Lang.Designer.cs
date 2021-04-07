@@ -529,7 +529,7 @@ namespace HandySub.Assets.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back Button.
+        ///   Looks up a localized string similar to Show Back Button.
         /// </summary>
         public static string TGBack {
             get {
@@ -552,6 +552,15 @@ namespace HandySub.Assets.Strings {
         public static string TGIDM {
             get {
                 return ResourceManager.GetString("TGIDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Notification After Download Completed.
+        /// </summary>
+        public static string TGNotify {
+            get {
+                return ResourceManager.GetString("TGNotify", resourceCulture);
             }
         }
         
