@@ -91,11 +91,17 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
+                if (!string.IsNullOrEmpty(ex.Message))
+                {
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
+                }
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
+                if (!string.IsNullOrEmpty(hx.Message))
+                {
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
+                }
             }
             finally
             {
@@ -105,7 +111,10 @@ namespace HandySub.Views
 
         private void errorCallBack(string e)
         {
-            Growl.ErrorGlobal(e);
+            if (!string.IsNullOrEmpty(e))
+            {
+                Growl.ErrorGlobal(e);
+            }
         }
 
         // Remove some persian text from movie/series name

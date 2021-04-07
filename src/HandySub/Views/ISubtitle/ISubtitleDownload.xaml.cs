@@ -123,11 +123,17 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
+                if (!string.IsNullOrEmpty(ex.Message))
+                {
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
+                }
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
+                if (!string.IsNullOrEmpty(hx.Message))
+                {
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
+                }
             }
             finally
             {
@@ -187,11 +193,17 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(ex.Message);
+                if (!string.IsNullOrEmpty(ex.Message))
+                {
+                    Growl.ErrorGlobal(ex.Message);
+                }
             }
             catch (HttpRequestException ex)
             {
-                Growl.ErrorGlobal(ex.Message);
+                if (!string.IsNullOrEmpty(ex.Message))
+                {
+                    Growl.ErrorGlobal(ex.Message);
+                }
             }
             finally
             {
