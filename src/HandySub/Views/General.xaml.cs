@@ -6,7 +6,6 @@ using HandySub.Models;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;

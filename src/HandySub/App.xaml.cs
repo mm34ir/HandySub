@@ -4,6 +4,8 @@ using HandySub.Assets;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Nucs.JsonSettings;
+using Nucs.JsonSettings.Autosave;
 using System;
 using System.IO;
 using System.Linq;
@@ -44,6 +46,8 @@ namespace HandySub
                     File.Delete(Consts.ConfigPath);
                 }
                 RegistryHelper.AddOrUpdateKey(Consts.VersionKey, Consts.AppName, Settings.Version);
+
+                Settings = JsonSettings.Load<ISettings>().EnableAutosave();
             }
         }
 
