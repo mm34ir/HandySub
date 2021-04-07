@@ -1,5 +1,4 @@
 ﻿using HandyControl.Controls;
-using HandyControl.Properties.Langs;
 using HandySub.Assets;
 using HtmlAgilityPack;
 using ModernWpf.Controls;
@@ -11,6 +10,8 @@ using System.Windows.Controls;
 using HandySub.Models;
 using HandyControl.Tools.Extension;
 using static HandySub.Assets.Helper;
+using HandyControl.Tools;
+
 namespace HandySub.Views
 {
     /// <summary>
@@ -66,7 +67,7 @@ namespace HandySub.Views
                 var titleCollection = doc.DocumentNode.SelectSingleNode("//div[@class='search-result']");
                 if (titleCollection == null || titleCollection.InnerText.Contains("No results found"))
                 {
-                    Growl.ErrorGlobal(Lang.ResourceManager.GetString("SubNotFound"));
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("SubNotFound"));
                 }
                 else
                 {
@@ -111,11 +112,11 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {

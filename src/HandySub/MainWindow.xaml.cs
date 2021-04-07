@@ -103,7 +103,7 @@ namespace HandySub
                     WindowStyle = WindowStyle.None,
                     MinWidth = 0,
                     MinHeight = 0,
-                    Title = Lang.ResourceManager.GetString("Accent")
+                    Title = LocalizationManager.LocalizeString("Accent")
                 };
 
                 if (Settings.Accent != null)

@@ -61,7 +61,7 @@ namespace HandySub.Views
                 var items = doc.DocumentNode.SelectNodes(@"//div[@id='new-link']/ul/li");
                 if (items == null)
                 {
-                    Growl.ErrorGlobal(Lang.ResourceManager.GetString("SubNotFound"));
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("SubNotFound"));
                 }
                 else
                 {
@@ -101,11 +101,11 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -150,7 +150,7 @@ namespace HandySub.Views
             }
             catch (UnauthorizedAccessException)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("AdminError"));
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("AdminError"));
             }
             catch (NotSupportedException)
             {
@@ -166,7 +166,7 @@ namespace HandySub.Views
 
         private void IDMNotFound()
         {
-            Growl.WarningGlobal(Lang.ResourceManager.GetString("IDMNot"));
+            Growl.WarningGlobal(LocalizationManager.LocalizeString("IDMNot"));
         }
         private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
@@ -183,9 +183,9 @@ namespace HandySub.Views
                     Growl.ClearGlobal();
                     Growl.AskGlobal(new GrowlInfo
                     {
-                        CancelStr = Lang.ResourceManager.GetString("Cancel"),
-                        ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                        Message = Lang.ResourceManager.GetString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(downlaodedFileName)),
+                        CancelStr = LocalizationManager.LocalizeString("Cancel"),
+                        ConfirmStr = LocalizationManager.LocalizeString("OpenFolder"),
+                        Message = LocalizationManager.LocalizeString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(downlaodedFileName)),
                         ActionBeforeClose = b =>
                         {
                             if (!b) return true;

@@ -13,12 +13,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Page = ModernWpf.Controls.Page;
-using HandySub.Assets.Strings;
 using HandyControl.Tools.Extension;
 using HandyControl.Data;
 using Path = System.IO.Path;
 using System.Diagnostics;
 using static HandySub.Assets.Helper;
+using HandyControl.Tools;
+
 namespace HandySub.Views
 {
     /// <summary>
@@ -64,7 +65,7 @@ namespace HandySub.Views
                 var items = doc.DocumentNode.SelectSingleNode("//table");
                 if (items == null)
                 {
-                    Growl.ErrorGlobal(Lang.ResourceManager.GetString("SubNotFound"));
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("SubNotFound"));
                 }
                 else
                 {
@@ -122,11 +123,11 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {
@@ -176,7 +177,7 @@ namespace HandySub.Views
             }
             catch (UnauthorizedAccessException)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("AdminError"));
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("AdminError"));
             }
             catch (NotSupportedException)
             {
@@ -209,9 +210,9 @@ namespace HandySub.Views
                 Growl.ClearGlobal();
                 Growl.AskGlobal(new GrowlInfo
                 {
-                    CancelStr = Lang.ResourceManager.GetString("Cancel"),
-                    ConfirmStr = Lang.ResourceManager.GetString("OpenFolder"),
-                    Message = Lang.ResourceManager.GetString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(fileName)),
+                    CancelStr = LocalizationManager.LocalizeString("Cancel"),
+                    ConfirmStr = LocalizationManager.LocalizeString("OpenFolder"),
+                    Message = LocalizationManager.LocalizeString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(fileName)),
                     ActionBeforeClose = b =>
                     {
                         if (!b) return true;
@@ -231,7 +232,7 @@ namespace HandySub.Views
 
         private void IDMNotFound()
         {
-            Growl.WarningGlobal(Lang.ResourceManager.GetString("IDMNot"));
+            Growl.WarningGlobal(LocalizationManager.LocalizeString("IDMNot"));
         }
 
         private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

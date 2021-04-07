@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using HandyControl.Tools.Extension;
-using HandySub.Assets.Strings;
 using ModernWpf.Controls;
+using HandyControl.Tools;
 
 namespace HandySub.Views
 {
@@ -58,7 +58,7 @@ namespace HandySub.Views
                 var infoItems = doc.DocumentNode.SelectNodes("//div[@class='cat-post-info']");
                 if (items == null)
                 {
-                    Growl.ErrorGlobal(Lang.ResourceManager.GetString("SubNotFound"));
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("SubNotFound"));
                 }
                 else
                 {
@@ -125,11 +125,11 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {

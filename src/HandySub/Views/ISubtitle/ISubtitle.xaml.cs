@@ -9,7 +9,7 @@ using System.Net;
 using System.Windows.Controls;
 using ModernWpf.Controls;
 using HandyControl.Tools.Extension;
-using HandySub.Assets.Strings;
+using HandyControl.Tools;
 
 namespace HandySub.Views
 {
@@ -51,7 +51,7 @@ namespace HandySub.Views
                 var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
                 if (items == null)
                 {
-                    Growl.ErrorGlobal(Lang.ResourceManager.GetString("SubNotFound"));
+                    Growl.ErrorGlobal(LocalizationManager.LocalizeString("SubNotFound"));
                 }
                 else
                 {
@@ -94,11 +94,11 @@ namespace HandySub.Views
             }
             catch (WebException ex)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + ex.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + ex.Message);
             }
             catch (HttpRequestException hx)
             {
-                Growl.ErrorGlobal(Lang.ResourceManager.GetString("ServerNotFound") + "\n" + hx.Message);
+                Growl.ErrorGlobal(LocalizationManager.LocalizeString("ServerNotFound") + "\n" + hx.Message);
             }
             finally
             {

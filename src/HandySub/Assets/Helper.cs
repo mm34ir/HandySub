@@ -1,6 +1,6 @@
 ﻿using HandyControl.Controls;
+using HandyControl.Tools;
 using HandyControl.Tools.Extension;
-using HandySub.Assets.Strings;
 using HandySub.Models;
 using ModernWpf.Controls;
 using Nucs.JsonSettings;
@@ -163,7 +163,7 @@ namespace HandySub.Assets
                 }
                 else
                 {
-                    autoBox.ItemsSource = new string[] { Lang.ResourceManager.GetString("SuggestNotFound") };
+                    autoBox.ItemsSource = new string[] { LocalizationManager.LocalizeString("SuggestNotFound") };
                 }
             }
         }

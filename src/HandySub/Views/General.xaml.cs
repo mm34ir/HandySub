@@ -42,8 +42,8 @@ namespace HandySub.Views
             tgBack.IsChecked = Settings.IsBackEnabled;
             tgContext.IsChecked = Settings.IsAddToContextMenu;
 
-            txtLocation.Text = Lang.ResourceManager.GetString("CurrentLocation").Format(Settings.StoreLocation);
-            currentVersion.Text = Lang.ResourceManager.GetString("CurrentVersion").Format(Version);
+            txtLocation.Text = LocalizationManager.LocalizeString("CurrentLocation").Format(Settings.StoreLocation);
+            currentVersion.Text = LocalizationManager.LocalizeString("CurrentVersion").Format(Version);
 
             CanExecuteClearHistory();
         }
@@ -65,10 +65,10 @@ namespace HandySub.Views
         {
             List<ServerModel> servers = new List<ServerModel>
             {
-                new ServerModel{ Index = 0, Key = Lang.ResourceManager.GetString("Subscene")},
-                new ServerModel{ Index = 1, Key = Lang.ResourceManager.GetString("ESubtitle")},
-                new ServerModel{ Index = 2, Key = Lang.ResourceManager.GetString("WorldSubtitle")},
-                new ServerModel{ Index = 3, Key = Lang.ResourceManager.GetString("ISubtitles")}
+                new ServerModel{ Index = 0, Key = LocalizationManager.LocalizeString("Subscene")},
+                new ServerModel{ Index = 1, Key = LocalizationManager.LocalizeString("ESubtitle")},
+                new ServerModel{ Index = 2, Key = LocalizationManager.LocalizeString("WorldSubtitle")},
+                new ServerModel{ Index = 3, Key = LocalizationManager.LocalizeString("ISubtitles")}
             };
 
             cmbShellServer.ItemsSource = servers;
@@ -202,7 +202,7 @@ namespace HandySub.Views
 
                 if (ver.IsExistNewVersion)
                 {
-                    Growl.AskGlobal(Lang.ResourceManager.GetString("VersionFound"), b =>
+                    Growl.AskGlobal(LocalizationManager.LocalizeString("VersionFound"), b =>
                     {
                         if (!b)
                         {
@@ -215,7 +215,7 @@ namespace HandySub.Views
                 }
                 else
                 {
-                    Growl.InfoGlobal(Lang.ResourceManager.GetString("LatestVersion"));
+                    Growl.InfoGlobal(LocalizationManager.LocalizeString("LatestVersion"));
                 }
 
                 btnCheck.IsEnabled = true;
@@ -233,7 +233,7 @@ namespace HandySub.Views
             {
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    txtLocation.Text = Lang.ResourceManager.GetString("CurrentLocation").Format(dialog.SelectedPath);
+                    txtLocation.Text = LocalizationManager.LocalizeString("CurrentLocation").Format(dialog.SelectedPath);
                     Settings.StoreLocation = dialog.SelectedPath;
                 }
             }
