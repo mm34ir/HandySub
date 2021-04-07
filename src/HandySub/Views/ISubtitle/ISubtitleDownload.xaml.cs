@@ -155,8 +155,8 @@ namespace HandySub.Views
                         ?.Value;
 
                 // if luanched from ContextMenu set location next to the movie file
-                if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                    location = App.WindowsContextMenuArgument[1];
+                if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
+                    location = App.StartUpArguments.Path;
                 else // get location from config
                     location = Settings.StoreLocation;
 

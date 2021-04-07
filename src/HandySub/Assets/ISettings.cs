@@ -1,5 +1,4 @@
 ﻿using HandyControl.Themes;
-using HandySub.Assets.Strings;
 using HandySub.Models;
 using ModernWpf.Controls;
 using Nucs.JsonSettings;

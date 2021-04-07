@@ -1,7 +1,6 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Themes;
 using HandyControl.Tools;
-using HandySub.Assets.Strings;
 using HandySub.Views;
 using ModernWpf.Controls;
 using ModernWpf.Controls.Primitives;
@@ -36,7 +35,7 @@ namespace HandySub
 
             navView.IsBackButtonVisible = Settings.IsBackEnabled ? NavigationViewBackButtonVisible.Visible : NavigationViewBackButtonVisible.Collapsed;
 
-            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
+            if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
             {
                 switch (Settings.ShellServer.Index)
                 {

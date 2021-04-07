@@ -28,9 +28,9 @@ namespace HandySub.Views
         {
             InitializeComponent();
             
-            if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
+            if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
             {
-                autoBox.Text = App.WindowsContextMenuArgument[0];
+                autoBox.Text = App.StartUpArguments.Name;
                 OnSearchStarted(autoBox.Text);
             }
         }

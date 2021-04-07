@@ -20,7 +20,6 @@ using System.IO;
 using System.ComponentModel;
 using HandyControl.Tools;
 using HandyControl.Data;
-using HandySub.Assets.Strings;
 using static HandySub.Assets.Helper;
 namespace HandySub.Views
 {
@@ -206,8 +205,8 @@ namespace HandySub.Views
                         "//div[@class='download']//a").GetAttributeValue("href", "nothing");
 
                 // if luanched from ContextMenu set location next to the movie file
-                if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                    location = App.WindowsContextMenuArgument[1];
+                if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
+                    location = App.StartUpArguments.Path;
                 else // get location from config
                     location = Settings.StoreLocation;
 

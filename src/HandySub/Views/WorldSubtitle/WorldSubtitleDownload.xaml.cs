@@ -1,5 +1,4 @@
 ﻿using HandyControl.Controls;
-using HandySub.Assets;
 using HandySub.Models;
 using HtmlAgilityPack;
 using ModernWpf.Navigation;
@@ -14,7 +13,6 @@ using Downloader;
 using System.IO;
 using HandyControl.Tools;
 using System.ComponentModel;
-using HandySub.Assets.Strings;
 using System.Windows.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
@@ -129,8 +127,8 @@ namespace HandySub.Views
                 if (!string.IsNullOrEmpty(link))
                 {
                     // if luanched from ContextMenu set location next to the movie file
-                    if (!string.IsNullOrEmpty(App.WindowsContextMenuArgument[0]))
-                        location = App.WindowsContextMenuArgument[1];
+                    if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
+                        location = App.StartUpArguments.Path;
                     else // get location from config
                         location = Settings.StoreLocation;
                     

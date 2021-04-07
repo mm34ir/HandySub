@@ -2,11 +2,11 @@
 using HandyControl.Tools;
 using HandyControl.Tools.Extension;
 using HandySub.Assets;
-using HandySub.Assets.Strings;
 using HandySub.Models;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +25,15 @@ namespace HandySub.Views
             GenerateServers();
             GenerateShellServers();
             LoadInitialSettings();
+
+            LocalizationManager.Instance.CultureChanged += Instance_CultureChanged;
+        }
+
+        private void Instance_CultureChanged(object sender, HandyControl.Data.FunctionEventArgs<System.Globalization.CultureInfo> e)
+        {
+            Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            currentVersion.Text = LocalizationManager.LocalizeString("CurrentVersion").Format(Version);
+            txtLocation.Text = LocalizationManager.LocalizeString("CurrentLocation").Format(Settings.StoreLocation);
         }
 
         private void LoadInitialSettings()
