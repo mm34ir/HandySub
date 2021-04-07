@@ -49,6 +49,7 @@ namespace HandySub.Views
             tgNotify.IsChecked = Settings.IsShowNotification;
             tgBack.IsChecked = Settings.IsBackEnabled;
             tgContext.IsChecked = Settings.IsAddToContextMenu;
+            tgOpenHandySub.IsChecked = Settings.IsOpenHandySubWithContext;
 
             txtLocation.Text = LocalizationManager.LocalizeString("CurrentLocation").Format(Settings.StoreLocation);
             currentVersion.Text = LocalizationManager.LocalizeString("CurrentVersion").Format(Version);
@@ -130,15 +131,23 @@ namespace HandySub.Views
             if (state != Settings.IsAddToContextMenu)
             {
                 Settings.IsAddToContextMenu = state;
-                if (state)
+                try
                 {
-                    cmbShellServer.Visibility = Visibility.Visible;
-                    ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.ContextMenuName, Consts.ShellCommand);
+                    if (state)
+                    {
+                        cmbShellServer.Visibility = Visibility.Visible;
+                        ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand);
+                        ApplicationHelper.RegisterToWindowsDirectoryShellContextMenu(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand);
+                    }
+                    else
+                    {
+                        cmbShellServer.Visibility = Visibility.Collapsed;
+                        ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.GetSubtitleContextMenuName);
+                        ApplicationHelper.UnRegisterFromWindowsDirectoryShellContextMenu(Consts.GetSubtitleContextMenuName);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    cmbShellServer.Visibility = Visibility.Collapsed;
-                    ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.ContextMenuName);
                 }
             }
         }
@@ -159,6 +168,31 @@ namespace HandySub.Views
             if (state != Settings.IsShowNotification)
             {
                 Settings.IsShowNotification = state;
+            }
+        }
+
+        private void tgOpenHandySub_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgOpenHandySub.IsChecked.Value;
+            if (state != Settings.IsOpenHandySubWithContext)
+            {
+                Settings.IsOpenHandySubWithContext = state;
+                try
+                {
+                    if (state)
+                    {
+                        ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand);
+                        RegisterToWindowsBackgroundShellContextMenu(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand);
+                    }
+                    else
+                    {
+                        ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.OpenHandySubContextMenuName);
+                        UnRegisterFromWindowsBackgroundShellContextMenu(Consts.OpenHandySubContextMenuName);
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
         #endregion
@@ -245,6 +279,18 @@ namespace HandySub.Views
                     Settings.StoreLocation = dialog.SelectedPath;
                 }
             }
+        }
+
+        public static void RegisterToWindowsBackgroundShellContextMenu(string ContextMenuName, string Command)
+        {
+            string _FileShell = $@"SOFTWARE\Classes\directory\background\shell\{ContextMenuName}\command\";
+            RegistryHelper.AddOrUpdateKey("", _FileShell, Command);
+        }
+
+        public static void UnRegisterFromWindowsBackgroundShellContextMenu(string ContextMenuName)
+        {
+            var _RemovePath = @"SOFTWARE\Classes\directory\background\shell\";
+            RegistryHelper.DeleteSubKeyTree(ContextMenuName, _RemovePath);
         }
     }
 }

@@ -7,8 +7,10 @@ namespace HandySub.Assets
     public abstract class Consts
     {
         public static readonly string AppName = "HandySub";
-        public static readonly string ContextMenuName = "Get Subtitle";
-        public static readonly string ShellCommand = $"\"{Process.GetCurrentProcess().MainModule.FileName}\" \"%1\"";
+        public static readonly string GetSubtitleContextMenuName = "Get Subtitle";
+        public static readonly string OpenHandySubContextMenuName = "Open HandySub";
+        public static readonly string GetSubtitleShellCommand = $"\"{Process.GetCurrentProcess().MainModule.FileName}\" \"%1\"";
+        public static readonly string OpenHandySubShellCommand = $"\"{Process.GetCurrentProcess().MainModule.FileName}\"";
         public static readonly string VersionKey = "VersionCode";
 
         public static readonly string RootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName);

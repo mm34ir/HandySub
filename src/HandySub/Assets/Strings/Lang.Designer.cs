@@ -565,6 +565,15 @@ namespace HandySub.Assets.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open HandySub with Windows ContextMenu.
+        /// </summary>
+        public static string TGOpenHandySub {
+            get {
+                return ResourceManager.GetString("TGOpenHandySub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string Theme {

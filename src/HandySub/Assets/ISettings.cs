@@ -25,6 +25,7 @@ namespace HandySub.Assets
         public virtual bool IsBackEnabled { get; set; } = true;
         public virtual bool IsIDMEnabled { get; set; } = false;
         public virtual bool IsAddToContextMenu { get; set; } = true;
+        public virtual bool IsOpenHandySubWithContext { get; set; } = true;
         public virtual bool IsShowNotification { get; set; } = true;
         public virtual int MaxHistoryNumber { get; set; } = 19;
         public virtual List<string> History { get; set; } = new List<string>();

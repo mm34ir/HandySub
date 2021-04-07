@@ -27,6 +27,7 @@
                 <ToggleButton x:Name="tgNotify" Style="{StaticResource ToggleButtonSwitch}" HorizontalAlignment="Left" Margin="0,10,10,0" Content="{hc:Localization TGNotify}" Checked="tgNotify_Checked" Unchecked="tgNotify_Checked"/>
                 <ToggleButton x:Name="tgBack" Style="{StaticResource ToggleButtonSwitch}" HorizontalAlignment="Left" Margin="0,10,10,0" Content="{hc:Localization TGBack}" Checked="tgBack_Checked" Unchecked="tgBack_Checked"/>
                 <ToggleButton x:Name="tgContext" Style="{StaticResource ToggleButtonSwitch}" HorizontalAlignment="Left" Margin="0,10,10,0" Content="{hc:Localization TGContext}" Checked="tgContext_Checked" Unchecked="tgContext_Checked"/>
+                <ToggleButton x:Name="tgOpenHandySub" Style="{StaticResource ToggleButtonSwitch}" HorizontalAlignment="Left" Margin="0,10,10,0" Content="{hc:Localization TGOpenHandySub}" Checked="tgOpenHandySub_Checked" Unchecked="tgOpenHandySub_Checked"/>
 
                 <hc:ComboBox Name="cmbShellServer" Width="330" HorizontalAlignment="Left" IsEditable="False" hc:TitleElement.Title="{hc:Localization ShellServer}" 
                              Margin="10,10,50,10" SelectionChanged="cmbShellServer_SelectionChanged" DisplayMemberPath="Key"/>

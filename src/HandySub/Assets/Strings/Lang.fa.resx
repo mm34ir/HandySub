@@ -285,6 +285,9 @@
   <data name="TGNotify" xml:space="preserve">
     <value>نمایش اطلاعیه بعد از اتمام دانلود</value>
   </data>
+  <data name="TGOpenHandySub" xml:space="preserve">
+    <value>باز کردن برنامه از طریق منوی راست کلیک ویندوز</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>پوسته</value>
   </data>
