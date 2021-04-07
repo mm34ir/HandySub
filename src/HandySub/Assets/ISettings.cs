@@ -2,7 +2,7 @@
 using HandySub.Assets.Strings;
 using HandySub.Models;
 using ModernWpf.Controls;
-using nucs.JsonSettings;
+using Nucs.JsonSettings;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;

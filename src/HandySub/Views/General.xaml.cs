@@ -103,7 +103,7 @@ namespace HandySub.Views
             try
             {
                 btnCheck.IsEnabled = false;
-                var ver = await UpdateHelper.Instance.CheckUpdateAsync("HandyOrg", "HandySub");
+                var ver = await UpdateHelper.CheckUpdateAsync("HandyOrg", "HandySub");
 
                 if (ver.IsExistNewVersion)
                 {
@@ -114,7 +114,7 @@ namespace HandySub.Views
                             return true;
                         }
 
-                        StartProcess(ver.Asset[0].browser_download_url);
+                        StartProcess(ver.Assets[0].Url);
                         return true;
                     });
                 }
