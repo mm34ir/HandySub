@@ -77,7 +77,7 @@ namespace HandySub
 
         public string RemoveBadWords(string stringToClean)
         {
-            var cleaned = string.Join(" ", stringToClean.Split(new string[] { " ", "." }, StringSplitOptions.None).Where(w => !BAD_WORDS.Contains(w, StringComparer.OrdinalIgnoreCase)));
+            var cleaned = string.Join(" ", stringToClean.Split(new string[] { " ", ".", "-" }, StringSplitOptions.None).Where(w => !BAD_WORDS.Contains(w, StringComparer.OrdinalIgnoreCase)));
 
             cleaned = Regex.Replace(cleaned, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
             cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
