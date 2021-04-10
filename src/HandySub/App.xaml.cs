@@ -32,7 +32,8 @@ namespace HandySub
             "SVA", "MkvCage", "MeGusta", "TBS", "AMZN", "DDP5.1", "DDP5", "SHITBOX", "NITRO", "WEB", "DL",
             "1080", "720", "480", "MrMovie", "BWBP", "NTG", "HMAX", "Atmos", "MZABI", "2018", "2019", "2020",
             "2021", "2022", "MRCS", "/", "GalaxyRG", "HDR", "YTS.LT", "1400MB", "H.264", "H.265", "YTS.MX",
-            "DV", "PSiG", "ION10", "NTb", "SYNCOPY", "PHOENIX", "MinX", "300MB", "150MB", "AFG", "Cakes"
+            "DV", "PSiG", "ION10", "NTb", "SYNCOPY", "PHOENIX", "MinX", "300MB", "150MB", "AFG", "Cakes",
+            "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"
         };
 
         public App()
@@ -76,7 +77,7 @@ namespace HandySub
 
         public string RemoveBadWords(string stringToClean)
         {
-            var cleaned = string.Join(" ", stringToClean.Split(' ').Where(w => !BAD_WORDS.Contains(w, StringComparer.OrdinalIgnoreCase)));
+            var cleaned = string.Join(" ", stringToClean.Split(new string[] { " ", "." }, StringSplitOptions.None).Where(w => !BAD_WORDS.Contains(w, StringComparer.OrdinalIgnoreCase)));
 
             cleaned = Regex.Replace(cleaned, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
             cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []

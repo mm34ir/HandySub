@@ -19,6 +19,8 @@ using Path = System.IO.Path;
 using System.Diagnostics;
 using static HandySub.Assets.Helper;
 using HandyControl.Tools;
+using System.IO.Compression;
+using System.IO;
 
 namespace HandySub.Views
 {
@@ -217,6 +219,7 @@ namespace HandySub.Views
             prgStatus.Value = 0;
             prgStatus.IsIndeterminate = true;
             txtStatus.Text = string.Empty;
+            var downloadedFileName = Path.Combine(location, fileName);
             if (Settings.IsShowNotification)
             {
                 Growl.ClearGlobal();
@@ -229,10 +232,28 @@ namespace HandySub.Views
                     {
                         if (!b) return true;
 
-                        Process.Start("explorer.exe", "/select, \"" + Path.Combine(location, fileName) + "\"");
+                        Process.Start("explorer.exe", "/select, \"" + downloadedFileName + "\"");
                         return true;
                     }
                 });
+            }
+
+            if (Settings.IsAutoUnZip)
+            {
+                if (Path.GetExtension(downloadedFileName).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    using (ZipArchive archive = ZipFile.OpenRead(downloadedFileName))
+                    {
+                        archive.ExtractToDirectory(Path.GetDirectoryName(downloadedFileName), true);
+                    }
+                    try
+                    {
+                        File.Delete(downloadedFileName);
+                    }
+                    catch (IOException)
+                    {
+                    }
+                }
             }
         }
 

@@ -48,6 +48,7 @@ namespace HandySub.Views
             tgIDM.IsChecked = Settings.IsIDMEnabled;
             tgNotify.IsChecked = Settings.IsShowNotification;
             tgBack.IsChecked = Settings.IsBackEnabled;
+            tgUnzip.IsChecked = Settings.IsAutoUnZip;
             tgContext.IsChecked = Settings.IsAddToContextMenu;
             tgOpenHandySub.IsChecked = Settings.IsOpenHandySubWithContext;
 
@@ -193,6 +194,15 @@ namespace HandySub.Views
                 catch (Exception)
                 {
                 }
+            }
+        }
+
+        private void tgUnzip_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgUnzip.IsChecked.Value;
+            if (state != Settings.IsAutoUnZip)
+            {
+                Settings.IsAutoUnZip = state;
             }
         }
         #endregion

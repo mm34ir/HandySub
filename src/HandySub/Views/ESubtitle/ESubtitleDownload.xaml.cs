@@ -18,6 +18,8 @@ using HandyControl.Tools;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using static HandySub.Assets.Helper;
+using System.IO.Compression;
+
 namespace HandySub.Views
 {
     /// <summary>
@@ -170,32 +172,60 @@ namespace HandySub.Views
 
         private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            DispatcherHelper.RunOnMainThread(() =>
+            if (e.Cancelled)
             {
-                tgBlock.IsChecked = true;
-                prgStatus.Value = 0;
-                prgStatus.IsIndeterminate = true;
-                txtStatus.Text = string.Empty;
-                if (Settings.IsShowNotification)
+                Growl.ErrorGlobal("Download Canceled");
+            }
+            else if (e.Error != null)
+            {
+                Growl.ErrorGlobal(e.Error.Message);
+            }
+            else
+            {
+                DispatcherHelper.RunOnMainThread(() =>
                 {
-                    var downlaodedFileName = ((DownloadPackage)e.UserState).FileName;
+                    tgBlock.IsChecked = true;
+                    prgStatus.Value = 0;
+                    prgStatus.IsIndeterminate = true;
+                    txtStatus.Text = string.Empty;
+                    var downloadedFileName = ((DownloadPackage)e.UserState).FileName;
 
-                    Growl.ClearGlobal();
-                    Growl.AskGlobal(new GrowlInfo
+                    if (Settings.IsShowNotification)
                     {
-                        CancelStr = LocalizationManager.LocalizeString("Cancel"),
-                        ConfirmStr = LocalizationManager.LocalizeString("OpenFolder"),
-                        Message = LocalizationManager.LocalizeString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(downlaodedFileName)),
-                        ActionBeforeClose = b =>
+                        Growl.ClearGlobal();
+                        Growl.AskGlobal(new GrowlInfo
                         {
-                            if (!b) return true;
+                            CancelStr = LocalizationManager.LocalizeString("Cancel"),
+                            ConfirmStr = LocalizationManager.LocalizeString("OpenFolder"),
+                            Message = LocalizationManager.LocalizeString("FileDownloaded").Format(Path.GetFileNameWithoutExtension(downloadedFileName)),
+                            ActionBeforeClose = b =>
+                            {
+                                if (!b) return true;
 
-                            Process.Start("explorer.exe", "/select, \"" + downlaodedFileName + "\"");
-                            return true;
+                                Process.Start("explorer.exe", "/select, \"" + downloadedFileName + "\"");
+                                return true;
+                            }
+                        });
+                    }
+                    if (Settings.IsAutoUnZip)
+                    {
+                        if (Path.GetExtension(downloadedFileName).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        {
+                            using (ZipArchive archive = ZipFile.OpenRead(downloadedFileName))
+                            {
+                                archive.ExtractToDirectory(Path.GetDirectoryName(downloadedFileName), true);
+                            }
+                            try
+                            {
+                                File.Delete(downloadedFileName);
+                            }
+                            catch (IOException)
+                            {
+                            }
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
         }
 
         private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)

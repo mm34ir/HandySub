@@ -27,6 +27,7 @@ namespace HandySub.Assets
         public virtual bool IsAddToContextMenu { get; set; } = true;
         public virtual bool IsOpenHandySubWithContext { get; set; } = true;
         public virtual bool IsShowNotification { get; set; } = true;
+        public virtual bool IsAutoUnZip { get; set; } = false;
         public virtual int MaxHistoryNumber { get; set; } = 19;
         public virtual List<string> History { get; set; } = new List<string>();
         public virtual NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;

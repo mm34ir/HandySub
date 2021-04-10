@@ -288,6 +288,9 @@
   <data name="TGOpenHandySub" xml:space="preserve">
     <value>Open HandySub with Windows ContextMenu</value>
   </data>
+  <data name="TGUnzip" xml:space="preserve">
+    <value>UnZip Subtitle After Download Completed</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
   </data>

@@ -574,6 +574,15 @@ namespace HandySub.Assets.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UnZip Subtitle After Download Completed.
+        /// </summary>
+        public static string TGUnzip {
+            get {
+                return ResourceManager.GetString("TGUnzip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string Theme {
