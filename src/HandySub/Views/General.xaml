@@ -38,7 +38,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnClear" Width="200" Padding="5,7,5,5" Click="ClearHistory_Click" Style="{StaticResource WinUI}" Content="{hc:Localization ClearHistory}" Margin="0"/>
                     <TextBlock Text="{hc:Localization MaxHistory}" Margin="10"/>
-                    <hc:NumericUpDown Name="num" Maximum="40" Minimum="5" ValueChanged="num_ValueChanged"/>
+                    <hc:NumericUpDown Name="num" Maximum="40" ValueChanged="num_ValueChanged"/>
                 </StackPanel>
             </StackPanel>
 
