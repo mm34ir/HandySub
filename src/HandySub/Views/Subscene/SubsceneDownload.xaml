@@ -7,6 +7,12 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <ui:Page.Resources>
+        <Style x:Key="listViewItemStyle" TargetType="{x:Type ui:ListViewItem}">
+            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+        </Style>
+    </ui:Page.Resources>
+    
     <hc:ToggleBlock Name="tgBlock" Focusable="False" IsChecked="True" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
         <hc:ToggleBlock.UnCheckedContent>
             <StackPanel FlowDirection="LeftToRight" VerticalAlignment="Center" HorizontalAlignment="Stretch">
@@ -36,7 +42,7 @@
                 <Button x:Name="btnRefresh" Margin="0,0,10,0" MinWidth="150" Grid.Column="2" Click="btnRefresh_Click" Style="{StaticResource WinUI}" Content="{hc:Localization Refresh}"/>
 
                 <ui:ListView x:Name="listView" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" SelectionMode="Single" HorizontalAlignment="Stretch" SelectionChanged="listView_SelectionChanged"
-                             VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling" FlowDirection="LeftToRight" MouseDoubleClick="listView_MouseDoubleClick">
+                             VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling" FlowDirection="LeftToRight" ItemContainerStyle="{StaticResource listViewItemStyle}">
                     <ui:ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>

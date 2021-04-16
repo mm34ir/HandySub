@@ -366,7 +366,7 @@ namespace HandySub.Views
             }
         }
 
-        private void listView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ListViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Settings.IsDoubleClickEnabled)
             {
