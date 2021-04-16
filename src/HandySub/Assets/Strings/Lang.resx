@@ -279,6 +279,9 @@
   <data name="TGContext" xml:space="preserve">
     <value>Add Application To Windows ContextMenu</value>
   </data>
+  <data name="TGDoubleClick" xml:space="preserve">
+    <value>Download Subtitle by Double Clicking on the Item</value>
+  </data>
   <data name="TGIDM" xml:space="preserve">
     <value>Download with Internet Download Manager (IDM)</value>
   </data>

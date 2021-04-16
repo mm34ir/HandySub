@@ -6,11 +6,11 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>HandySub</AssemblyName>
     <RootNamespace>HandySub</RootNamespace>
-    <Version>3.2.0.0</Version>
+    <Version>3.3.0.0</Version>
     <Configurations>Debug;Release</Configurations>
     <Copyright>Copyright © Mahdi 2018-2021</Copyright>
-    <FileVersion>3.2.0.0</FileVersion>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
+    <FileVersion>3.3.0.0</FileVersion>
+    <AssemblyVersion>3.3.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
 	<SatelliteResourceLanguages>en;fa</SatelliteResourceLanguages>
 	<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
@@ -30,7 +30,7 @@
     <None Remove="Resources\Img\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HandyControls" Version="3.3.4" />
+    <PackageReference Include="HandyControls" Version="3.3.5-beta.3" />
 	<PackageReference Include="Downloader" Version="2.2.8" />
 	<PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
 	<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.2.0" />

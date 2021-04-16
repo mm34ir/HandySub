@@ -547,6 +547,15 @@ namespace HandySub.Assets.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Subtitle by Double Clicking on the Item.
+        /// </summary>
+        public static string TGDoubleClick {
+            get {
+                return ResourceManager.GetString("TGDoubleClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download with Internet Download Manager (IDM).
         /// </summary>
         public static string TGIDM {

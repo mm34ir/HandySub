@@ -36,7 +36,7 @@
                 <Button x:Name="btnRefresh" Margin="0,0,10,0" MinWidth="150" Grid.Column="2" Click="btnRefresh_Click" Style="{StaticResource WinUI}" Content="{hc:Localization Refresh}"/>
 
                 <ui:ListView x:Name="listView" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" SelectionMode="Single" HorizontalAlignment="Stretch" SelectionChanged="listView_SelectionChanged"
-                             VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling" FlowDirection="LeftToRight">
+                             VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling" FlowDirection="LeftToRight" MouseDoubleClick="listView_MouseDoubleClick">
                     <ui:ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>

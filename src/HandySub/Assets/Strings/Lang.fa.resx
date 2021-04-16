@@ -279,6 +279,9 @@
   <data name="TGContext" xml:space="preserve">
     <value>افزودن برنامه به منوی کلیک راست ویندوز</value>
   </data>
+  <data name="TGDoubleClick" xml:space="preserve">
+    <value>دانلود زیرنویس با دوبار کلیک روی آیتم</value>
+  </data>
   <data name="TGIDM" xml:space="preserve">
     <value>دانلود با اینترنت دانلود منیجر</value>
   </data>

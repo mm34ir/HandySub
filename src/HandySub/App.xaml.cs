@@ -33,7 +33,7 @@ namespace HandySub
             "1080", "720", "480", "MrMovie", "BWBP", "NTG", "HMAX", "Atmos", "MZABI", "2018", "2019", "2020",
             "2021", "2022", "MRCS", "/", "GalaxyRG", "HDR", "YTS.LT", "1400MB", "H.264", "H.265", "YTS.MX",
             "DV", "PSiG", "ION10", "NTb", "SYNCOPY", "PHOENIX", "MinX", "300MB", "150MB", "AFG", "Cakes",
-            "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"
+            "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "@Gemovies"
         };
 
         public App()
@@ -48,7 +48,7 @@ namespace HandySub
                 }
                 RegistryHelper.AddOrUpdateKey(Consts.VersionKey, Consts.AppName, Settings.Version);
 
-                Settings = JsonSettings.Load<ISettings>().EnableAutosave();
+                Settings = JsonSettings.Load<Config>().EnableAutosave();
             }
         }
 
@@ -56,7 +56,7 @@ namespace HandySub
         {
             base.OnStartup(e);
             ConfigHelper.Instance.SetLang(Settings.InterfaceLanguage);
-            
+
             UpdateTheme(Settings.Theme);
             UpdateAccent(Settings.Accent);
 

@@ -147,7 +147,15 @@ namespace HandySub.Views
             GetSubtitle();
         }
 
-        private async void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!Settings.IsDoubleClickEnabled)
+            {
+                DownloadSubtitle();
+            }
+        }
+
+        private async void DownloadSubtitle()
         {
             tgBlock.IsChecked = false;
             prgStatus.Value = 0;
@@ -211,7 +219,7 @@ namespace HandySub.Views
             {
                 tgBlock.IsChecked = true;
             }
-        }
+        } 
 
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
@@ -299,6 +307,14 @@ namespace HandySub.Views
             else
             {
                 DataList.ShapeView().Where(x => x.Language.Contains(item.ToString(), StringComparison.OrdinalIgnoreCase)).Apply();
+            }
+        }
+
+        private void listView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (Settings.IsDoubleClickEnabled)
+            {
+                DownloadSubtitle();
             }
         }
     }

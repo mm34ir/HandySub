@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace HandySub.Assets
 {
-    public class ISettings : JsonSettings
+    public class Config : JsonSettings
     {
         public override string FileName { get; set; } = Consts.ConfigPath;
 
@@ -28,6 +28,7 @@ namespace HandySub.Assets
         public virtual bool IsOpenHandySubWithContext { get; set; } = true;
         public virtual bool IsShowNotification { get; set; } = true;
         public virtual bool IsAutoUnZip { get; set; } = false;
+        public virtual bool IsDoubleClickEnabled { get; set; } = false;
         public virtual int MaxHistoryNumber { get; set; } = 19;
         public virtual List<string> History { get; set; } = new List<string>();
         public virtual NavigationViewPaneDisplayMode PaneDisplayMode { get; set; } = NavigationViewPaneDisplayMode.Left;
@@ -36,12 +37,12 @@ namespace HandySub.Assets
 
         #endregion Property
 
-        public ISettings()
+        public Config()
         {
             Version = 13991223;
         }
 
-        public ISettings(string fileName) : base(fileName)
+        public Config(string fileName) : base(fileName)
         {
         }
     }

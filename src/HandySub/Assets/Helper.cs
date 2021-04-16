@@ -20,7 +20,7 @@ namespace HandySub.Assets
 {
     public class Helper
     {
-        public static ISettings Settings = JsonSettings.Load<ISettings>().EnableAutosave();
+        public static Config Settings = JsonSettings.Load<Config>().EnableAutosave();
 
         public static async Task<string> GetImdbIdFromTitle(string ImdbId, Action<string> errorCallBack = null)
         {

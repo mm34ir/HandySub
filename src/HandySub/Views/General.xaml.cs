@@ -6,6 +6,7 @@ using HandySub.Models;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,6 +50,7 @@ namespace HandySub.Views
             tgNotify.IsChecked = Settings.IsShowNotification;
             tgBack.IsChecked = Settings.IsBackEnabled;
             tgUnzip.IsChecked = Settings.IsAutoUnZip;
+            tgDoubleClick.IsChecked = Settings.IsDoubleClickEnabled;
             tgContext.IsChecked = Settings.IsAddToContextMenu;
             tgOpenHandySub.IsChecked = Settings.IsOpenHandySubWithContext;
 
@@ -136,15 +138,16 @@ namespace HandySub.Views
                 {
                     if (state)
                     {
+                        var icon = Process.GetCurrentProcess().MainModule.FileName;
                         cmbShellServer.Visibility = Visibility.Visible;
-                        ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand);
-                        ApplicationHelper.RegisterToWindowsDirectoryShellContextMenu(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand);
+                        ApplicationHelper.RegisterContextMenuToFile(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand, icon);
+                        ApplicationHelper.RegisterContextMenuToDirectory(Consts.GetSubtitleContextMenuName, Consts.GetSubtitleShellCommand, icon);
                     }
                     else
                     {
                         cmbShellServer.Visibility = Visibility.Collapsed;
-                        ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.GetSubtitleContextMenuName);
-                        ApplicationHelper.UnRegisterFromWindowsDirectoryShellContextMenu(Consts.GetSubtitleContextMenuName);
+                        ApplicationHelper.UnRegisterContextMenuFromFile(Consts.GetSubtitleContextMenuName);
+                        ApplicationHelper.UnRegisterContextMenuFromDirectory(Consts.GetSubtitleContextMenuName);
                     }
                 }
                 catch (Exception)
@@ -182,13 +185,14 @@ namespace HandySub.Views
                 {
                     if (state)
                     {
-                        ApplicationHelper.RegisterToWindowsFileShellContextMenu(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand);
-                        RegisterToWindowsBackgroundShellContextMenu(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand);
+                        var icon = Process.GetCurrentProcess().MainModule.FileName;
+                        ApplicationHelper.RegisterContextMenuToFile(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand, icon);
+                        ApplicationHelper.RegisterContextMenuToBackground(Consts.OpenHandySubContextMenuName, Consts.OpenHandySubShellCommand, icon);
                     }
                     else
                     {
-                        ApplicationHelper.UnRegisterFromWindowsFileShellContextMenu(Consts.OpenHandySubContextMenuName);
-                        UnRegisterFromWindowsBackgroundShellContextMenu(Consts.OpenHandySubContextMenuName);
+                        ApplicationHelper.UnRegisterContextMenuFromFile(Consts.OpenHandySubContextMenuName);
+                        ApplicationHelper.UnRegisterContextMenuFromBackground(Consts.OpenHandySubContextMenuName);
                     }
                 }
                 catch (Exception)
@@ -203,6 +207,15 @@ namespace HandySub.Views
             if (state != Settings.IsAutoUnZip)
             {
                 Settings.IsAutoUnZip = state;
+            }
+        }
+
+        private void tgDoubleClick_Checked(object sender, RoutedEventArgs e)
+        {
+            var state = tgDoubleClick.IsChecked.Value;
+            if (state != Settings.IsDoubleClickEnabled)
+            {
+                Settings.IsDoubleClickEnabled = state;
             }
         }
         #endregion
@@ -289,18 +302,6 @@ namespace HandySub.Views
                     Settings.StoreLocation = dialog.SelectedPath;
                 }
             }
-        }
-
-        public static void RegisterToWindowsBackgroundShellContextMenu(string ContextMenuName, string Command)
-        {
-            string _FileShell = $@"SOFTWARE\Classes\directory\background\shell\{ContextMenuName}\command\";
-            RegistryHelper.AddOrUpdateKey("", _FileShell, Command);
-        }
-
-        public static void UnRegisterFromWindowsBackgroundShellContextMenu(string ContextMenuName)
-        {
-            var _RemovePath = @"SOFTWARE\Classes\directory\background\shell\";
-            RegistryHelper.DeleteSubKeyTree(ContextMenuName, _RemovePath);
         }
     }
 }
