@@ -3,7 +3,7 @@ name: "Publish"
 on:
   push:
     tags:
-      - "*"
+      - "v*"
 
 env:
   PROJECT_PATH: src/HandySub/HandySub.csproj
