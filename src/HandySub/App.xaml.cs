@@ -6,9 +6,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Nucs.JsonSettings;
 using Nucs.JsonSettings.Autosave;
-using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -24,17 +22,7 @@ namespace HandySub
            Path = string.Empty
         };
 
-        string[] BAD_WORDS = {
-            "hdtv", "exm", "RMT", "DD5", "YTS", "TURKISH", "VIDEOFLIX", "Gisaengchung", "KOREAN", "8CH",
-            "BluRay", "Hdcam", "-", "XviD", "AC3", "EVO", "WEBRip", "FGT", "MP3", "CMRG", "Pahe", "webdl",
-            "10bit", "720p", "1080p", "480p", "WEB-DL", "H264", "H265", "x264", "x265", "800MB", "900MB",
-            "HEVC", "PSA", "RARBG", "6CH", "2CH", "CAMRip", "Rip", "AVS", "RMX", "RMTeam", "mSD", ".",
-            "SVA", "MkvCage", "MeGusta", "TBS", "AMZN", "DDP5.1", "DDP5", "SHITBOX", "NITRO", "WEB", "DL",
-            "1080", "720", "480", "MrMovie", "BWBP", "NTG", "HMAX", "Atmos", "MZABI", "2018", "2019", "2020",
-            "2021", "2022", "MRCS", "/", "GalaxyRG", "HDR", "YTS.LT", "1400MB", "H.264", "H.265", "YTS.MX",
-            "DV", "PSiG", "ION10", "NTb", "SYNCOPY", "PHOENIX", "MinX", "300MB", "150MB", "AFG", "Cakes",
-            "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "@Gemovies"
-        };
+        string BAD_WORDS_Pattern = @"(?:hd(?:tv|cam|r)|e(?:xm|vo)|RMT|DDP?5(?:\.1)?|YTS|Turkish|VideoFlix|Gisaengchung|Korean|8CH|BluRay|-|XVid|A(?:c3|VS)|web(?:-?(?:rip|dl))?|fgt|mp3|cmrg|pahe|10bit|(?:720|480|1080)[pi]?|H\.?26[45]|x26[45]|\d{3,}MB|H(?:MAX|EVC)|PS(?:A|iG)|RARBG|[26]CH|(?:CAM)?Rip|RM(?:X|Team)|msd|sva|mkvcage|megusta|tbs|amz|shitbox|nitro|Mr(?:Movie|CS)|BWBP|NT[bG]|Atmos|MZABI|20(?:1\d|2[01])|\/|GalaxyRG|YTS(?:\.(?:LT|MX))?|DV|ION10|SYNCOPY|Phoenix|Minx|AFG|Cakes|@Gemovies|M3|\.)";
 
         public App()
         {
@@ -77,10 +65,11 @@ namespace HandySub
 
         public string RemoveBadWords(string stringToClean)
         {
-            var cleaned = string.Join(" ", stringToClean.Split(new string[] { " ", ".", "-" }, StringSplitOptions.None).Where(w => !BAD_WORDS.Contains(w, StringComparer.OrdinalIgnoreCase)));
-
-            cleaned = Regex.Replace(cleaned, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
+            Regex wordFilter = new Regex(BAD_WORDS_Pattern, RegexOptions.IgnoreCase);
+            var cleaned = Regex.Replace(stringToClean, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
             cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
+
+            cleaned = wordFilter.Replace(cleaned, " ").Trim();
             cleaned = Regex.Replace(cleaned, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
 
             return cleaned.Trim();

@@ -33,9 +33,9 @@
     <None Remove="Resources\Img\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HandyControls" Version="3.3.5-beta.3" />
+    <PackageReference Include="HandyControls" Version="3.3.5-beta.6" />
 	<PackageReference Include="Downloader" Version="2.2.8" />
-	<PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
+	<PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
 	<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.2.0" />
 	<PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.2.0" />
 	<PackageReference Include="ModernWpfUis" Version="1.2.0" />
