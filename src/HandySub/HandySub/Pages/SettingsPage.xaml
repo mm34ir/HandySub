@@ -1,0 +1,131 @@
+﻿<Page
+    x:Class="HandySub.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:HandySub.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fluent="using:Fluent.Icons"
+    mc:Ignorable="d" NavigationCacheMode="Required"
+    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}">
+    <Page.Resources>
+        <DataTemplate x:Name="ThemeComboBox">
+            <RadioButton Content="{Binding}"/>
+        </DataTemplate>
+    </Page.Resources>
+    <TabView IsAddTabButtonVisible="False" Background="Transparent">
+        <TabView.TabItems>
+            <TabViewItem IsClosable="False" Header="User Interface">
+                <StackPanel Margin="10">
+                    <RadioButtons  
+                        Header="Choose a theme mode" 
+                        Margin="0,16,0,18" 
+                        SelectionChanged ="{x:Bind OnThemeChanged}"
+                        SelectedIndex="{x:Bind SelectedIndex, Mode=TwoWay}"
+                        ItemsSource = "{x:Bind Themes}"
+                        ItemTemplate="{StaticResource ThemeComboBox}"/>
+
+                    <HyperlinkButton Content="Windows color settings" NavigateUri="ms-settings:personalization-colors"/>
+
+                </StackPanel>
+            </TabViewItem>
+            <TabViewItem IsClosable="False" Header="General">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Download Location" Message="We will Download Subtitles to this location"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="btnBrowse" Click="btnBrowse_Click" MinWidth="180">
+                                <StackPanel Orientation="Horizontal">
+                                    <fluent:FluentSymbolIcon Symbol="Folder24" />
+                                    <TextBlock Margin="10,0" Text="Browse Folder"/>
+                                </StackPanel>
+                            </Button>
+                            <TextBox Name="txtBrowse" IsReadOnly="True" Grid.Column="1" Margin="10" PlaceholderText="Default Location for Downloading Subtitles"/>
+                        </Grid>
+                        <NavigationViewItemSeparator/>
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Default Subscene Server" Message="We will use this Server for subscene site"/>
+                        <ComboBox Name="cmbSubscene" ItemsSource="{x:Bind SubsceneServers}" SelectionChanged="cmbSubscene_SelectionChanged" DisplayMemberPath="Key" PlaceholderText="Default Subscene Server" MinWidth="340" Margin="0,0,0,10"/>
+
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Default Subtitle Server" Message="We will use this Server for when running from Context Menu"/>
+                        <ComboBox Name="cmbSubtitle" ItemsSource="{x:Bind SubtitleServers}" SelectionChanged="cmbSubtitle_SelectionChanged" DisplayMemberPath="Key" PlaceholderText="Default Subtitle Server" MinWidth="340" Margin="0,0,0,10"/>
+
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Default Subtitle Language" Message="We will use this Language for filtering subtitles"/>
+                        <ComboBox Name="cmbLanguage" ItemsSource="{x:Bind common:Helper.SubtitleLanguage}" SelectionChanged="cmbLanguage_SelectionChanged" PlaceholderText="Default Subtitle Language" MinWidth="340" Margin="0,0,0,10"/>
+
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Default Subtitle Quality/Encoder" Message="We will use this Quality/Encoder for filtering subtitles"/>
+                        <ComboBox Name="cmbQuality" ItemsSource="{x:Bind common:Helper.SubtitleQuality}" SelectionChanged="cmbQuality_SelectionChanged" PlaceholderText="Subtitle Quality" MinWidth="340" Margin="0,0,0,10"/>
+                        <NavigationViewItemSeparator/>
+                        <InfoBar Name="infoIDM" Severity="Error" Title="Not Found" Message="Internet Download Manager Not Found in your system. please install IDM in: C:\Program Files (x86)\Internet Download Manager"/>
+
+                        <ToggleSwitch Name="tgDoubleClick" Toggled="tgDoubleClick_Toggled" Header="Open Subtitles Download Page with Mouse Double Click"/>
+                        <ToggleSwitch Name="tgDownloadIDM" Toggled="tgDownloadIDM_Toggled" Header="Download With Internet Download Manager (IDM)"/>
+                        <ToggleSwitch Name="tgShowNotify" Toggled="tgShowNotify_Toggled" Header="Show Notification After Download Finished"/>
+                        <ToggleSwitch Name="tgUnzip" Toggled="tgUnzip_Toggled" Header="UnZip/UnRar Subtitle After Download Finished"/>
+                        <ToggleSwitch Name="tgAddContextMenu" Toggled="tgAddContextMenu_Toggled" Header="Add HandySub to Windows ContextMenu"/>
+                        <NavigationViewItemSeparator/>
+                        <ToggleSwitch Name="tgRegex" Toggled="tgRegex_Toggled" Margin="0,10" IsOn="True" Header="Use Default Regex for Parsing File Name When Running from Context Menu"/>
+                        <InfoBar Margin="10,0" IsOpen="True" Severity="Warning" IsClosable="False" Title="Parsing File Name" Message="following keywords will be removed from movie\series file name, if you see a word that can not be removed from file name you can add your keywords here"/>
+                        <TextBox Name="txtRegex" IsEnabled="{Binding ElementName=tgRegex, Path=IsOn, Converter={StaticResource BoolToBoolConverter}}" Height="172" TextWrapping="Wrap" TextChanged="txtRegex_TextChanged" Margin="10,0" PlaceholderText="Regex"/>
+                        <NavigationViewItemSeparator/>
+                        <InfoBar Margin="0,10,0,0" IsOpen="True" Severity="Warning" IsClosable="False" Title="History" Message="We will use this history items for Suggesting items when you are searching, you can remove items one by one or clear all history."/>
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Add To History" Message="Movies and Series name will be added to History automatically after searching."/>
+                        <InfoBar Name="infoClear" Severity="Success" Title="Clear History" Message="All History cleared successfully"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox Name="historyList" ItemsSource="{x:Bind History, Mode=OneWay}" MinWidth="350" MaxHeight="300"/>
+                            <StackPanel Margin="10" VerticalAlignment="Top">
+                                <Button Name="btnRemove" Click="btnRemove_Click" MinWidth="200">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fluent:FluentSymbolIcon Symbol="Delete24" />
+                                        <TextBlock Margin="10,0" Text="Remove"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="btnClearHistory" Click="btnClearHistory_Click" Margin="0,10" MinWidth="200" Style="{ThemeResource AccentButtonStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fluent:FluentSymbolIcon Symbol="DeleteDismiss24" />
+                                        <TextBlock Margin="10,0" Text="Clear History"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <NavigationViewItemSeparator/>
+                        <InfoBar IsOpen="True" Severity="Informational" IsClosable="False" Title="Export/Import" Message="You can Export all your settings, history and favorite list as a Json file."/>
+                        <Button Margin="0,10" MinWidth="200" Click="Export_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <fluent:FluentSymbolIcon Symbol="ArrowExportLTR24" />
+                                <TextBlock Margin="10,0" Text="Export All Settings"/>
+                            </StackPanel>
+                        </Button>
+                        <Button MinWidth="200" Click="Import_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <fluent:FluentSymbolIcon Symbol="ArrowImport24" />
+                                <TextBlock Margin="10,0" Text="Import All Settings"/> 
+                            </StackPanel>
+                        </Button>
+                       
+                    </StackPanel>
+                </ScrollViewer>
+            </TabViewItem>
+            <TabViewItem IsClosable="False" Header="About">
+                <StackPanel Margin="10">
+                    <TextBlock HorizontalAlignment="Center" Text="HandySub" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock HorizontalAlignment="Center" Text="{x:Bind CurrentVersion}" Style="{ThemeResource BodyTextBlockStyle}" />
+                    <TextBlock Margin="10" Text="Download Subtitle from Subscene and other sources" TextWrapping="Wrap" HorizontalAlignment="Left" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <HyperlinkButton Margin="10,10,0,0" Content="Github Repository" NavigateUri="https://github.com/handyOrg/handysub"/>
+                    <HyperlinkButton Margin="10,0" Content="Report a bug" NavigateUri="https://github.com/handyOrg/handysub/issues"/>
+                    <HyperlinkButton Margin="10,0" Content="Request a feature" NavigateUri="https://github.com/handyOrg/handysub/issues"/>
+                    <Button Margin="10" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <fluent:FluentSymbolIcon Symbol="ArrowClockwise24" />
+                            <TextBlock Margin="10,0" Text="Check for Update (Soon)"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </TabViewItem>
+        </TabView.TabItems>
+    </TabView>
+</Page>

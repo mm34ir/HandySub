@@ -1,0 +1,168 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>HandySub</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="FluentIcon\**" />
+    <EmbeddedResource Remove="FluentIcon\**" />
+    <None Remove="FluentIcon\**" />
+    <Page Remove="FluentIcon\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Pages\ESubtitleDownloadPage.xaml" />
+    <None Remove="Pages\ESubtitlePage.xaml" />
+    <None Remove="Pages\FavoritePage.xaml" />
+    <None Remove="Pages\IMDBPage.xaml" />
+    <None Remove="Pages\ISubtitleDownloadPage.xaml" />
+    <None Remove="Pages\ISubtitlePage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\SubsceneDownloadPage.xaml" />
+    <None Remove="Pages\SubscenePage.xaml" />
+    <None Remove="Pages\SubtitleDetails.xaml" />
+    <None Remove="Pages\WorldSubtitleDownloadPage.xaml" />
+    <None Remove="Pages\WorldSubtitlePage.xaml" />
+    <None Remove="UnRAR.exe" />
+    <None Remove="UserControls\ESubtitleUserControl.xaml" />
+    <None Remove="UserControls\FavoriteUserControl.xaml" />
+    <None Remove="UserControls\ISubtitleUserControl.xaml" />
+    <None Remove="UserControls\SideBySideDiffViewer.xaml" />
+    <None Remove="UserControls\SubsceneUserControl.xaml" />
+    <None Remove="UserControls\WorldSubtitleUserControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.0.3" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.0.3" />
+    <PackageReference Include="DiffPlex" Version="1.7.0" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.1" />
+    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.1" />
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.1" />
+	<PackageReference Include="Downloader" Version="2.2.8" />
+	<PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
+	<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
+	<PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.3.0" />
+	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.4" />
+	<PackageReference Include="nucs.JsonSettings" Version="2.0.0-alpha7" />
+	<PackageReference Include="nucs.JsonSettings.Autosave" Version="2.0.0-alpha7" />
+	<PackageReference Include="SharpCompress" Version="0.28.3" />
+	<PackageReference Include="WinUI3.Fluent.Icons" Version="1.0.0" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\FavoriteUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\FavoritePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DiffViewer\SideBySideDiffViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\SubtitleDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\WorldSubtitleUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\WorldSubtitle\WorldSubtitleDownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\WorldSubtitle\WorldSubtitlePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\Subscene\SubsceneDownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\Subscene\SubscenePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\IMDBPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\SubsceneUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\ESubtitleUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ESubtitle\ESubtitleDownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ESubtitle\ESubtitlePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\ISubtitleUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ISubtitle\ISubtitleDownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ISubtitle\ISubtitlePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+﻿<UserControl
+    Name="downloadView"
+    x:Class="HandySub.UserControls.ESubtitleUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Margin="0,5" HorizontalAlignment="Center">
+        <Button Name="btnDownload" Click="btnDownload_Click" Height="40" Width="320" Content="{Binding ElementName=downloadView, Path=Title}"/>
+        <ProgressRing Name="ProgressStatus" Visibility="Collapsed" HorizontalAlignment="Left" Margin="10,0"/>
+    </Grid>
+</UserControl>

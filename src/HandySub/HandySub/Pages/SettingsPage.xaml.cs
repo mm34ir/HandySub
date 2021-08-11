@@ -1,0 +1,341 @@
+﻿using HandySub.Common;
+using HandySub.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT;
+
+namespace HandySub.Pages
+{
+    public sealed partial class SettingsPage : Page, INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public List<string> Themes = new List<string>
+        {
+            "Light","Dark","Windows Default"
+        };
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set
+            {
+                _selectedIndex = value;
+                NotifyPropertyChanged(nameof(SelectedIndex));
+            }
+        }
+
+        private ObservableCollection<string> _history = new ObservableCollection<string>();
+
+        public ObservableCollection<string> History
+        {
+            get => _history;
+            set
+            {
+                _history = value;
+                NotifyPropertyChanged(nameof(History));
+            }
+        }
+
+
+        private string CurrentVersion;
+
+        public SettingsPage()
+        {
+            this.InitializeComponent();
+            LoadSettings();
+        }
+
+        public void LoadSettings()
+        {
+            txtBrowse.Text = Helper.Settings.DefaultDownloadLocation;
+            CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+
+            SelectedIndex = GetThemeIndex(Helper.Settings.ApplicationTheme);
+
+            tgDoubleClick.IsOn = Helper.Settings.IsDoubleClickEnabled;
+            tgAddContextMenu.IsOn = Helper.Settings.IsAddToContextMenuEnabled;
+            tgShowNotify.IsOn = Helper.Settings.IsShowNotificationEnabled;
+            tgDownloadIDM.IsOn = Helper.Settings.IsIDMEnabled;
+            tgUnzip.IsOn = Helper.Settings.IsAutoDeCompressEnabled;
+            tgRegex.IsOn = Helper.Settings.IsDefaultRegexEnabled;
+
+            txtRegex.Text = Helper.Settings.FileNameRegex;
+
+            History = Helper.Settings.SearchHistory;
+
+            cmbSubscene.SelectedIndex = Helper.Settings.SubsceneServer.Index;
+            cmbSubtitle.SelectedIndex = Helper.Settings.ShellServer.Index;
+            cmbLanguage.SelectedItem = Helper.Settings.SubtitleLanguage;
+            cmbQuality.SelectedItem = Helper.Settings.SubtitleQuality;
+        }
+        public void OnThemeChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (_selectedIndex.Equals(0))
+            {
+                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Light;
+            }
+            else if (_selectedIndex.Equals(1))
+            {
+                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Dark;
+            }
+            else if (_selectedIndex.Equals(2))
+            {
+                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Default;
+            }
+            Helper.Settings.ApplicationTheme = GetElementThemeEnum(_selectedIndex);
+        }
+
+        public ElementTheme GetElementThemeEnum(int themeIndex)
+        {
+            switch (themeIndex)
+            {
+                case 0:
+                    return ElementTheme.Light;
+                case 1:
+                    return ElementTheme.Dark;
+                case 2:
+                    return ElementTheme.Default;
+                default:
+                    return ElementTheme.Default;
+            }
+        }
+
+        public int GetThemeIndex(ElementTheme elementTheme)
+        {
+            switch (elementTheme)
+            {
+                case ElementTheme.Default:
+                    return 2;
+                case ElementTheme.Light:
+                    return 0;
+                case ElementTheme.Dark:
+                    return 1;
+                default:
+                    return 2;
+            }
+        }
+
+        [ComImport]
+        [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IInitializeWithWindow
+        {
+            void Initialize(IntPtr hwnd);
+        }
+        private async void btnBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            var folder = await OpenAndSelectFolder();
+            if (!string.IsNullOrEmpty(folder))
+            {
+                txtBrowse.Text = folder;
+                Helper.Settings.DefaultDownloadLocation = folder;
+            }
+        }
+
+        private void tgDownloadIDM_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!Helper.IsIDMExist().IsExist)
+            {
+                infoIDM.IsOpen = true;
+                tgDownloadIDM.IsOn = false;
+            }
+            Helper.Settings.IsIDMEnabled = tgDownloadIDM.IsOn;
+        }
+
+        private void tgShowNotify_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsShowNotificationEnabled = tgShowNotify.IsOn;
+        }
+
+        private void tgUnzip_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsAutoDeCompressEnabled = tgUnzip.IsOn;
+        }
+
+        private void tgAddContextMenu_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsAddToContextMenuEnabled = tgAddContextMenu.IsOn;
+        }
+
+        private void txtRegex_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegex.Text))
+            {
+                Helper.Settings.FileNameRegex = txtRegex.Text;
+            }
+        }
+
+        private void tgRegex_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDefaultRegexEnabled = tgRegex.IsOn;
+            if (tgRegex.IsOn)
+            {
+                if (txtRegex == null)
+                {
+                    return;
+                }
+                if (Consts.FileNameRegex != Helper.Settings.FileNameRegex)
+                {
+                    Helper.Settings.FileNameRegex = Consts.FileNameRegex;
+                    txtRegex.Text = Consts.FileNameRegex;
+                }
+            }
+        }
+
+        private void btnClearHistory_Click(object sender, RoutedEventArgs e)
+        {
+            History.Clear();
+            Helper.Settings.SearchHistory = new ObservableCollection<string>();
+            infoClear.IsOpen = true;
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            History.Remove((string)historyList.SelectedItem);
+            Helper.Settings.SearchHistory = History;
+        }
+
+        List<ServerModel> SubsceneServers = new List<ServerModel>
+        {
+            new ServerModel{ Index = 0, Key = "Subf2m", Url = "https://subf2m.co" },
+            new ServerModel{ Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" },
+            new ServerModel{ Index = 2, Key = "Subscene", Url = "https://subscene.com" }
+        };
+
+        List<ServerModel> SubtitleServers = new List<ServerModel>
+        {
+            new ServerModel{ Index = 0, Key = "Subscene"},
+            new ServerModel{ Index = 1, Key = "ESubtitle"},
+            new ServerModel{ Index = 2, Key = "WorldSubtitle"},
+            new ServerModel{ Index = 3, Key = "ISubtitles"}
+        };
+
+        private void cmbSubtitle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mode = (ServerModel)cmbSubtitle.SelectedItem;
+            if (mode != Helper.Settings.ShellServer)
+            {
+                Helper.Settings.ShellServer = mode;
+            }
+        }
+
+        private void cmbSubscene_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mode = (ServerModel)cmbSubscene.SelectedItem;
+            if (mode != Helper.Settings.SubsceneServer)
+            {
+                Helper.Settings.SubsceneServer = mode;
+            }
+        }
+
+        private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = cmbLanguage.SelectedItem as string;
+            if (item != Helper.Settings.SubtitleLanguage)
+            {
+                Helper.Settings.SubtitleLanguage = item;
+            }
+        }
+
+        private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
+        }
+
+        private void cmbQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = cmbQuality.SelectedItem as string;
+            if (item != Helper.Settings.SubtitleQuality)
+            {
+                Helper.Settings.SubtitleQuality = item;
+            }
+        }
+
+        private async void Export_Click(object sender, RoutedEventArgs e)
+        {
+            var folder = await OpenAndSelectFolder();
+            if (!string.IsNullOrEmpty(folder))
+            {
+                var json = JsonConvert.SerializeObject(Helper.Settings, Formatting.Indented);
+                await File.WriteAllTextAsync(@$"{folder}\HandySub Settings-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.json", json);
+                File.Copy(Consts.FavoritePath, @$"{folder}\HandySub Favorite-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.json", true);
+            }
+        }
+
+        private async void Import_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog()
+            {
+                Title = "Import Settings and Favorite List",
+                Content = "Please select the folder for the exported files. Note that this will overwrite all your current settings and favorite list Also note that you should make a backup before doing this, as your settings may be changed and not available in the new version, in this case all your settings will be lost.",
+                PrimaryButtonText = "Ok",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = Content.XamlRoot
+            };
+            var result = await dialog.ShowAsyncQueue();
+            if (result == ContentDialogResult.Primary)
+            {
+                var folder = await OpenAndSelectFolder();
+                if (!string.IsNullOrEmpty(folder))
+                {
+                    var files = Directory.EnumerateFiles(folder, "*.json", SearchOption.AllDirectories);
+                    foreach (var item in files)
+                    {
+                        if (Path.GetFileNameWithoutExtension(item).Contains("HandySub Settings"))
+                        {
+                            var json = await File.ReadAllTextAsync(item);
+                            var handySubConfig = JsonConvert.DeserializeObject<HandySubConfig>(json);
+                            Helper.SetImportedSettings(handySubConfig);
+                            LoadSettings();
+                        }
+                        else if (Path.GetFileNameWithoutExtension(item).Contains("HandySub Favorite"))
+                        {
+                            File.Copy(item, Consts.FavoritePath, true);
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task<string> OpenAndSelectFolder()
+        {
+            FolderPicker folderPicker = new FolderPicker();
+            IntPtr windowHandle = (App.Current as App).WindowHandle;
+            var initializeWithWindow = folderPicker.As<IInitializeWithWindow>();
+            initializeWithWindow.Initialize(windowHandle);
+            folderPicker.FileTypeFilter.Add("*");
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                return folder.Path;
+            }
+            return null;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            History = Helper.Settings.SearchHistory;
+        }
+    }
+}
