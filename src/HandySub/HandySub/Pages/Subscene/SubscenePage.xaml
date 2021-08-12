@@ -50,10 +50,10 @@
             Grid.Row="1"
             Margin="10"
             DoubleTapped="SubListView_DoubleTapped"
+            IsSynchronizedWithCurrentItem="False"
             ItemsSource="{x:Bind SubtitleCVS.View, Mode=OneWay}"
             SelectedIndex="-1"
-            SelectionChanged="SubListView_SelectionChanged"
-            SelectionMode="Single">
+            SelectionChanged="SubListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SubsceneSearchModel">
                     <Grid>

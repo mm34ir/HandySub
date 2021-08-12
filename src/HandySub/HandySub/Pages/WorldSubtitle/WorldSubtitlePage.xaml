@@ -51,8 +51,7 @@
             ItemContainerStyle="{StaticResource HorizontalSwipe}"
             ItemsSource="{x:Bind Subtitles}"
             SelectedIndex="-1"
-            SelectionChanged="SubListView_SelectionChanged"
-            SelectionMode="Single">
+            SelectionChanged="SubListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SearchModel">
                     <Grid>

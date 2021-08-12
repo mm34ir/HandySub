@@ -29,8 +29,7 @@
             DoubleTapped="SubListView_DoubleTapped"
             ItemsSource="{x:Bind FavoritesACV, Mode=OneWay}"
             SelectedIndex="-1"
-            SelectionChanged="SubListView_SelectionChanged"
-            SelectionMode="Single">
+            SelectionChanged="SubListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:FavoriteKeyModel">
                     <usercontrol:FavoriteUserControl
