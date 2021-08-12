@@ -4,85 +4,212 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" NavigationCacheMode="Required"
     xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
-    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}">
+    Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
 
-    <Grid AllowDrop="True" DragOver="Grid_DragOver" Drop="Grid_Drop">
+    <Grid
+        AllowDrop="True"
+        DragOver="Grid_DragOver"
+        Drop="Grid_Drop">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <AutoSuggestBox Name="AutoSuggest" Margin="10,10,10,0" QueryIcon="Find" QuerySubmitted="AutoSuggestBox_QuerySubmitted" TextChanged="AutoSuggestBox_TextChanged" MaxSuggestionListHeight="200" PlaceholderText="Search Movie\Series by Name or IMDB id..."/>
+        <AutoSuggestBox
+            Name="AutoSuggest"
+            Margin="10,10,10,0"
+            MaxSuggestionListHeight="200"
+            PlaceholderText="Search Movie\Series by Name or IMDB id..."
+            QueryIcon="Find"
+            QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+            TextChanged="AutoSuggestBox_TextChanged"/>
         <ScrollViewer Grid.Row="1" Margin="10,30,0,0">
             <Grid>
-                <Image Name="Cover" Visibility="{Binding ElementName=InfoPanel, Path=Visibility}" Stretch="Fill" Height="700"/>
-                <Border Visibility="{Binding ElementName=InfoPanel, Path=Visibility}" BorderThickness="1">
+                <Image
+                    Name="Cover"
+                    Height="700"
+                    Stretch="Fill"
+                    Visibility="{Binding ElementName=InfoPanel, Path=Visibility}"/>
+                <Border BorderThickness="1" Visibility="{Binding ElementName=InfoPanel, Path=Visibility}">
                     <Border.Background>
-                        <media:BackdropBlurBrush Amount="4.0" />
+                        <media:BackdropBlurBrush Amount="4.0"/>
                     </Border.Background>
                 </Border>
-                <InfoBar Name="infoError" Title="Error" Severity="Error"/>
-                <Border Name="InfoPanel" Height="550" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="50,10" Visibility="Collapsed" CornerRadius="4">
+                <InfoBar
+                    Name="infoError"
+                    Title="Error"
+                    Severity="Error"/>
+                <Border
+                    Name="InfoPanel"
+                    Height="550"
+                    Margin="50,10"
+                    Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    CornerRadius="4"
+                    Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="250"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding ElementName=Cover, Path=Source}" Visibility="{Binding ElementName=Cover, Path=Visibility}" Stretch="Uniform"/>
+                        <Image
+                            Source="{Binding ElementName=Cover, Path=Source}"
+                            Stretch="Uniform"
+                            Visibility="{Binding ElementName=Cover, Path=Visibility}"/>
 
-                        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Grid.Column="1">
+                        <ScrollViewer
+                            Grid.Column="1"
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Disabled">
                             <StackPanel Margin="10,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock x:Name="txtTitle" Margin="10" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                                    <RatingControl Name="rate" Margin="10,20,0,0" IsReadOnly="True"/>
+                                    <TextBlock
+                                        x:Name="txtTitle"
+                                        Margin="10"
+                                        VerticalAlignment="Top"
+                                        Style="{ThemeResource HeaderTextBlockStyle}"/>
+                                    <RatingControl
+                                        Name="rate"
+                                        Margin="10,20,0,0"
+                                        IsReadOnly="True"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="10,0,5,0" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Id:" />
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                                        Text="Id:"/>
                                     <HyperlinkButton Content="{Binding ElementName=txtImdbId, Path=Text}" NavigateUri="{Binding ElementName=txtImdbId, Path=Text}"/>
                                     <TextBlock x:Name="txtImdbId" Visibility="Collapsed"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Year:" Margin="10,0" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtYear" Foreground="{ThemeResource SystemAccentColor}" Margin="0,3,10,0" HorizontalAlignment="Left" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                                    <TextBlock Text="Released:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtReleased" Margin="5,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
-                                    <TextBlock Margin="5,0,5,0" Text="Type:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtType" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Year:"/>
+                                    <TextBlock
+                                        x:Name="txtYear"
+                                        Margin="0,3,10,0"
+                                        HorizontalAlignment="Left"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Released:"/>
+                                    <TextBlock
+                                        x:Name="txtReleased"
+                                        Margin="5,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock
+                                        Margin="5,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Type:"/>
+                                    <TextBlock
+                                        x:Name="txtType"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Rated:" Margin="10,0,0,0" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtRated" Margin="5,3,5,0" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
-                                    <TextBlock Margin="10,0,5,0" Text="Total Seasons:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtTotalSeason" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
-                                    <TextBlock Margin="10,0,5,0" Text="Country:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtCountry" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0,0,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Rated:"/>
+                                    <TextBlock
+                                        x:Name="txtRated"
+                                        Margin="5,3,5,0"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Total Seasons:"/>
+                                    <TextBlock
+                                        x:Name="txtTotalSeason"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Country:"/>
+                                    <TextBlock
+                                        x:Name="txtCountry"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="10,0,5,0" Text="Language:" />
-                                    <TextBlock x:Name="txtLanguage" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Language:"/>
+                                    <TextBlock
+                                        x:Name="txtLanguage"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="10,0,5,0" Text="Genre:" />
-                                    <TextBlock x:Name="txtGenre" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,3" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Genre:"/>
+                                    <TextBlock
+                                        x:Name="txtGenre"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="10,0,5,0" Text="Director:" Style="{ThemeResource TitleTextBlockStyle}" />
-                                    <TextBlock x:Name="txtDirector" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
-                                    <TextBlock Margin="10,0,5,0" Text="Writer:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtWriter" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Director:"/>
+                                    <TextBlock
+                                        x:Name="txtDirector"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Writer:"/>
+                                    <TextBlock
+                                        x:Name="txtWriter"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="10,0,5,0" Text="Actors:" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="txtActors" Margin="0,3" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemAccentColor}"/>
+                                    <TextBlock
+                                        Margin="10,0,5,0"
+                                        Style="{ThemeResource TitleTextBlockStyle}"
+                                        Text="Actors:"/>
+                                    <TextBlock
+                                        x:Name="txtActors"
+                                        Margin="0,3"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 </StackPanel>
-                                <TextBox x:Name="txtPlot" HorizontalAlignment="Stretch" Height="200" FontSize="18" IsReadOnly="True" TextWrapping="Wrap" Margin="10,10"/>
+                                <TextBox
+                                    x:Name="txtPlot"
+                                    Height="200"
+                                    Margin="10,10"
+                                    HorizontalAlignment="Stretch"
+                                    FontSize="18"
+                                    IsReadOnly="True"
+                                    TextWrapping="Wrap"/>
 
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
                 </Border>
-                <ProgressRing Name="progress" IsActive="False" VerticalAlignment="Top" Margin="0,100" Width="50"/>
+                <ProgressRing
+                    Name="progress"
+                    Width="50"
+                    Margin="0,100"
+                    VerticalAlignment="Top"
+                    IsActive="False"/>
 
             </Grid>
         </ScrollViewer>

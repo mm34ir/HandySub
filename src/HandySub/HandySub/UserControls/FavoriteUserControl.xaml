@@ -1,17 +1,51 @@
 ﻿<UserControl
-    Name="favoriteView"
     x:Class="HandySub.UserControls.FavoriteUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    Name="favoriteView"
     PointerEntered="UserControl_PointerEntered"
-    PointerExited="UserControl_PointerExited">
+    PointerExited="UserControl_PointerExited"
+    mc:Ignorable="d">
     <Grid>
+        <SwipeControl x:Name="ListViewSwipeContainer">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="12,6,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="{Binding ElementName=favoriteView, Path=Title}"/>
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="12,0,0,6"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource SystemAccentColor}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="{Binding ElementName=favoriteView, Path=Server}"/>
+                <AppBarButton
+                    Name="DeleteHoverButton"
+                    Grid.RowSpan="2"
+                    MinWidth="150"
+                    Margin="10,0,10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="DeleteHoverButton_Click"
+                    Icon="Delete"
+                    IsTabStop="False"
+                    Label="Delete From Favorite"
+                    Visibility="Collapsed"/>
+            </Grid>
+        </SwipeControl>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="HoveringStates">
-                <VisualState x:Name="HoverButtonsHidden" />
+                <VisualState x:Name="HoverButtonsHidden"/>
                 <VisualState x:Name="HoverButtonsShown">
                     <VisualState.Setters>
                         <Setter Target="DeleteHoverButton.Visibility" Value="Visible"/>
@@ -19,16 +53,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SwipeControl x:Name="ListViewSwipeContainer">
-            <Grid VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ElementName=favoriteView, Path=Title}" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,6,0,0"/>
-                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Foreground="{ThemeResource SystemAccentColor}" Text="{Binding ElementName=favoriteView, Path=Server}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="12,0,0,6" />
-                <AppBarButton Name="DeleteHoverButton" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" MinWidth="150" Click="DeleteHoverButton_Click" Visibility="Collapsed" Margin="10,0,10,0" IsTabStop="False" Label="Delete From Favorite" Icon="Delete"/>
-            </Grid>
-        </SwipeControl>
     </Grid>
 </UserControl>
