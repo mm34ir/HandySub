@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using WinRT;
 
 namespace HandySub.Pages
@@ -66,7 +67,7 @@ namespace HandySub.Pages
 
         public void LoadSettings()
         {
-            txtBrowse.Text = Helper.Settings.DefaultDownloadLocation;
+            folderLink.Content = Helper.Settings.DefaultDownloadLocation;
             CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
             SelectedIndex = GetThemeIndex(Helper.Settings.ApplicationTheme);
@@ -77,9 +78,9 @@ namespace HandySub.Pages
             tgDownloadIDM.IsOn = Helper.Settings.IsIDMEnabled;
             tgUnzip.IsOn = Helper.Settings.IsAutoDeCompressEnabled;
             tgRegex.IsOn = Helper.Settings.IsDefaultRegexEnabled;
-
+            tgSound.IsOn = Helper.Settings.IsSoundEnabled;
             txtRegex.Text = Helper.Settings.FileNameRegex;
-
+            spatialSoundBox.IsChecked = Helper.Settings.IsSpatialSoundEnabled;
             History = Helper.Settings.SearchHistory;
 
             cmbSubscene.SelectedIndex = Helper.Settings.SubsceneServer.Index;
@@ -146,7 +147,7 @@ namespace HandySub.Pages
             var folder = await OpenAndSelectFolder();
             if (!string.IsNullOrEmpty(folder))
             {
-                txtBrowse.Text = folder;
+                folderLink.Content = folder;
                 Helper.Settings.DefaultDownloadLocation = folder;
             }
         }
@@ -336,6 +337,50 @@ namespace HandySub.Pages
         {
             base.OnNavigatedTo(e);
             History = Helper.Settings.SearchHistory;
+        }
+        private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+                Helper.Settings.IsSpatialSoundEnabled = true;
+            }
+        }
+        private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
+                Helper.Settings.IsSpatialSoundEnabled = false;
+            }
+        }
+        private void soundToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (tgSound.IsOn == true)
+            {
+                spatialSoundBox.IsEnabled = true;
+                ElementSoundPlayer.State = ElementSoundPlayerState.On;
+                Helper.Settings.IsSoundEnabled = true;
+            }
+            else
+            {
+                spatialSoundBox.IsEnabled = false;
+                spatialSoundBox.IsChecked = false;
+
+                ElementSoundPlayer.State = ElementSoundPlayerState.Off;
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
+                Helper.Settings.IsSoundEnabled = false;
+            }
+        }
+
+        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:personalization-colors"));
+        }
+
+        private async void folderLink_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchFolderAsync(await StorageFolder.GetFolderFromPathAsync(folderLink.Content.ToString()));
         }
     }
 }

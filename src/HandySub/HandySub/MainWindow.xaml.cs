@@ -173,6 +173,15 @@ namespace HandySub
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             ((sender as Grid).XamlRoot.Content as Grid).RequestedTheme = Helper.Settings.ApplicationTheme;
+
+            if (Helper.Settings.IsSoundEnabled)
+            {
+                ElementSoundPlayer.State = ElementSoundPlayerState.On;
+                if (Helper.Settings.IsSpatialSoundEnabled)
+                {
+                    ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+                }
+            }
         }
     }
 }
