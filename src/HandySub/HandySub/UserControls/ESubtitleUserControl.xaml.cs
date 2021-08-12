@@ -41,7 +41,7 @@ namespace HandySub.UserControls
         {
             if (btnDownload.Content.Equals("Open Folder"))
             {
-                Helper.OpenContentDialog(btnDownload.Tag.ToString(), btnDownload.Tag.ToString(), Content.XamlRoot);
+                Helper.OpenFolderAndSelectFile(btnDownload.Tag.ToString());
             }
             else
             {
@@ -146,6 +146,5 @@ namespace HandySub.UserControls
                 ProgressStatus.Value = e.ProgressPercentage;
             });
         }
-
     }
 }

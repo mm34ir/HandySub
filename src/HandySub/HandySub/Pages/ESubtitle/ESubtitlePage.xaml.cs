@@ -18,6 +18,7 @@ using AutoSuggestBoxQuerySubmittedEventArgs = Microsoft.UI.Xaml.Controls.AutoSug
 using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
 using SelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace HandySub.Pages
 {
@@ -60,7 +61,7 @@ namespace HandySub.Pages
             var item = SubListView.SelectedItem as SearchModel;
             if (item != null)
             {
-                Frame.Navigate(typeof(ESubtitleDownloadPage), new DownloadModel { DisplayName = (int)Server.ESubtitle + item.Name, DownloadLink = item.Link });
+                Frame.Navigate(typeof(ESubtitleDownloadPage), new DownloadModel { DisplayName = (int)Server.ESubtitle + item.Name, DownloadLink = item.Link }, new DrillInNavigationTransitionInfo());
             }
         }
 

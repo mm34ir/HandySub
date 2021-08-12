@@ -2,6 +2,7 @@
 using HandySub.Common;
 using HandySub.Models;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
@@ -134,7 +135,7 @@ namespace HandySub.Pages
                         _page = typeof(SubsceneDownloadPage);
                         break;
                 }
-                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = item.Value });
+                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = item.Value }, new DrillInNavigationTransitionInfo());
             }
         }
     }

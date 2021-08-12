@@ -194,7 +194,7 @@ namespace HandySub.UserControls
 
         private void OpenFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            Helper.OpenContentDialog(OpenFolderButton.Tag.ToString(), OpenFolderButton.Tag.ToString(), Content.XamlRoot);
+            Helper.OpenFolderAndSelectFile(OpenFolderButton.Tag.ToString());
         }
     }
 }

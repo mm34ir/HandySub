@@ -15,6 +15,7 @@ using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
 using AutoSuggestBoxQuerySubmittedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs;
 using Page = Microsoft.UI.Xaml.Controls.Page;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace HandySub.Pages
 {
@@ -155,7 +156,7 @@ namespace HandySub.Pages
             var item = SubListView.SelectedItem as SubsceneSearchModel;
             if (item != null)
             {
-                Frame.Navigate(typeof(SubsceneDownloadPage), new DownloadModel { DisplayName = (int)Server.Subscene + item.Name, DownloadLink = Helper.Settings.SubsceneServer.Url + item.Link });
+                Frame.Navigate(typeof(SubsceneDownloadPage), new DownloadModel { DisplayName = (int)Server.Subscene + item.Name, DownloadLink = Helper.Settings.SubsceneServer.Url + item.Link }, new DrillInNavigationTransitionInfo());
             }
         }
 

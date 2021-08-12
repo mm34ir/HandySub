@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace HandySub.Pages
 {
@@ -154,7 +155,7 @@ namespace HandySub.Pages
             var item = SubListView.SelectedItem as SearchModel;
             if (item != null)
             {
-                Frame.Navigate(typeof(ISubtitleDownloadPage), new DownloadModel { DisplayName = (int)Server.ISubtitle + item.Name, DownloadLink = item.Link });
+                Frame.Navigate(typeof(ISubtitleDownloadPage), new DownloadModel { DisplayName = (int)Server.ISubtitle + item.Name, DownloadLink = item.Link }, new DrillInNavigationTransitionInfo());
             }
         }
 
