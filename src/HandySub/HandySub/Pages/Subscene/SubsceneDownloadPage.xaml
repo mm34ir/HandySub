@@ -63,12 +63,13 @@
                     MaxRating="1"
                     ValueChanged="Favorite_ValueChanged"/>
                 <Button
+                    Name="btnRefresh"
                     Margin="20,0,20,5"
                     Background="Transparent"
                     Click="Refresh_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <fluent:FluentSymbolIcon Symbol="ArrowClockwise20"/>
+                            <fluent:FluentSymbolIcon Symbol="ArrowSync20"/>
                             <TextBlock Margin="10,0" Text="Reload Subtitles"/>
                         </StackPanel>
                     </Button.Content>
