@@ -23,14 +23,14 @@
         <StackPanel Margin="10" Orientation="Horizontal">
             <ComboBox
                 Name="cmbLanguage"
-                MinWidth="220"
+                MinWidth="150"
                 Header="Language"
                 ItemsSource="{x:Bind common:Helper.SubtitleLanguage}"
                 PlaceholderText="Default Subtitle Language"
                 SelectionChanged="cmbLanguage_SelectionChanged"/>
             <ComboBox
                 Name="cmbQuaity"
-                MinWidth="220"
+                MinWidth="150"
                 Margin="10,0,10,0"
                 Header="Quality/Encoder"
                 ItemsSource="{x:Bind common:Helper.SubtitleQuality}"

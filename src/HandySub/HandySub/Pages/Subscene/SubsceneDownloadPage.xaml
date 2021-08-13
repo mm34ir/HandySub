@@ -123,7 +123,9 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image Name="poster"/>
+            <Border CornerRadius="8">
+                <Image Name="poster"/>
+            </Border>
             <ListView
                 x:Name="listView"
                 Grid.Column="1"
