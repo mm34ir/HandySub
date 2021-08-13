@@ -118,8 +118,10 @@ namespace HandySub.Pages
         {
             var item = SubListView.SelectedItem as FavoriteKeyModel;
             Type _page = null;
+            string _link = string.Empty;
             if (item != null)
             {
+                _link = item.Value;
                 switch (item.Server)
                 {
                     case Server.ESubtitle:
@@ -133,9 +135,10 @@ namespace HandySub.Pages
                         break;
                     case Server.Subscene:
                         _page = typeof(SubsceneDownloadPage);
+                        _link = Helper.Settings.SubsceneServer.Url + item.Value;
                         break;
                 }
-                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = Helper.Settings.SubsceneServer.Url + item.Value }, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = _link }, new DrillInNavigationTransitionInfo());
             }
         }
     }
