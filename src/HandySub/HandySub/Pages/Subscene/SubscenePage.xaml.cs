@@ -156,7 +156,7 @@ namespace HandySub.Pages
             var item = SubListView.SelectedItem as SubsceneSearchModel;
             if (item != null)
             {
-                Frame.Navigate(typeof(SubsceneDownloadPage), new DownloadModel { DisplayName = (int)Server.Subscene + item.Name, DownloadLink = Helper.Settings.SubsceneServer.Url + item.Link }, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(typeof(SubsceneDownloadPage), new NavigationParamModel { Key = (int)Server.Subscene + item.Name, Title = item.Name, Link = Helper.Settings.SubsceneServer.Url + item.Link }, new DrillInNavigationTransitionInfo());
             }
         }
 

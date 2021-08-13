@@ -14,6 +14,7 @@ using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSugges
 using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
 using SelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs;
 using Page = Microsoft.UI.Xaml.Controls.Page;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace HandySub.Pages
 {
@@ -29,7 +30,8 @@ namespace HandySub.Pages
 
         AdvancedCollectionView SubtitlesACV;
         private string subtitleUrl = string.Empty;
-        private string subtitleDisplayName = string.Empty;
+        private string subtitleTitle = string.Empty;
+        private string subtitleKey = string.Empty;
         public SubsceneDownloadPage()
         {
             this.InitializeComponent();
@@ -43,13 +45,14 @@ namespace HandySub.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            var param = (DownloadModel)e?.Parameter;
+            var param = (NavigationParamModel)e?.Parameter;
             if (param != null)
             {
-                subtitleUrl = param.DownloadLink;
-                subtitleDisplayName = param.DisplayName;
-
-                if (await Helper.IsFavoriteExist(subtitleDisplayName))
+                subtitleUrl = param.Link;
+                subtitleKey = param.Key;
+                subtitleTitle = param.Title;
+                txtTitle.Text = param.Title;
+                if (await Helper.IsFavoriteExist(subtitleKey))
                 {
                     Favorite.Value = 1;
                 }
@@ -83,6 +86,7 @@ namespace HandySub.Pages
                 if (table != null)
                 {
                     Subtitles?.Clear();
+
                     foreach (var cell in table.SelectNodes(".//tr"))
                     {
                         if (cell.InnerText.Contains("There are no subtitles"))
@@ -101,6 +105,7 @@ namespace HandySub.Pages
                             var item = new SubsceneDownloadModel
                             {
                                 Name = Name,
+                                Title = Name,
                                 Translator = Translator,
                                 Comment = Comment,
                                 Link = Link,
@@ -109,6 +114,8 @@ namespace HandySub.Pages
                             Subtitles.Add(item);
                         }
                     }
+
+                    SetPosterAndIMDB(doc);
                 }
                 else
                 {
@@ -144,6 +151,31 @@ namespace HandySub.Pages
             }
         }
 
+        private void SetPosterAndIMDB(HtmlDocument doc)
+        {
+            var divPoster = doc?.DocumentNode?.SelectSingleNode("//div[@class='poster']");
+            var posterSource = divPoster?.SelectSingleNode("//img")?.Attributes["src"]?.Value;
+            if (!string.IsNullOrEmpty(posterSource))
+            {
+                poster.Source = new BitmapImage(new Uri(posterSource));
+            }
+
+            var imdbTag = doc?.DocumentNode?.SelectSingleNode("//a[@class='imdb']");
+            var imdbHref = imdbTag?.Attributes["href"]?.Value;
+            if (!string.IsNullOrEmpty(imdbHref))
+            {
+                imdbLink.NavigateUri = new Uri(imdbHref);
+                imdbLink.Visibility = Visibility.Visible;
+            }
+
+            var yearTag = doc?.DocumentNode?.SelectSingleNode("//div[@class='header']//li")?.InnerText;
+            if (!string.IsNullOrEmpty(yearTag))
+            {
+                txtYear.Text = yearTag.Replace("Year:", "").Trim();
+                stackYear.Visibility = Visibility.Visible;
+            }
+        }
+
         private async void Subf2mCore()
         {
             try
@@ -171,15 +203,21 @@ namespace HandySub.Pages
                         if (singleLineTranslator.Contains("&nbsp;"))
                             singleLineTranslator = singleLineTranslator.Replace("&nbsp;", "");
 
+                        string _name = node.Value.InnerText.Trim();
+                        int MaxLength = 100;
+                        _name = _name.Length > MaxLength ? _name.Substring(0, MaxLength) : _name;
+
                         var item = new SubsceneDownloadModel
                         {
                             Name = node.Value.InnerText.Trim(),
+                            Title = _name,
                             Translator = singleLineTranslator.Trim(),
                             Link = download_Link.Trim(),
                             Language = language
                         };
                         Subtitles.Add(item);
                     }
+                    SetPosterAndIMDB(doc);
                 }
                 progress.IsActive = false;
                 listView.Visibility = Visibility.Visible;
@@ -315,7 +353,7 @@ namespace HandySub.Pages
 
         private void Favorite_ValueChanged(RatingControl sender, object args)
         {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleDisplayName, Title = subtitleDisplayName.Remove(0, 1), Value = subtitleUrl.Replace(Helper.Settings.SubsceneServer.Url,""), Server = Server.Subscene });
+            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl.Replace(Helper.Settings.SubsceneServer.Url,""), Server = Server.Subscene });
         }
 
         private void nbEpisode_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)

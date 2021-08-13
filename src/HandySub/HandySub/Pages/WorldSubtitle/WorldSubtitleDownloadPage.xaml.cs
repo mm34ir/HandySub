@@ -23,8 +23,8 @@ namespace HandySub.Pages
         }
 
         private string subtitleUrl = string.Empty;
-        private string subtitleDisplayName = string.Empty;
-
+        private string subtitleTitle = string.Empty;
+        private string subtitleKey = string.Empty;
         public WorldSubtitleDownloadPage()
         {
             this.InitializeComponent();
@@ -34,13 +34,14 @@ namespace HandySub.Pages
         {
             base.OnNavigatedTo(e);
 
-            var param = (DownloadModel)e?.Parameter;
+            var param = (NavigationParamModel)e?.Parameter;
             if (param != null)
             {
-                subtitleUrl = param.DownloadLink;
-                subtitleDisplayName = param.DisplayName;
-
-                if (await Helper.IsFavoriteExist(subtitleDisplayName))
+                subtitleUrl = param.Link;
+                subtitleKey = param.Key;
+                subtitleTitle = param.Title;
+                //txtTitle.Text = param.Title;
+                if (await Helper.IsFavoriteExist(subtitleKey))
                 {
                     Favorite.Value = 1;
                 }
@@ -133,7 +134,7 @@ namespace HandySub.Pages
 
         private void Favorite_ValueChanged(RatingControl sender, object args)
         {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleDisplayName, Title = subtitleDisplayName.Remove(0, 1), Value = subtitleUrl, Server = Server.WorldSubtitle });
+            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.WorldSubtitle });
         }
     }
 }

@@ -42,7 +42,7 @@ namespace HandySub.Pages
             var item = SubListView.SelectedItem as SearchModel;
             if (item != null)
             {
-                Frame.Navigate(typeof(WorldSubtitleDownloadPage), new DownloadModel { DisplayName = (int)Server.WorldSubtitle + item.Name, DownloadLink = item.Link }, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(typeof(WorldSubtitleDownloadPage), new NavigationParamModel { Key = (int)Server.WorldSubtitle + item.Name, Title = item.Name, Link = item.Link }, new DrillInNavigationTransitionInfo());
             }
         }
 

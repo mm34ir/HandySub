@@ -76,6 +76,32 @@
                     </Button>
                 </InfoBar.ActionButton>
             </InfoBar>
+            <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                <Image Name="poster"/>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtTitle"
+                            Margin="10,0"
+                            Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <HyperlinkButton
+                            Name="imdbLink"
+                            VerticalAlignment="Top"
+                            Content="Imdb"
+                            Visibility="Collapsed"/>
+                    </StackPanel>
+                    <StackPanel
+                        Name="stackYear"
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            Margin="10,0,5,0"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="Year:"/>
+                        <TextBlock Name="txtYear"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
 
         <ListView
@@ -90,7 +116,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SubsceneDownloadModel">
                     <usercontrol:SubsceneUserControl
-                        Title="{x:Bind Name}"
+                        Title="{x:Bind Title}"
                         Link="{x:Bind Link}"
                         SubtitleLanguage="{x:Bind Language}"
                         Translator="{x:Bind Translator}"/>
