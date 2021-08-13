@@ -10,6 +10,10 @@
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <converter:BoolToBoolConverter x:Key="BoolToBoolConverter"/>
+            <Style TargetType="NavigationViewItem">
+                <Setter Property="IsTabStop" Value="False"/>
+            </Style>
+
             <Style
                 x:Key="HorizontalSwipe"
                 BasedOn="{StaticResource ListViewItemRevealStyle}"

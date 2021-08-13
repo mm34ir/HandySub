@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <Grid Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Loaded="Grid_Loaded">
         <Grid.Resources>
             <ResourceDictionary>
@@ -30,6 +29,12 @@
                         <SolidColorBrush x:Key="myBrush" Color="{ThemeResource SystemColorButtonFaceColor}"/>
                     </ResourceDictionary>
                 </ResourceDictionary.ThemeDictionaries>
+                <Style
+                    x:Key="CustomPaneToggleButtonStyle"
+                    BasedOn="{StaticResource PaneToggleButtonStyle}"
+                    TargetType="Button">
+                    <Setter Property="IsTabStop" Value="False"/>
+                </Style>
             </ResourceDictionary>
         </Grid.Resources>
         <NavigationView
@@ -43,6 +48,7 @@
             Loaded="NavView_Loaded"
             PaneDisplayMode="Left"
             PaneTitle="HandySub"
+            PaneToggleButtonStyle="{StaticResource CustomPaneToggleButtonStyle}"
             SelectionChanged="NavigationView_SelectionChanged">
             <Frame x:Name="ContentFrame" IsTabStop="True"/>
         </NavigationView>
