@@ -135,7 +135,7 @@ namespace HandySub.Pages
                         _page = typeof(SubsceneDownloadPage);
                         break;
                 }
-                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = item.Value }, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(_page, new DownloadModel { DisplayName = (int)item.Server + item.Title, DownloadLink = Helper.Settings.SubsceneServer.Url + item.Value }, new DrillInNavigationTransitionInfo());
             }
         }
     }

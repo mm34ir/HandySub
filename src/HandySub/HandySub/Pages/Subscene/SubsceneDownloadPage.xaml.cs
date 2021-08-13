@@ -315,7 +315,7 @@ namespace HandySub.Pages
 
         private void Favorite_ValueChanged(RatingControl sender, object args)
         {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleDisplayName, Title = subtitleDisplayName.Remove(0, 1), Value = subtitleUrl, Server = Server.Subscene });
+            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleDisplayName, Title = subtitleDisplayName.Remove(0, 1), Value = subtitleUrl.Replace(Helper.Settings.SubsceneServer.Url,""), Server = Server.Subscene });
         }
 
         private void nbEpisode_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
