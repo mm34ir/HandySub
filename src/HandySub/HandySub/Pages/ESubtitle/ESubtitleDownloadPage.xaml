@@ -16,13 +16,24 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Margin="10">
-            <RatingControl
-                Name="Favorite"
-                Margin="0,5"
-                HorizontalAlignment="Left"
-                Caption="Favorite"
-                MaxRating="1"
-                ValueChanged="Favorite_ValueChanged"/>
+            <StackPanel Margin="0,5" Orientation="Horizontal">
+                <RatingControl
+                    Name="Favorite"
+                    Caption="Favorite"
+                    MaxRating="1"
+                    ValueChanged="Favorite_ValueChanged"/>
+                <Button
+                    Margin="20,0,20,5"
+                    Background="Transparent"
+                    Click="Refresh_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <fluent:FluentSymbolIcon Symbol="ArrowClockwise20"/>
+                            <TextBlock Margin="10,0" Text="Reload Subtitles"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
             <InfoBar Name="Notify">
                 <InfoBar.ActionButton>
                     <Button Click="Refresh_Click" KeyboardAcceleratorPlacementMode="Auto">

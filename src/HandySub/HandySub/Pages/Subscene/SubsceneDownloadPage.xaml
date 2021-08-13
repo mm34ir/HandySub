@@ -56,13 +56,24 @@
             QueryIcon="Find"
             TextChanged="AutoSuggest_TextChanged"/>
         <StackPanel Grid.ColumnSpan="2" Margin="10,70,10,10">
-            <RatingControl
-                Name="Favorite"
-                Margin="0,5"
-                HorizontalAlignment="Left"
-                Caption="Favorite"
-                MaxRating="1"
-                ValueChanged="Favorite_ValueChanged"/>
+            <StackPanel Margin="0,5" Orientation="Horizontal">
+                <RatingControl
+                    Name="Favorite"
+                    Caption="Favorite"
+                    MaxRating="1"
+                    ValueChanged="Favorite_ValueChanged"/>
+                <Button
+                    Margin="20,0,20,5"
+                    Background="Transparent"
+                    Click="Refresh_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <fluent:FluentSymbolIcon Symbol="ArrowClockwise20"/>
+                            <TextBlock Margin="10,0" Text="Reload Subtitles"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
             <InfoBar Name="Notify">
                 <InfoBar.ActionButton>
                     <Button Click="Refresh_Click" KeyboardAcceleratorPlacementMode="Auto">
@@ -77,7 +88,6 @@
                 </InfoBar.ActionButton>
             </InfoBar>
             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                <Image Name="poster"/>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
@@ -104,25 +114,34 @@
             </StackPanel>
         </StackPanel>
 
-        <ListView
-            x:Name="listView"
+        <Grid
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            Margin="10,0,10,10"
-            ItemContainerStyle="{StaticResource HorizontalSwipe}"
-            ItemsSource="{x:Bind SubtitlesACV, Mode=OneWay}"
-            SelectionMode="Single"
-            ShowsScrollingPlaceholders="True">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:SubsceneDownloadModel">
-                    <usercontrol:SubsceneUserControl
-                        Title="{x:Bind Title}"
-                        Link="{x:Bind Link}"
-                        SubtitleLanguage="{x:Bind Language}"
-                        Translator="{x:Bind Translator}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            Margin="10,0,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image Name="poster"/>
+            <ListView
+                x:Name="listView"
+                Grid.Column="1"
+                Margin="5,0,10,10"
+                ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                ItemsSource="{x:Bind SubtitlesACV, Mode=OneWay}"
+                ShowsScrollingPlaceholders="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:SubsceneDownloadModel">
+                        <usercontrol:SubsceneUserControl
+                            Title="{x:Bind Title}"
+                            Link="{x:Bind Link}"
+                            SubtitleLanguage="{x:Bind Language}"
+                            Translator="{x:Bind Translator}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
         <ProgressRing
             Name="progress"
             Grid.Row="1"
