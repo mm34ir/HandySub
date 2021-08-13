@@ -18,7 +18,8 @@ namespace HandySub.Common
         public virtual string FileNameRegex { get; set; } = Consts.FileNameRegex;
         public virtual string SubtitleQuality { get; set; } = Consts.ALL_Qualities;
 
-        public virtual ServerModel SubsceneServer { get; set; } = new ServerModel { Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" };
+        public virtual ServerModel SubsceneServer { get; set; } = new ServerModel { Index = 0, Key = "Subf2m", Url = "https://subf2m.co" };
+
         public virtual ServerModel ShellServer { get; set; } = new ServerModel { Index = 0 };
         public virtual bool IsFirstRun { get; set; } = true;
         public virtual bool IsIDMEnabled { get; set; } = false;
