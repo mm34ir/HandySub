@@ -1,19 +1,14 @@
 ﻿using HandySub.Common;
 using HandySub.Models;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Windows.ApplicationModel.DataTransfer;
-using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
-using AutoSuggestBoxQuerySubmittedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs;
-using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
-using Page = Microsoft.UI.Xaml.Controls.Page;
 
 namespace HandySub.Pages
 {

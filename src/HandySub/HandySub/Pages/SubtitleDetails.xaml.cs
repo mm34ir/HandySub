@@ -23,6 +23,8 @@ namespace HandySub.Pages
             this.InitializeComponent();
         }
 
+        #region OpenFile
+
         [ComImport]
         [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -33,7 +35,7 @@ namespace HandySub.Pages
 
         private async Task<string> OpenSubtitle()
         {
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            var picker = new FileOpenPicker();
             picker.ViewMode = PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
 
@@ -50,6 +52,9 @@ namespace HandySub.Pages
             }
             return null;
         }
+
+        #endregion
+
         private async void btnSub1_Click(object sender, RoutedEventArgs e)
         {
             var path = await OpenSubtitle();
@@ -105,6 +110,7 @@ namespace HandySub.Pages
             ShowDiff();
         }
 
+        #region Drog and Drop
         private void StackPanel_Left_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
@@ -142,5 +148,6 @@ namespace HandySub.Pages
                 }
             }
         }
+        #endregion
     }
 }

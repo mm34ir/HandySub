@@ -37,6 +37,13 @@ namespace HandySub.Pages
             SearchSubtitle(args.QueryText);
         }
 
+        private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(AutoSuggest.Text))
+                return;
+
+            Helper.LoadHistory(sender, args, AutoSuggest);
+        }
         private void GoToDownloadPage()
         {
             var item = SubListView.SelectedItem as SearchModel;
@@ -53,13 +60,7 @@ namespace HandySub.Pages
             SearchSubtitle(AutoSuggest.Text);
         }
 
-        private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (string.IsNullOrEmpty(AutoSuggest.Text))
-                return;
-
-            Helper.LoadHistory(sender, args, AutoSuggest);
-        }
+        
         private void SubListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (Helper.Settings.IsDoubleClickEnabled)

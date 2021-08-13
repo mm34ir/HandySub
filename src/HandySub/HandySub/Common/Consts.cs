@@ -34,5 +34,6 @@ namespace HandySub.Common
 
         public const string ALL_Language = "All";
         public const string ALL_Qualities = "All";
+        public const string GuidSubtitle = "Avengers: Infinity War";
     }
 }

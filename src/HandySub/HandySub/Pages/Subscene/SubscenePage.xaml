@@ -89,5 +89,28 @@
             Width="60"
             Height="60"
             IsActive="False"/>
+        <TeachingTip
+            x:Name="tip1"
+            Title="Search Subtitle"
+            CloseButtonContent="Next!"
+            Closed="tip1_Closed"
+            Subtitle="Enter the name of your movie or series here and press enter or you can drag and drop your movie or series file here, and we will find the name for you!"
+            Target="{x:Bind AutoSuggest}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Find"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip2"
+            Title="Choose Correct Subtitle"
+            CloseButtonContent="Next!"
+            Closed="tip2_Closed"
+            PreferredPlacement="Top"
+            Subtitle="Select the appropriate subtitle by double-clicking!"
+            Target="{x:Bind SubListView}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="SelectAll"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
     </Grid>
 </Page>

@@ -11,6 +11,7 @@ namespace HandySub.UserControls
 {
     public sealed partial class WorldSubtitleUserControl : UserControl
     {
+        #region DependencyProperty
         public static readonly DependencyProperty LinkProperty =
         DependencyProperty.Register("Link", typeof(string), typeof(ESubtitleUserControl),
            new PropertyMetadata(string.Empty));
@@ -30,6 +31,7 @@ namespace HandySub.UserControls
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
+        #endregion
 
         string location = string.Empty;
         public WorldSubtitleUserControl()

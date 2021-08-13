@@ -39,7 +39,7 @@ namespace HandySub.Pages
                 subtitleUrl = param.Link;
                 subtitleKey = param.Key;
                 subtitleTitle = param.Title;
-                //txtTitle.Text = param.Title;
+                txtTitle.Text = param.Title;
 
                 if (await Helper.IsFavoriteExist(subtitleKey))
                 {

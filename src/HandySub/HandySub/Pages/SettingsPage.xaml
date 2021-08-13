@@ -44,7 +44,7 @@
                         Header="Controls provide audible feedback"
                         OffContent="Off"
                         OnContent="On"
-                        Toggled="soundToggle_Toggled"/>
+                        Toggled="tgSound_Toggled"/>
 
                     <CheckBox
                         x:Name="spatialSoundBox"

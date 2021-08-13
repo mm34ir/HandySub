@@ -13,7 +13,7 @@ namespace HandySub.Pages
 {
     public sealed partial class FavoritePage : Page, INotifyPropertyChanged
     {
-        internal static FavoritePage Instance;
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -30,6 +30,10 @@ namespace HandySub.Pages
                 NotifyPropertyChanged(nameof(Favorites));
             }
         }
+        #endregion
+
+        internal static FavoritePage Instance;
+
         AdvancedCollectionView FavoritesACV;
         public FavoritePage()
         {
@@ -45,14 +49,7 @@ namespace HandySub.Pages
             ShowEmptyNotify();
         }
 
-        public void ShowEmptyNotify()
-        {
-            if (Favorites.Count == 0)
-            {
-                ShowInfoBar("Info", "You have not yet added a movie/series to your favorites list, Search for a subtitle and add it to your favorites list.", InfoBarSeverity.Success);
-            }
-        }
-        
+        #region Search and Filter
         private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             FavoritesACV.Filter = _ => true;
@@ -91,10 +88,8 @@ namespace HandySub.Pages
                 ShowInfoBar("Warning", $"No result found!", InfoBarSeverity.Warning);
             }
         }
-        public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
-        {
-            Helper.ShowInfoBar(Notify, title, message, severity);
-        }
+        #endregion
+        
         private void SubListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!Helper.Settings.IsDoubleClickEnabled)
@@ -139,6 +134,18 @@ namespace HandySub.Pages
                         break;
                 }
                 Frame.Navigate(_page, new NavigationParamModel { Key = (int)item.Server + item.Title, Title = item.Title, Link = _link }, new DrillInNavigationTransitionInfo());
+            }
+        }
+
+        public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
+        {
+            Helper.ShowInfoBar(Notify, title, message, severity);
+        }
+        public void ShowEmptyNotify()
+        {
+            if (Favorites.Count == 0)
+            {
+                ShowInfoBar("Info", "You have not yet added a movie/series to your favorites list, Search for a subtitle and add it to your favorites list.", InfoBarSeverity.Success);
             }
         }
     }

@@ -22,16 +22,12 @@ namespace HandySub.Pages
 {
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
+        #region INotifyProeprtyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public List<string> Themes = new List<string>
-        {
-            "Light","Dark","Windows Default"
-        };
 
         private int _selectedIndex;
         public int SelectedIndex
@@ -55,7 +51,24 @@ namespace HandySub.Pages
                 NotifyPropertyChanged(nameof(History));
             }
         }
+        #endregion
 
+        #region Init Servers
+        List<ServerModel> SubsceneServers = new List<ServerModel>
+        {
+            new ServerModel{ Index = 0, Key = "Subf2m", Url = "https://subf2m.co" },
+            new ServerModel{ Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" },
+            new ServerModel{ Index = 2, Key = "Subscene", Url = "https://subscene.com" }
+        };
+
+        List<ServerModel> SubtitleServers = new List<ServerModel>
+        {
+            new ServerModel{ Index = 0, Key = "Subscene"},
+            new ServerModel{ Index = 1, Key = "ESubtitle"},
+            new ServerModel{ Index = 2, Key = "WorldSubtitle"},
+            new ServerModel{ Index = 3, Key = "ISubtitles"}
+        };
+        #endregion
 
         private string CurrentVersion;
 
@@ -88,6 +101,12 @@ namespace HandySub.Pages
             cmbLanguage.SelectedItem = Helper.Settings.SubtitleLanguage;
             cmbQuality.SelectedItem = Helper.Settings.SubtitleQuality;
         }
+
+        #region Theme
+        public List<string> Themes = new List<string>
+        {
+            "Light","Dark","Windows Default"
+        };
         public void OnThemeChanged(object sender, SelectionChangedEventArgs args)
         {
             if (_selectedIndex.Equals(0))
@@ -135,6 +154,14 @@ namespace HandySub.Pages
             }
         }
 
+        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:personalization-colors"));
+        }
+
+        #endregion
+
+        #region OpenFolder
         [ComImport]
         [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -142,6 +169,21 @@ namespace HandySub.Pages
         {
             void Initialize(IntPtr hwnd);
         }
+        public async Task<string> OpenAndSelectFolder()
+        {
+            FolderPicker folderPicker = new FolderPicker();
+            IntPtr windowHandle = (App.Current as App).WindowHandle;
+            var initializeWithWindow = folderPicker.As<IInitializeWithWindow>();
+            initializeWithWindow.Initialize(windowHandle);
+            folderPicker.FileTypeFilter.Add("*");
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                return folder.Path;
+            }
+            return null;
+        }
+
         private async void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
             var folder = await OpenAndSelectFolder();
@@ -152,6 +194,13 @@ namespace HandySub.Pages
             }
         }
 
+        private async void folderLink_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchFolderAsync(await StorageFolder.GetFolderFromPathAsync(folderLink.Content.ToString()));
+        }
+        #endregion
+
+        #region ToggleSwitch
         private void tgDownloadIDM_Toggled(object sender, RoutedEventArgs e)
         {
             if (!Helper.IsIDMExist().IsExist)
@@ -177,14 +226,6 @@ namespace HandySub.Pages
             Helper.Settings.IsAddToContextMenuEnabled = tgAddContextMenu.IsOn;
         }
 
-        private void txtRegex_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtRegex.Text))
-            {
-                Helper.Settings.FileNameRegex = txtRegex.Text;
-            }
-        }
-
         private void tgRegex_Toggled(object sender, RoutedEventArgs e)
         {
             Helper.Settings.IsDefaultRegexEnabled = tgRegex.IsOn;
@@ -202,6 +243,13 @@ namespace HandySub.Pages
             }
         }
 
+        private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
+        }
+        #endregion
+
+        #region History
         private void btnClearHistory_Click(object sender, RoutedEventArgs e)
         {
             History.Clear();
@@ -215,21 +263,9 @@ namespace HandySub.Pages
             Helper.Settings.SearchHistory = History;
         }
 
-        List<ServerModel> SubsceneServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subf2m", Url = "https://subf2m.co" },
-            new ServerModel{ Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" },
-            new ServerModel{ Index = 2, Key = "Subscene", Url = "https://subscene.com" }
-        };
+        #endregion
 
-        List<ServerModel> SubtitleServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subscene"},
-            new ServerModel{ Index = 1, Key = "ESubtitle"},
-            new ServerModel{ Index = 2, Key = "WorldSubtitle"},
-            new ServerModel{ Index = 3, Key = "ISubtitles"}
-        };
-
+        #region ComboBox
         private void cmbSubtitle_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var mode = (ServerModel)cmbSubtitle.SelectedItem;
@@ -257,11 +293,7 @@ namespace HandySub.Pages
             }
         }
 
-        private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
-        {
-            Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
-        }
-
+        
         private void cmbQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = cmbQuality.SelectedItem as string;
@@ -270,7 +302,9 @@ namespace HandySub.Pages
                 Helper.Settings.SubtitleQuality = item;
             }
         }
+        #endregion
 
+        #region Backup
         private async void Export_Click(object sender, RoutedEventArgs e)
         {
             var folder = await OpenAndSelectFolder();
@@ -317,44 +351,10 @@ namespace HandySub.Pages
                 }
             }
         }
+        #endregion
 
-        public async Task<string> OpenAndSelectFolder()
-        {
-            FolderPicker folderPicker = new FolderPicker();
-            IntPtr windowHandle = (App.Current as App).WindowHandle;
-            var initializeWithWindow = folderPicker.As<IInitializeWithWindow>();
-            initializeWithWindow.Initialize(windowHandle);
-            folderPicker.FileTypeFilter.Add("*");
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                return folder.Path;
-            }
-            return null;
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            History = Helper.Settings.SearchHistory;
-        }
-        private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (tgSound.IsOn == true)
-            {
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
-                Helper.Settings.IsSpatialSoundEnabled = true;
-            }
-        }
-        private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (tgSound.IsOn == true)
-            {
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
-                Helper.Settings.IsSpatialSoundEnabled = false;
-            }
-        }
-        private void soundToggle_Toggled(object sender, RoutedEventArgs e)
+        #region Sound
+        private void tgSound_Toggled(object sender, RoutedEventArgs e)
         {
             if (tgSound.IsOn == true)
             {
@@ -372,15 +372,35 @@ namespace HandySub.Pages
                 Helper.Settings.IsSoundEnabled = false;
             }
         }
-
-        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:personalization-colors"));
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+                Helper.Settings.IsSpatialSoundEnabled = true;
+            }
         }
-
-        private async void folderLink_Click(object sender, RoutedEventArgs e)
+        private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchFolderAsync(await StorageFolder.GetFolderFromPathAsync(folderLink.Content.ToString()));
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
+                Helper.Settings.IsSpatialSoundEnabled = false;
+            }
+        }
+        #endregion
+
+        private void txtRegex_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegex.Text))
+            {
+                Helper.Settings.FileNameRegex = txtRegex.Text;
+            }
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            History = Helper.Settings.SearchHistory;
         }
     }
 }

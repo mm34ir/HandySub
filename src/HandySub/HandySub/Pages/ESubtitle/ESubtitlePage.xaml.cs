@@ -10,13 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net;
-using ABI.Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
-using Page = Microsoft.UI.Xaml.Controls.Page;
-using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
-using AutoSuggestBoxQuerySubmittedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs;
-using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
-using SelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs;
 using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Media.Animation;
 

@@ -45,7 +45,28 @@
             PaneTitle="HandySub"
             SelectionChanged="NavigationView_SelectionChanged">
             <Frame x:Name="ContentFrame" IsTabStop="True"/>
-
         </NavigationView>
+        <TeachingTip
+            x:Name="tip1"
+            Title="Navigation"
+            CloseButtonContent="Next!"
+            Closed="tip1_Closed"
+            PreferredPlacement="TopLeft"
+            Subtitle="From here you can switch between pages.">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Switch"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip2"
+            Title="Settings"
+            CloseButtonContent="Next!"
+            Closed="tip2_Closed"
+            PreferredPlacement="BottomLeft"
+            Subtitle="From here you can change App Theme and General Settings.">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Setting"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
     </Grid>
 </Window>

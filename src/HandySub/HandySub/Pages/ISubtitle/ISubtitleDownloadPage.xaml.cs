@@ -46,7 +46,7 @@ namespace HandySub.Pages
                 subtitleUrl = param.Link;
                 subtitleKey = param.Key;
                 subtitleTitle = param.Title;
-                //txtTitle.Text = param.Title;
+                txtTitle.Text = param.Title;
 
                 if (await Helper.IsFavoriteExist(subtitleKey))
                 {
@@ -146,22 +146,17 @@ namespace HandySub.Pages
         {
             Helper.ShowInfoBar(Notify, title, message, severity);
         }
-
-        private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            var selectedLanguage = cmbLanguage.SelectedItem as string;
-
-            if (selectedLanguage != Helper.Settings.SubtitleLanguage)
-            {
-                Helper.Settings.SubtitleLanguage = selectedLanguage;
-            }
-            SubtitlesACV.Filter = _ => true;
-            Filter();
-            if (progress.IsActive)
-            {
-                Notify.IsOpen = false;
-            }
+            GetSubtitle();
         }
+
+        private void Favorite_ValueChanged(RatingControl sender, object args)
+        {
+            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ISubtitle });
+        }
+
+        #region Search and Filter
         private bool SubtitleFilter(object subtitle)
         {
             var query = subtitle as SubsceneDownloadModel;
@@ -221,12 +216,21 @@ namespace HandySub.Pages
 
             Filter();
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetSubtitle();
-        }
+            var selectedLanguage = cmbLanguage.SelectedItem as string;
 
+            if (selectedLanguage != Helper.Settings.SubtitleLanguage)
+            {
+                Helper.Settings.SubtitleLanguage = selectedLanguage;
+            }
+            SubtitlesACV.Filter = _ => true;
+            Filter();
+            if (progress.IsActive)
+            {
+                Notify.IsOpen = false;
+            }
+        }
         private void cmbQuaity_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedQuality = cmbQuaity.SelectedItem as string;
@@ -242,12 +246,6 @@ namespace HandySub.Pages
                 Notify.IsOpen = false;
             }
         }
-
-        private void Favorite_ValueChanged(RatingControl sender, object args)
-        {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ISubtitle });
-        }
-
         private void nbEpisode_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (SubtitlesACV == null)
@@ -259,5 +257,6 @@ namespace HandySub.Pages
             SubtitlesACV.Filter = _ => true;
             Filter();
         }
+        #endregion
     }
 }

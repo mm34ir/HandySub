@@ -10,10 +10,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
 using CommunityToolkit.WinUI.UI;
-using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
-using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
-using SelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs;
-using Page = Microsoft.UI.Xaml.Controls.Page;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace HandySub.Pages
@@ -151,31 +147,6 @@ namespace HandySub.Pages
             }
         }
 
-        private void SetPosterAndIMDB(HtmlDocument doc)
-        {
-            var divPoster = doc?.DocumentNode?.SelectSingleNode("//div[@class='poster']");
-            var posterSource = divPoster?.SelectSingleNode("//img")?.Attributes["src"]?.Value;
-            if (!string.IsNullOrEmpty(posterSource))
-            {
-                poster.Source = new BitmapImage(new Uri(posterSource));
-            }
-
-            var imdbTag = doc?.DocumentNode?.SelectSingleNode("//a[@class='imdb']");
-            var imdbHref = imdbTag?.Attributes["href"]?.Value;
-            if (!string.IsNullOrEmpty(imdbHref))
-            {
-                imdbLink.NavigateUri = new Uri(imdbHref);
-                imdbLink.Visibility = Visibility.Visible;
-            }
-
-            var yearTag = doc?.DocumentNode?.SelectSingleNode("//div[@class='header']//li")?.InnerText;
-            if (!string.IsNullOrEmpty(yearTag))
-            {
-                txtYear.Text = yearTag.Replace("Year:", "").Trim();
-                stackYear.Visibility = Visibility.Visible;
-            }
-        }
-
         private async void Subf2mCore()
         {
             try
@@ -249,27 +220,47 @@ namespace HandySub.Pages
             }
         }
 
+        private void SetPosterAndIMDB(HtmlDocument doc)
+        {
+            var divPoster = doc?.DocumentNode?.SelectSingleNode("//div[@class='poster']");
+            var posterSource = divPoster?.SelectSingleNode("//img")?.Attributes["src"]?.Value;
+            if (!string.IsNullOrEmpty(posterSource))
+            {
+                poster.Source = new BitmapImage(new Uri(posterSource));
+            }
+
+            var imdbTag = doc?.DocumentNode?.SelectSingleNode("//a[@class='imdb']");
+            var imdbHref = imdbTag?.Attributes["href"]?.Value;
+            if (!string.IsNullOrEmpty(imdbHref))
+            {
+                imdbLink.NavigateUri = new Uri(imdbHref);
+                imdbLink.Visibility = Visibility.Visible;
+            }
+
+            var yearTag = doc?.DocumentNode?.SelectSingleNode("//div[@class='header']//li")?.InnerText;
+            if (!string.IsNullOrEmpty(yearTag))
+            {
+                txtYear.Text = yearTag.Replace("Year:", "").Trim();
+                stackYear.Visibility = Visibility.Visible;
+            }
+        }
+
         public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
         {
             Helper.ShowInfoBar(Notify, title, message, severity);
         }
 
-        private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            var selectedLanguage = cmbLanguage.SelectedItem as string;
-
-            if (selectedLanguage != Helper.Settings.SubtitleLanguage)
-            {
-                Helper.Settings.SubtitleLanguage = selectedLanguage;
-            }
-            SubtitlesACV.Filter = _ => true;
-            Filter();
-            if (progress.IsActive)
-            {
-                Notify.IsOpen = false;
-            }
+            GetSubtitle();
         }
 
+        private void Favorite_ValueChanged(RatingControl sender, object args)
+        {
+            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl.Replace(Helper.Settings.SubsceneServer.Url, ""), Server = Server.Subscene });
+        }
+
+        #region Search and Filter
         private bool SubtitleFilter(object subtitle)
         {
             var query = subtitle as SubsceneDownloadModel;
@@ -329,10 +320,20 @@ namespace HandySub.Pages
 
             Filter();
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetSubtitle();
+            var selectedLanguage = cmbLanguage.SelectedItem as string;
+
+            if (selectedLanguage != Helper.Settings.SubtitleLanguage)
+            {
+                Helper.Settings.SubtitleLanguage = selectedLanguage;
+            }
+            SubtitlesACV.Filter = _ => true;
+            Filter();
+            if (progress.IsActive)
+            {
+                Notify.IsOpen = false;
+            }
         }
 
         private void cmbQuaity_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -351,13 +352,8 @@ namespace HandySub.Pages
             }
         }
 
-        private void Favorite_ValueChanged(RatingControl sender, object args)
-        {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl.Replace(Helper.Settings.SubsceneServer.Url,""), Server = Server.Subscene });
-        }
-
         private void nbEpisode_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
-        {   
+        {
             if (SubtitlesACV == null)
                 return;
 
@@ -367,5 +363,62 @@ namespace HandySub.Pages
             SubtitlesACV.Filter = _ => true;
             Filter();
         }
+        #endregion
+        
+        #region TeachingTip
+        public void ShowTip1()
+        {
+            tip1.IsOpen = true;
+        }
+
+        private void tip1_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip1.IsOpen = false;
+            tip2.IsOpen = true;
+        }
+
+        private void tip2_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip2.IsOpen = false;
+            tip3.IsOpen = true;
+        }
+
+        private void tip3_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip3.IsOpen = false;
+            tip4.IsOpen = true;
+        }
+
+        private void tip4_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip4.IsOpen = false;
+            tip5.IsOpen = true;
+        }
+
+        private void tip5_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip5.IsOpen = false;
+            tip6.IsOpen = true;
+        }
+
+        private void tip6_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip6.IsOpen = false;
+            tip7.IsOpen = true;
+        }
+
+        private void tip7_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip7.IsOpen = false;
+            tip8.IsOpen = true;
+        }
+
+        private void tip8_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip8.IsOpen = false;
+            Helper.Settings.IsFirstRun = false;
+            MainWindow.Instance.SetEnableNavView();
+        }
+        #endregion
     }
 }

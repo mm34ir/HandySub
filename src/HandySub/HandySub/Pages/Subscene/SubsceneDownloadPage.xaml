@@ -150,5 +150,93 @@
             Width="60"
             Height="60"
             IsActive="False"/>
+        <TeachingTip
+            x:Name="tip1"
+            Title="Choose Subtitle Language"
+            CloseButtonContent="Next!"
+            Closed="tip1_Closed"
+            Subtitle="Here you can select your language and filter your subtitles"
+            Target="{x:Bind cmbLanguage}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Flag"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip2"
+            Title="Choose Subtitle Quality/Encoder"
+            CloseButtonContent="Next!"
+            Closed="tip2_Closed"
+            Subtitle="Here you can select your quality/encoder and filter your subtitles"
+            Target="{x:Bind cmbQuaity}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Filter"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip3"
+            Title="Filter Episode"
+            CloseButtonContent="Next!"
+            Closed="tip3_Closed"
+            Subtitle="Here you can Filter your series episode"
+            Target="{x:Bind nbEpisode}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Page"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip4"
+            Title="Search Subtitle"
+            CloseButtonContent="Next!"
+            Closed="tip4_Closed"
+            Subtitle="Search Your Subtitle here!"
+            Target="{x:Bind AutoSuggest}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Find"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip5"
+            Title="Favorite Subtitle"
+            CloseButtonContent="Next!"
+            Closed="tip5_Closed"
+            Subtitle="Select your Favorite Subtitle for faster access!"
+            Target="{x:Bind Favorite}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Favorite"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip6"
+            Title="ReLoad Subtitle"
+            CloseButtonContent="Next!"
+            Closed="tip6_Closed"
+            Subtitle="You can Reload all subtitles here!"
+            Target="{x:Bind btnRefresh}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Refresh"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip7"
+            Title="IMDB"
+            CloseButtonContent="Next!"
+            Closed="tip7_Closed"
+            Subtitle="Click here to open IMDB Page!"
+            Target="{x:Bind imdbLink}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Globe"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip
+            x:Name="tip8"
+            Title="Download Subtitle"
+            CloseButtonContent="Finish!"
+            Closed="tip8_Closed"
+            Subtitle="Hover over the subtitle, then click the download button that appears!"
+            Target="{x:Bind listView}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Download"/>
+            </TeachingTip.IconSource>
+        </TeachingTip>
     </Grid>
 </Page>

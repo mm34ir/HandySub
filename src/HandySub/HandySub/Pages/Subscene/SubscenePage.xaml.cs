@@ -8,12 +8,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net;
-using ABI.Microsoft.UI.Xaml.Controls;
-using SelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs;
-using AutoSuggestBoxTextChangedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
-using AutoSuggestBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
-using AutoSuggestBoxQuerySubmittedEventArgs = Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs;
-using Page = Microsoft.UI.Xaml.Controls.Page;
 using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Media.Animation;
 
@@ -21,6 +15,7 @@ namespace HandySub.Pages
 {
     public sealed partial class SubscenePage : Page
     {
+        internal static SubscenePage Instance;
         private ObservableCollection<SubsceneSearchModel> _subtitles = new ObservableCollection<SubsceneSearchModel>();
         public ObservableCollection<SubsceneSearchModel> Subtitles
         {
@@ -31,13 +26,20 @@ namespace HandySub.Pages
         public SubscenePage()
         {
             this.InitializeComponent();
+            Instance = this;
         }
 
         private void AutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             SearchSubtitle(args.QueryText);
         }
+        private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(AutoSuggest.Text))
+                return;
 
+            Helper.LoadHistory(sender, args, AutoSuggest);
+        }
         public async void SearchSubtitle(string queryText)
         {
             try
@@ -66,24 +68,31 @@ namespace HandySub.Pages
                         for (int i = 1; i < 4; i++)
                         {
                             var node = titleCollection.SelectSingleNode($"ul[{i}]");
-                            foreach (var item in node.SelectNodes("li"))
+                            if (node != null)
                             {
-                                var subNode = item?.SelectSingleNode("div//a");
-                                var count = item.SelectSingleNode("span");
-                                if (count == null)
+                                foreach (var item in node.SelectNodes("li"))
                                 {
-                                    count = item.SelectSingleNode("div[@class='subtle count']");
-                                }
+                                    var subNode = item?.SelectSingleNode("div//a");
+                                    var count = item.SelectSingleNode("span");
+                                    if (count == null)
+                                    {
+                                        count = item.SelectSingleNode("div[@class='subtle count']");
+                                    }
 
-                                var name = subNode?.InnerText.Trim();
-                                var subtitle = new SubsceneSearchModel
-                                {
-                                    Name = name,
-                                    Link = subNode?.Attributes["href"]?.Value.Trim(),
-                                    Desc = count?.InnerText.Trim(),
-                                    Key = GetSubtitleKey(i)
-                                };
-                                Subtitles.Add(subtitle);
+                                    var name = subNode?.InnerText.Trim();
+                                    var subtitle = new SubsceneSearchModel
+                                    {
+                                        Name = name,
+                                        Link = subNode?.Attributes["href"]?.Value.Trim(),
+                                        Desc = count?.InnerText.Trim(),
+                                        Key = GetSubtitleKey(i)
+                                    };
+                                    Subtitles.Add(subtitle);
+                                }
+                            }
+                            else
+                            {
+                                ShowInfoBar("Subtitle not found or server is unavailable.");
                             }
                         }
                     }
@@ -93,6 +102,11 @@ namespace HandySub.Pages
                 var groups = from c in Subtitles
                              group c by c.Key;
                 SubtitleCVS.Source = groups;
+
+                if (Helper.Settings.IsFirstRun)
+                {
+                    tip2.IsOpen = true;
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -136,19 +150,22 @@ namespace HandySub.Pages
             }
             return null;
         }
-        private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (string.IsNullOrEmpty(AutoSuggest.Text))
-                return;
-
-            Helper.LoadHistory(sender, args, AutoSuggest);
-        }
-
+        
         private void SubListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!Helper.Settings.IsDoubleClickEnabled)
             {
                 GoToDownloadPage();
+            }
+        }
+        private void SubListView_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            if (Helper.Settings.IsDoubleClickEnabled)
+            {
+                if (Helper.IsInDoubleTapArea(e))
+                {
+                    GoToDownloadPage();
+                }
             }
         }
         private void GoToDownloadPage()
@@ -165,17 +182,6 @@ namespace HandySub.Pages
             InfoError.IsOpen = false;
 
             SearchSubtitle(AutoSuggest.Text);
-        }
-
-        private void SubListView_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        {
-            if (Helper.Settings.IsDoubleClickEnabled)
-            {
-                if (Helper.IsInDoubleTapArea(e))
-                {
-                    GoToDownloadPage();
-                }
-            }
         }
 
         private void ShowInfoBar(string message)
@@ -195,5 +201,26 @@ namespace HandySub.Pages
                 AutoSuggest.Text = drop.Name;
             }
         }
+
+        #region TeachingTip
+        public void ShowTip1()
+        {
+            tip1.IsOpen = true;
+        }
+        private void tip1_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            AutoSuggest.Text = Consts.GuidSubtitle;
+            tip1.IsOpen = false;
+            SearchSubtitle(AutoSuggest.Text);
+        }
+
+        private void tip2_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip2.IsOpen = false;
+            SubListView.SelectedIndex = 0;
+            GoToDownloadPage();
+            SubsceneDownloadPage.Instance.ShowTip1();
+        }
+        #endregion
     }
 }

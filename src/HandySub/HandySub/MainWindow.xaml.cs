@@ -8,21 +8,13 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
-using NavigationViewBackRequestedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs;
-using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
-using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
+
 
 namespace HandySub
 {
     public sealed partial class MainWindow : Window
     {
-        public static MainWindow mainPage { get; set; }
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            mainPage = this;
-        }
+        internal static MainWindow Instance { get; set; }
 
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
@@ -34,7 +26,72 @@ namespace HandySub
             ("IMDBPage", typeof(IMDBPage)),
             ("SubCompare", typeof(SubtitleDetails)),
         };
+        public MainWindow()
+        {
+            this.InitializeComponent();
+            Instance = this;
+        }
 
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((sender as Grid).XamlRoot.Content as Grid).RequestedTheme = Helper.Settings.ApplicationTheme;
+
+            if (Helper.Settings.IsSoundEnabled)
+            {
+                ElementSoundPlayer.State = ElementSoundPlayerState.On;
+                if (Helper.Settings.IsSpatialSoundEnabled)
+                {
+                    ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+                }
+            }
+            FirstStartup();
+        }
+
+        #region TeachingTip
+        public void SetEnableNavView()
+        {
+            NavView.IsEnabled = true;
+        }
+
+        private async void FirstStartup()
+        {
+            if (Helper.Settings.IsFirstRun)
+            {
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "Step by step guide",
+                    Content = "Since this is your first use, please take a few minutes and follow the steps with us. You must complete this guide to use the app",
+                    PrimaryButtonText = "Let's go",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = Content.XamlRoot
+                };
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    NavView.IsEnabled = false;
+                    tip1.IsOpen = true;
+                }
+                else
+                {
+                    Helper.Settings.IsFirstRun = false;
+                }
+            }
+        }
+        private void tip1_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip1.IsOpen = false;
+            tip2.IsOpen = true;
+        }
+
+        private void tip2_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
+            tip2.IsOpen = false;
+            SubscenePage.Instance.ShowTip1();
+        }
+        #endregion
+
+        #region NavigationView
         public void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             NavView.MenuItems.Add(new NavigationViewItem
@@ -91,7 +148,6 @@ namespace HandySub
             // here to load the home page.
             NavView_Navigate("Subscene", new EntranceNavigationTransitionInfo());
         }
-
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected == true)
@@ -127,6 +183,9 @@ namespace HandySub
                 ContentFrame.Navigate(_page, null, transitionInfo);
             }
         }
+        #endregion
+
+        #region BackRequested
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             TryGoBack();
@@ -145,8 +204,7 @@ namespace HandySub
 
             ContentFrame.GoBack();
             return true;
-        }       
-
+        }
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
@@ -169,19 +227,6 @@ namespace HandySub
                     ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
             }
         }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            ((sender as Grid).XamlRoot.Content as Grid).RequestedTheme = Helper.Settings.ApplicationTheme;
-
-            if (Helper.Settings.IsSoundEnabled)
-            {
-                ElementSoundPlayer.State = ElementSoundPlayerState.On;
-                if (Helper.Settings.IsSpatialSoundEnabled)
-                {
-                    ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
-                }
-            }
-        }
+        #endregion
     }
 }
