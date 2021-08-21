@@ -46,6 +46,7 @@ namespace HandySub.Pages
             base.OnNavigatedTo(e);
             Favorites = await Helper.LoadFavorites();
             FavoritesACV = new AdvancedCollectionView(Favorites, true);
+            FavoritesACV.SortDescriptions.Add(new SortDescription("Title", SortDirection.Ascending));
             ShowEmptyNotify();
         }
 
