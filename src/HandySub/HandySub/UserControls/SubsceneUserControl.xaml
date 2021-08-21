@@ -29,7 +29,15 @@
                     Margin="10,0,10,0"
                     Orientation="Horizontal">
                     <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Style="{ThemeResource BaseTextBlockStyle}"
+                        Text="{Binding ElementName=subsceneView, Path=SubtitleLanguage}"
+                        TextWrapping="Wrap"/>
+                    <TextBlock
                         Name="txtTranslator"
+                        Margin="10,5,10,5"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{ThemeResource BaseTextBlockStyle}"
@@ -47,14 +55,6 @@
                             </Core:DataTriggerBehavior>
                         </Interactivity:Interaction.Behaviors>
                     </TextBlock>
-                    <TextBlock
-                        Margin="10,5,10,5"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        Style="{ThemeResource BaseTextBlockStyle}"
-                        Text="{Binding ElementName=subsceneView, Path=SubtitleLanguage}"
-                        TextWrapping="Wrap"/>
                 </StackPanel>
 
                 <StackPanel
