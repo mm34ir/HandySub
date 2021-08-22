@@ -90,7 +90,7 @@
                             MinWidth="340"
                             Margin="0,0,0,10"
                             DisplayMemberPath="Key"
-                            ItemsSource="{x:Bind SubsceneServers}"
+                            ItemsSource="{x:Bind common:ServerList.SubsceneServers}"
                             PlaceholderText="Default Subscene Server"
                             SelectionChanged="cmbSubscene_SelectionChanged"/>
 
@@ -105,7 +105,7 @@
                             MinWidth="340"
                             Margin="0,0,0,10"
                             DisplayMemberPath="Key"
-                            ItemsSource="{x:Bind SubtitleServers}"
+                            ItemsSource="{x:Bind common:ServerList.SubtitleServers}"
                             PlaceholderText="Default Subtitle Server"
                             SelectionChanged="cmbSubtitle_SelectionChanged"/>
 
@@ -119,7 +119,7 @@
                             Name="cmbLanguage"
                             MinWidth="340"
                             Margin="0,0,0,10"
-                            ItemsSource="{x:Bind common:Helper.SubtitleLanguage}"
+                            ItemsSource="{x:Bind common:ServerList.SubtitleLanguage}"
                             PlaceholderText="Default Subtitle Language"
                             SelectionChanged="cmbLanguage_SelectionChanged"/>
 
@@ -133,7 +133,7 @@
                             Name="cmbQuality"
                             MinWidth="340"
                             Margin="0,0,0,10"
-                            ItemsSource="{x:Bind common:Helper.SubtitleQuality}"
+                            ItemsSource="{x:Bind common:ServerList.SubtitleQuality}"
                             PlaceholderText="Subtitle Quality"
                             SelectionChanged="cmbQuality_SelectionChanged"/>
                         <NavigationViewItemSeparator/>
@@ -165,10 +165,10 @@
                             Toggled="tgAddContextMenu_Toggled"/>
                         <NavigationViewItemSeparator/>
                         <InfoBar
-                            Title="Proxy"
+                            Title="Internal Proxy"
                             IsClosable="False"
                             IsOpen="True"
-                            Message="If the Subscene and ISubtitle servers in your country are filtered (eg: Iran), you can use the internal proxy to bypass filtering."
+                            Message="If you have problems with some servers (eg: Subscene and ISubtitle) or they are blocked in your country, you can bypass them with the help of internal proxy."
                             Severity="Informational"/>
 
                         <ToggleSwitch
@@ -181,7 +181,7 @@
                             Margin="0,0,0,10"
                             DisplayMemberPath="Country"
                             IsEnabled="{Binding ElementName=tgProxy, Path=IsOn}"
-                            ItemsSource="{x:Bind common:Helper.ProxyServer}"
+                            ItemsSource="{x:Bind common:ServerList.ProxyServer}"
                             PlaceholderText="Proxy Server"
                             SelectionChanged="cmbProxyServer_SelectionChanged"/>
                         <NavigationViewItemSeparator/>

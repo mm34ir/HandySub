@@ -53,23 +53,6 @@ namespace HandySub.Pages
         }
         #endregion
 
-        #region Init Servers
-        List<ServerModel> SubsceneServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subf2m", Url = "https://subf2m.co" },
-            new ServerModel{ Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" },
-            new ServerModel{ Index = 2, Key = "Subscene", Url = "https://subscene.com" }
-        };
-
-        List<ServerModel> SubtitleServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subscene"},
-            new ServerModel{ Index = 1, Key = "ESubtitle"},
-            new ServerModel{ Index = 2, Key = "WorldSubtitle"},
-            new ServerModel{ Index = 3, Key = "ISubtitles"}
-        };
-        #endregion
-
         private string CurrentVersion;
 
         public SettingsPage()
@@ -315,6 +298,7 @@ namespace HandySub.Pages
             if (item != Helper.Settings.ProxyServer)
             {
                 Helper.Settings.ProxyServer = item;
+                Helper.SetProxy(item.Url);
             }
         }
         #endregion

@@ -25,7 +25,7 @@
                 Name="cmbLanguage"
                 MinWidth="150"
                 Header="Language"
-                ItemsSource="{x:Bind common:Helper.SubtitleLanguage}"
+                ItemsSource="{x:Bind common:ServerList.SubtitleLanguage}"
                 PlaceholderText="Default Subtitle Language"
                 SelectionChanged="cmbLanguage_SelectionChanged"/>
             <ComboBox
@@ -33,7 +33,7 @@
                 MinWidth="150"
                 Margin="10,0,10,0"
                 Header="Quality/Encoder"
-                ItemsSource="{x:Bind common:Helper.SubtitleQuality}"
+                ItemsSource="{x:Bind common:ServerList.SubtitleQuality}"
                 PlaceholderText="Subtitle Quality"
                 SelectionChanged="cmbQuaity_SelectionChanged"/>
             <NumberBox

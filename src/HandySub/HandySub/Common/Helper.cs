@@ -88,85 +88,7 @@ namespace HandySub.Common
                     Convert.ToByte(hexaColor.Substring(7, 2), 16)
                 );
         }
-        public static List<ProxyServerModel> ProxyServer { get; set; } = new List<ProxyServerModel>
-        {
-            new ProxyServerModel{ Index = 0, Country = "Canada", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/can.pac" },
-            new ProxyServerModel{ Index = 1, Country = "France", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/fr.pac" },
-            new ProxyServerModel{ Index = 2, Country = "United Kingdom", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/uk.pac" },
-            new ProxyServerModel{ Index = 3, Country = "USA", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/us.pac" },
-            new ProxyServerModel{ Index = 4, Country = "De", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/de.pac" },
-            new ProxyServerModel{ Index = 5, Country = "NL", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/nl.pac" },
-            new ProxyServerModel{ Index = 6, Country = "Sing", Url = "https://raw.githubusercontent.com/ghost1372/HandySub/master/Proxy/sing.pac" }
-        };
-        public static List<string> SubtitleLanguage { get; set; } = new List<string>
-        {
-            "All",
-                "Persian",
-                "English",
-                "Albanian",
-                "Arabic",
-                "Bengali",
-                "Brazillian",
-                "Burmese",
-                "Croatian",
-                "Danish",
-                "Dutch",
-                "Finnish",
-                "French",
-                "German",
-                "Hebrew",
-                "Hindi",
-                "Indonesian",
-                "Italian",
-                "Japanese",
-                "Korean",
-                "Malay",
-                "Malayalam",
-                "Morwegian",
-                "Romanian",
-                "Russian",
-                "Serbian",
-                "Spanish",
-                "Swedish",
-                "Tamil",
-                "Thai",
-                "Turkish",
-                "Urdu",
-                "Vietnamese",
-                "Hungarian",
-                "Portuguese"
-        };
-        public static List<string> SubtitleQuality { get; set; } = new List<string>
-        {
-            "All",
-            "1080",
-            "720",
-            "480",
-            "AMZN",
-            "Bluray",
-            "CMRG",
-            "EVO",
-            "GalaxyRG",
-            "H264",
-            "H265",
-            "HDRip",
-            "HDTV",
-            "HEVC",
-            "ION10",
-            "NF",
-            "Pahe",
-            "PSA",
-            "RARBG",
-            "RMTeam",
-            "SPARKS",
-            "Web",
-            "X264",
-            "X265",
-            "XviD",
-            "YIFY",
-            "YTS"
-        };
-
+       
         public static async Task<ObservableCollection<FavoriteKeyModel>> LoadFavorites()
         {
             List<FavoriteKeyModel> favorites = new List<FavoriteKeyModel>();
@@ -452,6 +374,24 @@ namespace HandySub.Common
                 }
             }
             return (IsExist: false, ExePath: string.Empty);
+        }
+        public static void SetProxy(string proxyUrl)
+        {
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings"))
+            {
+                key?.SetValue("AutoConfigURL", proxyUrl);
+                key?.SetValue("ProxyEnable", 1);
+                key?.Close();
+            }            
+        }
+        public static void DisableProxy()
+        {
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings"))
+            {
+                key?.SetValue("AutoConfigURL", "");
+                key?.SetValue("ProxyEnable", 0);
+                key?.Close();
+            }
         }
     }
 }
