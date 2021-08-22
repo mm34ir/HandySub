@@ -26,7 +26,7 @@
                     TextWrapping="Wrap"/>
                 <StackPanel
                     Grid.Row="1"
-                    Margin="10,0,10,0"
+                    Margin="10,0,90,0"
                     Orientation="Horizontal">
                     <TextBlock
                         HorizontalAlignment="Left"
