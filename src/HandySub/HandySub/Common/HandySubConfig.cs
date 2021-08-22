@@ -19,7 +19,7 @@ namespace HandySub.Common
         public virtual string SubtitleQuality { get; set; } = Consts.ALL_Qualities;
 
         public virtual ServerModel SubsceneServer { get; set; } = new ServerModel { Index = 0, Key = "Subf2m", Url = "https://subf2m.co" };
-
+        public virtual ProxyServerModel ProxyServer { get; set; } = new ProxyServerModel { Index = 0, Country = "Canada", Url = "" };
         public virtual ServerModel ShellServer { get; set; } = new ServerModel { Index = 0 };
         public virtual bool IsFirstRun { get; set; } = true;
         public virtual bool IsIDMEnabled { get; set; } = false;
@@ -31,6 +31,7 @@ namespace HandySub.Common
         public virtual bool IsDefaultRegexEnabled { get; set; } = true;
         public virtual bool IsSoundEnabled { get; set; } = false;
         public virtual bool IsSpatialSoundEnabled { get; set; } = false;
+        public virtual bool IsProxyEnabled { get; set; } = false;
         public virtual ObservableCollection<string> SearchHistory { get; set; } = new ObservableCollection<string>();
         public virtual ElementTheme ApplicationTheme { get; set; } = ElementTheme.Default;
     }

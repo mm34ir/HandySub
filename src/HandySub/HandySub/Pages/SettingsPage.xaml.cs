@@ -92,6 +92,7 @@ namespace HandySub.Pages
             tgUnzip.IsOn = Helper.Settings.IsAutoDeCompressEnabled;
             tgRegex.IsOn = Helper.Settings.IsDefaultRegexEnabled;
             tgSound.IsOn = Helper.Settings.IsSoundEnabled;
+            tgProxy.IsOn = Helper.Settings.IsProxyEnabled;
             txtRegex.Text = Helper.Settings.FileNameRegex;
             spatialSoundBox.IsChecked = Helper.Settings.IsSpatialSoundEnabled;
             History = Helper.Settings.SearchHistory;
@@ -100,6 +101,7 @@ namespace HandySub.Pages
             cmbSubtitle.SelectedIndex = Helper.Settings.ShellServer.Index;
             cmbLanguage.SelectedItem = Helper.Settings.SubtitleLanguage;
             cmbQuality.SelectedItem = Helper.Settings.SubtitleQuality;
+            cmbProxyServer.SelectedIndex = Helper.Settings.ProxyServer.Index;
         }
 
         #region Theme
@@ -247,6 +249,10 @@ namespace HandySub.Pages
         {
             Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
         }
+        private void tgProxy_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsProxyEnabled = tgProxy.IsOn;
+        }
         #endregion
 
         #region History
@@ -300,6 +306,15 @@ namespace HandySub.Pages
             if (item != Helper.Settings.SubtitleQuality)
             {
                 Helper.Settings.SubtitleQuality = item;
+            }
+        }
+
+        private void cmbProxyServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = cmbProxyServer.SelectedItem as ProxyServerModel;
+            if (item != Helper.Settings.ProxyServer)
+            {
+                Helper.Settings.ProxyServer = item;
             }
         }
         #endregion
