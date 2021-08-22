@@ -390,6 +390,7 @@ namespace HandySub.Common
             {
                 key?.SetValue("AutoConfigURL", "");
                 key?.SetValue("ProxyEnable", 0);
+                key?.DeleteValue("AutoConfigURL");
                 key?.Close();
             }
         }
