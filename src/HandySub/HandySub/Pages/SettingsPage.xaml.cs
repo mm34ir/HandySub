@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -53,23 +52,6 @@ namespace HandySub.Pages
         }
         #endregion
 
-        #region Init Servers
-        List<ServerModel> SubsceneServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subf2m", Url = "https://subf2m.co" },
-            new ServerModel{ Index = 1, Key = "Delta Leech", Url = "https://sub.deltaleech.com" },
-            new ServerModel{ Index = 2, Key = "Subscene", Url = "https://subscene.com" }
-        };
-
-        List<ServerModel> SubtitleServers = new List<ServerModel>
-        {
-            new ServerModel{ Index = 0, Key = "Subscene"},
-            new ServerModel{ Index = 1, Key = "ESubtitle"},
-            new ServerModel{ Index = 2, Key = "WorldSubtitle"},
-            new ServerModel{ Index = 3, Key = "ISubtitles"}
-        };
-        #endregion
-
         private string CurrentVersion;
 
         public SettingsPage()
@@ -103,10 +85,6 @@ namespace HandySub.Pages
         }
 
         #region Theme
-        public List<string> Themes = new List<string>
-        {
-            "Light","Dark","Windows Default"
-        };
         public void OnThemeChanged(object sender, SelectionChangedEventArgs args)
         {
             if (_selectedIndex.Equals(0))
