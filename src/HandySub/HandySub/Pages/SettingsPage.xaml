@@ -164,27 +164,6 @@
                             Header="Add HandySub to Windows ContextMenu"
                             Toggled="tgAddContextMenu_Toggled"/>
                         <NavigationViewItemSeparator/>
-                        <InfoBar
-                            Title="Proxy"
-                            IsClosable="False"
-                            IsOpen="True"
-                            Message="If the Subscene and ISubtitle servers in your country are filtered (eg: Iran), you can use the internal proxy to bypass filtering."
-                            Severity="Informational"/>
-
-                        <ToggleSwitch
-                            Name="tgProxy"
-                            Header="Use internal proxy"
-                            Toggled="tgProxy_Toggled"/>
-                        <ComboBox
-                            Name="cmbProxyServer"
-                            MinWidth="340"
-                            Margin="0,0,0,10"
-                            DisplayMemberPath="Country"
-                            IsEnabled="{Binding ElementName=tgProxy, Path=IsOn}"
-                            ItemsSource="{x:Bind common:Helper.ProxyServer}"
-                            PlaceholderText="Proxy Server"
-                            SelectionChanged="cmbProxyServer_SelectionChanged"/>
-                        <NavigationViewItemSeparator/>
                         <ToggleSwitch
                             Name="tgRegex"
                             Margin="0,10"
