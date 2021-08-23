@@ -235,14 +235,6 @@ namespace HandySub.Pages
         private void tgProxy_Toggled(object sender, RoutedEventArgs e)
         {
             Helper.Settings.IsProxyEnabled = tgProxy.IsOn;
-            if (tgProxy.IsOn)
-            {
-                Helper.SetProxy(Helper.Settings.ProxyServer.Url);
-            }
-            else
-            {
-                Helper.DisableProxy();
-            }
         }
         #endregion
 
@@ -303,7 +295,7 @@ namespace HandySub.Pages
         private void cmbProxyServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = cmbProxyServer.SelectedItem as ProxyServerModel;
-            if (item != Helper.Settings.ProxyServer && tgProxy.IsOn)
+            if (item != Helper.Settings.ProxyServer)
             {
                 Helper.Settings.ProxyServer = item;
                 Helper.SetProxy(item.Url);

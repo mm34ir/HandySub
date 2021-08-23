@@ -30,12 +30,6 @@ namespace HandySub
         {
             this.InitializeComponent();
             Instance = this;
-            Closed += MainWindow_Closed;
-        }
-
-        private void MainWindow_Closed(object sender, WindowEventArgs args)
-        {
-            Helper.DisableProxy();
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -50,12 +44,6 @@ namespace HandySub
                     ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
                 }
             }
-
-            if (Helper.Settings.IsProxyEnabled)
-            {
-                Helper.SetProxy(Helper.Settings.ProxyServer.Url);
-            }
-
             FirstStartup();
         }
 
