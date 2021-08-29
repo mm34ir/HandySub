@@ -5,12 +5,10 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using WinRT;
 
 namespace HandySub.Pages
 {
@@ -25,25 +23,16 @@ namespace HandySub.Pages
 
         #region OpenFile
 
-        [ComImport]
-        [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface IInitializeWithWindow
-        {
-            void Initialize(IntPtr hwnd);
-        }
-
         private async Task<string> OpenSubtitle()
         {
+            var main = MainWindow.Instance;
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(main);
+            
             var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".srt");
             picker.ViewMode = PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation = PickerLocationId.Desktop;
-
-            IntPtr windowHandle = (App.Current as App).WindowHandle;
-            var initializeWithWindow = picker.As<IInitializeWithWindow>();
-            initializeWithWindow.Initialize(windowHandle);
-
-            picker.FileTypeFilter.Add(".srt");
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
             StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)

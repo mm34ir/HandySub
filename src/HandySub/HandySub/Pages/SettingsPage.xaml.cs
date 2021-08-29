@@ -10,12 +10,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using WinRT;
 
 namespace HandySub.Pages
 {
@@ -140,20 +138,15 @@ namespace HandySub.Pages
         #endregion
 
         #region OpenFolder
-        [ComImport]
-        [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface IInitializeWithWindow
-        {
-            void Initialize(IntPtr hwnd);
-        }
         public async Task<string> OpenAndSelectFolder()
         {
+            var main = MainWindow.Instance;
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(main);
+
             FolderPicker folderPicker = new FolderPicker();
-            IntPtr windowHandle = (App.Current as App).WindowHandle;
-            var initializeWithWindow = folderPicker.As<IInitializeWithWindow>();
-            initializeWithWindow.Initialize(windowHandle);
             folderPicker.FileTypeFilter.Add("*");
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
+
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
