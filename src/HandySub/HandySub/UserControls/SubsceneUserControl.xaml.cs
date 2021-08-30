@@ -67,13 +67,19 @@ namespace HandySub.UserControls
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse ||
                 e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
             {
-                VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
+                if (!Helper.Settings.IsDoubleClickDownloadEnabled)
+                {
+                    VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
+                }
             }
         }
 
         private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
+            if (!Helper.Settings.IsDoubleClickDownloadEnabled)
+            {
+                VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
+            }
         }
 
         private void DownloadHoverButton_Click(object sender, RoutedEventArgs e)
@@ -195,6 +201,14 @@ namespace HandySub.UserControls
         private void OpenFolderButton_Click(object sender, RoutedEventArgs e)
         {
             Helper.OpenFolderAndSelectFile(OpenFolderButton.Tag.ToString());
+        }
+
+        private void subsceneView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (Helper.Settings.IsDoubleClickDownloadEnabled)
+            {
+                DownloadSubtitle();
+            }
         }
     }
 }

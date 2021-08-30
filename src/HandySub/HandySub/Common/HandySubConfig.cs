@@ -28,6 +28,7 @@ namespace HandySub.Common
         public virtual bool IsShowNotificationEnabled { get; set; } = true;
         public virtual bool IsAutoDeCompressEnabled { get; set; } = false;
         public virtual bool IsDoubleClickEnabled { get; set; } = true;
+        public virtual bool IsDoubleClickDownloadEnabled { get; set; } = false;
         public virtual bool IsDefaultRegexEnabled { get; set; } = true;
         public virtual bool IsSoundEnabled { get; set; } = false;
         public virtual bool IsSpatialSoundEnabled { get; set; } = false;

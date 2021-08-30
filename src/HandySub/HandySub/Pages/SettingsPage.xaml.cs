@@ -66,6 +66,7 @@ namespace HandySub.Pages
             SelectedIndex = GetThemeIndex(Helper.Settings.ApplicationTheme);
 
             tgDoubleClick.IsOn = Helper.Settings.IsDoubleClickEnabled;
+            tgDoubleClickDownload.IsOn = Helper.Settings.IsDoubleClickDownloadEnabled;
             tgAddContextMenu.IsOn = Helper.Settings.IsAddToContextMenuEnabled;
             tgShowNotify.IsOn = Helper.Settings.IsShowNotificationEnabled;
             tgDownloadIDM.IsOn = Helper.Settings.IsIDMEnabled;
@@ -217,6 +218,10 @@ namespace HandySub.Pages
         private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
         {
             Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
+        }
+        private void tgDoubleClickDownload_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDoubleClickDownloadEnabled = tgDoubleClickDownload.IsOn;
         }
         #endregion
 

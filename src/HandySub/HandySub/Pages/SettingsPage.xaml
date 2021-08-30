@@ -145,8 +145,12 @@
 
                         <ToggleSwitch
                             Name="tgDoubleClick"
-                            Header="Open Subtitles Download Page with Mouse Double Click"
+                            Header="Open Subtitle Pages with Mouse Double Click"
                             Toggled="tgDoubleClick_Toggled"/>
+                        <ToggleSwitch
+                            Name="tgDoubleClickDownload"
+                            Header="Download Subtitles with Mouse Double Click"
+                            Toggled="tgDoubleClickDownload_Toggled"/>
                         <ToggleSwitch
                             Name="tgDownloadIDM"
                             Header="Download With Internet Download Manager (IDM)"
