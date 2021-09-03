@@ -69,9 +69,9 @@ namespace HandySub.Pages
                             var item = new SearchModel
                             {
                                 Poster = src,
-                                Name = FixName(name?.InnerText),
+                                Name = Helper.GetDecodedString(name?.InnerText),
                                 Link = page,
-                                Desc = count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim()
+                                Desc = Helper.GetDecodedString(count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim())
                             };
                             if (!string.IsNullOrEmpty(item.Name))
                             {
@@ -124,19 +124,7 @@ namespace HandySub.Pages
                 return img;
             }
         }
-
-        private string FixName(string name)
-        {
-            string rem = "&#160";
-            if (!string.IsNullOrEmpty(name) && name.Contains(rem))
-            {
-                return name.Replace(rem, "");
-            }
-            else
-            {
-                return name;
-            }
-        }
+        
         private void AutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             SearchSubtitle(args.QueryText);

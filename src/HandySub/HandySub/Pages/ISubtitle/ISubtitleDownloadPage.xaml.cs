@@ -102,8 +102,8 @@ namespace HandySub.Pages
                             {
                                 var item = new SubsceneDownloadModel
                                 {
-                                    Name = title,
-                                    Translator = comment,
+                                    Name = Helper.GetDecodedString(title),
+                                    Translator = Helper.GetDecodedString(comment),
                                     Link = href,
                                     Language = language[row.Index]?.InnerText.Trim()
                                 };

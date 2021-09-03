@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using SharpCompress.Common;
 using SharpCompress.Readers;
+using System.Web;
 
 namespace HandySub.Common
 {
@@ -36,6 +37,16 @@ namespace HandySub.Common
                                    .WithVersioning(VersioningResultAction.RenameAndLoadDefault)
                                    .LoadNow()
                                    .EnableAutosave();
+
+        public static string GetDecodedString(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            var decoded = HttpUtility.HtmlDecode(text);
+            var result = decoded != text;
+            return result ? decoded : text;
+        }
 
         public static void SetImportedSettings(HandySubConfig handySubConfig)
         {
