@@ -63,7 +63,10 @@ namespace HandySub.Common
             Settings.IsShowNotificationEnabled = handySubConfig.IsShowNotificationEnabled;
             Settings.IsAutoDeCompressEnabled = handySubConfig.IsAutoDeCompressEnabled;
             Settings.IsDoubleClickEnabled = handySubConfig.IsDoubleClickEnabled;
+            Settings.IsDoubleClickDownloadEnabled = handySubConfig.IsDoubleClickDownloadEnabled;
             Settings.IsDefaultRegexEnabled = handySubConfig.IsDefaultRegexEnabled;
+            Settings.IsSoundEnabled = handySubConfig.IsSoundEnabled;
+            Settings.IsSpatialSoundEnabled = handySubConfig.IsSpatialSoundEnabled;
             Settings.SearchHistory = handySubConfig.SearchHistory;
             Settings.ApplicationTheme = handySubConfig.ApplicationTheme;
         }
