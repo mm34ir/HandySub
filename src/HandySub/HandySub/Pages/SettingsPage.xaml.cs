@@ -61,7 +61,7 @@ namespace HandySub.Pages
         public void LoadSettings()
         {
             folderLink.Content = Helper.Settings.DefaultDownloadLocation;
-            CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() + "-beta.2";
 
             SelectedIndex = GetThemeIndex(Helper.Settings.ApplicationTheme);
 
