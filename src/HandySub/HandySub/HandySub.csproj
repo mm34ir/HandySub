@@ -19,6 +19,9 @@
     <Page Remove="FluentIcon\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\SettingsGroup\SettingsGroup.xaml" />
+    <None Remove="Controls\SettingsPageControl\SettingsPageControl.xaml" />
+    <None Remove="Controls\Setting\Setting.xaml" />
     <None Remove="Pages\ESubtitleDownloadPage.xaml" />
     <None Remove="Pages\ESubtitlePage.xaml" />
     <None Remove="Pages\FavoritePage.xaml" />
@@ -31,6 +34,11 @@
     <None Remove="Pages\SubtitleDetails.xaml" />
     <None Remove="Pages\WorldSubtitleDownloadPage.xaml" />
     <None Remove="Pages\WorldSubtitlePage.xaml" />
+    <None Remove="Styles\Button.xaml" />
+    <None Remove="Styles\TextBlock.xaml" />
+    <None Remove="Themes\Colors.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+    <None Remove="Themes\SettingsExpanderStyles.xaml" />
     <None Remove="UnRAR.exe" />
     <None Remove="UserControls\ESubtitleUserControl.xaml" />
     <None Remove="UserControls\FavoriteUserControl.xaml" />
@@ -58,6 +66,48 @@
 	<PackageReference Include="SharpCompress" Version="0.28.3" />
 	<PackageReference Include="WinUI3.Fluent.Icons" Version="1.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\SettingsExpanderStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\SettingsGroup\SettingsGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Setting\Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
