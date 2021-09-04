@@ -83,61 +83,6 @@ namespace HandySub.Pages
             cmbQuality.SelectedItem = Helper.Settings.SubtitleQuality;
         }
 
-        #region Theme
-        public void OnThemeChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (_selectedIndex.Equals(0))
-            {
-                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Light;
-            }
-            else if (_selectedIndex.Equals(1))
-            {
-                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Dark;
-            }
-            else if (_selectedIndex.Equals(2))
-            {
-                ((sender as RadioButtons).XamlRoot.Content as Grid).RequestedTheme = ElementTheme.Default;
-            }
-            Helper.Settings.ApplicationTheme = GetElementThemeEnum(_selectedIndex);
-        }
-
-        public ElementTheme GetElementThemeEnum(int themeIndex)
-        {
-            switch (themeIndex)
-            {
-                case 0:
-                    return ElementTheme.Light;
-                case 1:
-                    return ElementTheme.Dark;
-                case 2:
-                    return ElementTheme.Default;
-                default:
-                    return ElementTheme.Default;
-            }
-        }
-
-        public int GetThemeIndex(ElementTheme elementTheme)
-        {
-            switch (elementTheme)
-            {
-                case ElementTheme.Default:
-                    return 2;
-                case ElementTheme.Light:
-                    return 0;
-                case ElementTheme.Dark:
-                    return 1;
-                default:
-                    return 2;
-            }
-        }
-
-        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:personalization-colors"));
-        }
-
-        #endregion
-
         #region OpenFolder
         public async Task<string> OpenAndSelectFolder()
         {
@@ -172,7 +117,75 @@ namespace HandySub.Pages
         }
         #endregion
 
+        #region Theme
+        public void OnThemeChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if ((sender as ComboBox).XamlRoot == null)
+                return;
+            
+            var root = (sender as ComboBox).XamlRoot.Content;
+            if (_selectedIndex.Equals(0))
+            {
+                (root as Grid).RequestedTheme = ElementTheme.Light;
+            }
+            else if (_selectedIndex.Equals(1))
+            {
+                (root as Grid).RequestedTheme = ElementTheme.Dark;
+            }
+            else if (_selectedIndex.Equals(2))
+            {
+                (root as Grid).RequestedTheme = ElementTheme.Default;
+            }
+            Helper.Settings.ApplicationTheme = GetElementThemeEnum(_selectedIndex);
+        }
+
+        public ElementTheme GetElementThemeEnum(int themeIndex)
+        {
+            switch (themeIndex)
+            {
+                case 0:
+                    return ElementTheme.Light;
+                case 1:
+                    return ElementTheme.Dark;
+                case 2:
+                    return ElementTheme.Default;
+                default:
+                    return ElementTheme.Default;
+            }
+        }
+
+        public int GetThemeIndex(ElementTheme elementTheme)
+        {
+            switch (elementTheme)
+            {
+                case ElementTheme.Default:
+                    return 2;
+                case ElementTheme.Light:
+                    return 0;
+                case ElementTheme.Dark:
+                    return 1;
+                default:
+                    return 2;
+            }
+        }
+
+        private async void OpenAccentColor_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:personalization-colors"));
+        }
+
+        #endregion
+
         #region ToggleSwitch
+        private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
+        }
+        private void tgDoubleClickDownload_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsDoubleClickDownloadEnabled = tgDoubleClickDownload.IsOn;
+        }
+
         private void tgDownloadIDM_Toggled(object sender, RoutedEventArgs e)
         {
             if (!Helper.IsIDMExist().IsExist)
@@ -214,31 +227,43 @@ namespace HandySub.Pages
                 }
             }
         }
-
-        private void tgDoubleClick_Toggled(object sender, RoutedEventArgs e)
-        {
-            Helper.Settings.IsDoubleClickEnabled = tgDoubleClick.IsOn;
-        }
-        private void tgDoubleClickDownload_Toggled(object sender, RoutedEventArgs e)
-        {
-            Helper.Settings.IsDoubleClickDownloadEnabled = tgDoubleClickDownload.IsOn;
-        }
         #endregion
 
-        #region History
-        private void btnClearHistory_Click(object sender, RoutedEventArgs e)
+        #region Sound
+        private void tgSound_Toggled(object sender, RoutedEventArgs e)
         {
-            History.Clear();
-            Helper.Settings.SearchHistory = new ObservableCollection<string>();
-            infoClear.IsOpen = true;
-        }
+            if (tgSound.IsOn == true)
+            {
+                spatialSoundBox.IsEnabled = true;
+                ElementSoundPlayer.State = ElementSoundPlayerState.On;
+                Helper.Settings.IsSoundEnabled = true;
+            }
+            else
+            {
+                spatialSoundBox.IsEnabled = false;
+                spatialSoundBox.IsChecked = false;
 
-        private void btnRemove_Click(object sender, RoutedEventArgs e)
+                ElementSoundPlayer.State = ElementSoundPlayerState.Off;
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
+                Helper.Settings.IsSoundEnabled = false;
+            }
+        }
+        private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
         {
-            History.Remove((string)historyList.SelectedItem);
-            Helper.Settings.SearchHistory = History;
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+                Helper.Settings.IsSpatialSoundEnabled = true;
+            }
         }
-
+        private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (tgSound.IsOn == true)
+            {
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
+                Helper.Settings.IsSpatialSoundEnabled = false;
+            }
+        }
         #endregion
 
         #region ComboBox
@@ -269,7 +294,7 @@ namespace HandySub.Pages
             }
         }
 
-        
+
         private void cmbQuality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = cmbQuality.SelectedItem as string;
@@ -278,6 +303,22 @@ namespace HandySub.Pages
                 Helper.Settings.SubtitleQuality = item;
             }
         }
+        #endregion
+
+        #region History
+        private void btnClearHistory_Click(object sender, RoutedEventArgs e)
+        {
+            History.Clear();
+            Helper.Settings.SearchHistory = new ObservableCollection<string>();
+            infoClear.IsOpen = true;
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            History.Remove((string)historyList.SelectedItem);
+            Helper.Settings.SearchHistory = History;
+        }
+
         #endregion
 
         #region Backup
@@ -328,50 +369,16 @@ namespace HandySub.Pages
             }
         }
         #endregion
-
-        #region Sound
-        private void tgSound_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (tgSound.IsOn == true)
-            {
-                spatialSoundBox.IsEnabled = true;
-                ElementSoundPlayer.State = ElementSoundPlayerState.On;
-                Helper.Settings.IsSoundEnabled = true;
-            }
-            else
-            {
-                spatialSoundBox.IsEnabled = false;
-                spatialSoundBox.IsChecked = false;
-
-                ElementSoundPlayer.State = ElementSoundPlayerState.Off;
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
-                Helper.Settings.IsSoundEnabled = false;
-            }
-        }
-        private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (tgSound.IsOn == true)
-            {
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
-                Helper.Settings.IsSpatialSoundEnabled = true;
-            }
-        }
-        private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (tgSound.IsOn == true)
-            {
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
-                Helper.Settings.IsSpatialSoundEnabled = false;
-            }
-        }
-        #endregion
-
         private void txtRegex_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!string.IsNullOrEmpty(txtRegex.Text))
             {
                 Helper.Settings.FileNameRegex = txtRegex.Text;
             }
+        }
+        private async void OpenGithubRelease_CLick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/ghost1372/HandySub/releases"));
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
