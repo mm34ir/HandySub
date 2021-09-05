@@ -12,11 +12,11 @@ using Windows.Storage.Pickers;
 
 namespace HandySub.Pages
 {
-    public sealed partial class SubtitleDetails : Page
+    public sealed partial class ComparePage : Page
     {
         string before = string.Empty;
         string after = string.Empty;
-        public SubtitleDetails()
+        public ComparePage()
         {
             this.InitializeComponent();
         }

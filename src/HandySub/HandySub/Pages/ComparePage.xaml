@@ -1,10 +1,8 @@
 ﻿<Page
-    x:Class="HandySub.Pages.SubtitleDetails"
+    x:Class="HandySub.Pages.ComparePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fluent="using:Fluent.Icons"
-    xmlns:local="using:HandySub.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:usercontrol="using:HandySub.UserControls"
     Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
@@ -30,7 +28,7 @@
                 Width="250"
                 Click="btnSub1_Click">
                 <StackPanel Orientation="Horizontal">
-                    <fluent:FluentSymbolIcon Symbol="Document24"/>
+                    <PathIcon Data="{StaticResource DocumentGeometry}"/>
                     <TextBlock Margin="10,0" Text="Open First Subtitle"/>
                 </StackPanel>
             </Button>
@@ -54,7 +52,7 @@
                 Width="250"
                 Click="btnSub2_Click">
                 <StackPanel Orientation="Horizontal">
-                    <fluent:FluentSymbolIcon Symbol="Document24"/>
+                    <PathIcon Data="{StaticResource DocumentGeometry}"/>
                     <TextBlock Margin="10,0" Text="Open Second Subtitle"/>
                 </StackPanel>
             </Button>

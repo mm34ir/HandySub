@@ -1,5 +1,4 @@
-﻿using Fluent.Icons;
-using HandySub.Common;
+﻿using HandySub.Common;
 using HandySub.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -24,7 +23,7 @@ namespace HandySub
             ("WorldSubtitle", typeof(WorldSubtitlePage)),
             ("ISubtitle", typeof(ISubtitlePage)),
             ("IMDBPage", typeof(IMDBPage)),
-            ("SubCompare", typeof(SubtitleDetails)),
+            ("SubCompare", typeof(ComparePage)),
         };
         public MainWindow()
         {
@@ -91,50 +90,52 @@ namespace HandySub
         }
         #endregion
 
+        
+
         #region NavigationView
         public void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "Favorite",
-                Icon = new FluentIconElement(FluentSymbol.ThumbLike24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("FavoriteGeometry") },
                 Tag = "Fav"
             });
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "Subscene",
-                Icon = new FluentIconElement(FluentSymbol.Home24),
+                Icon = new SymbolIcon { Symbol = Symbol.Home },
                 Tag = "Subscene"
             });
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "E Subtitle",
-                Icon = new FluentIconElement(FluentSymbol.ClosedCaption24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("IESubtitleGeometry") },
                 Tag = "ESubtitle"
             });
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "World Subtitle",
-                Icon = new FluentIconElement(FluentSymbol.Globe24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("WorldSubtitleGeometry") },
                 Tag = "WorldSubtitle"
             });
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "I Subtitle",
-                Icon = new FluentIconElement(FluentSymbol.ClosedCaption24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("IESubtitleGeometry") },
                 Tag = "ISubtitle"
             });
             
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "Get IMDB Info",
-                Icon = new FluentIconElement(FluentSymbol.MoviesandTV24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("IMDBGeometry") },
                 Tag = "IMDBPage"
             });
             NavView.MenuItems.Add(new NavigationViewItem
             {
                 Content = "Compare Subtitles",
-                Icon = new FluentIconElement(FluentSymbol.BranchCompare24),
+                Icon = new PathIcon { Data = Helper.GetGeometry("CompareGeometry") },
                 Tag = "SubCompare"
             });
 
