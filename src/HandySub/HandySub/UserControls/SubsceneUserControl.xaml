@@ -2,8 +2,6 @@
     x:Class="HandySub.UserControls.SubsceneUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="subsceneView"
@@ -43,19 +41,8 @@
                         VerticalAlignment="Center"
                         Style="{ThemeResource BaseTextBlockStyle}"
                         Text="{Binding ElementName=subsceneView, Path=Translator}"
-                        TextWrapping="Wrap">
-                        <Interactivity:Interaction.Behaviors>
-                            <Core:DataTriggerBehavior
-                                Binding="{Binding Text, ElementName=txtTranslator}"
-                                ComparisonCondition="Equal"
-                                Value="">
-                                <Core:ChangePropertyAction
-                                    PropertyName="Visibility"
-                                    TargetObject="{Binding ElementName=txtTranslator}"
-                                    Value="Collapsed"/>
-                            </Core:DataTriggerBehavior>
-                        </Interactivity:Interaction.Behaviors>
-                    </TextBlock>
+                        TextWrapping="Wrap"
+                        Visibility="{Binding ElementName=subsceneView, Path=Translator, Converter={StaticResource StringVisibilityConverter}}"/>
                 </StackPanel>
 
                 <StackPanel

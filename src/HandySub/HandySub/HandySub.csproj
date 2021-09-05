@@ -61,7 +61,6 @@
 	<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
 	<PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.3.0" />
 	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-	<PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.4" />
 	<PackageReference Include="nucs.JsonSettings" Version="2.0.0-alpha7" />
 	<PackageReference Include="nucs.JsonSettings.Autosave" Version="2.0.0-alpha7" />
 	<PackageReference Include="SharpCompress" Version="0.28.3" />
