@@ -1,4 +1,5 @@
-﻿using HandySub.Common;
+﻿using CommunityToolkit.WinUI.UI.Controls;
+using HandySub.Common;
 using HandySub.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -52,6 +53,7 @@ namespace HandySub.Pages
 
         private string CurrentVersion;
 
+        private string ChangeLog = string.Empty;
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -64,6 +66,7 @@ namespace HandySub.Pages
             CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() + "-beta.2";
 
             SelectedIndex = GetThemeIndex(Helper.Settings.ApplicationTheme);
+            txtLastChecked.Text = Helper.Settings.LastCheckedUpdate;
 
             tgDoubleClick.IsOn = Helper.Settings.IsDoubleClickEnabled;
             tgDoubleClickDownload.IsOn = Helper.Settings.IsDoubleClickDownloadEnabled;
@@ -369,6 +372,67 @@ namespace HandySub.Pages
             }
         }
         #endregion
+
+        #region Check for Update
+        private async void btnCheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            txtLastChecked.Text = DateTime.Now.ToShortDateString();
+            Helper.Settings.LastCheckedUpdate = DateTime.Now.ToShortDateString();
+
+            updateDownloadInfo.IsOpen = false;
+            updateInfo.IsOpen = false;
+            prgUpdate.IsActive = true;
+            txtUpdate.Visibility = Visibility.Visible;
+            var update = await UpdateHelper.CheckUpdateAsync("ghost1372", "handysub");
+            if (update.IsExistNewVersion)
+            {
+                txtReleaseNote.Visibility = Visibility.Visible;
+                ChangeLog = update.Changelog;
+                updateDownloadInfo.Message = $"We found a new Version {update.TagName} Created at {update.CreatedAt} and Published at {update.PublishedAt}";
+                foreach (var item in update.Assets)
+                {
+                    var btn = new Button
+                    {
+                        Content = $"Download {Path.GetFileName(item.Url).Replace("HandySub.Package._","")}",
+                        MinWidth = 300,
+                        Margin = new Thickness(10)
+                    };
+
+                    btn.Click += async (s, e) => 
+                    {
+                        await Launcher.LaunchUriAsync(new Uri(item.Url));
+                    };
+
+                    downloadPanel.Children.Add(btn);
+                }
+
+                updateDownloadInfo.IsOpen = true;
+            }
+            else
+            {
+                updateInfo.IsOpen = true;
+            }
+
+            prgUpdate.IsActive = false;
+            txtUpdate.Visibility = Visibility.Collapsed;
+        }
+
+        private async void txtReleaseNote_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog()
+            {
+                Title = "Release Notes",
+                Content = new ScrollViewer { Content = new MarkdownTextBlock { Text = ChangeLog }, Margin = new Thickness(10) },
+                CloseButtonText = "Close",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = Content.XamlRoot
+            };
+
+            await dialog.ShowAsyncQueue();
+        }
+
+        #endregion
+        
         private void txtRegex_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!string.IsNullOrEmpty(txtRegex.Text))
@@ -376,10 +440,7 @@ namespace HandySub.Pages
                 Helper.Settings.FileNameRegex = txtRegex.Text;
             }
         }
-        private async void OpenGithubRelease_CLick(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/ghost1372/HandySub/releases"));
-        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

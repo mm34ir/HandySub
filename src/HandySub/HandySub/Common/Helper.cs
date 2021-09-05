@@ -46,6 +46,7 @@ namespace HandySub.Common
             Settings.SubtitleQuality = handySubConfig.SubtitleQuality;
             Settings.SubsceneServer = handySubConfig.SubsceneServer;
             Settings.ShellServer = handySubConfig.ShellServer;
+            Settings.LastCheckedUpdate = handySubConfig.LastCheckedUpdate;
             Settings.IsFirstRun = handySubConfig.IsFirstRun;
             Settings.IsIDMEnabled = handySubConfig.IsIDMEnabled;
             Settings.IsAddToContextMenuEnabled = handySubConfig.IsAddToContextMenuEnabled;

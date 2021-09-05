@@ -17,6 +17,7 @@ namespace HandySub.Common
         public virtual string DefaultDownloadLocation { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
         public virtual string FileNameRegex { get; set; } = Constants.FileNameRegex;
         public virtual string SubtitleQuality { get; set; } = Constants.ALL_Qualities;
+        public virtual string LastCheckedUpdate { get; set; } = "Never";
 
         public virtual ServerModel SubsceneServer { get; set; } = new ServerModel { Index = 0, Key = "Subf2m", Url = "https://subf2m.co" };
 

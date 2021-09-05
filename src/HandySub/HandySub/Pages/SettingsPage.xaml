@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="using:HandySub.Common"
+    xmlns:community="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:controls="using:HandySub.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,30 +25,19 @@
                     Content="See Whats New"
                     NavigateUri="https://github.com/ghost1372/HandySub/releases"
                     Style="{StaticResource HyperlinkButtonStyle}"/>
-                <Button Click="OpenGithubRelease_CLick" Style="{StaticResource SettingButtonStyle}">
-                    <controls:Setting
-                        Header="Go to Latest Release from Github"
-                        Icon="&#xF246;"
-                        Style="{StaticResource ExpanderHeaderSettingStyle}">
-                        <controls:Setting.ActionContent>
-                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE2B4;"/>
-                        </controls:Setting.ActionContent>
-                    </controls:Setting>
-                </Button>
-                <controls:Setting
-                    Header="{x:Bind CurrentVersion}"
-                    Icon="&#xE117;"
-                    IsEnabled="False">
+                <controls:Setting Header="{x:Bind CurrentVersion}" Icon="&#xE117;">
                     <controls:Setting.Description>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Style="{StaticResource SecondaryTextStyle}">
                                 <Run Text="Last Checked"/>
-                                <Run Text="2021/10/10"/>
+                                <Run x:Name="txtLastChecked"/>
                             </TextBlock>
                             <HyperlinkButton
+                                Name="txtReleaseNote"
                                 Margin="0,2,0,0"
+                                Click="txtReleaseNote_Click"
                                 Content="Release Notes"
-                                NavigateUri="https://github.com/ghost1372/HandySub/releases"/>
+                                Visibility="Collapsed"/>
                         </StackPanel>
                     </controls:Setting.Description>
                     <controls:Setting.ActionContent>
@@ -55,21 +45,44 @@
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
                             Spacing="18">
-                            <ProgressRing Width="24" Height="24"/>
+                            <ProgressRing
+                                Name="prgUpdate"
+                                Width="24"
+                                Height="24"
+                                IsActive="False"/>
                             <TextBlock
+                                Name="txtUpdate"
                                 VerticalAlignment="Center"
                                 FontWeight="SemiBold"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Text="checking for updates"/>
-                            <Button HorizontalAlignment="Right" Content="Check For Updates"/>
+                                Text="checking for updates"
+                                Visibility="Collapsed"/>
+                            <Button
+                                Name="btnCheckUpdate"
+                                HorizontalAlignment="Right"
+                                Click="btnCheckUpdate_Click"
+                                Content="Check For Updates"/>
                         </StackPanel>
                     </controls:Setting.ActionContent>
                 </controls:Setting>
                 <InfoBar
-                    Title="You are using Latest Version"
+                    Name="updateInfo"
+                    Title="You are using the Latest Version."
                     IsClosable="False"
-                    IsOpen="True"
                     Severity="Success"/>
+                <InfoBar
+                    Name="updateDownloadInfo"
+                    Title="New Version Available!"
+                    IsClosable="False"
+                    Message="We found a new version!"
+                    Severity="Informational">
+                    <InfoBar.Content>
+                        <community:WrapPanel
+                            Name="downloadPanel"
+                            Margin="0,10"
+                            Orientation="Horizontal"/>
+                    </InfoBar.Content>
+                </InfoBar>
                 <controls:SettingsGroup Header="User Interface">
                     <controls:Setting Header="Theme Mode" Icon="&#xE771;">
                         <controls:Setting.Description>
