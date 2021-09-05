@@ -127,7 +127,10 @@
                         IsOpen="True"
                         Severity="Informational"/>
 
-                    <controls:Setting Header="Open Subtitle Pages with Mouse Double Click" Icon="&#xe8b0;">
+                    <controls:Setting Header="Open Subtitle Pages with Mouse Double Click">
+                        <controls:Setting.Icon>
+                            <PathIcon Data="{StaticResource ClickGeometry}"/>
+                        </controls:Setting.Icon>
                         <controls:Setting.ActionContent>
                             <ToggleSwitch
                                 Name="tgDoubleClick"
@@ -135,7 +138,10 @@
                                 Toggled="tgDoubleClick_Toggled"/>
                         </controls:Setting.ActionContent>
                     </controls:Setting>
-                    <controls:Setting Header="Download Subtitles with Mouse Double Click" Icon="&#xe8b0;">
+                    <controls:Setting Header="Download Subtitles with Mouse Double Click">
+                        <controls:Setting.Icon>
+                            <PathIcon Data="{StaticResource ClickGeometry}"/>
+                        </controls:Setting.Icon>
                         <controls:Setting.ActionContent>
                             <ToggleSwitch
                                 Name="tgDoubleClickDownload"

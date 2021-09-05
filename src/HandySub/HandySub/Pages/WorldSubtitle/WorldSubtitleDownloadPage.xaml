@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fluent="using:Fluent.Icons"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:HandySub.Models"
     xmlns:usercontrol="using:HandySub.UserControls"
@@ -29,7 +28,7 @@
                     Click="Refresh_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <fluent:FluentSymbolIcon Symbol="ArrowSync20"/>
+                            <SymbolIcon Symbol="Refresh"/>
                             <TextBlock Margin="10,0" Text="Reload Subtitles"/>
                         </StackPanel>
                     </Button.Content>
@@ -43,7 +42,7 @@
                             <KeyboardAccelerator Key="F5"/>
                         </Button.KeyboardAccelerators>
                         <StackPanel Orientation="Horizontal">
-                            <fluent:FluentSymbolIcon Symbol="ArrowSync24"/>
+                            <SymbolIcon Symbol="Refresh"/>
                             <TextBlock Margin="10,0" Text="Refresh F5"/>
                         </StackPanel>
                     </Button>

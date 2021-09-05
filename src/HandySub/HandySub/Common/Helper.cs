@@ -27,6 +27,7 @@ using Windows.ApplicationModel.DataTransfer;
 using SharpCompress.Common;
 using SharpCompress.Readers;
 using System.Web;
+using Microsoft.UI.Xaml.Markup;
 
 namespace HandySub.Common
 {
@@ -37,6 +38,12 @@ namespace HandySub.Common
                                    .WithVersioning(VersioningResultAction.RenameAndLoadDefault)
                                    .LoadNow()
                                    .EnableAutosave();
+
+
+        public static Geometry GetGeometry(string key)
+        {
+            return (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)App.Current.Resources[key]);
+        }
 
         public static string GetDecodedString(string text)
         {
