@@ -99,7 +99,7 @@ namespace HandySub.Pages
                     if (queryText.StartsWith("tt"))
                         AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
 
-                    var url = string.Format(Consts.ESubtitleSearchAPI, queryText);
+                    var url = string.Format(Constants.ESubtitleSearchAPI, queryText);
                     var web = new HtmlWeb();
                     var doc = await web.LoadFromWebAsync(url);
 

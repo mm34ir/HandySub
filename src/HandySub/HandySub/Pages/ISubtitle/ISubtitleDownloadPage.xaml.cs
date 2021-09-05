@@ -48,7 +48,7 @@ namespace HandySub.Pages
                 subtitleTitle = param.Title;
                 txtTitle.Text = param.Title;
 
-                if (await Helper.IsFavoriteExist(subtitleKey))
+                if (await FavoriteHelper.IsFavoriteExist(subtitleKey))
                 {
                     Favorite.Value = 1;
                 }
@@ -91,7 +91,7 @@ namespace HandySub.Pages
                             foreach (var cell in currentRow)
                             {
                                 title = cell?.InnerText?.Trim();
-                                href = $"{Consts.ISubtitleBaseUrl}{cell?.Attributes["href"]?.Value?.Trim()}";
+                                href = $"{Constants.ISubtitleBaseUrl}{cell?.Attributes["href"]?.Value?.Trim()}";
                             }
 
                             comment = commentData[row.Index]?.InnerText?.Trim();
@@ -102,8 +102,8 @@ namespace HandySub.Pages
                             {
                                 var item = new SubsceneDownloadModel
                                 {
-                                    Name = Helper.GetDecodedString(title),
-                                    Translator = Helper.GetDecodedString(comment),
+                                    Name = Helper.GetDecodedStringFromHtml(title),
+                                    Translator = Helper.GetDecodedStringFromHtml(comment),
                                     Link = href,
                                     Language = language[row.Index]?.InnerText.Trim()
                                 };
@@ -153,7 +153,7 @@ namespace HandySub.Pages
 
         private void Favorite_ValueChanged(RatingControl sender, object args)
         {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ISubtitle });
+            FavoriteHelper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ISubtitle });
         }
 
         #region Search and Filter
@@ -171,10 +171,10 @@ namespace HandySub.Pages
             var language = query.Language ?? "";
 
 
-            if (selectedLanguage.Equals(Consts.ALL_Language))
+            if (selectedLanguage.Equals(Constants.ALL_Language))
                 selectedLanguage = "";
 
-            if (selectedQuality.Equals(Consts.ALL_Qualities))
+            if (selectedQuality.Equals(Constants.ALL_Qualities))
                 selectedQuality = "";
 
             var episode = $"E{nbEpisode.Value.ToString("00")}";

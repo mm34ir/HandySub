@@ -41,7 +41,7 @@ namespace HandySub.Pages
                 subtitleTitle = param.Title;
                 txtTitle.Text = param.Title;
 
-                if (await Helper.IsFavoriteExist(subtitleKey))
+                if (await FavoriteHelper.IsFavoriteExist(subtitleKey))
                 {
                     Favorite.Value = 1;
                 }
@@ -129,7 +129,7 @@ namespace HandySub.Pages
         }
         private void Favorite_ValueChanged(RatingControl sender, object args)
         {
-            Helper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ESubtitle });
+            FavoriteHelper.AddToFavorite(Favorite.Value, new FavoriteKeyModel { Key = subtitleKey, Title = subtitleTitle, Value = subtitleUrl, Server = Server.ESubtitle });
         }
     }
 }

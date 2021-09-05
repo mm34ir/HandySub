@@ -31,8 +31,8 @@ namespace HandySub.Pages
 
                 var url = string.Empty;
                 url = AutoSuggest.Text.StartsWith("tt")
-                    ? string.Format(Consts.IMDBIDAPI, args.QueryText)
-                    : string.Format(Consts.IMDBTitleAPI, args.QueryText);
+                    ? string.Format(Constants.IMDBIDAPI, args.QueryText)
+                    : string.Format(Constants.IMDBTitleAPI, args.QueryText);
                 try
                 {
                     using var client = new HttpClient();
@@ -45,7 +45,7 @@ namespace HandySub.Pages
                     var parse = JsonSerializer.Deserialize<IMDBModel>(responseBody, options);
                     if (parse.Response.Equals("True"))
                     {
-                        txtImdbId.Text = string.Format(Consts.IMDBBaseUrl, parse.imdbID);
+                        txtImdbId.Text = string.Format(Constants.IMDBBaseUrl, parse.imdbID);
                         if (parse.imdbRating.Contains("N/A") || string.IsNullOrEmpty(parse.imdbRating))
                         {
                             rate.Value = 0;

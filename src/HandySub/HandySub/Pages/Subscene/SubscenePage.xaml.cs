@@ -54,7 +54,7 @@ namespace HandySub.Pages
                     if (queryText.StartsWith("tt"))
                         AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
 
-                    var url = string.Format(Consts.SubsceneSearchAPI, Helper.Settings.SubsceneServer.Url, queryText);
+                    var url = string.Format(Constants.SubsceneSearchAPI, Helper.Settings.SubsceneServer.Url, queryText);
                     var web = new HtmlWeb();
                     var doc = await web.LoadFromWebAsync(url);
 
@@ -209,7 +209,7 @@ namespace HandySub.Pages
         }
         private void tip1_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
         {
-            AutoSuggest.Text = Consts.GuidSubtitle;
+            AutoSuggest.Text = Constants.GuidSubtitle;
             tip1.IsOpen = false;
             SearchSubtitle(AutoSuggest.Text);
         }

@@ -46,7 +46,7 @@ namespace HandySub.Pages
                     if (queryText.StartsWith("tt"))
                         AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
 
-                    var url = string.Format(Consts.ISubtitleSearchAPI, queryText);
+                    var url = string.Format(Constants.ISubtitleSearchAPI, queryText);
                     var web = new HtmlWeb();
                     var doc = await web.LoadFromWebAsync(url);
 
@@ -59,19 +59,19 @@ namespace HandySub.Pages
                     {
                         foreach (var node in items)
                         {
-                            var src = FixImg($"{Consts.ISubtitleBaseUrl}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
+                            var src = FixImg($"{Constants.ISubtitleBaseUrl}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
                             var name = node?.SelectSingleNode(".//div/div[2]/h3/a");
                             var count = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[1]");
                             var date = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[3]");
 
-                            var page = $"{Consts.ISubtitleBaseUrl}{name?.Attributes["href"]?.Value}";
+                            var page = $"{Constants.ISubtitleBaseUrl}{name?.Attributes["href"]?.Value}";
 
                             var item = new SearchModel
                             {
                                 Poster = src,
-                                Name = Helper.GetDecodedString(name?.InnerText),
+                                Name = Helper.GetDecodedStringFromHtml(name?.InnerText),
                                 Link = page,
-                                Desc = Helper.GetDecodedString(count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim())
+                                Desc = Helper.GetDecodedStringFromHtml(count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim())
                             };
                             if (!string.IsNullOrEmpty(item.Name))
                             {

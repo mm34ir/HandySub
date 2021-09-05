@@ -21,7 +21,6 @@ using System.IO;
 using System.Net.Http.Headers;
 using Windows.UI;
 using System.Collections.ObjectModel;
-using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using SharpCompress.Common;
@@ -38,22 +37,6 @@ namespace HandySub.Common
                                    .WithVersioning(VersioningResultAction.RenameAndLoadDefault)
                                    .LoadNow()
                                    .EnableAutosave();
-
-
-        public static Geometry GetGeometry(string key)
-        {
-            return (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)App.Current.Resources[key]);
-        }
-
-        public static string GetDecodedString(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-                return text;
-
-            var decoded = HttpUtility.HtmlDecode(text);
-            var result = decoded != text;
-            return result ? decoded : text;
-        }
 
         public static void SetImportedSettings(HandySubConfig handySubConfig)
         {
@@ -78,117 +61,7 @@ namespace HandySub.Common
             Settings.ApplicationTheme = handySubConfig.ApplicationTheme;
         }
 
-        public static async Task<(bool IsDroped, string Name)> GridDrop(DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems) && (await e.DataView.GetStorageItemsAsync()).Count == 1)
-            {
-                var items = await e.DataView.GetStorageItemsAsync();
-                var cleanName = RemoveSpecialWords(Path.GetFileNameWithoutExtension(items[0].Name));
-                return (IsDroped: true, Name: cleanName);
-            }
-            return (IsDroped: false, Name: null);
-        }
-        public static string RemoveSpecialWords(string stringToClean)
-        {
-            Regex wordFilter = new Regex(Settings.FileNameRegex, RegexOptions.IgnoreCase);
-            var cleaned = Regex.Replace(stringToClean, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
-            cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
-
-            cleaned = wordFilter.Replace(cleaned, " ").Trim();
-            cleaned = Regex.Replace(cleaned, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
-
-            return cleaned.Trim();
-        }
-        public static Color GetColorFromHex(string hexaColor)
-        {
-            return
-                Color.FromArgb(
-                  Convert.ToByte(hexaColor.Substring(1, 2), 16),
-                    Convert.ToByte(hexaColor.Substring(3, 2), 16),
-                    Convert.ToByte(hexaColor.Substring(5, 2), 16),
-                    Convert.ToByte(hexaColor.Substring(7, 2), 16)
-                );
-        }
-
-        public static async Task<ObservableCollection<FavoriteKeyModel>> LoadFavorites()
-        {
-            List<FavoriteKeyModel> favorites = new List<FavoriteKeyModel>();
-            if (File.Exists(Consts.FavoritePath))
-            {
-                var json = await File.ReadAllTextAsync(Consts.FavoritePath);
-                favorites = JsonConvert.DeserializeObject<List<FavoriteKeyModel>>(json);
-            }
-
-            return new ObservableCollection<FavoriteKeyModel>(favorites);
-        }
-
-        public static async Task<bool> IsFavoriteExist(string key)
-        {
-            List<FavoriteKeyModel> favorites = new List<FavoriteKeyModel>();
-            if (File.Exists(Consts.FavoritePath))
-            {
-                var json = await File.ReadAllTextAsync(Consts.FavoritePath);
-                favorites = JsonConvert.DeserializeObject<List<FavoriteKeyModel>>(json);
-            }
-
-            return favorites.Where(x => x.Key == key).Any();
-        }
-        public static async void AddToFavorite(double rate, FavoriteKeyModel favorite)
-        {
-            List<FavoriteKeyModel> favorites = new List<FavoriteKeyModel>();
-            if (File.Exists(Consts.FavoritePath))
-            {
-                var json = await File.ReadAllTextAsync(Consts.FavoritePath);
-                favorites = JsonConvert.DeserializeObject<List<FavoriteKeyModel>>(json);
-            }
-
-            var currentItem = favorites.Where(item => item.Key.Equals(favorite.Key));
-
-            if (rate == 1)
-            {
-                if (!currentItem.Any())
-                {
-                    favorites.Add(favorite);
-                }
-            }
-            else
-            {
-                if (currentItem.Any())
-                {
-                    favorites.Remove(currentItem.SingleOrDefault());
-                }
-            }
-
-            string serialize = JsonConvert.SerializeObject(favorites, Formatting.Indented);
-            await File.WriteAllTextAsync(Consts.FavoritePath, serialize);
-        }
-        public static async Task<string> GetRedirectedUrl(string url)
-        {
-            //this allows you to set the settings so that we can get the redirect url
-            var handler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = false
-            };
-            string redirectedUrl = null;
-
-            using (HttpClient client = new HttpClient(handler))
-            using (HttpResponseMessage response = await client.GetAsync(url))
-            using (HttpContent content = response.Content)
-            {
-                // ... Read the response to see if we have the redirected url
-                if (response.StatusCode == System.Net.HttpStatusCode.Found)
-                {
-                    HttpResponseHeaders headers = response.Headers;
-                    if (headers != null && headers.Location != null)
-                    {
-                        redirectedUrl = headers.Location.AbsoluteUri;
-                    }
-                }
-            }
-
-            return redirectedUrl;
-        }
-
+        #region DeCompress
         public static void DeCompressAndNotification(string filename, Button button, XamlRoot xamlRoot)
         {
             string _filename = null;
@@ -238,42 +111,13 @@ namespace HandySub.Common
             }
             catch (Exception)
             {
-                return (IsSuccess: false, FileName: null);
             }
             return (IsSuccess: false, FileName: null);
         }
 
-        public static async void OpenContentDialog(string filename, string content, XamlRoot xamlRoot)
-        {
-            if (filename != null)
-            {
-                ContentDialog dialog = new ContentDialog()
-                {
-                    Title = "Do you want to Open Subtitle Folder?",
-                    Content = $"{Path.GetFileNameWithoutExtension(content)} Downloaded",
-                    PrimaryButtonText = "Open",
-                    CloseButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = xamlRoot
-                };
-                var result = await dialog.ShowAsyncQueue();
-                if (result == ContentDialogResult.Primary)
-                {
-                    OpenFolderAndSelectFile(filename);
-                }
-            }
-        }
+        #endregion
 
-        public static void OpenFolderAndSelectFile(string filename)
-        {
-            string cmd = "/select, \"" + filename + "\"";
-            if (!File.Exists(filename))
-            {
-                cmd = Path.GetDirectoryName(filename) + "\"";
-            }
-
-            Process.Start("explorer.exe", cmd);
-        }
+        #region InfoBar
         public static void ShowErrorInfoBar(InfoBar infoBar, string message)
         {
             infoBar.Message = message;
@@ -287,17 +131,9 @@ namespace HandySub.Common
             infoBar.Severity = severity;
             infoBar.IsOpen = true;
         }
+        #endregion
 
-        public static bool IsInDoubleTapArea(DoubleTappedRoutedEventArgs e)
-        {
-            DependencyObject obj = e.OriginalSource as DependencyObject;
-            var parent = VisualTreeHelper.GetParent(obj);
-            if (parent.GetType().Equals(typeof(Grid)) || parent.GetType().Equals(typeof(ListViewItem)))
-            {
-                return true;
-            }
-            return false;
-        }
+        #region History
         public static void AddToHistory(string item)
         {
             Settings.SearchHistory.AddIfNotExists(item);
@@ -341,36 +177,9 @@ namespace HandySub.Common
                 }
             }
         }
+        #endregion
 
-        public static async Task<string> GetImdbIdFromTitle(string ImdbId, Action<string> errorCallBack = null)
-        {
-            var result = string.Empty;
-            var url = string.Format(Consts.IMDBIDAPI, ImdbId);
-
-            try
-            {
-                using var client = new HttpClient();
-                var responseBody = await client.GetStringAsync(url);
-                var options = new JsonSerializerOptions
-                {
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    ReadCommentHandling = JsonCommentHandling.Skip
-                };
-                var parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel>(responseBody, options);
-
-                if (parse.Response.Equals("True"))
-                    result = parse.Title;
-                else
-                    errorCallBack.Invoke(parse.Error);
-            }
-            catch (HttpRequestException ex)
-            {
-                errorCallBack.Invoke(ex.Message);
-            }
-
-            return result;
-        }
-
+        #region IDM
         public static void OpenLinkWithIDM(string link)
         {
             var check = IsIDMExist();
@@ -395,6 +204,150 @@ namespace HandySub.Common
                 }
             }
             return (IsExist: false, ExePath: string.Empty);
+        }
+        #endregion
+
+        public static Geometry GetGeometry(string key)
+        {
+            return (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)App.Current.Resources[key]);
+        }
+
+        public static string GetDecodedStringFromHtml(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            var decoded = HttpUtility.HtmlDecode(text);
+            var result = decoded != text;
+            return result ? decoded : text;
+        }
+        public static async Task<(bool IsDroped, string Name)> GridDrop(DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && (await e.DataView.GetStorageItemsAsync()).Count == 1)
+            {
+                var items = await e.DataView.GetStorageItemsAsync();
+                var cleanName = RemoveSpecialWords(Path.GetFileNameWithoutExtension(items[0].Name));
+                return (IsDroped: true, Name: cleanName);
+            }
+            return (IsDroped: false, Name: null);
+        }
+        public static string RemoveSpecialWords(string stringToClean)
+        {
+            Regex wordFilter = new Regex(Settings.FileNameRegex, RegexOptions.IgnoreCase);
+            var cleaned = Regex.Replace(stringToClean, @"S[0-9].{1}E[0-9].{1}", "", RegexOptions.IgnoreCase); // remove SXXEXX ==> X is 0-9
+            cleaned = Regex.Replace(cleaned, @"(\[[^\]]*\])|(\([^\)]*\))", ""); // remove between () and []
+
+            cleaned = wordFilter.Replace(cleaned, " ").Trim();
+            cleaned = Regex.Replace(cleaned, "[ ]{2,}", " "); // remove space [More than 2 space] and replace with one space
+
+            return cleaned.Trim();
+        }
+        public static Color GetColorFromHex(string hexaColor)
+        {
+            return
+                Color.FromArgb(
+                  Convert.ToByte(hexaColor.Substring(1, 2), 16),
+                    Convert.ToByte(hexaColor.Substring(3, 2), 16),
+                    Convert.ToByte(hexaColor.Substring(5, 2), 16),
+                    Convert.ToByte(hexaColor.Substring(7, 2), 16)
+                );
+        }
+
+        public static async Task<string> GetRedirectedUrl(string url)
+        {
+            //this allows you to set the settings so that we can get the redirect url
+            var handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            };
+            string redirectedUrl = null;
+
+            using (HttpClient client = new HttpClient(handler))
+            using (HttpResponseMessage response = await client.GetAsync(url))
+            using (HttpContent content = response.Content)
+            {
+                // ... Read the response to see if we have the redirected url
+                if (response.StatusCode == System.Net.HttpStatusCode.Found)
+                {
+                    HttpResponseHeaders headers = response.Headers;
+                    if (headers != null && headers.Location != null)
+                    {
+                        redirectedUrl = headers.Location.AbsoluteUri;
+                    }
+                }
+            }
+
+            return redirectedUrl;
+        }
+        public static async void OpenContentDialog(string filename, string content, XamlRoot xamlRoot)
+        {
+            if (filename != null)
+            {
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "Do you want to Open Subtitle Folder?",
+                    Content = $"{Path.GetFileNameWithoutExtension(content)} Downloaded",
+                    PrimaryButtonText = "Open",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = xamlRoot
+                };
+                var result = await dialog.ShowAsyncQueue();
+                if (result == ContentDialogResult.Primary)
+                {
+                    OpenFolderAndSelectFile(filename);
+                }
+            }
+        }
+
+        public static void OpenFolderAndSelectFile(string filename)
+        {
+            string cmd = "/select, \"" + filename + "\"";
+            if (!File.Exists(filename))
+            {
+                cmd = Path.GetDirectoryName(filename) + "\"";
+            }
+
+            Process.Start("explorer.exe", cmd);
+        }
+        public static bool IsInDoubleTapArea(DoubleTappedRoutedEventArgs e)
+        {
+            DependencyObject obj = e.OriginalSource as DependencyObject;
+            var parent = VisualTreeHelper.GetParent(obj);
+            if (parent.GetType().Equals(typeof(Grid)) || parent.GetType().Equals(typeof(ListViewItem)))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static async Task<string> GetImdbIdFromTitle(string ImdbId, Action<string> errorCallBack = null)
+        {
+            var result = string.Empty;
+            var url = string.Format(Constants.IMDBIDAPI, ImdbId);
+
+            try
+            {
+                using var client = new HttpClient();
+                var responseBody = await client.GetStringAsync(url);
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    ReadCommentHandling = JsonCommentHandling.Skip
+                };
+                var parse = System.Text.Json.JsonSerializer.Deserialize<IMDBModel>(responseBody, options);
+
+                if (parse.Response.Equals("True"))
+                    result = parse.Title;
+                else
+                    errorCallBack.Invoke(parse.Error);
+            }
+            catch (HttpRequestException ex)
+            {
+                errorCallBack.Invoke(ex.Message);
+            }
+
+            return result;
         }
     }
 }

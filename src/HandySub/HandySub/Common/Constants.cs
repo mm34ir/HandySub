@@ -4,7 +4,7 @@ using System.IO;
 
 namespace HandySub.Common
 {
-    public static class Consts
+    public static class Constants
     {
         public static readonly string AppName = "HandySubV4";
         public const string GetSubtitleContextMenuName = "Get Subtitle";

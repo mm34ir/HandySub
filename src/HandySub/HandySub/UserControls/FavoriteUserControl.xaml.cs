@@ -78,7 +78,7 @@ namespace HandySub.UserControls
                 var item = FavoritePage.Instance.Favorites.Where(item => item.Key.Equals(currentItem.Key));
 
                 FavoritePage.Instance.Favorites.Remove(item.SingleOrDefault());
-                Helper.AddToFavorite(0, currentItem);
+                FavoriteHelper.AddToFavorite(0, currentItem);
                 FavoritePage.Instance.ShowEmptyNotify();
             }
         }

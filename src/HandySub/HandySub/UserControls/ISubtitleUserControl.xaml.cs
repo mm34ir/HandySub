@@ -101,7 +101,7 @@ namespace HandySub.UserControls
 
                 if (doc != null)
                 {
-                    var downloadLink = Consts.ISubtitleBaseUrl + doc?.DocumentNode
+                    var downloadLink = Constants.ISubtitleBaseUrl + doc?.DocumentNode
                         ?.SelectSingleNode("//div[@class='col-lg-16 col-md-24 col-sm-16']//a")?.Attributes["href"]
                         ?.Value;
 

@@ -44,7 +44,7 @@ namespace HandySub.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Favorites = await Helper.LoadFavorites();
+            Favorites = await FavoriteHelper.LoadFavorites();
             FavoritesACV = new AdvancedCollectionView(Favorites, true);
             FavoritesACV.SortDescriptions.Add(new SortDescription("Title", SortDirection.Ascending));
             ShowEmptyNotify();

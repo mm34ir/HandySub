@@ -220,10 +220,10 @@ namespace HandySub.Pages
                 {
                     return;
                 }
-                if (Consts.FileNameRegex != Helper.Settings.FileNameRegex)
+                if (Constants.FileNameRegex != Helper.Settings.FileNameRegex)
                 {
-                    Helper.Settings.FileNameRegex = Consts.FileNameRegex;
-                    txtRegex.Text = Consts.FileNameRegex;
+                    Helper.Settings.FileNameRegex = Constants.FileNameRegex;
+                    txtRegex.Text = Constants.FileNameRegex;
                 }
             }
         }
@@ -329,7 +329,7 @@ namespace HandySub.Pages
             {
                 var json = JsonConvert.SerializeObject(Helper.Settings, Formatting.Indented);
                 await File.WriteAllTextAsync(@$"{folder}\HandySub Settings-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.json", json);
-                File.Copy(Consts.FavoritePath, @$"{folder}\HandySub Favorite-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.json", true);
+                File.Copy(Constants.FavoritePath, @$"{folder}\HandySub Favorite-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.json", true);
             }
         }
 
@@ -362,7 +362,7 @@ namespace HandySub.Pages
                         }
                         else if (Path.GetFileNameWithoutExtension(item).Contains("HandySub Favorite"))
                         {
-                            File.Copy(item, Consts.FavoritePath, true);
+                            File.Copy(item, Constants.FavoritePath, true);
                         }
                     }
                 }
