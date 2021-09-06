@@ -13,8 +13,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Media.Animation;
-using System.Diagnostics;
-using Windows.Networking.Connectivity;
 
 namespace HandySub.Pages
 {

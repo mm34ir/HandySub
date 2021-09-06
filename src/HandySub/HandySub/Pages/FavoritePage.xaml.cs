@@ -54,13 +54,6 @@ namespace HandySub.Pages
         private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             statusInfo.IsOpen = false;
-            FavoritesACV.Filter = _ => true;
-
-            if (string.IsNullOrEmpty(AutoSuggest.Text))
-            {
-                return;
-            }
-
             Filter();
         }
         private bool SubtitleFilter(object subtitle)
@@ -76,6 +69,8 @@ namespace HandySub.Pages
 
         private void Filter()
         {
+            FavoritesACV.Filter = _ => true;
+
             if (SubListView.Items.Count == 0)
                 return;
             

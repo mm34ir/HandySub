@@ -312,6 +312,7 @@ namespace HandySub.Pages
         }
         private void Filter()
         {
+            SubtitlesACV.Filter = _ => true;
             SubtitlesACV.Filter = SubtitleFilter;
 
             if (listView.Items.Count > 0)
@@ -327,13 +328,6 @@ namespace HandySub.Pages
         private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             CloseStatus();
-            SubtitlesACV.Filter = _ => true;
-
-            if (string.IsNullOrEmpty(AutoSuggest.Text))
-            {
-                return;
-            }
-
             Filter();
         }
         private void cmbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -344,7 +338,6 @@ namespace HandySub.Pages
             {
                 Helper.Settings.SubtitleLanguage = selectedLanguage;
             }
-            SubtitlesACV.Filter = _ => true;
             Filter();
             if (progress.IsActive)
             {
@@ -360,7 +353,6 @@ namespace HandySub.Pages
             {
                 Helper.Settings.SubtitleQuality = selectedQuality;
             }
-            SubtitlesACV.Filter = _ => true;
             Filter();
             if (progress.IsActive)
             {
@@ -376,7 +368,6 @@ namespace HandySub.Pages
             if (double.IsNaN(nbEpisode.Value))
                 nbEpisode.Value = 0;
 
-            SubtitlesACV.Filter = _ => true;
             Filter();
         }
         #endregion
