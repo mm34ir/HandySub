@@ -26,7 +26,7 @@
             QuerySubmitted="AutoSuggestBox_QuerySubmitted"
             TextChanged="AutoSuggestBox_TextChanged"/>
         <InfoBar
-            Name="infoError"
+            Name="errorInfo"
             Title="Error"
             Margin="10,50,10,0"
             Severity="Error"/>

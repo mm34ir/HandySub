@@ -57,65 +57,71 @@ namespace HandySub.Pages
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
             CloseStatus();
-
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync(subtitleUrl);
+                try
+                {
+                    var web = new HtmlWeb();
+                    var doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                var items = doc.DocumentNode.SelectNodes("//a[@class='Download']");
-                if (items == null)
-                {
-                    ShowStatus(Constants.NotFoundOrExist, null, InfoBarSeverity.Error);
-                }
-                else
-                {
-                    Subtitles?.Clear();
-                    foreach (var node in items)
+                    var items = doc.DocumentNode.SelectNodes("//a[@class='Download']");
+                    if (items == null)
                     {
-                        var displayName = node.SelectSingleNode(".//span[last()]").InnerText;
-                        var downloadLink = node.Attributes["href"].Value;
-                        if (!displayName.Contains("جهت حمایت از ما کلیک کنید"))
+                        ShowStatus(Constants.NotFoundOrExist, null, InfoBarSeverity.Error);
+                    }
+                    else
+                    {
+                        Subtitles?.Clear();
+                        foreach (var node in items)
                         {
-                            var item = new DownloadModel
+                            var displayName = node.SelectSingleNode(".//span[last()]").InnerText;
+                            var downloadLink = node.Attributes["href"].Value;
+                            if (!displayName.Contains("جهت حمایت از ما کلیک کنید"))
                             {
-                                DisplayName = displayName,
-                                DownloadLink = downloadLink
-                            };
-                            Subtitles.Add(item);
+                                var item = new DownloadModel
+                                {
+                                    DisplayName = displayName,
+                                    DownloadLink = downloadLink
+                                };
+                                Subtitles.Add(item);
+                            }
                         }
                     }
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
                 }
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (ArgumentOutOfRangeException)
                 {
-                    ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
+                catch (ArgumentNullException)
                 {
-                    ShowStatus(null, hx.Message, InfoBarSeverity.Error);
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowStatus(null, ex.Message, InfoBarSeverity.Error);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowStatus(null, hx.Message, InfoBarSeverity.Error);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
                 }
             }
-            finally
+            else
             {
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
+                ShowStatus(Constants.InternetIsNotAvailableTitle, Constants.InternetIsNotAvailable, InfoBarSeverity.Error);
             }
         }
 

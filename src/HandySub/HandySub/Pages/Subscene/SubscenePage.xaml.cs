@@ -42,101 +42,108 @@ namespace HandySub.Pages
         }
         public async void SearchSubtitle(string queryText)
         {
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                errorInfo.IsOpen = false;
-
-                if (!string.IsNullOrEmpty(queryText))
+                try
                 {
-                    Helper.AddToHistory(queryText);
-                    progress.IsActive = true;
-                    SubListView.Visibility = Visibility.Collapsed;
-                    Subtitles.Clear();
-                    if (queryText.StartsWith("tt"))
-                        AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
+                    errorInfo.IsOpen = false;
 
-                    var url = string.Format(Constants.SubsceneSearchAPI, Helper.Settings.SubsceneServer.Url, queryText);
-                    var web = new HtmlWeb();
-                    var doc = await web.LoadFromWebAsync(url);
+                    if (!string.IsNullOrEmpty(queryText))
+                    {
+                        Helper.AddToHistory(queryText);
+                        progress.IsActive = true;
+                        SubListView.Visibility = Visibility.Collapsed;
+                        Subtitles.Clear();
+                        if (queryText.StartsWith("tt"))
+                            AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
 
-                    var titleCollection = doc.DocumentNode.SelectSingleNode("//div[@class='search-result']");
-                    if (titleCollection == null || titleCollection.InnerText.Contains("No results found"))
-                    {
-                        ShowError(Constants.NotFoundOrExist);
-                    }
-                    else
-                    {
-                        for (int i = 1; i < 4; i++)
+                        var url = string.Format(Constants.SubsceneSearchAPI, Helper.Settings.SubsceneServer.Url, queryText);
+                        var web = new HtmlWeb();
+                        var doc = await web.LoadFromWebAsync(url);
+
+                        var titleCollection = doc.DocumentNode.SelectSingleNode("//div[@class='search-result']");
+                        if (titleCollection == null || titleCollection.InnerText.Contains("No results found"))
                         {
-                            errorInfo.IsOpen = false;
-                            var node = titleCollection.SelectSingleNode($"ul[{i}]");
-                            if (node != null)
+                            ShowError(Constants.NotFoundOrExist);
+                        }
+                        else
+                        {
+                            for (int i = 1; i < 4; i++)
                             {
-                                foreach (var item in node.SelectNodes("li"))
+                                errorInfo.IsOpen = false;
+                                var node = titleCollection.SelectSingleNode($"ul[{i}]");
+                                if (node != null)
                                 {
-                                    var subNode = item?.SelectSingleNode("div//a");
-                                    var count = item.SelectSingleNode("span");
-                                    if (count == null)
+                                    foreach (var item in node.SelectNodes("li"))
                                     {
-                                        count = item.SelectSingleNode("div[@class='subtle count']");
-                                    }
+                                        var subNode = item?.SelectSingleNode("div//a");
+                                        var count = item.SelectSingleNode("span");
+                                        if (count == null)
+                                        {
+                                            count = item.SelectSingleNode("div[@class='subtle count']");
+                                        }
 
-                                    var name = subNode?.InnerText.Trim();
-                                    var subtitle = new SubsceneSearchModel
-                                    {
-                                        Name = name,
-                                        Link = subNode?.Attributes["href"]?.Value.Trim(),
-                                        Desc = count?.InnerText.Trim(),
-                                        Key = GetSubtitleKey(i)
-                                    };
-                                    Subtitles.Add(subtitle);
+                                        var name = subNode?.InnerText.Trim();
+                                        var subtitle = new SubsceneSearchModel
+                                        {
+                                            Name = name,
+                                            Link = subNode?.Attributes["href"]?.Value.Trim(),
+                                            Desc = count?.InnerText.Trim(),
+                                            Key = GetSubtitleKey(i)
+                                        };
+                                        Subtitles.Add(subtitle);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                ShowError(Constants.NotFoundOrExist);
+                                else
+                                {
+                                    ShowError(Constants.NotFoundOrExist);
+                                }
                             }
                         }
                     }
-                }
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
-                var groups = from c in Subtitles
-                             group c by c.Key;
-                SubtitleCVS.Source = groups;
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
+                    var groups = from c in Subtitles
+                                 group c by c.Key;
+                    SubtitleCVS.Source = groups;
 
-                if (Helper.Settings.IsFirstRun)
+                    if (Helper.Settings.IsFirstRun)
+                    {
+                        tip2.IsOpen = true;
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
                 {
-                    tip2.IsOpen = true;
+                }
+                catch (ArgumentNullException)
+                {
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowError(ex.Message);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowError(hx.Message);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
-                {
-                    ShowError(ex.Message);
-                }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
-                {
-                    ShowError(hx.Message);
-                }
-            }
-            finally
-            {
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
         }
         private string GetSubtitleKey(int index)
@@ -184,8 +191,9 @@ namespace HandySub.Pages
             SearchSubtitle(AutoSuggest.Text);
         }
 
-        private void ShowError(string message)
+        private void ShowError(string message, string title = null)
         {
+            errorInfo.Title = title;
             errorInfo.Message = message;
             errorInfo.IsOpen = true;
         }

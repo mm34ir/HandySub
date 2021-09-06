@@ -27,6 +27,7 @@ using SharpCompress.Common;
 using SharpCompress.Readers;
 using System.Web;
 using Microsoft.UI.Xaml.Markup;
+using Windows.Networking.Connectivity;
 
 namespace HandySub.Common
 {
@@ -191,6 +192,11 @@ namespace HandySub.Common
             return (IsExist: false, ExePath: string.Empty);
         }
         #endregion
+
+        public static bool IsNetworkAvailable()
+        {
+            return NetworkInformation.GetInternetConnectionProfile()?.NetworkAdapter != null;
+        }
 
         public static Geometry GetGeometry(string key)
         {

@@ -64,82 +64,88 @@ namespace HandySub.Pages
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
             CloseStatus();
-
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync(subtitleUrl);
-                var items = doc.DocumentNode.SelectSingleNode("//table");
-                if (items == null)
+                try
                 {
-                    ShowStatus(Constants.NotFoundOrExist, null, InfoBarSeverity.Error);
-                }
-                else
-                {
-                    Subtitles?.Clear();
-                    var movieData = items.SelectNodes("//td[@data-title='Release / Movie']");
-                    var commentData = items.SelectNodes("//td[@data-title='Comment']");
-                    var language = items.SelectNodes("//td[@data-title='Language']");
-                    if (movieData != null)
+                    var web = new HtmlWeb();
+                    var doc = await web.LoadFromWebAsync(subtitleUrl);
+                    var items = doc.DocumentNode.SelectSingleNode("//table");
+                    if (items == null)
                     {
-                        string title = string.Empty;
-                        string href = string.Empty;
-                        string comment = string.Empty;
-                        foreach (var row in movieData.GetEnumeratorWithIndex())
+                        ShowStatus(Constants.NotFoundOrExist, null, InfoBarSeverity.Error);
+                    }
+                    else
+                    {
+                        Subtitles?.Clear();
+                        var movieData = items.SelectNodes("//td[@data-title='Release / Movie']");
+                        var commentData = items.SelectNodes("//td[@data-title='Comment']");
+                        var language = items.SelectNodes("//td[@data-title='Language']");
+                        if (movieData != null)
                         {
-                            var currentRow = row.Value?.SelectNodes("a");
-                            foreach (var cell in currentRow)
+                            string title = string.Empty;
+                            string href = string.Empty;
+                            string comment = string.Empty;
+                            foreach (var row in movieData.GetEnumeratorWithIndex())
                             {
-                                title = cell?.InnerText?.Trim();
-                                href = $"{Constants.ISubtitleBaseUrl}{cell?.Attributes["href"]?.Value?.Trim()}";
-                            }
-
-                            comment = commentData[row.Index]?.InnerText?.Trim();
-                            if (comment != null && comment.Contains("&nbsp;"))
-                                comment = comment.Replace("&nbsp;", "");
-
-                            if (!string.IsNullOrEmpty(title))
-                            {
-                                var item = new SubsceneDownloadModel
+                                var currentRow = row.Value?.SelectNodes("a");
+                                foreach (var cell in currentRow)
                                 {
-                                    Name = Helper.GetDecodedStringFromHtml(title),
-                                    Translator = Helper.GetDecodedStringFromHtml(comment),
-                                    Link = href,
-                                    Language = language[row.Index]?.InnerText.Trim()
-                                };
+                                    title = cell?.InnerText?.Trim();
+                                    href = $"{Constants.ISubtitleBaseUrl}{cell?.Attributes["href"]?.Value?.Trim()}";
+                                }
 
-                                Subtitles.Add(item);
+                                comment = commentData[row.Index]?.InnerText?.Trim();
+                                if (comment != null && comment.Contains("&nbsp;"))
+                                    comment = comment.Replace("&nbsp;", "");
+
+                                if (!string.IsNullOrEmpty(title))
+                                {
+                                    var item = new SubsceneDownloadModel
+                                    {
+                                        Name = Helper.GetDecodedStringFromHtml(title),
+                                        Translator = Helper.GetDecodedStringFromHtml(comment),
+                                        Link = href,
+                                        Language = language[row.Index]?.InnerText.Trim()
+                                    };
+
+                                    Subtitles.Add(item);
+                                }
                             }
                         }
                     }
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
                 }
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (ArgumentNullException)
                 {
-                    ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
+                catch (ArgumentOutOfRangeException)
                 {
-                    ShowStatus(null, hx.Message, InfoBarSeverity.Error);
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowStatus(null, ex.Message, InfoBarSeverity.Error);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowStatus(null, hx.Message, InfoBarSeverity.Error);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
                 }
             }
-            finally
+            else
             {
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
+                ShowStatus(Constants.InternetIsNotAvailableTitle, Constants.InternetIsNotAvailable, InfoBarSeverity.Error);
             }
         }
         public void ShowStatus(string title, string message, InfoBarSeverity severity)

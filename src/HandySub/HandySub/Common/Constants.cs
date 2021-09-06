@@ -31,6 +31,8 @@ namespace HandySub.Common
         public const string NotFoundOrExist = "Subtitles not found or server is unavailable, please try again!";
         public const string NoResult = "No result found!";
         public const string FoundedResult = "We found {0} subtitle(s)!";
+        public const string InternetIsNotAvailableTitle = "No Internet Connection";
+        public const string InternetIsNotAvailable = "Oh no! You're not connected to the internet.";
 
         #region Search API
         public const string SubsceneSearchAPI = "{0}/subtitles/searchbytitle?query={1}&l=";

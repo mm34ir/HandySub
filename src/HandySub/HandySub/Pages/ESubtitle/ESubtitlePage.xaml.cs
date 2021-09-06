@@ -13,6 +13,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Microsoft.UI.Xaml.Media.Animation;
+using System.Diagnostics;
+using Windows.Networking.Connectivity;
 
 namespace HandySub.Pages
 {
@@ -86,80 +88,88 @@ namespace HandySub.Pages
         public async void SearchSubtitle(string queryText)
         {
             errorInfo.IsOpen = false;
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                if (!string.IsNullOrEmpty(queryText))
+                try
                 {
-                    Helper.AddToHistory(queryText);
-                    progress.IsActive = true;
-                    SubListView.Visibility = Visibility.Collapsed;
-                    Subtitles.Clear();
-                    if (queryText.StartsWith("tt"))
-                        AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
-
-                    var url = string.Format(Constants.ESubtitleSearchAPI, queryText);
-                    var web = new HtmlWeb();
-                    var doc = await web.LoadFromWebAsync(url);
-
-                    var items = doc.DocumentNode.SelectNodes("//div[@class='poster_box']");
-                    var itemsName = doc.DocumentNode.SelectNodes("//div[@class='text']");
-                    if (items == null)
+                    if (!string.IsNullOrEmpty(queryText))
                     {
-                        ShowInfoBar(Constants.NotFoundOrExist);
-                    }
-                    else
-                    {
-                        foreach (var node in items.GetEnumeratorWithIndex())
+                        Helper.AddToHistory(queryText);
+                        progress.IsActive = true;
+                        SubListView.Visibility = Visibility.Collapsed;
+                        Subtitles.Clear();
+                        if (queryText.StartsWith("tt"))
+                            AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
+
+                        var url = string.Format(Constants.ESubtitleSearchAPI, queryText);
+                        var web = new HtmlWeb();
+                        var doc = await web.LoadFromWebAsync(url);
+
+                        var items = doc.DocumentNode.SelectNodes("//div[@class='poster_box']");
+                        var itemsName = doc.DocumentNode.SelectNodes("//div[@class='text']");
+                        if (items == null)
                         {
-                            var src = node.Value?.SelectSingleNode(".//a//noscript")?.SelectSingleNode("img")?.Attributes["srcset"]?.Value;
-                            src = FixImageSrc(src.Substring(src.LastIndexOf(",") + 1));
-                            var item = new SearchModel
+                            ShowError(Constants.NotFoundOrExist);
+                        }
+                        else
+                        {
+                            foreach (var node in items.GetEnumeratorWithIndex())
                             {
-                                Poster = src,
-                                Name = FixName(itemsName[node.Index].SelectSingleNode(".//a").InnerText.Trim()),
-                                Link = node.Value.SelectSingleNode(".//a")?.Attributes["href"]?.Value,
-                                Desc = itemsName[node.Index].SelectSingleNode(".//span").InnerText.Trim()
-                            };
+                                var src = node.Value?.SelectSingleNode(".//a//noscript")?.SelectSingleNode("img")?.Attributes["srcset"]?.Value;
+                                src = FixImageSrc(src.Substring(src.LastIndexOf(",") + 1));
+                                var item = new SearchModel
+                                {
+                                    Poster = src,
+                                    Name = FixName(itemsName[node.Index].SelectSingleNode(".//a").InnerText.Trim()),
+                                    Link = node.Value.SelectSingleNode(".//a")?.Attributes["href"]?.Value,
+                                    Desc = itemsName[node.Index].SelectSingleNode(".//span").InnerText.Trim()
+                                };
 
-                            Subtitles.Add(item);
+                                Subtitles.Add(item);
+                            }
                         }
                     }
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (ArgumentOutOfRangeException)
                 {
-                    ShowInfoBar(ex.Message);
                 }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
+                catch (ArgumentNullException)
                 {
-                    ShowInfoBar(hx.Message);
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowError(ex.Message);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowError(hx.Message);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
             }
-            finally
+            else
             {
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
         }
 
-        private void ShowInfoBar(string message)
+        private void ShowError(string message, string title = null)
         {
+            errorInfo.Title = title;
             errorInfo.Message = message;
             errorInfo.IsOpen = true;
         }

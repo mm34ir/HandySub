@@ -91,71 +91,78 @@ namespace HandySub.UserControls
         {
             SubsceneDownloadPage.Instance.CloseStatus();
 
-            if (!Helper.Settings.IsIDMEnabled)
+            if (Helper.IsNetworkAvailable())
             {
-                DownloadHoverButton.IsEnabled = false;
-                ProgressStatus.IsIndeterminate = true;
-                ProgressStatus.Visibility = Visibility.Visible;
-                ProgressStatus.Value = 0;
-            }
-
-            try
-            {
-                var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync(Helper.Settings.SubsceneServer.Url + Link);
-
-                if (doc != null)
+                if (!Helper.Settings.IsIDMEnabled)
                 {
-                    var node = doc.DocumentNode?.SelectSingleNode("//div[@class='download']//a");
-                    if (node != null)
+                    DownloadHoverButton.IsEnabled = false;
+                    ProgressStatus.IsIndeterminate = true;
+                    ProgressStatus.Visibility = Visibility.Visible;
+                    ProgressStatus.Value = 0;
+                }
+
+                try
+                {
+                    var web = new HtmlWeb();
+                    var doc = await web.LoadFromWebAsync(Helper.Settings.SubsceneServer.Url + Link);
+
+                    if (doc != null)
                     {
-                        var downloadLink = Helper.Settings.SubsceneServer.Url + node.GetAttributeValue("href", "nothing");
-
-                        // if luanched from ContextMenu set location next to the movie file
-                        if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
-                            location = App.StartUpArguments.Path;
-                        else // get location from config
-                            location = Helper.Settings.DefaultDownloadLocation;
-
-                        if (!Helper.Settings.IsIDMEnabled)
+                        var node = doc.DocumentNode?.SelectSingleNode("//div[@class='download']//a");
+                        if (node != null)
                         {
-                            var downloader = new DownloadService();
-                            downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
-                            downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
-                            await downloader.DownloadFileTaskAsync(downloadLink, new DirectoryInfo(location));
-                        }
-                        else
-                        {
-                            ProgressStatus.Visibility = Visibility.Collapsed;
-                            Helper.OpenLinkWithIDM(downloadLink);
+                            var downloadLink = Helper.Settings.SubsceneServer.Url + node.GetAttributeValue("href", "nothing");
+
+                            // if luanched from ContextMenu set location next to the movie file
+                            if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
+                                location = App.StartUpArguments.Path;
+                            else // get location from config
+                                location = Helper.Settings.DefaultDownloadLocation;
+
+                            if (!Helper.Settings.IsIDMEnabled)
+                            {
+                                var downloader = new DownloadService();
+                                downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+                                downloader.DownloadFileCompleted += Downloader_DownloadFileCompleted;
+                                await downloader.DownloadFileTaskAsync(downloadLink, new DirectoryInfo(location));
+                            }
+                            else
+                            {
+                                ProgressStatus.Visibility = Visibility.Collapsed;
+                                Helper.OpenLinkWithIDM(downloadLink);
+                            }
                         }
                     }
                 }
+                catch (NullReferenceException ex)
+                {
+                    SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
+                    DownloadHoverButton.IsEnabled = true;
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
+                    DownloadHoverButton.IsEnabled = true;
+                }
+                catch (NotSupportedException)
+                {
+                }
+                catch (ArgumentException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
+                    DownloadHoverButton.IsEnabled = true;
+                }
+                finally
+                {
+                    ProgressStatus.Visibility = Visibility.Collapsed;
+                }
             }
-            catch (NullReferenceException ex)
+            else
             {
-                SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
-                DownloadHoverButton.IsEnabled = true;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
-                DownloadHoverButton.IsEnabled = true;
-            }
-            catch (NotSupportedException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (Exception ex)
-            {
-                SubsceneDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
-                DownloadHoverButton.IsEnabled = true;
-            }
-            finally
-            {
-                ProgressStatus.Visibility = Visibility.Collapsed;
+                SubsceneDownloadPage.Instance.ShowStatus(Constants.InternetIsNotAvailableTitle, Constants.InternetIsNotAvailable, InfoBarSeverity.Error);
             }
         }
 
@@ -191,7 +198,8 @@ namespace HandySub.UserControls
 
         private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
-            DispatcherQueue.TryEnqueue(() => {
+            DispatcherQueue.TryEnqueue(() =>
+            {
                 if (ProgressStatus.IsIndeterminate == true)
                 {
                     ProgressStatus.IsIndeterminate = false;

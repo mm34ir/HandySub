@@ -35,83 +35,90 @@ namespace HandySub.Pages
         public async void SearchSubtitle(string queryText)
         {
             errorInfo.IsOpen = false;
-
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                if (!string.IsNullOrEmpty(queryText))
+                try
                 {
-                    Helper.AddToHistory(queryText);
-                    progress.IsActive = true;
-                    SubListView.Visibility = Visibility.Collapsed;
-                    Subtitles.Clear();
-                    if (queryText.StartsWith("tt"))
-                        AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
-
-                    var url = string.Format(Constants.ISubtitleSearchAPI, queryText);
-                    var web = new HtmlWeb();
-                    var doc = await web.LoadFromWebAsync(url);
-
-                    var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
-                    if (items == null)
+                    if (!string.IsNullOrEmpty(queryText))
                     {
-                        ShowInfoBar(Constants.NotFoundOrExist);
-                    }
-                    else
-                    {
-                        foreach (var node in items)
+                        Helper.AddToHistory(queryText);
+                        progress.IsActive = true;
+                        SubListView.Visibility = Visibility.Collapsed;
+                        Subtitles.Clear();
+                        if (queryText.StartsWith("tt"))
+                            AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
+
+                        var url = string.Format(Constants.ISubtitleSearchAPI, queryText);
+                        var web = new HtmlWeb();
+                        var doc = await web.LoadFromWebAsync(url);
+
+                        var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
+                        if (items == null)
                         {
-                            var src = FixImg($"{Constants.ISubtitleBaseUrl}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
-                            var name = node?.SelectSingleNode(".//div/div[2]/h3/a");
-                            var count = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[1]");
-                            var date = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[3]");
-
-                            var page = $"{Constants.ISubtitleBaseUrl}{name?.Attributes["href"]?.Value}";
-
-                            var item = new SearchModel
+                            ShowError(Constants.NotFoundOrExist);
+                        }
+                        else
+                        {
+                            foreach (var node in items)
                             {
-                                Poster = src,
-                                Name = Helper.GetDecodedStringFromHtml(name?.InnerText),
-                                Link = page,
-                                Desc = Helper.GetDecodedStringFromHtml(count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim())
-                            };
-                            if (!string.IsNullOrEmpty(item.Name))
-                            {
-                                Subtitles.Add(item);
+                                var src = FixImg($"{Constants.ISubtitleBaseUrl}{node?.SelectSingleNode(".//div/div")?.SelectSingleNode("img")?.Attributes["src"]?.Value}");
+                                var name = node?.SelectSingleNode(".//div/div[2]/h3/a");
+                                var count = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[1]");
+                                var date = node?.SelectSingleNode(".//div/div[2]/div/div[3]/div/p[3]");
+
+                                var page = $"{Constants.ISubtitleBaseUrl}{name?.Attributes["href"]?.Value}";
+
+                                var item = new SearchModel
+                                {
+                                    Poster = src,
+                                    Name = Helper.GetDecodedStringFromHtml(name?.InnerText),
+                                    Link = page,
+                                    Desc = Helper.GetDecodedStringFromHtml(count?.InnerText.Trim() + Environment.NewLine + date?.InnerText.Trim())
+                                };
+                                if (!string.IsNullOrEmpty(item.Name))
+                                {
+                                    Subtitles.Add(item);
+                                }
                             }
                         }
                     }
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (ArgumentOutOfRangeException)
                 {
-                    ShowInfoBar(ex.Message);
                 }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
+                catch (ArgumentNullException)
                 {
-                    ShowInfoBar(hx.Message);
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowError(ex.Message);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowError(hx.Message);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
             }
-            finally
+            else
             {
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
+           
         }
         private string FixImg(string img)
         {
@@ -171,8 +178,9 @@ namespace HandySub.Pages
                 GoToDownloadPage();
             }
         }
-        private void ShowInfoBar(string message)
+        private void ShowError(string message, string title = null)
         {
+            errorInfo.Title = title;
             errorInfo.Message = message;
             errorInfo.IsOpen = true;
         }

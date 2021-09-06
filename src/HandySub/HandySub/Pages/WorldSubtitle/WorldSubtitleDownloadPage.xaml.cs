@@ -58,73 +58,80 @@ namespace HandySub.Pages
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
             CloseError();
-
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync(subtitleUrl);
+                try
+                {
+                    var web = new HtmlWeb();
+                    var doc = await web.LoadFromWebAsync(subtitleUrl);
 
-                var items = doc.DocumentNode.SelectNodes(@"//div[@id='new-link']/ul/li");
-                if (items == null)
-                {
-                    ShowError(Constants.NotFoundOrExist);
-                }
-                else
-                {
-                    Subtitles?.Clear();
-                    foreach (var node in items)
+                    var items = doc.DocumentNode.SelectNodes(@"//div[@id='new-link']/ul/li");
+                    if (items == null)
                     {
-                        var displayName = node.SelectSingleNode(".//div[@class='new-link-1']").InnerText;
-                        var status = node.SelectSingleNode(".//div[@class='new-link-2']").InnerText;
-                        var link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value;
-
-                        if (status.Contains("&nbsp;")) status = status.Replace("&nbsp;", "");
-
-                        displayName = displayName.Trim() + " - " + status.Trim();
-
-                        var item = new DownloadModel
+                        ShowError(Constants.NotFoundOrExist);
+                    }
+                    else
+                    {
+                        Subtitles?.Clear();
+                        foreach (var node in items)
                         {
-                            DisplayName = displayName,
-                            DownloadLink = link
-                        };
-                        Subtitles.Add(item);
+                            var displayName = node.SelectSingleNode(".//div[@class='new-link-1']").InnerText;
+                            var status = node.SelectSingleNode(".//div[@class='new-link-2']").InnerText;
+                            var link = node.SelectSingleNode(".//a")?.Attributes["href"]?.Value;
+
+                            if (status.Contains("&nbsp;")) status = status.Replace("&nbsp;", "");
+
+                            displayName = displayName.Trim() + " - " + status.Trim();
+
+                            var item = new DownloadModel
+                            {
+                                DisplayName = displayName,
+                                DownloadLink = link
+                            };
+                            Subtitles.Add(item);
+                        }
+                    }
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
+                catch (ArgumentNullException)
+                {
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowError(ex.Message);
                     }
                 }
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (HttpRequestException hx)
                 {
-                    ShowError(ex.Message);
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowError(hx.Message);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    listView.Visibility = Visibility.Visible;
                 }
             }
-            catch (HttpRequestException hx)
+            else
             {
-                if (!string.IsNullOrEmpty(hx.Message))
-                {
-                    ShowError(hx.Message);
-                }
-            }
-            finally
-            {
-                progress.IsActive = false;
-                listView.Visibility = Visibility.Visible;
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
         }
 
-        public void ShowError(string message)
+        public void ShowError(string message, string title = null)
         {
+            errorInfo.Title = title;
             errorInfo.Message = message;
             errorInfo.IsOpen = true;
         }

@@ -79,107 +79,114 @@ namespace HandySub.Pages
 
         public async void SearchSubtitle(string queryText)
         {
-            try
+            if (Helper.IsNetworkAvailable())
             {
-                errorInfo.IsOpen = false;
-                if (!string.IsNullOrEmpty(queryText))
+                try
                 {
-                    Helper.AddToHistory(queryText);
-                    progress.IsActive = true;
-                    SubListView.Visibility = Visibility.Collapsed;
-                    Subtitles.Clear();
-                    if (queryText.StartsWith("tt"))
-                        AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
-
-                    var url = string.Format(Constants.WorldSubtitleSearchAPI, queryText);
-                    var web = new HtmlWeb();
-                    var doc = await web.LoadFromWebAsync(url);
-
-                    var items = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
-                    var infoItems = doc.DocumentNode.SelectNodes("//div[@class='cat-post-info']");
-                    if (items == null)
+                    errorInfo.IsOpen = false;
+                    if (!string.IsNullOrEmpty(queryText))
                     {
-                        ShowError(Constants.NotFoundOrExist);
-                    }
-                    else
-                    {
-                        foreach (var node in items.GetEnumeratorWithIndex())
+                        Helper.AddToHistory(queryText);
+                        progress.IsActive = true;
+                        SubListView.Visibility = Visibility.Collapsed;
+                        Subtitles.Clear();
+                        if (queryText.StartsWith("tt"))
+                            AutoSuggest.Text = await Helper.GetImdbIdFromTitle(queryText);
+
+                        var url = string.Format(Constants.WorldSubtitleSearchAPI, queryText);
+                        var web = new HtmlWeb();
+                        var doc = await web.LoadFromWebAsync(url);
+
+                        var items = doc.DocumentNode.SelectNodes("//div[@class='cat-post-tmp']");
+                        var infoItems = doc.DocumentNode.SelectNodes("//div[@class='cat-post-info']");
+                        if (items == null)
                         {
-                            // get link
-                            var Link = node.Value.SelectSingleNode(".//a").Attributes["href"]?.Value;
-
-                            //get title
-                            var Title = node.Value.SelectSingleNode(".//a").Attributes["title"]?.Value;
-                            var Img = node.Value.SelectSingleNode(".//a/img")?.Attributes["src"]?.Value;
-                            var date = infoItems[node.Index].SelectSingleNode("ul//li[1]");
-                            var translator = infoItems[node.Index].SelectSingleNode("ul//li[3]");
-                            var sync = infoItems[node.Index].SelectSingleNode("ul//li[5]");
-
-                            foreach (var item in date.SelectNodes("b"))
+                            ShowError(Constants.NotFoundOrExist);
+                        }
+                        else
+                        {
+                            foreach (var node in items.GetEnumeratorWithIndex())
                             {
-                                if (item.Name.ToLower() == "b")
+                                // get link
+                                var Link = node.Value.SelectSingleNode(".//a").Attributes["href"]?.Value;
+
+                                //get title
+                                var Title = node.Value.SelectSingleNode(".//a").Attributes["title"]?.Value;
+                                var Img = node.Value.SelectSingleNode(".//a/img")?.Attributes["src"]?.Value;
+                                var date = infoItems[node.Index].SelectSingleNode("ul//li[1]");
+                                var translator = infoItems[node.Index].SelectSingleNode("ul//li[3]");
+                                var sync = infoItems[node.Index].SelectSingleNode("ul//li[5]");
+
+                                foreach (var item in date.SelectNodes("b"))
                                 {
-                                    date.RemoveChild(item);
+                                    if (item.Name.ToLower() == "b")
+                                    {
+                                        date.RemoveChild(item);
+                                    }
                                 }
-                            }
 
-                            foreach (var item in translator.SelectNodes("b"))
-                            {
-                                if (item.Name.ToLower() == "b")
+                                foreach (var item in translator.SelectNodes("b"))
                                 {
-                                    translator.RemoveChild(item);
+                                    if (item.Name.ToLower() == "b")
+                                    {
+                                        translator.RemoveChild(item);
+                                    }
                                 }
-                            }
-                            foreach (var item in sync.SelectNodes("b"))
-                            {
-                                if (item.Name.ToLower() == "b")
+                                foreach (var item in sync.SelectNodes("b"))
                                 {
-                                    sync.RemoveChild(item);
+                                    if (item.Name.ToLower() == "b")
+                                    {
+                                        sync.RemoveChild(item);
+                                    }
                                 }
+
+                                var desc = $"تاریخ ارسال: {date.InnerText.Trim()}{Environment.NewLine} مترجمان: {translator.InnerText.Trim()}{Environment.NewLine} هماهنگ با نسخه: {sync.InnerText.Trim()}";
+
+                                Subtitles.Add(new SearchModel
+                                {
+                                    Name = Title,
+                                    Poster = Img ?? "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
+                                    Link = Link,
+                                    Desc = desc
+                                });
                             }
-
-                            var desc = $"تاریخ ارسال: {date.InnerText.Trim()}{Environment.NewLine} مترجمان: {translator.InnerText.Trim()}{Environment.NewLine} هماهنگ با نسخه: {sync.InnerText.Trim()}";
-
-                            Subtitles.Add(new SearchModel
-                            {
-                                Name = Title,
-                                Poster = Img ?? "https://file.soft98.ir/uploads/mahdi72/2019/12/24_12-error.jpg",
-                                Link = Link,
-                                Desc = desc
-                            });
                         }
                     }
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (NullReferenceException)
-            {
-            }
-            catch (WebException ex)
-            {
-                if (!string.IsNullOrEmpty(ex.Message))
+                catch (ArgumentOutOfRangeException)
                 {
-                    ShowError(ex.Message);
                 }
-            }
-            catch (HttpRequestException hx)
-            {
-                if (!string.IsNullOrEmpty(hx.Message))
+                catch (ArgumentNullException)
                 {
-                    ShowError(hx.Message);
+                }
+                catch (NullReferenceException)
+                {
+                }
+                catch (WebException ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                    {
+                        ShowError(ex.Message);
+                    }
+                }
+                catch (HttpRequestException hx)
+                {
+                    if (!string.IsNullOrEmpty(hx.Message))
+                    {
+                        ShowError(hx.Message);
+                    }
+                }
+                finally
+                {
+                    progress.IsActive = false;
+                    SubListView.Visibility = Visibility.Visible;
                 }
             }
-            finally
+            else
             {
-                progress.IsActive = false;
-                SubListView.Visibility = Visibility.Visible;
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
         }
 
@@ -196,8 +203,9 @@ namespace HandySub.Pages
             }
         }
 
-        public void ShowError(string message)
+        private void ShowError(string message, string title = null)
         {
+            errorInfo.Title = title;
             errorInfo.Message = message;
             errorInfo.IsOpen = true;
         }

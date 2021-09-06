@@ -65,10 +65,18 @@ namespace HandySub.Pages
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
             CloseStatus();
-            if (Helper.Settings.SubsceneServer.Url.Contains("subf2m"))
-                Subf2mCore();
+
+            if (Helper.IsNetworkAvailable())
+            {
+                if (Helper.Settings.SubsceneServer.Url.Contains("subf2m"))
+                    Subf2mCore();
+                else
+                    SubsceneCore();
+            }
             else
-                SubsceneCore();
+            {
+                ShowStatus(Constants.InternetIsNotAvailableTitle, Constants.InternetIsNotAvailable, InfoBarSeverity.Error);
+            }
         }
 
         private async void SubsceneCore()
@@ -146,7 +154,6 @@ namespace HandySub.Pages
                 listView.Visibility = Visibility.Visible;
             }
         }
-
         private async void Subf2mCore()
         {
             try

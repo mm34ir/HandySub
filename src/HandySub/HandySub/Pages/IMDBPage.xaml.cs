@@ -21,79 +21,85 @@ namespace HandySub.Pages
 
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(args.QueryText))
-            {
-                Helper.AddToHistory(args.QueryText);
-                progress.IsActive = true;
-                infoError.IsOpen = false;
-                InfoPanel.Visibility = Visibility.Collapsed;
-                Cover.Source = null;
+            errorInfo.IsOpen = false;
 
-                var url = string.Empty;
-                url = AutoSuggest.Text.StartsWith("tt")
-                    ? string.Format(Constants.IMDBIDAPI, args.QueryText)
-                    : string.Format(Constants.IMDBTitleAPI, args.QueryText);
-                try
+            if (Helper.IsNetworkAvailable())
+            {
+                if (!string.IsNullOrEmpty(args.QueryText))
                 {
-                    using var client = new HttpClient();
-                    var responseBody = await client.GetStringAsync(url);
-                    var options = new JsonSerializerOptions
+                    Helper.AddToHistory(args.QueryText);
+                    progress.IsActive = true;
+                    InfoPanel.Visibility = Visibility.Collapsed;
+                    Cover.Source = null;
+
+                    var url = string.Empty;
+                    url = AutoSuggest.Text.StartsWith("tt")
+                        ? string.Format(Constants.IMDBIDAPI, args.QueryText)
+                        : string.Format(Constants.IMDBTitleAPI, args.QueryText);
+                    try
                     {
-                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                        ReadCommentHandling = JsonCommentHandling.Skip
-                    };
-                    var parse = JsonSerializer.Deserialize<IMDBModel>(responseBody, options);
-                    if (parse.Response.Equals("True"))
-                    {
-                        txtImdbId.Text = string.Format(Constants.IMDBBaseUrl, parse.imdbID);
-                        if (parse.imdbRating.Contains("N/A") || string.IsNullOrEmpty(parse.imdbRating))
+                        using var client = new HttpClient();
+                        var responseBody = await client.GetStringAsync(url);
+                        var options = new JsonSerializerOptions
                         {
-                            rate.Value = 0;
+                            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                            ReadCommentHandling = JsonCommentHandling.Skip
+                        };
+                        var parse = JsonSerializer.Deserialize<IMDBModel>(responseBody, options);
+                        if (parse.Response.Equals("True"))
+                        {
+                            txtImdbId.Text = string.Format(Constants.IMDBBaseUrl, parse.imdbID);
+                            if (parse.imdbRating.Contains("N/A") || string.IsNullOrEmpty(parse.imdbRating))
+                            {
+                                rate.Value = 0;
+                            }
+                            else
+                            {
+                                rate.Value = Convert.ToDouble(parse.imdbRating, CultureInfo.InvariantCulture);
+                            }
+                            txtTitle.Text = parse.Title;
+                            txtYear.Text = parse.Year;
+                            txtReleased.Text = parse.Released;
+                            txtType.Text = parse.Type;
+                            txtTotalSeason.Text = parse.totalSeasons;
+                            txtLanguage.Text = parse.Language;
+                            txtCountry.Text = parse.Country;
+                            txtRated.Text = parse.Rated;
+                            txtGenre.Text = parse.Genre;
+                            txtDirector.Text = parse.Director;
+                            txtWriter.Text = parse.Writer;
+                            txtActors.Text = parse.Actors;
+                            txtPlot.Text = parse.Plot;
+                            if (!parse.Poster.Contains("N/A"))
+                            {
+                                Cover.Source = new BitmapImage(new Uri(parse.Poster));
+                            }
+                            progress.IsActive = false;
+                            InfoPanel.Visibility = Visibility.Visible;
                         }
                         else
                         {
-                            rate.Value = Convert.ToDouble(parse.imdbRating, CultureInfo.InvariantCulture);
+                            progress.IsActive = false;
+                            InfoPanel.Visibility = Visibility.Collapsed;
+                            ShowError(parse.Error);
                         }
-                        txtTitle.Text = parse.Title;
-                        txtYear.Text = parse.Year;
-                        txtReleased.Text = parse.Released;
-                        txtType.Text = parse.Type;
-                        txtTotalSeason.Text = parse.totalSeasons;
-                        txtLanguage.Text = parse.Language;
-                        txtCountry.Text = parse.Country;
-                        txtRated.Text = parse.Rated;
-                        txtGenre.Text = parse.Genre;
-                        txtDirector.Text = parse.Director;
-                        txtWriter.Text = parse.Writer;
-                        txtActors.Text = parse.Actors;
-                        txtPlot.Text = parse.Plot;
-                        if (!parse.Poster.Contains("N/A"))
-                        {
-                            Cover.Source = new BitmapImage(new Uri(parse.Poster));
-                        }
-                        progress.IsActive = false;
-                        InfoPanel.Visibility = Visibility.Visible;
                     }
-                    else
+                    catch (HttpRequestException ex)
                     {
+                        ShowError(ex.Message);
                         progress.IsActive = false;
                         InfoPanel.Visibility = Visibility.Collapsed;
-                        infoError.Message = parse.Error;
-                        infoError.IsOpen = true;
+                    }
+                    finally
+                    {
+                        progress.IsActive = true;
+                        progress.Visibility = Visibility.Collapsed;
                     }
                 }
-                catch (HttpRequestException ex)
-                {
-                    infoError.Message = ex.Message;
-                    infoError.IsOpen = true;
-                    progress.IsActive = false;
-                    InfoPanel.Visibility = Visibility.Collapsed;
-                }
-                finally
-                {
-                    progress.IsActive = true;
-                    progress.Visibility = Visibility.Collapsed;
-                }
+            }
+            else
+            {
+                ShowError(Constants.InternetIsNotAvailable, Constants.InternetIsNotAvailableTitle);
             }
         }
 
@@ -116,6 +122,13 @@ namespace HandySub.Pages
             {
                 AutoSuggest.Text = drop.Name;
             }
+        }
+
+        private void ShowError(string message, string title = null)
+        {
+            errorInfo.Title = title;
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
     }
 }
