@@ -379,38 +379,48 @@ namespace HandySub.Pages
             txtLastChecked.Text = DateTime.Now.ToShortDateString();
             Helper.Settings.LastCheckedUpdate = DateTime.Now.ToShortDateString();
 
+            downloadPanel.Children.Clear();
+            updateErrorInfo.IsOpen = false;
             updateDownloadInfo.IsOpen = false;
             updateInfo.IsOpen = false;
             prgUpdate.IsActive = true;
             txtUpdate.Visibility = Visibility.Visible;
-            var update = await UpdateHelper.CheckUpdateAsync("ghost1372", "handysub");
-            if (update.IsExistNewVersion)
+            try
             {
-                txtReleaseNote.Visibility = Visibility.Visible;
-                ChangeLog = update.Changelog;
-                updateDownloadInfo.Message = $"We found a new Version {update.TagName} Created at {update.CreatedAt} and Published at {update.PublishedAt}";
-                foreach (var item in update.Assets)
+                var update = await UpdateHelper.CheckUpdateAsync("ghost1372", "handysub");
+                if (update.IsExistNewVersion)
                 {
-                    var btn = new Button
+                    txtReleaseNote.Visibility = Visibility.Visible;
+                    ChangeLog = update.Changelog;
+                    updateDownloadInfo.Message = $"We found a new Version {update.TagName} Created at {update.CreatedAt} and Published at {update.PublishedAt}";
+                    foreach (var item in update.Assets)
                     {
-                        Content = $"Download {Path.GetFileName(item.Url).Replace("HandySub.Package._","")}",
-                        MinWidth = 300,
-                        Margin = new Thickness(10)
-                    };
+                        var btn = new Button
+                        {
+                            Content = $"Download {Path.GetFileName(item.Url).Replace("HandySub.Package._", "")}",
+                            MinWidth = 300,
+                            Margin = new Thickness(10)
+                        };
 
-                    btn.Click += async (s, e) => 
-                    {
-                        await Launcher.LaunchUriAsync(new Uri(item.Url));
-                    };
+                        btn.Click += async (s, e) =>
+                        {
+                            await Launcher.LaunchUriAsync(new Uri(item.Url));
+                        };
 
-                    downloadPanel.Children.Add(btn);
+                        downloadPanel.Children.Add(btn);
+                    }
+
+                    updateDownloadInfo.IsOpen = true;
                 }
-
-                updateDownloadInfo.IsOpen = true;
+                else
+                {
+                    updateInfo.IsOpen = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                updateInfo.IsOpen = true;
+                updateErrorInfo.Message = ex.Message;
+                updateErrorInfo.IsOpen = true;
             }
 
             prgUpdate.IsActive = false;

@@ -57,7 +57,7 @@ namespace HandySub.Pages
         {
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
-            Notify.IsOpen = false;
+            CloseError();
 
             try
             {
@@ -67,7 +67,7 @@ namespace HandySub.Pages
                 var items = doc.DocumentNode.SelectNodes(@"//div[@id='new-link']/ul/li");
                 if (items == null)
                 {
-                    ShowInfoBar("Error", "Subtitles not found or server is unavailable.", InfoBarSeverity.Error);
+                    ShowError(Constants.NotFoundOrExist);
                 }
                 else
                 {
@@ -106,14 +106,14 @@ namespace HandySub.Pages
             {
                 if (!string.IsNullOrEmpty(ex.Message))
                 {
-                    ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    ShowError(ex.Message);
                 }
             }
             catch (HttpRequestException hx)
             {
                 if (!string.IsNullOrEmpty(hx.Message))
                 {
-                    ShowInfoBar("Error", hx.Message, InfoBarSeverity.Error);
+                    ShowError(hx.Message);
                 }
             }
             finally
@@ -123,10 +123,17 @@ namespace HandySub.Pages
             }
         }
 
-        public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
+        public void ShowError(string message)
         {
-            Helper.ShowInfoBar(Notify, title, message, severity);
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
+
+        public void CloseError()
+        {
+            errorInfo.IsOpen = false;
+        }
+
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             GetSubtitle();

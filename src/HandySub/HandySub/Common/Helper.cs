@@ -118,22 +118,6 @@ namespace HandySub.Common
 
         #endregion
 
-        #region InfoBar
-        public static void ShowErrorInfoBar(InfoBar infoBar, string message)
-        {
-            infoBar.Message = message;
-            infoBar.IsOpen = true;
-        }
-
-        public static void ShowInfoBar(InfoBar infoBar, string title, string message, InfoBarSeverity severity)
-        {
-            infoBar.Title = title;
-            infoBar.Message = message;
-            infoBar.Severity = severity;
-            infoBar.IsOpen = true;
-        }
-        #endregion
-
         #region History
         public static void AddToHistory(string item)
         {

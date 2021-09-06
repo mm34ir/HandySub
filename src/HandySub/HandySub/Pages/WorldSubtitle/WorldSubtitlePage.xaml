@@ -26,8 +26,7 @@
             QuerySubmitted="AutoSuggest_QuerySubmitted"
             TextChanged="AutoSuggest_TextChanged"/>
         <InfoBar
-            Name="InfoError"
-            Title="Error"
+            Name="errorInfo"
             Margin="10,50,10,0"
             Severity="Error">
             <InfoBar.ActionButton>

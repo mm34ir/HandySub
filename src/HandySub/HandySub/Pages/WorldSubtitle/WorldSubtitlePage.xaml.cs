@@ -55,11 +55,8 @@ namespace HandySub.Pages
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            InfoError.IsOpen = false;
-
             SearchSubtitle(AutoSuggest.Text);
         }
-
         
         private void SubListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
@@ -80,19 +77,14 @@ namespace HandySub.Pages
             }
         }
 
-        private void ShowInfoBar(string message)
-        {
-            Helper.ShowErrorInfoBar(InfoError, message);
-        }
-
         public async void SearchSubtitle(string queryText)
         {
             try
             {
+                errorInfo.IsOpen = false;
                 if (!string.IsNullOrEmpty(queryText))
                 {
                     Helper.AddToHistory(queryText);
-                    InfoError.IsOpen = false;
                     progress.IsActive = true;
                     SubListView.Visibility = Visibility.Collapsed;
                     Subtitles.Clear();
@@ -107,18 +99,18 @@ namespace HandySub.Pages
                     var infoItems = doc.DocumentNode.SelectNodes("//div[@class='cat-post-info']");
                     if (items == null)
                     {
-                        ShowInfoBar("Subtitle not found or server is unavailable.");
+                        ShowError(Constants.NotFoundOrExist);
                     }
                     else
                     {
                         foreach (var node in items.GetEnumeratorWithIndex())
                         {
                             // get link
-                            var Link = node.Value.SelectSingleNode(".//a").Attributes["href"].Value;
+                            var Link = node.Value.SelectSingleNode(".//a").Attributes["href"]?.Value;
 
                             //get title
-                            var Title = node.Value.SelectSingleNode(".//a").Attributes["title"].Value;
-                            var Img = node.Value.SelectSingleNode(".//a/img")?.Attributes["data-src"].Value;
+                            var Title = node.Value.SelectSingleNode(".//a").Attributes["title"]?.Value;
+                            var Img = node.Value.SelectSingleNode(".//a/img")?.Attributes["src"]?.Value;
                             var date = infoItems[node.Index].SelectSingleNode("ul//li[1]");
                             var translator = infoItems[node.Index].SelectSingleNode("ul//li[3]");
                             var sync = infoItems[node.Index].SelectSingleNode("ul//li[5]");
@@ -174,14 +166,14 @@ namespace HandySub.Pages
             {
                 if (!string.IsNullOrEmpty(ex.Message))
                 {
-                    ShowInfoBar(ex.Message);
+                    ShowError(ex.Message);
                 }
             }
             catch (HttpRequestException hx)
             {
                 if (!string.IsNullOrEmpty(hx.Message))
                 {
-                    ShowInfoBar(hx.Message);
+                    ShowError(hx.Message);
                 }
             }
             finally
@@ -202,6 +194,12 @@ namespace HandySub.Pages
             {
                 AutoSuggest.Text = drop.Name;
             }
+        }
+
+        public void ShowError(string message)
+        {
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
     }
 }

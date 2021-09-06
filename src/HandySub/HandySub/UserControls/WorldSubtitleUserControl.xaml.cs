@@ -41,6 +41,7 @@ namespace HandySub.UserControls
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            WorldSubtitleDownloadPage.Instance.CloseError();
             if (btnDownload.Content.Equals("Open Folder"))
             {
                 Helper.OpenFolderAndSelectFile(btnDownload.Tag.ToString());
@@ -81,12 +82,12 @@ namespace HandySub.UserControls
                 }
                 catch (NullReferenceException ex)
                 {
-                    WorldSubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    WorldSubtitleDownloadPage.Instance.ShowError(ex.Message);
                     btnDownload.IsEnabled = true;
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    WorldSubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    WorldSubtitleDownloadPage.Instance.ShowError(ex.Message);
                     btnDownload.IsEnabled = true;
                 }
                 catch (NotSupportedException)
@@ -97,7 +98,7 @@ namespace HandySub.UserControls
                 }
                 catch (Exception ex)
                 {
-                    WorldSubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    WorldSubtitleDownloadPage.Instance.ShowError(ex.Message);
                     btnDownload.IsEnabled = true;
                 }
                 finally
@@ -113,14 +114,14 @@ namespace HandySub.UserControls
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    WorldSubtitleDownloadPage.Instance.ShowInfoBar("Error", "Download Canceled", InfoBarSeverity.Error);
+                    WorldSubtitleDownloadPage.Instance.ShowError("Download Canceled!");
                 });
             }
             else if (e.Error != null)
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    WorldSubtitleDownloadPage.Instance.ShowInfoBar("Error", e.Error.Message, InfoBarSeverity.Error);
+                    WorldSubtitleDownloadPage.Instance.ShowError(e.Error.Message);
                 });
             }
             else
@@ -137,7 +138,7 @@ namespace HandySub.UserControls
             }
         }
 
-        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        private void Downloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             DispatcherQueue.TryEnqueue(() => {
                 if (ProgressStatus.IsIndeterminate == true)

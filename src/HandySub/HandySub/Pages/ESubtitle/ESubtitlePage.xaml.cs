@@ -61,8 +61,6 @@ namespace HandySub.Pages
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            InfoError.IsOpen = false;
-
             SearchSubtitle(AutoSuggest.Text);
         }
 
@@ -87,12 +85,12 @@ namespace HandySub.Pages
 
         public async void SearchSubtitle(string queryText)
         {
+            errorInfo.IsOpen = false;
             try
             {
                 if (!string.IsNullOrEmpty(queryText))
                 {
                     Helper.AddToHistory(queryText);
-                    InfoError.IsOpen = false;
                     progress.IsActive = true;
                     SubListView.Visibility = Visibility.Collapsed;
                     Subtitles.Clear();
@@ -107,7 +105,7 @@ namespace HandySub.Pages
                     var itemsName = doc.DocumentNode.SelectNodes("//div[@class='text']");
                     if (items == null)
                     {
-                        ShowInfoBar("Subtitle not found or server is unavailable.");
+                        ShowInfoBar(Constants.NotFoundOrExist);
                     }
                     else
                     {
@@ -162,7 +160,8 @@ namespace HandySub.Pages
 
         private void ShowInfoBar(string message)
         {
-            Helper.ShowErrorInfoBar(InfoError, message);
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
 
         // Remove some persian text from movie/series name

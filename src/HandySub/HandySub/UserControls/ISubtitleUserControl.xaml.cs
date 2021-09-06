@@ -86,6 +86,8 @@ namespace HandySub.UserControls
         }
         public async void DownloadSubtitle()
         {
+            ISubtitleDownloadPage.Instance.CloseStatus();
+
             if (!Helper.Settings.IsIDMEnabled)
             {
                 DownloadHoverButton.IsEnabled = false;
@@ -132,12 +134,12 @@ namespace HandySub.UserControls
             }
             catch (NullReferenceException ex)
             {
-                ISubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                ISubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 DownloadHoverButton.IsEnabled = true;
             }
             catch (UnauthorizedAccessException ex)
             {
-                ISubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                ISubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 DownloadHoverButton.IsEnabled = true;
             }
             catch (NotSupportedException)
@@ -148,7 +150,7 @@ namespace HandySub.UserControls
             }
             catch (Exception ex)
             {
-                ISubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                ISubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 DownloadHoverButton.IsEnabled = true;
             }
             finally
@@ -163,14 +165,14 @@ namespace HandySub.UserControls
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    ISubtitleDownloadPage.Instance.ShowInfoBar("Error", "Download Canceled", InfoBarSeverity.Error);
+                    ISubtitleDownloadPage.Instance.ShowStatus( "Download Canceled!", null, InfoBarSeverity.Error);
                 });
             }
             else if (e.Error != null)
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    ISubtitleDownloadPage.Instance.ShowInfoBar("Error", e.Error.Message, InfoBarSeverity.Error);
+                    ISubtitleDownloadPage.Instance.ShowStatus(null, e.Error.Message, InfoBarSeverity.Error);
                 });
             }
             else

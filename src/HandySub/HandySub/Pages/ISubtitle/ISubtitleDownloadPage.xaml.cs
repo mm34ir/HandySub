@@ -63,7 +63,7 @@ namespace HandySub.Pages
         {
             progress.IsActive = true;
             listView.Visibility = Visibility.Collapsed;
-            Notify.IsOpen = false;
+            CloseStatus();
 
             try
             {
@@ -72,7 +72,7 @@ namespace HandySub.Pages
                 var items = doc.DocumentNode.SelectSingleNode("//table");
                 if (items == null)
                 {
-                    ShowInfoBar("Error", "Subtitles not found or server is unavailable.", InfoBarSeverity.Error);
+                    ShowStatus(Constants.NotFoundOrExist, null, InfoBarSeverity.Error);
                 }
                 else
                 {
@@ -126,14 +126,14 @@ namespace HandySub.Pages
             {
                 if (!string.IsNullOrEmpty(ex.Message))
                 {
-                    ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                 }
             }
             catch (HttpRequestException hx)
             {
                 if (!string.IsNullOrEmpty(hx.Message))
                 {
-                    ShowInfoBar("Error", hx.Message, InfoBarSeverity.Error);
+                    ShowStatus(null, hx.Message, InfoBarSeverity.Error);
                 }
             }
             finally
@@ -142,9 +142,17 @@ namespace HandySub.Pages
                 listView.Visibility = Visibility.Visible;
             }
         }
-        public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
+        public void ShowStatus(string title, string message, InfoBarSeverity severity)
         {
-            Helper.ShowInfoBar(Notify, title, message, severity);
+            statusInfo.Title = title;
+            statusInfo.Message = message;
+            statusInfo.Severity = severity;
+            statusInfo.IsOpen = true;
+        }
+
+        public void CloseStatus()
+        {
+            statusInfo.IsOpen = false;
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
@@ -198,15 +206,16 @@ namespace HandySub.Pages
 
             if (listView.Items.Count > 0)
             {
-                ShowInfoBar("Info", $"We found {listView.Items.Count} subtitle(s)!", InfoBarSeverity.Success);
+                ShowStatus(string.Format(Constants.FoundedResult, listView.Items.Count),null, InfoBarSeverity.Success);
             }
             else
             {
-                ShowInfoBar("Warning", $"No result found!", InfoBarSeverity.Warning);
+                ShowStatus(Constants.NoResult, null, InfoBarSeverity.Warning);
             }
         }
         private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            CloseStatus();
             SubtitlesACV.Filter = _ => true;
 
             if (string.IsNullOrEmpty(AutoSuggest.Text))
@@ -228,7 +237,7 @@ namespace HandySub.Pages
             Filter();
             if (progress.IsActive)
             {
-                Notify.IsOpen = false;
+                CloseStatus();
             }
         }
         private void cmbQuaity_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -243,7 +252,7 @@ namespace HandySub.Pages
             Filter();
             if (progress.IsActive)
             {
-                Notify.IsOpen = false;
+                CloseStatus();
             }
         }
         private void nbEpisode_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)

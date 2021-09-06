@@ -34,12 +34,13 @@ namespace HandySub.Pages
 
         public async void SearchSubtitle(string queryText)
         {
+            errorInfo.IsOpen = false;
+
             try
             {
                 if (!string.IsNullOrEmpty(queryText))
                 {
                     Helper.AddToHistory(queryText);
-                    InfoError.IsOpen = false;
                     progress.IsActive = true;
                     SubListView.Visibility = Visibility.Collapsed;
                     Subtitles.Clear();
@@ -53,7 +54,7 @@ namespace HandySub.Pages
                     var items = doc.DocumentNode.SelectNodes("//div[@class='movie-list-info']");
                     if (items == null)
                     {
-                        ShowInfoBar("Subtitle not found or server is unavailable.");
+                        ShowInfoBar(Constants.NotFoundOrExist);
                     }
                     else
                     {
@@ -149,8 +150,6 @@ namespace HandySub.Pages
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            InfoError.IsOpen = false;
-
             SearchSubtitle(AutoSuggest.Text);
         }
 
@@ -174,7 +173,8 @@ namespace HandySub.Pages
         }
         private void ShowInfoBar(string message)
         {
-            Helper.ShowErrorInfoBar(InfoError, message);
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
         private void Grid_DragOver(object sender, DragEventArgs e)
         {

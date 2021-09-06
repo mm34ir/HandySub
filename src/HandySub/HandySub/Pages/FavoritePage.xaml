@@ -21,7 +21,7 @@
             PlaceholderText="Search Movie\Series"
             QueryIcon="Find"
             TextChanged="AutoSuggest_TextChanged"/>
-        <InfoBar Name="Notify" Margin="10,50,10,0"/>
+        <InfoBar Name="statusInfo" Margin="10,50,10,0"/>
         <ListView
             x:Name="SubListView"
             Grid.Row="1"

@@ -44,10 +44,11 @@ namespace HandySub.Pages
         {
             try
             {
+                errorInfo.IsOpen = false;
+
                 if (!string.IsNullOrEmpty(queryText))
                 {
                     Helper.AddToHistory(queryText);
-                    InfoError.IsOpen = false;
                     progress.IsActive = true;
                     SubListView.Visibility = Visibility.Collapsed;
                     Subtitles.Clear();
@@ -61,12 +62,13 @@ namespace HandySub.Pages
                     var titleCollection = doc.DocumentNode.SelectSingleNode("//div[@class='search-result']");
                     if (titleCollection == null || titleCollection.InnerText.Contains("No results found"))
                     {
-                        ShowInfoBar("Subtitle not found or server is unavailable.");
+                        ShowError(Constants.NotFoundOrExist);
                     }
                     else
                     {
                         for (int i = 1; i < 4; i++)
                         {
+                            errorInfo.IsOpen = false;
                             var node = titleCollection.SelectSingleNode($"ul[{i}]");
                             if (node != null)
                             {
@@ -92,7 +94,7 @@ namespace HandySub.Pages
                             }
                             else
                             {
-                                ShowInfoBar("Subtitle not found or server is unavailable.");
+                                ShowError(Constants.NotFoundOrExist);
                             }
                         }
                     }
@@ -121,14 +123,14 @@ namespace HandySub.Pages
             {
                 if (!string.IsNullOrEmpty(ex.Message))
                 {
-                    ShowInfoBar(ex.Message);
+                    ShowError(ex.Message);
                 }
             }
             catch (HttpRequestException hx)
             {
                 if (!string.IsNullOrEmpty(hx.Message))
                 {
-                    ShowInfoBar(hx.Message);
+                    ShowError(hx.Message);
                 }
             }
             finally
@@ -179,14 +181,13 @@ namespace HandySub.Pages
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            InfoError.IsOpen = false;
-
             SearchSubtitle(AutoSuggest.Text);
         }
 
-        private void ShowInfoBar(string message)
+        private void ShowError(string message)
         {
-            Helper.ShowErrorInfoBar(InfoError, message);
+            errorInfo.Message = message;
+            errorInfo.IsOpen = true;
         }
 
         private void Grid_DragOver(object sender, DragEventArgs e)

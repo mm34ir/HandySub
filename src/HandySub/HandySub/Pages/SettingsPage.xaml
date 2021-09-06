@@ -75,7 +75,7 @@
                     Title="New Version Available!"
                     IsClosable="False"
                     Message="We found a new version!"
-                    Severity="Informational">
+                    Severity="Success">
                     <InfoBar.Content>
                         <community:WrapPanel
                             Name="downloadPanel"
@@ -83,6 +83,7 @@
                             Orientation="Horizontal"/>
                     </InfoBar.Content>
                 </InfoBar>
+                <InfoBar Name="updateErrorInfo" Severity="Error"/>
                 <controls:SettingsGroup Header="User Interface">
                     <controls:Setting Header="Theme Mode" Icon="&#xE771;">
                         <controls:Setting.Description>

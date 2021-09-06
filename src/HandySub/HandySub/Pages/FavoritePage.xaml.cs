@@ -53,6 +53,7 @@ namespace HandySub.Pages
         #region Search and Filter
         private void AutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            statusInfo.IsOpen = false;
             FavoritesACV.Filter = _ => true;
 
             if (string.IsNullOrEmpty(AutoSuggest.Text))
@@ -82,11 +83,11 @@ namespace HandySub.Pages
 
             if (SubListView.Items.Count > 0)
             {
-                ShowInfoBar("Info", $"We found {SubListView.Items.Count} subtitle(s)!", InfoBarSeverity.Success);
+                ShowStatus(string.Format(Constants.FoundedResult, SubListView.Items.Count), null, InfoBarSeverity.Success);
             }
             else
             {
-                ShowInfoBar("Warning", $"No result found!", InfoBarSeverity.Warning);
+                ShowStatus(Constants.NoResult, null, InfoBarSeverity.Warning);
             }
         }
         #endregion
@@ -138,16 +139,20 @@ namespace HandySub.Pages
             }
         }
 
-        public void ShowInfoBar(string title, string message, InfoBarSeverity severity)
-        {
-            Helper.ShowInfoBar(Notify, title, message, severity);
-        }
         public void ShowEmptyNotify()
         {
             if (Favorites.Count == 0)
             {
-                ShowInfoBar("Info", "You have not yet added a movie/series to your favorites list, Search for a subtitle and add it to your favorites list.", InfoBarSeverity.Success);
+                ShowStatus(null, "You have not yet added a movie/series to your favorites list, Search for a subtitle and add it to your favorites list.", InfoBarSeverity.Success);
             }
+        }
+
+        public void ShowStatus(string title, string message, InfoBarSeverity severity)
+        {
+            statusInfo.Title = title;
+            statusInfo.Message = message;
+            statusInfo.Severity = severity;
+            statusInfo.IsOpen = true;
         }
     }
 }

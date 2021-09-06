@@ -42,6 +42,8 @@ namespace HandySub.UserControls
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            ESubtitleDownloadPage.Instance.CloseStatus();
+
             if (btnDownload.Content.Equals("Open Folder"))
             {
                 Helper.OpenFolderAndSelectFile(btnDownload.Tag.ToString());
@@ -82,12 +84,12 @@ namespace HandySub.UserControls
                 }
                 catch (NullReferenceException ex)
                 {
-                    ESubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    ESubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                     btnDownload.IsEnabled = true;
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    ESubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    ESubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                     btnDownload.IsEnabled = true;
                 }
                 catch (NotSupportedException)
@@ -98,7 +100,7 @@ namespace HandySub.UserControls
                 }
                 catch (Exception ex)
                 {
-                    ESubtitleDownloadPage.Instance.ShowInfoBar("Error", ex.Message, InfoBarSeverity.Error);
+                    ESubtitleDownloadPage.Instance.ShowStatus(null, ex.Message, InfoBarSeverity.Error);
                     btnDownload.IsEnabled = true;
                 }
                 finally
@@ -114,14 +116,14 @@ namespace HandySub.UserControls
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    ESubtitleDownloadPage.Instance.ShowInfoBar("Error", "Download Canceled", InfoBarSeverity.Error);
+                    ESubtitleDownloadPage.Instance.ShowStatus("Download Canceled!", null, InfoBarSeverity.Error);
                 });
             }
             else if (e.Error != null)
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    ESubtitleDownloadPage.Instance.ShowInfoBar("Error", e.Error.Message, InfoBarSeverity.Error);
+                    ESubtitleDownloadPage.Instance.ShowStatus(null, e.Error.Message, InfoBarSeverity.Error);
                 });
             }
             else
@@ -139,7 +141,7 @@ namespace HandySub.UserControls
             }
         }
 
-        private void Downloader_DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        private void Downloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             DispatcherQueue.TryEnqueue(() => {
                 if (ProgressStatus.IsIndeterminate == true)
