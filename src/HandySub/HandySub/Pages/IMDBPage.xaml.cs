@@ -27,7 +27,10 @@ namespace HandySub.Pages
             {
                 if (!string.IsNullOrEmpty(args.QueryText))
                 {
-                    Helper.AddToHistory(args.QueryText);
+                    if (Helper.Settings.IsHistoryEnabled)
+                    {
+                        Helper.AddToHistory(args.QueryText);
+                    }
                     progress.IsActive = true;
                     InfoPanel.Visibility = Visibility.Collapsed;
                     Cover.Source = null;
@@ -107,8 +110,11 @@ namespace HandySub.Pages
         {
             if (string.IsNullOrEmpty(AutoSuggest.Text))
                 return;
-            
-            Helper.LoadHistory(sender, args, AutoSuggest);
+
+            if (Helper.Settings.IsHistoryEnabled)
+            {
+                Helper.LoadHistory(sender, args, AutoSuggest);
+            }
         }
 
         private void Grid_DragOver(object sender, DragEventArgs e)

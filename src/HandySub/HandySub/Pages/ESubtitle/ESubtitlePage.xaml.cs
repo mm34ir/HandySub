@@ -47,7 +47,10 @@ namespace HandySub.Pages
             if (string.IsNullOrEmpty(AutoSuggest.Text))
                 return;
 
-            Helper.LoadHistory(sender, args, AutoSuggest);
+            if (Helper.Settings.IsHistoryEnabled)
+            {
+                Helper.LoadHistory(sender, args, AutoSuggest);
+            }
         }
 
         private void GoToDownloadPage()
@@ -92,7 +95,10 @@ namespace HandySub.Pages
                 {
                     if (!string.IsNullOrEmpty(queryText))
                     {
-                        Helper.AddToHistory(queryText);
+                        if (Helper.Settings.IsHistoryEnabled)
+                        {
+                            Helper.AddToHistory(queryText);
+                        }
                         progress.IsActive = true;
                         SubListView.Visibility = Visibility.Collapsed;
                         Subtitles.Clear();

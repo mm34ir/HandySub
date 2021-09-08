@@ -76,6 +76,7 @@ namespace HandySub.Pages
             tgUnzip.IsOn = Helper.Settings.IsAutoDeCompressEnabled;
             tgRegex.IsOn = Helper.Settings.IsDefaultRegexEnabled;
             tgSound.IsOn = Helper.Settings.IsSoundEnabled;
+            tgHistory.IsOn = Helper.Settings.IsHistoryEnabled;
             txtRegex.Text = Helper.Settings.FileNameRegex;
             spatialSoundBox.IsChecked = Helper.Settings.IsSpatialSoundEnabled;
             History = Helper.Settings.SearchHistory;
@@ -229,6 +230,11 @@ namespace HandySub.Pages
                     txtRegex.Text = Constants.FileNameRegex;
                 }
             }
+        }
+
+        private void tgHistory_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsHistoryEnabled = tgHistory.IsOn;
         }
         #endregion
 

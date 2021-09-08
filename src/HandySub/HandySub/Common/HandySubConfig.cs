@@ -33,6 +33,7 @@ namespace HandySub.Common
         public virtual bool IsDefaultRegexEnabled { get; set; } = true;
         public virtual bool IsSoundEnabled { get; set; } = false;
         public virtual bool IsSpatialSoundEnabled { get; set; } = false;
+        public virtual bool IsHistoryEnabled { get; set; } = true;
         public virtual ObservableCollection<string> SearchHistory { get; set; } = new ObservableCollection<string>();
         public virtual ElementTheme ApplicationTheme { get; set; } = ElementTheme.Default;
     }
