@@ -300,7 +300,7 @@
                             Name="historyList"
                             MinWidth="350"
                             MaxHeight="300"
-                            ItemsSource="{x:Bind History, Mode=OneWay}"/>
+                            ItemsSource="{x:Bind HistoryACV, Mode=OneWay}"/>
                         <StackPanel Margin="10" VerticalAlignment="Top">
                             <Button
                                 Name="btnRemove"

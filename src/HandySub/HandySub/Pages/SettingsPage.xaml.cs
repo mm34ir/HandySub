@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.WinUI.UI.Controls;
+﻿using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using HandySub.Common;
 using HandySub.Models;
 using Microsoft.UI.Xaml;
@@ -54,10 +55,14 @@ namespace HandySub.Pages
         private string CurrentVersion;
 
         private string ChangeLog = string.Empty;
+
+        public AdvancedCollectionView HistoryACV;
         public SettingsPage()
         {
             this.InitializeComponent();
             LoadSettings();
+            HistoryACV = new AdvancedCollectionView(History, true);
+            HistoryACV.SortDescriptions.Add(new SortDescription(SortDirection.Ascending));
         }
 
         public void LoadSettings()
