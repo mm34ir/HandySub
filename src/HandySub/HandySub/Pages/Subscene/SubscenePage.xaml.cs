@@ -16,6 +16,7 @@ namespace HandySub.Pages
     public sealed partial class SubscenePage : Page
     {
         internal static SubscenePage Instance;
+        AutoSuggestBoxTextChangedEventArgs autoSuggestBoxTextChangedEventArgs;
         private ObservableCollection<SubsceneSearchModel> _subtitles = new ObservableCollection<SubsceneSearchModel>();
         public ObservableCollection<SubsceneSearchModel> Subtitles
         {
@@ -37,11 +38,15 @@ namespace HandySub.Pages
         {
             if (string.IsNullOrEmpty(AutoSuggest.Text))
                 return;
-
+            autoSuggestBoxTextChangedEventArgs = args;
             if (Helper.Settings.IsHistoryEnabled)
             {
                 Helper.LoadHistory(sender, args, AutoSuggest);
             }
+        }
+        public void RefreshAutoSuggestTextChanged()
+        {
+            AutoSuggest_TextChanged(AutoSuggest, autoSuggestBoxTextChangedEventArgs);
         }
         public async void SearchSubtitle(string queryText)
         {

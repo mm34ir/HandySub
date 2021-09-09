@@ -14,9 +14,12 @@ namespace HandySub.Pages
 {
     public sealed partial class IMDBPage : Page
     {
+        internal static IMDBPage Instance;
+        AutoSuggestBoxTextChangedEventArgs autoSuggestBoxTextChangedEventArgs;
         public IMDBPage()
         {
             this.InitializeComponent();
+            Instance = this;
         }
 
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -111,12 +114,17 @@ namespace HandySub.Pages
             if (string.IsNullOrEmpty(AutoSuggest.Text))
                 return;
 
+            autoSuggestBoxTextChangedEventArgs = args;
+
             if (Helper.Settings.IsHistoryEnabled)
             {
                 Helper.LoadHistory(sender, args, AutoSuggest);
             }
         }
-
+        public void RefreshAutoSuggestTextChanged()
+        {
+            AutoSuggestBox_TextChanged(AutoSuggest, autoSuggestBoxTextChangedEventArgs);
+        }
         private void Grid_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;

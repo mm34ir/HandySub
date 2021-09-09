@@ -15,6 +15,8 @@ namespace HandySub.Pages
 {
     public sealed partial class ISubtitlePage : Page
     {
+        internal static ISubtitlePage Instance;
+        AutoSuggestBoxTextChangedEventArgs autoSuggestBoxTextChangedEventArgs;
         private ObservableCollection<SearchModel> _subtitles = new ObservableCollection<SearchModel>();
         public ObservableCollection<SearchModel> Subtitles
         {
@@ -24,7 +26,7 @@ namespace HandySub.Pages
         public ISubtitlePage()
         {
             this.InitializeComponent();
-
+            Instance = this;
             if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
             {
                 AutoSuggest.Text = App.StartUpArguments.Name;
@@ -146,12 +148,17 @@ namespace HandySub.Pages
             if (string.IsNullOrEmpty(AutoSuggest.Text))
                 return;
 
+            autoSuggestBoxTextChangedEventArgs = args;
+
             if (Helper.Settings.IsHistoryEnabled)
             {
                 Helper.LoadHistory(sender, args, AutoSuggest);
             }
         }
-
+        public void RefreshAutoSuggestTextChanged()
+        {
+            AutoSuggest_TextChanged(AutoSuggest, autoSuggestBoxTextChangedEventArgs);
+        }
         private void GoToDownloadPage()
         {
             var item = SubListView.SelectedItem as SearchModel;

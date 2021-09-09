@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:HandySub.Models"
+    xmlns:uc="using:HandySub.UserControls"
     Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -26,7 +27,13 @@
             PlaceholderText="Search Movie\Series by Name or IMDB id"
             QueryIcon="Find"
             QuerySubmitted="AutoSuggest_QuerySubmitted"
-            TextChanged="AutoSuggest_TextChanged"/>
+            TextChanged="AutoSuggest_TextChanged">
+            <AutoSuggestBox.ItemTemplate>
+                <DataTemplate>
+                    <uc:AutoSuggestBoxItemUserControl Title="{Binding}"/>
+                </DataTemplate>
+            </AutoSuggestBox.ItemTemplate>
+        </AutoSuggestBox>
         <InfoBar
             Name="errorInfo"
             Margin="10,50,10,0"

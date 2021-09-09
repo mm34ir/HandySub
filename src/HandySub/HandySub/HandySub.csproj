@@ -41,6 +41,7 @@
     <None Remove="Themes\Generic.xaml" />
     <None Remove="Themes\SettingsExpanderStyles.xaml" />
     <None Remove="UnRAR.exe" />
+    <None Remove="UserControls\AutoSuggestBoxItemUserControl.xaml" />
     <None Remove="UserControls\ESubtitleUserControl.xaml" />
     <None Remove="UserControls\FavoriteUserControl.xaml" />
     <None Remove="UserControls\ISubtitleUserControl.xaml" />
@@ -65,6 +66,12 @@
 	<PackageReference Include="nucs.JsonSettings.Autosave" Version="2.0.0-alpha7" />
 	<PackageReference Include="SharpCompress" Version="0.28.3" />
     <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\AutoSuggestBoxItemUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
