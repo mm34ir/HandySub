@@ -48,7 +48,7 @@ namespace HandySub.Pages
 
             if (Helper.Settings.IsHistoryEnabled)
             {
-                Helper.LoadHistory(sender, args, AutoSuggest);
+                Helper.LoadHistory(sender, args);
             }
         }
 

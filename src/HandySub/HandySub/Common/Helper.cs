@@ -125,7 +125,7 @@ namespace HandySub.Common
             Settings.SearchHistory.AddIfNotExists(item);
             Settings.SearchHistory = new ObservableCollection<string>(Settings.SearchHistory);
         }
-        public static void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, AutoSuggestBox autoBox)
+        public static void LoadHistory(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var suggestions = new List<string>();
             var history = Settings.SearchHistory;
@@ -154,12 +154,12 @@ namespace HandySub.Common
                 {
                     for (int i = 0; i < suggestions.Count; i++)
                     {
-                        autoBox.ItemsSource = suggestions;
+                        sender.ItemsSource = suggestions;
                     }
                 }
                 else
                 {
-                    autoBox.ItemsSource = new string[] { "No result found" };
+                    sender.ItemsSource = new string[] { "No result found" };
                 }
             }
         }
