@@ -299,8 +299,12 @@ namespace HandySub.Pages
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            History.Remove((string)historyList.SelectedItem);
-            Helper.Settings.SearchHistory = History;
+            var currentItem = VisualHelper.GetListViewItem<string>(sender as Button);
+            if (currentItem != null)
+            {
+                History.Remove(currentItem);
+                Helper.Settings.SearchHistory = History;
+            }
         }
 
         #endregion
