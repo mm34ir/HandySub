@@ -1,0 +1,105 @@
+﻿<Page x:Class="HandySub.Pages.ShellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:helpers="using:SettingsUI.Helpers"
+      xmlns:views="using:HandySub.Pages"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <NavigationView x:Name="navigationView"
+                        IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+                        IsTabStop="False"
+                        IsTitleBarAutoPaddingEnabled="False"
+                        ItemInvoked="navigationView_ItemInvoked"
+                        OpenPaneLength="288"
+                        PaneTitle="HandySub"
+                        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:FavoritePage"
+                                    Content="Favorite">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/favorites.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:SubscenePage"
+                                    Content="Subscene">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/home.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:ESubtitlePage"
+                                    Content="E Subtitle">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/aparat.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:WorldSubtitlePage"
+                                    Content="World Subtitle">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/globe.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:ISubtitlePage"
+                                    Content="I Subtitle">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/aparat.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:IMDBPage"
+                                    Content="Get IMDB Info">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/movie.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Margin="0,0,12,0"
+                                    helpers:NavHelper.NavigateTo="views:ComparePage"
+                                    Content="Compare Subtitles">
+                    <NavigationViewItem.Icon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/FluentIcons/compare.png" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            <Frame x:Name="shellFrame" />
+        </NavigationView>
+        <TeachingTip x:Name="tip1"
+                     Title="Navigation"
+                     CloseButtonContent="Next!"
+                     Closed="tip1_Closed"
+                     PreferredPlacement="TopLeft"
+                     Subtitle="From here you can switch between pages.">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Switch" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip x:Name="tip2"
+                     Title="Settings"
+                     CloseButtonContent="Next!"
+                     Closed="tip2_Closed"
+                     PreferredPlacement="BottomLeft"
+                     Subtitle="From here you can change App Theme and General Settings.">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Setting" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+    </Grid>
+</Page>

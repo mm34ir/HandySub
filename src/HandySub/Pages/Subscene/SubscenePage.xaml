@@ -1,0 +1,146 @@
+﻿<Page x:Class="HandySub.Pages.SubscenePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:model="using:HandySub.Models"
+      xmlns:uc="using:HandySub.UserControls"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      NavigationCacheMode="Required">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="SubtitleCVS"
+                              IsSourceGrouped="True" />
+    </Page.Resources>
+    <Grid AllowDrop="True"
+          DragOver="Grid_DragOver"
+          Drop="Grid_Drop">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <AutoSuggestBox Name="AutoSuggest"
+                        Margin="10,10,10,0"
+                        MaxSuggestionListHeight="200"
+                        PlaceholderText="Search Movie\Series by Name or IMDB id"
+                        QueryIcon="Find"
+                        QuerySubmitted="AutoSuggest_QuerySubmitted"
+                        TextChanged="AutoSuggest_TextChanged">
+            <AutoSuggestBox.ItemTemplate>
+                <DataTemplate>
+                    <uc:AutoSuggestBoxItemUserControl Title="{Binding}" />
+                </DataTemplate>
+            </AutoSuggestBox.ItemTemplate>
+        </AutoSuggestBox>
+        <InfoBar Name="errorInfo"
+                 Grid.Row="1"
+                 Margin="10,10,10,0"
+                 Severity="Error">
+            <InfoBar.ActionButton>
+                <Button Click="Refresh_Click"
+                        KeyboardAcceleratorPlacementMode="Auto">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F5" />
+                    </Button.KeyboardAccelerators>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Refresh" />
+                        <TextBlock Margin="10,0"
+                                   Text="Refresh F5" />
+                    </StackPanel>
+                </Button>
+            </InfoBar.ActionButton>
+        </InfoBar>
+        <ListView x:Name="SubListView"
+                  Grid.Row="2"
+                  Margin="10"
+                  DoubleTapped="SubListView_DoubleTapped"
+                  IsSynchronizedWithCurrentItem="False"
+                  ItemContainerStyle="{StaticResource ListViewItemWithoutHover}"
+                  ItemsSource="{x:Bind SubtitleCVS.View, Mode=OneWay}"
+                  ScrollViewer.IsHorizontalRailEnabled="True"
+                  SelectedIndex="-1"
+                  SelectionChanged="SubListView_SelectionChanged"
+                  SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:SubsceneSearchModel">
+                    <Grid MinHeight="68"
+                          Padding="0,0,16,0"
+                          HorizontalAlignment="Stretch"
+                          Background="{ThemeResource CardBackgroundBrush}"
+                          BorderBrush="{ThemeResource CardBorderBrush}"
+                          BorderThickness="{ThemeResource CardBorderThickness}"
+                          CornerRadius="{ThemeResource ControlCornerRadius}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="56" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1"
+                                    Margin="0,0,16,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                            <TextBlock FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Text="{x:Bind Name, Mode=OneWay}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="1"
+                                       Margin="0,4,4,0"
+                                       Style="{ThemeResource SecondaryTextStyle}"
+                                       Text="{x:Bind Desc, Mode=OneWay}"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <Button Grid.Column="2"
+                                Width="40"
+                                Height="36"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                Click="OpenButton_Click"
+                                Content="&#xF246;"
+                                FontFamily="Segoe MDL2 Assets">
+                            <ToolTipService.ToolTip>
+                                <TextBlock Text="Open Download Page" />
+                            </ToolTipService.ToolTip>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{ThemeResource HeaderTextBlockStyle}"
+                                       Text="{Binding Key}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+
+        <ProgressRing Name="progress"
+                      Grid.Row="2"
+                      IsActive="False" />
+        <TeachingTip x:Name="tip1"
+                     Title="Search Subtitle"
+                     CloseButtonContent="Next!"
+                     Closed="tip1_Closed"
+                     Subtitle="Enter the name of your movie or series here and press enter or you can drag and drop your movie or series file here, and we will find the name for you!"
+                     Target="{x:Bind AutoSuggest}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Find" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+        <TeachingTip x:Name="tip2"
+                     Title="Choose Correct Subtitle"
+                     CloseButtonContent="Next!"
+                     Closed="tip2_Closed"
+                     PreferredPlacement="Top"
+                     Subtitle="Select the appropriate subtitle by double-clicking!"
+                     Target="{x:Bind SubListView}">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="SelectAll" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+    </Grid>
+</Page>

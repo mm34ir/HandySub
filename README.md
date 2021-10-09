@@ -10,6 +10,7 @@ A quick and easy App to download movie and series subtitles from the Subscene an
 	<b>🙌 ETH: 0x40Db4476c1D498b167f76A2c7ED9D45b65eb5d0C</b>
 </p>
 
+- Windows 11 Visual Styles
 - Create Favorite List and Access Subtitle Faster
 - Download multiple subtitles simultaneously
 - Ability to Search and filter between subtitles
@@ -27,9 +28,9 @@ A quick and easy App to download movie and series subtitles from the Subscene an
 - Multiple servers
 
 
-![HandySub](ScreenShot/1.png)
-![HandySub](ScreenShot/2.png)
-![HandySub](ScreenShot/3.png)
-![HandySub](ScreenShot/4.png)
-![HandySub](ScreenShot/5.png)
-![HandySub](ScreenShot/6.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/1.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/2.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/3.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/4.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/5.png)
+![HandySub](https://raw.githubusercontent.com/ghost1372/Resources/main/HandySub/6.png)

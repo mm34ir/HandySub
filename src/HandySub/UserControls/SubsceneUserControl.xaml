@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="HandySub.UserControls.SubsceneUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Name="subsceneView"
+             DoubleTapped="subsceneView_DoubleTapped">
+    <Grid MinHeight="68"
+          Padding="0,0,16,0"
+          HorizontalAlignment="Stretch"
+          Background="{ThemeResource CardBackgroundBrush}"
+          BorderBrush="{ThemeResource CardBorderBrush}"
+          BorderThickness="{ThemeResource CardBorderThickness}"
+          CornerRadius="{ThemeResource ControlCornerRadius}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="1"
+                    Margin="0,0,16,0"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <TextBlock FontSize="16"
+                       FontWeight="SemiBold"
+                       Text="{Binding ElementName=subsceneView, Path=Title}"
+                       TextWrapping="Wrap" />
+
+            <StackPanel Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,4,4,0"
+                        Orientation="Horizontal">
+                <TextBlock Foreground="{ThemeResource SystemAccentColor}"
+                           Style="{ThemeResource SecondaryTextStyle}"
+                           Text="{Binding ElementName=subsceneView, Path=SubtitleLanguage}"
+                           TextWrapping="Wrap" />
+                <TextBlock Name="txtTranslator"
+                           Margin="10,0"
+                           Style="{ThemeResource SecondaryTextStyle}"
+                           Text="{Binding ElementName=subsceneView, Path=Translator}"
+                           TextWrapping="Wrap"
+                           Visibility="{Binding ElementName=subsceneView, Path=Translator, Converter={StaticResource StringVisibilityConverter}}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <Button Name="DownloadButton"
+                    Width="40"
+                    Height="36"
+                    Background="Transparent"
+                    Click="DownloadButton_Click"
+                    Content="&#xE896;"
+                    FontFamily="Segoe MDL2 Assets">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="Download Subtitle" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <Button Name="OpenFolderButton"
+                    Width="40"
+                    Height="36"
+                    Background="Transparent"
+                    Click="OpenFolderButton_Click"
+                    Content="&#xE838;"
+                    FontFamily="Segoe MDL2 Assets">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="Open Folder" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <ProgressRing Name="ProgressStatus"
+                          Visibility="Collapsed" />
+        </StackPanel>
+    </Grid>
+</UserControl>

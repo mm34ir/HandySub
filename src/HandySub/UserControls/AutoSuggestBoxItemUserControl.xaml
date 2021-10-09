@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="HandySub.UserControls.AutoSuggestBoxItemUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Name="autoSuggestBoxItemView">
+
+    <SwipeControl>
+        <Grid>
+            <TextBlock HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Text="{Binding ElementName=autoSuggestBoxItemView, Path=Title}" />
+
+            <Button Width="40"
+                    Height="36"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    Click="DeleteHistory_Click"
+                    Content="&#xE74D;"
+                    FontFamily="Segoe MDL2 Assets">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="Remove From Favorite List" />
+                </ToolTipService.ToolTip>
+            </Button>
+        </Grid>
+    </SwipeControl>
+</UserControl>
