@@ -22,7 +22,20 @@
                       Header="Language"
                       ItemsSource="{x:Bind common:CommonList.SubtitleLanguage}"
                       PlaceholderText="Default Subtitle Language"
-                      SelectionChanged="cmbLanguage_SelectionChanged" />
+                      SelectionChanged="cmbLanguage_SelectionChanged">
+                <ComboBox.Resources>
+                    <TeachingTip x:Name="tip1"
+                                 Title="Choose Subtitle Language"
+                                 CloseButtonContent="Next!"
+                                 Closed="tip1_Closed"
+                                 Subtitle="Here you can select your language and filter your subtitles"
+                                 Target="{x:Bind cmbLanguage}">
+                        <TeachingTip.IconSource>
+                            <SymbolIconSource Symbol="Flag" />
+                        </TeachingTip.IconSource>
+                    </TeachingTip>
+                </ComboBox.Resources>
+            </ComboBox>
             <ComboBox Name="cmbQuaity"
                       MinWidth="150"
                       Margin="10,0,10,0"
@@ -122,16 +135,7 @@
                       Grid.Row="1"
                       Grid.ColumnSpan="2"
                       IsActive="False" />
-        <TeachingTip x:Name="tip1"
-                     Title="Choose Subtitle Language"
-                     CloseButtonContent="Next!"
-                     Closed="tip1_Closed"
-                     Subtitle="Here you can select your language and filter your subtitles"
-                     Target="{x:Bind cmbLanguage}">
-            <TeachingTip.IconSource>
-                <SymbolIconSource Symbol="Flag" />
-            </TeachingTip.IconSource>
-        </TeachingTip>
+
         <TeachingTip x:Name="tip2"
                      Title="Choose Subtitle Quality/Encoder"
                      CloseButtonContent="Next!"
@@ -166,7 +170,7 @@
                      Title="Favorite Subtitle"
                      CloseButtonContent="Next!"
                      Closed="tip5_Closed"
-                     Subtitle="Select your Favorite Subtitle for faster access!"
+                     Subtitle="Select your subtitle as your favorite for faster access later!"
                      Target="{x:Bind Favorite}">
             <TeachingTip.IconSource>
                 <SymbolIconSource Symbol="Favorite" />
@@ -176,7 +180,7 @@
                      Title="ReLoad Subtitle"
                      CloseButtonContent="Next!"
                      Closed="tip6_Closed"
-                     Subtitle="You can Reload all subtitles here!"
+                     Subtitle="Click here if something went wrong or you need to refresh the subtitles list!"
                      Target="{x:Bind btnRefresh}">
             <TeachingTip.IconSource>
                 <SymbolIconSource Symbol="Refresh" />
@@ -186,7 +190,7 @@
                      Title="IMDB"
                      CloseButtonContent="Next!"
                      Closed="tip7_Closed"
-                     Subtitle="Click here to open IMDB Page!"
+                     Subtitle="Want to see more information about this series/movie? Click here to open IMDB Page!"
                      Target="{x:Bind imdbLink}">
             <TeachingTip.IconSource>
                 <SymbolIconSource Symbol="Globe" />
@@ -196,7 +200,7 @@
                      Title="Download Subtitle"
                      CloseButtonContent="Finish!"
                      Closed="tip8_Closed"
-                     Subtitle="Hover over the subtitle, then click the download button that appears!"
+                     Subtitle="To download subtitles, double-click on the item or select the desired icon!"
                      Target="{x:Bind listView}">
             <TeachingTip.IconSource>
                 <SymbolIconSource Symbol="Download" />

@@ -236,14 +236,13 @@ namespace HandySub.Pages
         public void ShowTip1()
         {
             tip1.IsOpen = true;
+            ShellPage.Instance.SetEnableNavView(true);
         }
         private void tip1_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
         {
             AutoSuggest.Text = Constants.GuidSubtitle;
             tip1.IsOpen = false;
-            ShellPage.Instance.SetEnableNavView(true);
             SearchSubtitle(AutoSuggest.Text);
-            ShellPage.Instance.SetEnableNavView(false);
         }
 
         private void tip2_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)

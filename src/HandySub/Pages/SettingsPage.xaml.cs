@@ -74,6 +74,7 @@ namespace HandySub.Pages
             SelectedIndex = GeneralHelper.GetThemeIndex(Helper.Settings.ApplicationTheme);
             txtLastChecked.Text = Helper.Settings.LastCheckedUpdate;
 
+            tgAskLocation.IsOn = Helper.Settings.IsAskLocationEnabled;
             tgDoubleClick.IsOn = Helper.Settings.IsDoubleClickEnabled;
             tgDoubleClickDownload.IsOn = Helper.Settings.IsDoubleClickDownloadEnabled;
             tgAddContextMenu.IsOn = Helper.Settings.IsAddToContextMenuEnabled;
@@ -211,6 +212,10 @@ namespace HandySub.Pages
         private void tgHistory_Toggled(object sender, RoutedEventArgs e)
         {
             Helper.Settings.IsHistoryEnabled = tgHistory.IsOn;
+        }
+        private void tgAskLocation_Toggled(object sender, RoutedEventArgs e)
+        {
+            Helper.Settings.IsAskLocationEnabled = tgAskLocation.IsOn;
         }
         #endregion
 

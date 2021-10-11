@@ -46,6 +46,7 @@ namespace HandySub.Common
             Settings.ShellServer = handySubConfig.ShellServer;
             Settings.LastCheckedUpdate = handySubConfig.LastCheckedUpdate;
             Settings.IsFirstRun = handySubConfig.IsFirstRun;
+            Settings.IsAskLocationEnabled = handySubConfig.IsAskLocationEnabled;
             Settings.IsIDMEnabled = handySubConfig.IsIDMEnabled;
             Settings.IsAddToContextMenuEnabled = handySubConfig.IsAddToContextMenuEnabled;
             Settings.IsOpenHandySubWithContextMenuEnabled = handySubConfig.IsOpenHandySubWithContextMenuEnabled;

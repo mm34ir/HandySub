@@ -23,6 +23,7 @@ namespace HandySub.Common
 
         public virtual ServerModel ShellServer { get; set; } = new ServerModel { Index = 0 };
         public virtual bool IsFirstRun { get; set; } = true;
+        public virtual bool IsAskLocationEnabled { get; set; } = false;
         public virtual bool IsIDMEnabled { get; set; } = false;
         public virtual bool IsAddToContextMenuEnabled { get; set; } = true;
         public virtual bool IsOpenHandySubWithContextMenuEnabled { get; set; } = true;

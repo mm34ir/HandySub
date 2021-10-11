@@ -424,7 +424,6 @@ namespace HandySub.Pages
         {
             tip8.IsOpen = false;
             Helper.Settings.IsFirstRun = false;
-            ShellPage.Instance.SetEnableNavView(true);
         }
         #endregion
 

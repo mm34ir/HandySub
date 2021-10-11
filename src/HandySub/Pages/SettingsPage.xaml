@@ -123,7 +123,7 @@
                         </controls:SettingExpander.Content>
                     </controls:SettingExpander>
                 </controls:SettingsGroup>
-                <controls:SettingsGroup Header="General">
+                <controls:SettingsGroup Header="Subtitle Location">
                     <controls:Setting Header="Download Location"
                                       Icon="&#xf12b;">
                         <controls:Setting.Description>
@@ -137,11 +137,21 @@
                                     Content="Browser Folder" />
                         </controls:Setting.ActionContent>
                     </controls:Setting>
-                    <InfoBar Title="We will Download Subtitles to this location"
+                    <InfoBar Title="If no path is specified, We will Download Subtitles to this location"
                              IsClosable="False"
                              IsOpen="True"
                              Severity="Informational" />
 
+                    <controls:Setting Header="Ask location before download"
+                                      Icon="&#xf12b;">
+                        <controls:Setting.ActionContent>
+                            <ToggleSwitch Name="tgAskLocation"
+                                          Toggled="tgAskLocation_Toggled" />
+                        </controls:Setting.ActionContent>
+                    </controls:Setting>
+                </controls:SettingsGroup>
+
+                <controls:SettingsGroup Header="General">
                     <controls:Setting Header="Open Subtitle Pages with Mouse Double Click">
                         <controls:Setting.Icon>
                             <PathIcon Data="{StaticResource ClickGeometry}" />
@@ -187,7 +197,8 @@
                         </controls:Setting.ActionContent>
                     </controls:Setting>
                     <controls:Setting Header="Add HandySub to Windows ContextMenu"
-                                      Icon="&#xea37;">
+                                      Icon="&#xea37;"
+                                      IsEnabled="False">
                         <controls:Setting.ActionContent>
                             <ToggleSwitch Name="tgAddContextMenu"
                                           Toggled="tgAddContextMenu_Toggled" />
@@ -239,7 +250,8 @@
 
                     <controls:Setting Description="We will use this Page for when running from Context Menu"
                                       Header="Default Page"
-                                      Icon="&#xe7c3;">
+                                      Icon="&#xe7c3;"
+                                      IsEnabled="False">
                         <controls:Setting.ActionContent>
                             <ComboBox Name="cmbSubtitle"
                                       MinWidth="{StaticResource SettingActionControlMinWidth}"
