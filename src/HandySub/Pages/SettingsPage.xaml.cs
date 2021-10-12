@@ -10,8 +10,6 @@ using CommunityToolkit.WinUI.UI;
 using HandySub.Common;
 using System.Reflection;
 using SettingsUI.Helpers;
-using System.Threading.Tasks;
-using Windows.Storage.Pickers;
 using Windows.Storage;
 using Windows.System;
 using HandySub.Models;
@@ -95,26 +93,10 @@ namespace HandySub.Pages
         }
 
         #region OpenFolder
-        public async Task<string> OpenAndSelectFolder()
-        {
-            var main = MainWindow.Instance;
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(main);
-
-            FolderPicker folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
-            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
-
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                return folder.Path;
-            }
-            return null;
-        }
 
         private async void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            var folder = await OpenAndSelectFolder();
+            var folder = await Helper.OpenAndSelectFolder();
             if (!string.IsNullOrEmpty(folder))
             {
                 folderLink.Content = folder;
@@ -317,7 +299,7 @@ namespace HandySub.Pages
         #region Backup
         private async void Export_Click(object sender, RoutedEventArgs e)
         {
-            var folder = await OpenAndSelectFolder();
+            var folder = await Helper.OpenAndSelectFolder();
             if (!string.IsNullOrEmpty(folder))
             {
                 var json = JsonConvert.SerializeObject(Helper.Settings, Formatting.Indented);
@@ -340,7 +322,7 @@ namespace HandySub.Pages
             var result = await dialog.ShowAsyncQueue();
             if (result == ContentDialogResult.Primary)
             {
-                var folder = await OpenAndSelectFolder();
+                var folder = await Helper.OpenAndSelectFolder();
                 if (!string.IsNullOrEmpty(folder))
                 {
                     var files = Directory.EnumerateFiles(folder, "*.json", SearchOption.AllDirectories);

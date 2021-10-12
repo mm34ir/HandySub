@@ -25,6 +25,8 @@ using SharpCompress.Readers;
 using System.Web;
 using SettingsUI.Extensions;
 using SettingsUI.Helpers;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 namespace HandySub.Common
 {
@@ -158,6 +160,22 @@ namespace HandySub.Common
         }
         #endregion
 
+        public static async Task<string> OpenAndSelectFolder()
+        {
+            var main = MainWindow.Instance;
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(main);
+
+            FolderPicker folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
+
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                return folder.Path;
+            }
+            return null;
+        }
         public static string GetDecodedStringFromHtml(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -228,6 +246,7 @@ namespace HandySub.Common
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = xamlRoot
                 };
+
                 var result = await dialog.ShowAsyncQueue();
                 if (result == ContentDialogResult.Primary)
                 {

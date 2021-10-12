@@ -96,9 +96,24 @@ namespace HandySub.UserControls
                         {
                             // if luanched from ContextMenu set location next to the movie file
                             if (!string.IsNullOrEmpty(App.StartUpArguments.Name))
+                            {
                                 location = App.StartUpArguments.Path;
-                            else // get location from config
+                            }
+                            else
+                            {
+                                // get location from config
                                 location = Helper.Settings.DefaultDownloadLocation;
+
+                                // get location from FolderPicker
+                                if (Helper.Settings.IsAskLocationEnabled)
+                                {
+                                    var path = await Helper.OpenAndSelectFolder();
+                                    if (!string.IsNullOrEmpty(path))
+                                    {
+                                        location = path;
+                                    }
+                                }
+                            }
 
                             if (!Helper.Settings.IsIDMEnabled)
                             {
