@@ -84,6 +84,5 @@ namespace HandySub.Pages
         }
         #endregion
 
-
     }
 }

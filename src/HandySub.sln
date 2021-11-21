@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31717.71
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandySub", "HandySub\HandySub.csproj", "{31750B65-1BAA-4630-A883-486D2E08E31B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandySub", "HandySub\HandySub.csproj", "{35A3872C-052A-47D1-ABC6-30A021D69CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,25 +15,29 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|arm64.ActiveCfg = Debug|arm64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|arm64.Build.0 = Debug|arm64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x64.ActiveCfg = Debug|x64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x64.Build.0 = Debug|x64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x64.Deploy.0 = Debug|x64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x86.ActiveCfg = Debug|x86
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x86.Build.0 = Debug|x86
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Debug|x86.Deploy.0 = Debug|x86
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|arm64.ActiveCfg = Release|arm64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|arm64.Build.0 = Release|arm64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|x64.ActiveCfg = Release|x64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|x64.Build.0 = Release|x64
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|x86.ActiveCfg = Release|x86
-		{31750B65-1BAA-4630-A883-486D2E08E31B}.Release|x86.Build.0 = Release|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|arm64.ActiveCfg = Debug|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|arm64.Build.0 = Debug|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|arm64.Deploy.0 = Debug|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x64.ActiveCfg = Debug|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x64.Build.0 = Debug|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x64.Deploy.0 = Debug|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x86.ActiveCfg = Debug|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x86.Build.0 = Debug|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Debug|x86.Deploy.0 = Debug|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|arm64.ActiveCfg = Release|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|arm64.Build.0 = Release|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|arm64.Deploy.0 = Release|arm64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x64.ActiveCfg = Release|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x64.Build.0 = Release|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x64.Deploy.0 = Release|x64
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x86.ActiveCfg = Release|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x86.Build.0 = Release|x86
+		{35A3872C-052A-47D1-ABC6-30A021D69CE7}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {11F31850-8954-4365-B9E1-5AA8FD3C161F}
+		SolutionGuid = {BACAF865-1040-44FD-9E6F-8A2F28E4261C}
 	EndGlobalSection
 EndGlobal

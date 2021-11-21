@@ -1,7 +1,10 @@
 {
   "profiles": {
-    "HandySub": {
+    "HandySub (Package)": {
       "commandName": "MsixPackage"
+    },
+    "HandySub (Unpackaged)": {
+      "commandName": "Project"
     }
   }
 }

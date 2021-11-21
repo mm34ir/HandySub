@@ -9,17 +9,17 @@ namespace HandySub
 {
     public sealed partial class MainWindow : Window
     {
-        internal static MainWindow Instance {  get; set; }
+        internal static MainWindow Instance { get; set; }
         private AppWindow m_appWindow;
         public MainWindow()
         {
             this.InitializeComponent();
             Instance = this;
-            m_appWindow = GetAppWindowForCurrentWindow();
-            if (m_appWindow != null)
-            {
-                m_appWindow.Title = "HandySub";
-            }
+            //m_appWindow = GetAppWindowForCurrentWindow();
+            //if (m_appWindow != null)
+            //{
+            //    m_appWindow.Title = "HandySub";
+            //}
         }
         private AppWindow GetAppWindowForCurrentWindow()
         {

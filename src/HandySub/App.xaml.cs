@@ -18,6 +18,7 @@ namespace HandySub
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
+            m_window.Title = "HandySub";
             m_window.Activate();
         }
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>HandySub</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -10,40 +10,13 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+	<WindowsPackageType>None</WindowsPackageType>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\FluentIcons\aparat.png" />
-    <None Remove="Assets\FluentIcons\compare.png" />
-    <None Remove="Assets\FluentIcons\favorites.png" />
-    <None Remove="Assets\FluentIcons\globe.png" />
-    <None Remove="Assets\FluentIcons\home.png" />
-    <None Remove="Assets\FluentIcons\movie.png" />
-    <None Remove="Assets\logo.png" />
-    <None Remove="Pages\ComparePage.xaml" />
-    <None Remove="Pages\ESubtitle\ESubtitleDownloadPage.xaml" />
-    <None Remove="Pages\ESubtitle\ESubtitlePage.xaml" />
-    <None Remove="Pages\FavoritePage.xaml" />
-    <None Remove="Pages\IMDBPage.xaml" />
-    <None Remove="Pages\ISubtitle\ISubtitleDownloadPage.xaml" />
-    <None Remove="Pages\ISubtitle\ISubtitlePage.xaml" />
-    <None Remove="Pages\SettingsPage.xaml" />
-    <None Remove="Pages\ShellPage.xaml" />
-    <None Remove="Pages\Subscene\SubsceneDownloadPage.xaml" />
-    <None Remove="Pages\Subscene\SubscenePage.xaml" />
-    <None Remove="Pages\WorldSubtitle\WorldSubtitleDownloadPage.xaml" />
-    <None Remove="Pages\WorldSubtitle\WorldSubtitlePage.xaml" />
-    <None Remove="UserControls\AutoSuggestBoxItemUserControl.xaml" />
-    <None Remove="UserControls\ESubtitleUserControl.xaml" />
-    <None Remove="UserControls\ISubtitleUserControl.xaml" />
-    <None Remove="UserControls\SubsceneUserControl.xaml" />
-    <None Remove="UserControls\WorldSubtitleUserControl.xaml" />
+    <None Remove="ShellPage.xaml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -55,122 +28,27 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.1-preview3" />
-	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
-    <PackageReference Include="SettingsUI" Version="1.0.9" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+    <Manifest Include="$(ApplicationManifest)" />
+
+	<PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+	<PackageReference Include="SettingsUI" Version="1.1.0" />
 	<PackageReference Include="DiffPlex" Version="1.7.0" />
-	<PackageReference Include="Downloader" Version="2.2.9" />
-	<PackageReference Include="HtmlAgilityPack" Version="1.11.36" />
+	<PackageReference Include="Downloader" Version="2.3.0" />
+	<PackageReference Include="HtmlAgilityPack" Version="1.11.38" />
 	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
 	<PackageReference Include="SharpCompress" Version="0.30.0" />
-    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="UserControls\WorldSubtitleUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+       Tools extension to be activated for this project even if the Windows App SDK Nuget
+       package has not yet been restored -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UserControls\SubsceneUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UserControls\ISubtitleUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UserControls\ESubtitleUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UserControls\AutoSuggestBoxItemUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\WorldSubtitle\WorldSubtitlePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
   <ItemGroup>
     <Page Update="ShellPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\WorldSubtitle\WorldSubtitleDownloadPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\Subscene\SubscenePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\Subscene\SubsceneDownloadPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ISubtitle\ISubtitlePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ISubtitle\ISubtitleDownloadPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ESubtitle\ESubtitlePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ESubtitle\ESubtitleDownloadPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\IMDBPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\FavoritePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\ComparePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
